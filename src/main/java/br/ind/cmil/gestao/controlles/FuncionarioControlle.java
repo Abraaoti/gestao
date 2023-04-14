@@ -52,6 +52,7 @@ public class FuncionarioControlle {
     }
 
     @PutMapping("/update/{id}")
+    @ResponseStatus(code = HttpStatus.CREATED)
     public FuncionarioDTO update(@PathVariable @NotNull @Positive Long id,
             @RequestBody @Valid @NotNull FuncionarioDTO funcionario) {
         return fs.update(id, funcionario);

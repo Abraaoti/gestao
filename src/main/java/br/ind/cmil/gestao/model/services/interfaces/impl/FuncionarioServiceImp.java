@@ -54,7 +54,6 @@ public class FuncionarioServiceImp implements IFuncionarioservice {
                     recordFound.setMae(f.mae());
                     recordFound.setPai(f.pai());
                     recordFound.setPassaporte(f.passaporte());
-
                     recordFound.setGenero(fm.convertGeneroValue(f.genero()));
                     recordFound.setEstado_civil(fm.convertECValue(f.estado_civil()));
                     recordFound.setNaturalidade(f.naturalidade());

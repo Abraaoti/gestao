@@ -51,13 +51,13 @@ public class FuncionarioControlle {
         return fs.create(funcionaro);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public FuncionarioDTO update(@PathVariable @NotNull @Positive Long id,
             @RequestBody @Valid @NotNull FuncionarioDTO funcionario) {
         return fs.update(id, funcionario);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable @NotNull @Positive Long id) {
         fs.delete(id);

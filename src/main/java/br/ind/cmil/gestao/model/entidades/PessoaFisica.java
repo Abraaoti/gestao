@@ -1,3 +1,4 @@
+
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
@@ -11,18 +12,13 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import java.util.Date;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  *
  * @author abraao
  */
 @SuppressWarnings("serial")
-@Getter
-@Setter
-@ToString
+
 @Entity
 @Table(name = "tbl_pessoa_fisicas")
 @PrimaryKeyJoinColumn(name = "id")
@@ -81,4 +77,74 @@ public class PessoaFisica extends Pessoa {
         this.naturalidade = naturalidade;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getMae() {
+        return mae;
+    }
+
+    public void setMae(String mae) {
+        this.mae = mae;
+    }
+
+    public String getPai() {
+        return pai;
+    }
+
+    public void setPai(String pai) {
+        this.pai = pai;
+    }
+
+    public String getPassaporte() {
+        return passaporte;
+    }
+
+    public void setPassaporte(String passaporte) {
+        this.passaporte = passaporte;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public EstadoCivil getEstado_civil() {
+        return estado_civil;
+    }
+
+    public void setEstado_civil(EstadoCivil estado_civil) {
+        this.estado_civil = estado_civil;
+    }
+
+    public String getNaturalidade() {
+        return naturalidade;
+    }
+
+    public void setNaturalidade(String naturalidade) {
+        this.naturalidade = naturalidade;
+    }
+
+    @Override
+    public String toString() {
+        return "PessoaFisica{" + "cpf=" + cpf + ", rg=" + rg + ", mae=" + mae + ", pai=" + pai + ", passaporte=" + passaporte + ", genero=" + genero + ", estado_civil=" + estado_civil + ", naturalidade=" + naturalidade + '}';
+    }
+
 }
+

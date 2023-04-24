@@ -45,7 +45,6 @@ public class FuncionarioServiceImp implements IFuncionarioservice {
     public FuncionarioDTO update(Long id, FuncionarioDTO f) {
         return fr.findById(id)
                 .map(recordFound -> {
-
                     recordFound.setNome(f.nome());
                     recordFound.setSobrenome(f.sobrenome());
                     recordFound.setNascimento(f.nascimento());
@@ -61,15 +60,14 @@ public class FuncionarioServiceImp implements IFuncionarioservice {
                     recordFound.setMatricula(f.matricula());
                     recordFound.setDemissao(f.demissao());
                     recordFound.setSalario(f.salario());
-
+                    recordFound.setId(f.id());
                     return fm.toDTO(fr.save(recordFound));
                 }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
     public void delete(Long id) {
-        fr.delete(fr.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException(id)));
+        fr.delete(fr.findById(id).orElseThrow(() -> new RecordNotFoundException(id)));
     }
 
 }

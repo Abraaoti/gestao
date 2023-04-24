@@ -1,12 +1,10 @@
 package br.ind.cmil.gestao.configs;
 
-import org.springframework.stereotype.Component;
-
 /**
  *
  * @author ti
  */
-@Component
+//@Component
 public class SendEmailBean {
 /**
     @Bean
@@ -26,5 +24,5 @@ public class SendEmailBean {
 
         return mailSender;
     }
-*/
+**/
 }

@@ -22,9 +22,9 @@ public class DataConfigurationMysqlDev {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        //dataSource.setUrl("jdbc:mysql://localhost:3306/cmil");
-        //dataSource.setUsername("root");
-        //dataSource.setPassword("password1");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
+        dataSource.setUsername("root");
+        dataSource.setPassword("password1");
         //dataSource.setUrl("jdbc:mysql://us-cdbr-east-06.cleardb.net/heroku_c991871a871e2f2");
         //dataSource.setUsername("b337869a1735f0");
         //dataSource.setPassword("f326b0d7");
@@ -36,7 +36,7 @@ public class DataConfigurationMysqlDev {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setDatabase(Database.MYSQL);
         adapter.setShowSql(true);
-        adapter.setGenerateDdl(true);
+        adapter.setGenerateDdl(true);        
         adapter.setDatabasePlatform("org.hibernate.dialect.MySQL8Dialect");
         adapter.setPrepareConnection(true);
         return adapter;

@@ -8,53 +8,50 @@ package br.ind.cmil.gestao.configs;
 //@Configuration
 public class SecurityConfig {
 /**
-    private static final String ANALISTA = PerfilTipo.ANALISTA.getDesc();
-    private static final String ADMIN = PerfilTipo.ADMIN.getDesc();
-    private static final String ADMINISTRADOR = PerfilTipo.ADMINISTRADOR.getDesc();
-    private static final String DIRETORIA = PerfilTipo.DIRETORIA.getDesc();
-    private static final String ENGENHEIRO = PerfilTipo.ENGENHEIRO.getDesc();
-    private static final String COMPRADOR = PerfilTipo.COMPRADOR.getDesc();
-    private static final String FINANCEIRO = PerfilTipo.FINANCEIRO.getDesc();
-    private static final String RH = PerfilTipo.RH.getDesc();
-    private static final String TECNICO = PerfilTipo.TECNICO.getDesc();
+    private static final String ADMIN = TipoPerfil.ADMIN.getValue();
+    private static final String ADMINISTRATIVO = TipoPerfil.ADMINISTRATIVO.getValue();
+    private static final String DIRETOR = TipoPerfil.DIRETOR.getValue();
+    private static final String ENGENHEIRO = TipoPerfil.ENGENHEIRO.getValue();
+    private static final String COMPRADOR = TipoPerfil.COMPRADOR.getValue();
+    private static final String FINANCEIRO = TipoPerfil.FINANCEIRO.getValue();
+    private static final String RH = TipoPerfil.RH.getValue();
+    private static final String TECNICO = TipoPerfil.TECNICO.getValue();
 
     @Autowired
     private IUsuarioService userService;
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    //@Autowired
+    //private BCryptPasswordEncoder encoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/webjars/**", "/css/**", "/js/**", "/image/**", "/docs/**", "/error**","/api/**").permitAll()
+        http
+                .authorizeHttpRequests()
+                // .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/webjars/**", "/css/**", "/js/**", "/image/**", "/docs/**", "/error**", "/api/**").permitAll()
                 .requestMatchers("/", "/index", "/classificacaos/salvar", "/campanhas/avaliar/**").permitAll()
                 .requestMatchers("/empresa/novo", "/u/cadastro/financeiro/salvar", "/empresa/cadastro/realizado").permitAll()
                 .requestMatchers("/empresa/confirmacao/cadastro").permitAll()
                 .requestMatchers("/empresa/p/**").permitAll()
                 .requestMatchers("/relatorio/pdf/jr1**").permitAll()
                 .requestMatchers("/classificacaos/salvar").permitAll()
-                
                 //acessos privados admin                
                 .requestMatchers("/admin").hasAuthority(ADMIN)
-                .requestMatchers("/administratidor").hasAuthority(ADMINISTRADOR)
-                .requestMatchers("/empresa/editar/senha", "/u/confirmar/senha").hasAnyAuthority(FINANCEIRO, ADMINISTRADOR, ADMIN)
+                .requestMatchers("/administrativo").hasAuthority(ADMINISTRATIVO)
+                .requestMatchers("/empresa/editar/senha", "/u/confirmar/senha").hasAnyAuthority(FINANCEIRO, ADMINISTRATIVO, ADMIN)
                 .requestMatchers("/empresa/**", "/avaliacoes/**", "/avaliacao/**").hasAuthority(ADMIN)
                 //acessos privados financeiro                
-                .requestMatchers("/financeiro/contapagar/**").hasAnyAuthority(ADMINISTRADOR, ADMIN, FINANCEIRO, DIRETORIA)
-                .requestMatchers("/empresas/**").hasAnyAuthority(ADMINISTRADOR, ADMIN, FINANCEIRO, DIRETORIA)
-                .requestMatchers("/pagarcontas/**").hasAnyAuthority(ADMINISTRADOR, ADMIN, FINANCEIRO, DIRETORIA)
-                .requestMatchers("/administrativo**", "/classificacaos**", "/campanhas**").hasAnyAuthority(ADMINISTRADOR, ADMIN)
+                .requestMatchers("/financeiro/contapagar/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
+                .requestMatchers("/empresas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
+                .requestMatchers("/pagarcontas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
+                .requestMatchers("/administrativo**", "/classificacaos**", "/campanhas**").hasAnyAuthority(ADMINISTRATIVO, ADMIN)
                 //acessos privados diretoria
-                .requestMatchers("/diretoria").hasAuthority(DIRETORIA)
+                .requestMatchers("/diretoria").hasAuthority(DIRETOR)
                 //acessos privados tecnico
                 .requestMatchers("/engenheiro").hasAuthority(ENGENHEIRO)
                 .requestMatchers("/financeiro").hasAuthority(FINANCEIRO)
                 .requestMatchers("/tecnico").hasAuthority(TECNICO)
                 .requestMatchers("/comprador").hasAuthority(COMPRADOR)
-                //acessos privados rh
-                .requestMatchers("/analista").hasAuthority(ANALISTA)
                 .requestMatchers("/rh").hasAuthority(RH)
                 .anyRequest().authenticated()
                 .and()
@@ -82,20 +79,16 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /*@Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-    }
-    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
-        auth.setPasswordEncoder(encoder);
+       // auth.setPasswordEncoder(encoder);
         return auth;
     }
 
@@ -114,5 +107,5 @@ public class SecurityConfig {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().requestMatchers("/resources/**");
     }
-*/
+**/
 }

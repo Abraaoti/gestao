@@ -1,7 +1,8 @@
-
 package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
+import br.ind.cmil.gestao.model.enums.EstadoCivil;
+import br.ind.cmil.gestao.model.enums.Genero;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioservice;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -29,15 +30,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/funcionario/")
 @CrossOrigin(origins = "http://localhost:4200/")
 public class FuncionarioControlle {
+
     private final IFuncionarioservice fs;
 
     public FuncionarioControlle(IFuncionarioservice fs) {
         this.fs = fs;
-    }   
+    }
 
     @GetMapping("/lista")
-    public  List<FuncionarioDTO> list() {
+    public List<FuncionarioDTO> list() {
         return fs.list();
+    }
+
+    @GetMapping("/generos")
+    public Genero[] getGeneros() {
+        return Genero.values();
+    }
+
+    @GetMapping("/estadoCivil")
+    public EstadoCivil[] getEstadoCivil() {
+
+        return EstadoCivil.values();
     }
 
     @GetMapping("/{id}")

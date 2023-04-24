@@ -1,3 +1,4 @@
+
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
@@ -8,9 +9,6 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -19,9 +17,7 @@ import org.springframework.format.annotation.NumberFormat;
  * @author abraao
  */
 @SuppressWarnings("serial")
-@ToString
-@Getter
-@Setter
+
 @Entity
 @Table(name = "tbl_funcionarios")
 @PrimaryKeyJoinColumn(name = "id")
@@ -63,4 +59,42 @@ public class Funcionario extends PessoaFisica {
         this.salario = salario;
     }
 
+    public LocalDate getAdmissao() {
+        return admissao;
+    }
+
+    public void setAdmissao(LocalDate admissao) {
+        this.admissao = admissao;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public LocalDate getDemissao() {
+        return demissao;
+    }
+
+    public void setDemissao(LocalDate demissao) {
+        this.demissao = demissao;
+    }
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
+    }
+
+    @Override
+    public String toString() {
+        return "Funcionario{" + "admissao=" + admissao + ", matricula=" + matricula + ", demissao=" + demissao + ", salario=" + salario + '}';
+    }
+
 }
+

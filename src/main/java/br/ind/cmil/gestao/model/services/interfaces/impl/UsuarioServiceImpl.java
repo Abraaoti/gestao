@@ -1,14 +1,44 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.configs.AppConfig;
+import br.ind.cmil.gestao.exception.RecordNotFoundException;
+import br.ind.cmil.gestao.model.dto.PerfilDTO;
+import br.ind.cmil.gestao.model.dto.UsuarioDTO;
+import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
+import br.ind.cmil.gestao.model.entidades.Perfil;
+import br.ind.cmil.gestao.model.entidades.Usuario;
+import br.ind.cmil.gestao.model.entidades.VerificationToken;
+import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
+import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
+import br.ind.cmil.gestao.model.repositorys.IVerificationTokenRepository;
+import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
+import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author abraao
  */
-//@Service
-//@AllArgsConstructor
-//@Transactional
-public class UsuarioServiceImpl {//implements IUsuarioService {
-/**
+@Service
+@AllArgsConstructor
+@Transactional
+public class UsuarioServiceImpl implements IUsuarioService {
+
     @Autowired
     private final IUsuarioRepository ur;
     //@Autowired
@@ -97,6 +127,7 @@ public class UsuarioServiceImpl {//implements IUsuarioService {
     @SuppressWarnings("empty-statement")
     public void pedidoRedefinicaoDeSenha(String email){
 
+      
         try {
             UsuarioDTO usdto = buscarPorEmailEAtivo(email);
             Usuario usuario = um.toEntity(usdto);
@@ -110,6 +141,7 @@ public class UsuarioServiceImpl {//implements IUsuarioService {
         } catch (MessagingException ex) {
             Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+      
 
     }
 
@@ -142,5 +174,5 @@ public class UsuarioServiceImpl {//implements IUsuarioService {
 
         verificationTokenRepository.save(verificationToken);
         return token;
-    }**/
+    }
 }

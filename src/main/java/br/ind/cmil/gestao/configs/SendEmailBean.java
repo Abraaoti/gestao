@@ -1,12 +1,18 @@
 package br.ind.cmil.gestao.configs;
 
+import java.util.Properties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author ti
  */
-//@Component
+@Component
 public class SendEmailBean {
-/**
+
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -24,5 +30,4 @@ public class SendEmailBean {
 
         return mailSender;
     }
-**/
 }

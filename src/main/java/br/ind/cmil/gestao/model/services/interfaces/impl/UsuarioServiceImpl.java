@@ -76,14 +76,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public UsuarioDTO preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
         Perfil p = new Perfil();
-           Usuario us = ur.findByIdAndPerfis(usuarioId, perfisId).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
-    if (us.getPerfis().contains(p.getTp().ADMIN.getValue()) && !us.getPerfis().contains(p.getTp().DIRETOR.getValue()) ) {
-    		
-    		return null;// new ModelAndView("usuario/cadastro", "usuario", us);
-    	} else if (us.getPerfis().contains(p.getTp().FUNCIONARIO.getValue())) {
-    		
-    		return null;
-    	}
+        Usuario us = ur.findByIdAndPerfis(usuarioId, perfisId).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
+        if (us.getPerfis().contains(p.getTp().ADMIN.getValue()) && !us.getPerfis().contains(p.getTp().DIRETOR.getValue())) {
+
+            return null;// new ModelAndView("usuario/cadastro", "usuario", us);
+        } else if (us.getPerfis().contains(p.getTp().FUNCIONARIO.getValue())) {
+
+            return null;
+        }
         return null;
     }
 
@@ -125,23 +125,20 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @org.springframework.transaction.annotation.Transactional(readOnly = false)
     @Override
     @SuppressWarnings("empty-statement")
-    public void pedidoRedefinicaoDeSenha(String email){
+    public void pedidoRedefinicaoDeSenha(String email) {
 
-      
         try {
             UsuarioDTO usdto = buscarPorEmailEAtivo(email);
             Usuario usuario = um.toEntity(usdto);
-            
-            
+
             String verificador = RandomStringUtils.randomAlphanumeric(6);
-            
+
             usuario.setVerificador(verificador);
-            
+
             es.enviarPedidoRedefinicaoSenha(email, verificador);
         } catch (MessagingException ex) {
             Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
 
     }
 
@@ -174,5 +171,20 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
         verificationTokenRepository.save(verificationToken);
         return token;
+    }
+
+    @Override
+    public UsuarioDTO updatePassword(User user, String s1, String s2, String s3) {
+        if (!s1.equals(s2)) {
+            throw new UnsupportedOperationException("Senha não conferem.");
+        }
+        UsuarioDTO us = buscarPorEmail(user.getUsername());
+        Usuario usuario = um.toEntity(us);
+
+        if (!IUsuarioService.isSenhaCorreta(s3, usuario.getPassword())) {
+            throw new UnsupportedOperationException("Senha atual não confere, tente novamente.");
+        }
+        this.alterarSenha(us, s1);
+        throw new UnsupportedOperationException("Senha alterada com sucesso."); 
     }
 }

@@ -1,22 +1,19 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.configs.AppConfig;
 import br.ind.cmil.gestao.exception.RecordNotFoundException;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioDTO;
+import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.entidades.VerificationToken;
-import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
-import br.ind.cmil.gestao.model.repositorys.IVerificationTokenRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -43,17 +40,26 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private final IUsuarioRepository ur;
     //@Autowired
     //private final EmailService es;
-    @Autowired
-    private final IPerfilRepository iPerfilRepo;
+    // @Autowired
+    //private final IPerfilRepository iPerfilRepo;
     @Autowired
     private final UsuarioMapper um;
-    private final IVerificationTokenRepository verificationTokenRepository;
+    @Autowired
+    private final PerfilMapper pm;
     private final EmailServiceImp es;
-    private final AppConfig appConfig;
+    //private final AppConfig appConfig;
 
     @Override
     public List<UsuarioDTO> list() {
+        //List<Usuario> usuarios = ur.findAll();
+        
+        //return usuarios.stream().map((usuer)->um.toDTO(usuer)).collect(Collectors.toList());
         return ur.findAll().stream().map(um::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Usuario> getUsuarios() {
+        return ur.usuarios();
     }
 
     @Override
@@ -114,7 +120,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public UsuarioDTO update(UsuarioDTO usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Usuario us = ur.findById(usuario.id()).get();
+        us.setAtivo(usuario.ativo());
+        us.setDataCadastro(usuario.dataCadastro());
+        us.setEmail(usuario.email());
+        us.setPassword(usuario.password());
+        List<Perfil> perfis = new ArrayList<>();
+
+        for (PerfilDTO perfi : usuario.perfis()) {
+            Perfil p = pm.toEntity(perfi);
+            perfis.add(p);
+        }
+        if (us.getPerfis().containsAll(perfis)) {
+            us.setPerfis(perfis);
+        }
+        us.setVerificador(usuario.verificador());
+        return um.toDTO(ur.save(us));
     }
 
     @Override
@@ -163,16 +184,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return authorities;
     }
 
-    private String generateVerificationToken(Usuario user) {
-        String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken();
-        verificationToken.setToken(token);
-        verificationToken.setUser(user);
-
-        verificationTokenRepository.save(verificationToken);
-        return token;
-    }
-
     @Override
     public UsuarioDTO updatePassword(User user, String s1, String s2, String s3) {
         if (!s1.equals(s2)) {
@@ -185,6 +196,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
             throw new UnsupportedOperationException("Senha atual não confere, tente novamente.");
         }
         this.alterarSenha(us, s1);
-        throw new UnsupportedOperationException("Senha alterada com sucesso."); 
+        throw new UnsupportedOperationException("Senha alterada com sucesso.");
     }
 }

@@ -24,7 +24,7 @@ public class UsuarioMapper {
                 .map(perfil -> new PerfilDTO(perfil.getId(),
                  perfil.getTp().getValue()
         )).collect(Collectors.toList());
-        return new UsuarioDTO(u.getId(), u.getEmail(), u.getNome(), u.getPassword(), u.getDataCadastro(), u.isAtivo(), u.getVerificador(), perfis);
+        return new UsuarioDTO(u.getId(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.isAtivo(), u.getVerificador(), perfis);
     }
 
     public Usuario toEntity(UsuarioDTO dto) {
@@ -37,7 +37,6 @@ public class UsuarioMapper {
         }
 
         u.setEmail(dto.email());
-        u.setNome(dto.nome());
         u.setPassword(dto.password());
         u.setVerificador(dto.verificador());
         u.setAtivo(dto.ativo());

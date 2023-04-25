@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -48,7 +49,8 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/lista")
-    public List<UsuarioDTO> list() {
+    @ResponseBody
+    public List<UsuarioDTO> list() {       
         return us.list();
     }
 
@@ -78,7 +80,7 @@ public class UsuarioControlle {
     public void delete(@PathVariable @NotNull @Positive Long id) {
         us.delete(id);
     }
-
+/**
     @GetMapping(path = UsuarioUri.CREDENCIAIS)
     public UsuarioDTO preEditarCredenciais(ModelMap model, @PathVariable("id") Long id) {
         return us.buscarPorId(id);
@@ -150,5 +152,5 @@ public class UsuarioControlle {
         model.addAttribute("texto", "Você já pode logar no sistema.");
         return "login";
     }
-
+**/
 }

@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.model.dto;
 
-import br.ind.cmil.gestao.model.entidades.Perfil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,9 +17,6 @@ public record UsuarioDTO(
         @NotBlank
         @NotNull
         String email,
-        @NotBlank
-        @NotNull
-        String nome,
         @NotBlank
         @NotNull
         String password,

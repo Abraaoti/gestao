@@ -26,12 +26,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "tbl_usuarios", indexes = {
     @Index(name = "idx_usuario_email", columnList = "email")})
-public class Usuario  extends Entidade implements UserDetails{
+public class Usuario extends Entidade implements UserDetails {
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-    @Column(name = "nome", unique = true, nullable = false)
-    private String nome;
+   
     @JsonIgnore
     @Column(name = "senha", nullable = false)
     private String password;
@@ -48,16 +47,16 @@ public class Usuario  extends Entidade implements UserDetails{
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "perfil_id", referencedColumnName = "id"))
     private List<Perfil> perfis;
- public Usuario() {
+
+    public Usuario() {
     }
 
     public Usuario(Long id) {
         super.setId(id);
     }
 
-    public Usuario(String email, String nome, String password, LocalDateTime dataCadastro, boolean ativo, String verificador) {
-        this.email = email;
-        this.nome = nome;
+    public Usuario(String email, String password, LocalDateTime dataCadastro, boolean ativo, String verificador) {
+        this.email = email;       
         this.password = password;
         this.dataCadastro = dataCadastro;
         this.ativo = ativo;
@@ -72,13 +71,7 @@ public class Usuario  extends Entidade implements UserDetails{
         this.email = email;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  
 
     @Override
     public String getPassword() {
@@ -123,7 +116,7 @@ public class Usuario  extends Entidade implements UserDetails{
 
     @Override
     public String toString() {
-        return "Usuario{" + "email=" + email + ", nome=" + nome + ", password=" + password + ", dataCadastro=" + dataCadastro + ", ativo=" + ativo + ", verificador=" + verificador + ", perfis=" + perfis + '}';
+        return "Usuario{" + "email=" + email+ ", password=" + password + ", dataCadastro=" + dataCadastro + ", ativo=" + ativo + ", verificador=" + verificador + ", perfis=" + perfis + '}';
     }
 
     @Override
@@ -136,27 +129,27 @@ public class Usuario  extends Entidade implements UserDetails{
         return this.email;
     }
 
-   @Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 }

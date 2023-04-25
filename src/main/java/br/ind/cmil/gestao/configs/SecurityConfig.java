@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers("/empresa/p/**").permitAll()
                 .requestMatchers("/relatorio/pdf/jr1**").permitAll()
                 .requestMatchers("/classificacaos/salvar").permitAll()
+                .requestMatchers("/api/**").permitAll()
                 //acessos privados admin                
                 .requestMatchers("/admin").hasAuthority(ADMIN)
                 .requestMatchers("/administrativo").hasAuthority(ADMINISTRATIVO)

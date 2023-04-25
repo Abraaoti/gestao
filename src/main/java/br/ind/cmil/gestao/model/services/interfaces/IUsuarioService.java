@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.dto.UsuarioDTO;
+import br.ind.cmil.gestao.model.entidades.Usuario;
 import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public interface IUsuarioService extends UserDetailsService {
 
     List<UsuarioDTO> list();
+    List<Usuario> getUsuarios();
 
     UsuarioDTO save(UsuarioDTO usuario);
 

@@ -13,7 +13,8 @@ public enum TipoPerfil {
     FINANCEIRO("financeiro"),
     FUNCIONARIO("funcionário"),
     RH("rh"),
-    TECNICO("técnico");
+    TECNICO("técnico"),
+    USUARIO("usuário");
     private final String value;
 
     private TipoPerfil(String value) {

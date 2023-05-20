@@ -25,7 +25,7 @@ import java.util.Date;
 public class PessoaFisica extends Pessoa {
 
     @Column(name = "cpf", length = 15, unique = true)
-    @Pattern(regexp = "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", message = "cpf obrigatório")
+    //@Pattern(regexp = "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", message = "cpf obrigatório")
     protected String cpf;
 
     @Column(name = "rg", length = 11, unique = true)

@@ -1,9 +1,10 @@
-
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -26,7 +27,9 @@ public class Funcionario extends PessoaFisica {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate admissao;
     protected String matricula;
-
+    @ManyToOne
+    @JoinColumn(name = "departmento_id")
+    private Departamento departmento;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate demissao;
 
@@ -36,25 +39,28 @@ public class Funcionario extends PessoaFisica {
     public Funcionario() {
     }
 
-    public Funcionario(LocalDate admissao, String matricula, LocalDate demissao, BigDecimal salario) {
+    public Funcionario(LocalDate admissao, String matricula, Departamento departmento, LocalDate demissao, BigDecimal salario) {
         this.admissao = admissao;
         this.matricula = matricula;
+        this.departmento = departmento;
         this.demissao = demissao;
         this.salario = salario;
     }
 
-    public Funcionario(LocalDate admissao, String matricula, LocalDate demissao, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade) {
+    public Funcionario(LocalDate admissao, String matricula, Departamento departmento, LocalDate demissao, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade) {
         super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade);
         this.admissao = admissao;
         this.matricula = matricula;
+        this.departmento = departmento;
         this.demissao = demissao;
         this.salario = salario;
     }
 
-    public Funcionario(LocalDate admissao, String matricula, LocalDate demissao, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento) {
+    public Funcionario(LocalDate admissao, String matricula, Departamento departmento, LocalDate demissao, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento) {
         super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, nome, sobrenome, nascimento);
         this.admissao = admissao;
         this.matricula = matricula;
+        this.departmento = departmento;
         this.demissao = demissao;
         this.salario = salario;
     }
@@ -75,6 +81,14 @@ public class Funcionario extends PessoaFisica {
         this.matricula = matricula;
     }
 
+    public Departamento getDepartmento() {
+        return departmento;
+    }
+
+    public void setDepartmento(Departamento departmento) {
+        this.departmento = departmento;
+    }
+
     public LocalDate getDemissao() {
         return demissao;
     }
@@ -93,8 +107,8 @@ public class Funcionario extends PessoaFisica {
 
     @Override
     public String toString() {
-        return "Funcionario{" + "admissao=" + admissao + ", matricula=" + matricula + ", demissao=" + demissao + ", salario=" + salario + '}';
+        return "Funcionario{" + "admissao=" + admissao + ", matricula=" + matricula + ", departmento=" + departmento + ", demissao=" + demissao + ", salario=" + salario + '}';
     }
 
+   
 }
-

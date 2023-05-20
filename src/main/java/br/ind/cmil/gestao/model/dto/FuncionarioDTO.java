@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +16,7 @@ import org.springframework.format.annotation.NumberFormat;
  * @author abraao
  */
 public record FuncionarioDTO(
-        @JsonProperty
+        //@JsonProperty
         Long id,
         @NotBlank
         @NotNull

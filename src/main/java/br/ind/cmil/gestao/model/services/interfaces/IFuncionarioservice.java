@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public interface IFuncionarioservice {
 
-    List<FuncionarioDTO> list();
+    List<FuncionarioDTO> list(Pageable pageable);
 
     FuncionarioDTO findById(@NotNull @Positive Long id);
 

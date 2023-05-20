@@ -7,6 +7,7 @@ import br.ind.cmil.gestao.model.repositorys.IFuncionarioRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioservice;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -27,8 +28,8 @@ public class FuncionarioServiceImp implements IFuncionarioservice {
     }
 
     @Override
-    public List<FuncionarioDTO> list() {
-        return fr.findAll().stream().map(fm::toDTO).collect(Collectors.toList());
+    public List<FuncionarioDTO> list(Pageable pageable) {
+        return fr.searchAll(pageable).stream().map(fm::toDTO).collect(Collectors.toList());
     }
 
     @Override

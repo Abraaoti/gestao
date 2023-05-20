@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Validated
 @RestController
-@RequestMapping("/api/funcionario/")
+@RequestMapping("/funcionario/")
 @CrossOrigin(origins = "http://localhost:4200/")
 public class FuncionarioControlle {
 
@@ -38,8 +39,8 @@ public class FuncionarioControlle {
     }
 
     @GetMapping("/lista")
-    public List<FuncionarioDTO> list() {
-        return fs.list();
+    public List<FuncionarioDTO> list(Pageable pageable) {
+        return fs.list(pageable);
     }
 
     @GetMapping("/generos")

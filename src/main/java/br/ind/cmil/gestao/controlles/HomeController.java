@@ -2,8 +2,6 @@
 package br.ind.cmil.gestao.controlles;
 
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,10 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:4200/")
 public class HomeController {
-     @GetMapping("/home")
-    public String home(@AuthenticationPrincipal User user) {
-        return "home";
-    }
+    
     @GetMapping("/index")
     public String index() {
         return "index";

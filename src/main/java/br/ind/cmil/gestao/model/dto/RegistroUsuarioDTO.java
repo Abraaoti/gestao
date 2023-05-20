@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author abraao
  */
-public record UsuarioDTO(
+public record RegistroUsuarioDTO(
         @JsonProperty
         Long id,
         @NotBlank

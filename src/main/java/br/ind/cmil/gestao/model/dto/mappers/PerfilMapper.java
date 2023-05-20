@@ -52,6 +52,8 @@ public class PerfilMapper {
                 TipoPerfil.RH;
             case "técnico" ->
                 TipoPerfil.TECNICO;
+            case "usuário" ->
+                TipoPerfil.USUARIO;
             default ->
                 throw new IllegalArgumentException(" Perfil invalido " + value);
         };

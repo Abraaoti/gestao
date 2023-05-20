@@ -1,48 +1,47 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
+import br.ind.cmil.gestao.model.dto.RegistroUsuarioDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioDTO;
-import br.ind.cmil.gestao.model.entidades.Usuario;
 import java.util.List;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
  * @author abraao
  */
-public interface IUsuarioService extends UserDetailsService {
+public interface IUsuarioService {
 
-    List<UsuarioDTO> list();
-    List<Usuario> getUsuarios();
+    List<UsuarioDTO> getUsuarios();
 
-    UsuarioDTO save(UsuarioDTO usuario);
+    List<UsuarioDTO> search(String searchTerm, int page, int size);
 
     UsuarioDTO buscarPorId(Long id);
 
-    UsuarioDTO updatePassword(@AuthenticationPrincipal User user, String s1, String s2, String s3);
+    Boolean existsByUsuarioNome(String nome);
 
-    public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
-        return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
-    }
+    Boolean existsByUsuarioEmail(String email);
 
-    //Usuario buscarPorIdEPerfil(Long usuarioId, Long[] perfisId);
-    UsuarioDTO preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
+    UsuarioDTO buscarPorNome(String nome);
 
     UsuarioDTO buscarPorEmail(String email);
 
-    //UsuarioDTO buscarFoto(String foto) throws FileNotFoundException;
+    UsuarioDTO buscarPorEmailOUNome(String email, String nome);
+
     void delete(Long id);
 
-    void alterarSenha(UsuarioDTO usuario, String s1);
+    void save(RegistroUsuarioDTO usuario);
 
     UsuarioDTO update(UsuarioDTO usuario);
 
-    UsuarioDTO buscarPorEmailEAtivo(String email);
-
+    // UsuarioDTO updatePassword(@AuthenticationPrincipal User user, String s1, String s2, String s3);
+    // public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
+    // return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
+    //}
+    //Usuario buscarPorIdEPerfil(Long usuarioId, Long[] perfisId);
+    // UsuarioDTO preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
+    //UsuarioDTO buscarFoto(String foto) throws FileNotFoundException;
+    //void alterarSenha(UsuarioDTO usuario, String s1);
+    //UsuarioDTO buscarPorEmailEAtivo(String email);
     //void saveCadastroFinanceiro(Usuario usuario) throws MessagingException;
-    void pedidoRedefinicaoDeSenha(String email);
-
-    void ativarCadastroFuncionario(String codigo);
+    //void pedidoRedefinicaoDeSenha(String email);
+    //void ativarCadastroFuncionario(String codigo);*/
 }

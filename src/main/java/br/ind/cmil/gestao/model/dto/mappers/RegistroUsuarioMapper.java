@@ -1,10 +1,9 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
-import br.ind.cmil.gestao.model.dto.UsuarioDTO;
+import br.ind.cmil.gestao.model.dto.RegistroUsuarioDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,9 +15,9 @@ import org.springframework.stereotype.Component;
  * @author abraao
  */
 @Component
-public class UsuarioMapper {
+public class RegistroUsuarioMapper {
     
-    public UsuarioDTO toDTO(Usuario u) {
+    public RegistroUsuarioDTO toDTO(Usuario u) {
         if (u == null) {
             return null;
         }
@@ -26,10 +25,10 @@ public class UsuarioMapper {
                 .map(perfil -> new PerfilDTO(perfil.getId(),
                 perfil.getTp().getValue()
         )).collect(Collectors.toList());
-        return new UsuarioDTO(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.isAtivo(), u.getVerificador(), perfis);
+        return new RegistroUsuarioDTO(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.isAtivo(), u.getVerificador(), perfis);
     }
     
-    public Usuario toEntity(UsuarioDTO dto) {
+    public Usuario toEntity(RegistroUsuarioDTO dto) {
         if (dto == null) {
             return null;
         }

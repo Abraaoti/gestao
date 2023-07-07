@@ -19,12 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthenticationServiceImpl implements IAuthenticationService {
 
-  
     private final JwtServiceImpl jwtService;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationServiceImpl(JwtServiceImpl jwtService, AuthenticationManager authenticationManager) {       
+    public AuthenticationServiceImpl(JwtServiceImpl jwtService, AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
@@ -32,6 +31,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     @Override
     @Transactional(readOnly = true)
     public AuthResponse authenticate(Credentials request) {
+
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 

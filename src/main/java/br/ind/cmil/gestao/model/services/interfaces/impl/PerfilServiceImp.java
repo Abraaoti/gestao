@@ -9,9 +9,11 @@ import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +41,7 @@ public class PerfilServiceImp implements IPerfilService {
 
     @Override
     public PerfilDTO findById(Long id) {
-        return pr.findById(id).map(pm::toDTO).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id),"Este id não consta no bd! "));
+        return pr.findById(id).map(pm::toDTO).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id), "Este id não consta no bd! "));
     }
 
     @Override
@@ -55,12 +57,12 @@ public class PerfilServiceImp implements IPerfilService {
                 .map(recordFound -> {
                     recordFound.setTp(pm.convertPerfilValue(p.p()));
                     return pm.toDTO(pr.save(recordFound));
-                }).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id),"Este id não consta no bd! "));
+                }).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id), "Este id não consta no bd! "));
     }
 
     @Override
     public void delete(Long id) {
-        pr.delete(pr.findById(id).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id),"Este id não consta no bd! ")));
+        pr.delete(pr.findById(id).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id), "Este id não consta no bd! ")));
     }
 
     @Override
@@ -71,6 +73,14 @@ public class PerfilServiceImp implements IPerfilService {
     @Override
     public boolean checkIfPerfilExist(String name) {
         return pr.findByTipoPerfil(pm.convertPerfilValue(name)) != null ? true : false;
+    }
+
+    private void validarPerfil(PerfilDTO p) {
+        Optional<Perfil> perfil = pr.findByTipoPerfil(pm.convertPerfilValue(p.p()));
+        if (perfil.isPresent() && perfil.get().getId() != p.id()) {
+            throw new DataIntegrityViolationException("Perfil já cadastro no sistema!");
+        }
+
     }
 
     @Override

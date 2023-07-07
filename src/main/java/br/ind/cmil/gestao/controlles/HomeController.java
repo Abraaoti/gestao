@@ -1,8 +1,6 @@
 
 package br.ind.cmil.gestao.controlles;
 
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:4200/")
-public class HomeController {
-    
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
+public class HomeController {  
 
     @GetMapping("/admin")
     public String getAdminPage() {
@@ -74,14 +67,9 @@ public class HomeController {
     }
 
   
-     @GetMapping("/acesso-negado")
-    public String acessoNegado(Model model, HttpServletResponse response) {
-        
-        model.addAttribute("status", response.getStatus());
-        model.addAttribute("error", "Acesso Negado");
-        model.addAttribute("message", "Não tem permissão para acessar esta página");
-        model.addAttribute("subtexto", "Acesso permitido apenas para cadastros já ativados");
-        return "error/403";
+     @GetMapping("/restrict")
+    public String acessoNegado() {        
+        return "restrição";
     }
 
 }

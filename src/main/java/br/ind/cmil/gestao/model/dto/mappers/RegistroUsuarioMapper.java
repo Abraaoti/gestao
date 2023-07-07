@@ -4,7 +4,6 @@ import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,7 @@ public class RegistroUsuarioMapper {
             return null;
         }
         Set<PerfilDTO> perfis = u.getPerfis().stream()
-                .map(perfil -> new PerfilDTO(perfil.getTp().getValue()
+                .map(perfil -> new PerfilDTO(perfil.getId(),perfil.getTp().getValue()
         )).collect(Collectors.toSet());
         PerfilMapper pm = new PerfilMapper();
         Perfil p = new Perfil();

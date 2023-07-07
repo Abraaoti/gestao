@@ -4,6 +4,7 @@ import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.dto.response.UsuarioResponse;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UsuarioControlle {
     private IUsuarioService us;
 
     @PostMapping("/registrar")
-    public ResponseEntity  registrarUsuario(@RequestBody RegistrarUsuario usuario, HttpServletRequest request){
+    public ResponseEntity  registrarUsuario(@RequestBody @Valid RegistrarUsuario usuario, HttpServletRequest request){
         
         us.register(usuario, getSiteURL(request));
         return ResponseEntity.ok().build();

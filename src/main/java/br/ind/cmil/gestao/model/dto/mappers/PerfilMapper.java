@@ -16,7 +16,7 @@ public class PerfilMapper {
         if (p == null) {
             return null;
         }
-        return new PerfilDTO(p.getTp().getValue());
+        return new PerfilDTO(p.getId(),p.getTp().getValue());
     }
 
     public Perfil toEntity(PerfilDTO dto) {

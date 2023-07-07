@@ -1,12 +1,14 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.model.dto.mappers.FuncionarioMapper;
-import br.ind.cmil.gestao.model.entidades.Funcionario;
-import br.ind.cmil.gestao.model.repositorys.IFuncionarioRepository;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Date;
+import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
+import br.ind.cmil.gestao.model.entidades.Perfil;
+import br.ind.cmil.gestao.model.entidades.Usuario;
+import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,34 +18,46 @@ import org.springframework.stereotype.Service;
 @Service
 public class DBService {
 
+   
     @Autowired
-    private IFuncionarioRepository fr;
+    private PerfilMapper pm;
     @Autowired
-    private FuncionarioMapper fm;
+    private PasswordEncoder encoder;
+
+    @Autowired
+    private IUsuarioRepository ur;
 
     public void instanciaBaseDeDados() {
 
-        fr.deleteAll();
+        Set<String> tipoPerfil = new HashSet<>();
 
-        Funcionario f = new Funcionario();
-        f.setNome("abraao calelesso ");
-        f.setSobrenome("cassinda");
-        f.setNascimento(new Date());
-        f.setCpf("01250284902");
-        f.setRg("9978787");
-        f.setMae("adriano chipondia");
-        f.setPai("agostinho cassinda");
-        f.setPassaporte("n4878878");
+        tipoPerfil.add("usuário");
+        tipoPerfil.add("administrador");
+        tipoPerfil.add("administrativo");
+        tipoPerfil.add("comprador");
+        tipoPerfil.add("diretor");
+        tipoPerfil.add("engenheiro");
+        tipoPerfil.add("financeiro");
+        tipoPerfil.add("funcionário");
+        tipoPerfil.add("técnico");
+        Perfil pe = new Perfil();
+        for (String perfil : tipoPerfil) {
+            pe.setTp(pm.convertPerfilValue(perfil));
 
-        f.setGenero(fm.convertGeneroValue("masculino"));
-        f.setEstado_civil(fm.convertECValue("solteiro(a)"));
-        f.setNaturalidade("lubango-huíla/Angola");
-        f.setAdmissao(LocalDate.now());
-        f.setMatricula("2023001");
-        f.setDemissao(LocalDate.now());
-        f.setSalario(BigDecimal.valueOf(5000));
+        }
+        Set<Perfil> perfis = new HashSet<>();
+        Usuario usuario = new Usuario();
+       
+        perfis.add(pe);
 
-        fr.save(f);
+        usuario.setNome("abraao calelesso");
+        usuario.setEmail("abraao@cmil.com.br");
+        usuario.setPassword(encoder.encode("123"));
+        usuario.setDataCadastro(LocalDateTime.now());
+        usuario.setAtivo(false);
+        usuario.setPerfis(perfis);
+        ur.save(usuario);
 
     }
+
 }

@@ -5,7 +5,7 @@ package br.ind.cmil.gestao.model.enums;
  * @author abraao
  */
 public enum TipoPerfil {
-    ADMIN("administrador"),
+    ADMIN("admin"),
     ADMINISTRATIVO("administrativo"),
     COMPRADOR("comprador"),
     DIRETOR("diretor"),

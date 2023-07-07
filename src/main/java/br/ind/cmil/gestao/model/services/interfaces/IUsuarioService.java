@@ -1,8 +1,10 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import br.ind.cmil.gestao.model.dto.RegistroUsuarioDTO;
-import br.ind.cmil.gestao.model.dto.UsuarioDTO;
-import java.util.List;
+import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.response.UsuarioResponse;
+import br.ind.cmil.gestao.model.entidades.Usuario;
+import jakarta.mail.MessagingException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -10,28 +12,52 @@ import java.util.List;
  */
 public interface IUsuarioService {
 
-    List<UsuarioDTO> getUsuarios();
+    void register(RegistrarUsuario request, String siteURL);
 
-    List<UsuarioDTO> search(String searchTerm, int page, int size);
+    UsuarioResponse buscarPorId(Long id);
 
-    UsuarioDTO buscarPorId(Long id);
+    public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
+        return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
+    }
 
-    Boolean existsByUsuarioNome(String nome);
+    void alterarSenha(Usuario usuario, String s1);
 
-    Boolean existsByUsuarioEmail(String email);
+    Usuario buscarEmailAtivo(String email);
 
-    UsuarioDTO buscarPorNome(String nome);
+    Usuario buscarPorEmail(String email);
 
-    UsuarioDTO buscarPorEmail(String email);
+    void redefinirSenha(String email) throws MessagingException;
 
-    UsuarioDTO buscarPorEmailOUNome(String email, String nome);
+    void ativarCadastro(String codigo);
 
-    void delete(Long id);
+    boolean verify(String verificationCode);
 
-    void save(RegistroUsuarioDTO usuario);
+    /*
 
-    UsuarioDTO update(UsuarioDTO usuario);
+    boolean checkIfUserExist(final String email);
 
+    void sendRegistrationConfirmationEmail(final Usuario user);
+
+    boolean verifyUser(final String token);
+
+    Usuario getUserById(final Long id);
+
+    MfaTokenData mfaSetup(final String email);*/
+    //UsuarioDTO save(UsuarioDTO userDTO);
+    //UsuarioDTO fetch(Long userId);
+    //AuthenticationResponse register(RegistroUsuarioDTO request);
+    //AuthenticationResponse authenticate(LoginDTO request);
+    // void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    //List<RegistroUsuarioDTO> getUsuarios();
+    // List<RegistroUsuarioDTO> search(String searchTerm, int page, int size);
+    //RegistroUsuarioDTO buscarPorId(Long id);
+    //Boolean existsByUsuarioNome(String nome);
+    // Boolean existsByUsuarioEmail(String email);
+    // RegistroUsuarioDTO buscarPorNome(String nome);
+    // RegistroUsuarioDTO buscarPorEmail(String email);
+    // RegistroUsuarioDTO buscarPorEmailOUNome(String email, String nome);
+    // void delete(Long id);
+    // RegistroUsuarioDTO update(UsuarioDTO usuario);
     // UsuarioDTO updatePassword(@AuthenticationPrincipal User user, String s1, String s2, String s3);
     // public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
     // return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
@@ -40,8 +66,8 @@ public interface IUsuarioService {
     // UsuarioDTO preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
     //UsuarioDTO buscarFoto(String foto) throws FileNotFoundException;
     //void alterarSenha(UsuarioDTO usuario, String s1);
-    //UsuarioDTO buscarPorEmailEAtivo(String email);
+    //UsuarioDTO buscarEmailAtivo(String email);
     //void saveCadastroFinanceiro(Usuario usuario) throws MessagingException;
-    //void pedidoRedefinicaoDeSenha(String email);
-    //void ativarCadastroFuncionario(String codigo);*/
+    //void redefinirSenha(String email);
+    //void ativarCadastro(String codigo);*/
 }

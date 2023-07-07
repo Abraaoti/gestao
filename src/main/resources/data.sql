@@ -1,5 +1,6 @@
 
-INSERT INTO tbl_usuarios  VALUES (1,1,CURRENT_TIMESTAMP,'cmil@cmil.com.br','timuila','$2a$10$2nDCAxF02wlcQUZTc20SHOl5tUZUDBeTr07cF/iXYqnXvFgiz.hJS',NULL);
-INSERT INTO `tbl_perfis` VALUES (1,'administrador');
+INSERT INTO `tbl_usuarios` VALUES(1, FALSE,0,'2023-07-01 16:54:24.241329' ,'abraao@cmil.com.br' , 0,FALSE,'abraao calelesso','$2a$10$qr3FMreDOxcjUuT5DXPSDetaEPnmWWGgqeDcvODMBMai4xyHKcxJu',null, null,null);
+
+INSERT INTO `tbl_perfis` VALUES (1 ,'admin');
 
 INSERT INTO `tbl_usuario_perfis` VALUES (1,1);

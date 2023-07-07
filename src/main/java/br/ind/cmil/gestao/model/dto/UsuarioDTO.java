@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -25,8 +25,11 @@ public record UsuarioDTO(
         String password,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDateTime dataCadastro,
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        LocalDateTime updatedAt,
         boolean ativo,
-        String verificador,       
-        List<PerfilDTO> perfis) {
+        String verificador,
+        Set<PerfilDTO> perfis
+        ) {
 
 }

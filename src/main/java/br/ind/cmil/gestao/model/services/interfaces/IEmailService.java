@@ -1,5 +1,7 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
+import jakarta.mail.MessagingException;
+
 /**
  *
  * @author abraao
@@ -7,4 +9,6 @@ package br.ind.cmil.gestao.model.services.interfaces;
 public interface IEmailService {
 
     void enviarEmailConfirmacao(String destino, String codigo);
+
+    void emailDeConfirmacaoDeCadastro(String email) throws MessagingException;
 }

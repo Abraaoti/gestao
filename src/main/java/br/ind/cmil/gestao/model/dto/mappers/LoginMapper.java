@@ -16,7 +16,7 @@ public class LoginMapper {
             return null;
         }
 
-        return new LoginDTO(u.getId(), u.getNome(), u.getPassword());
+        return new LoginDTO (u.getNome(), u.getPassword());
     }
 
     public Usuario toEntity(LoginDTO dto) {
@@ -24,9 +24,9 @@ public class LoginMapper {
             return null;
         }
         Usuario u = new Usuario();
-        if (dto.id() != null) {
-            u.setId(dto.id());
-        }
+       // if (dto.id() != null) {
+          //  u.setId(dto.id());
+       // }
         u.setNome(dto.emailOUNome());
         u.setPassword(dto.password());
         return u;

@@ -1,18 +1,22 @@
 package br.ind.cmil.gestao.configs;
 
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
-import org.springframework.beans.factory.annotation.Value;
+import br.ind.cmil.gestao.model.security.jwt.JwtAuthenticationFilter;
+import br.ind.cmil.gestao.model.services.interfaces.IUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  *
@@ -22,8 +26,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${spring.h2.console.path}")
-    private String h2ConsolePath;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final IUserService userService;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, IUserService userService) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userService = userService;
+    }
+
+   @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)throws Exception {
+        return config.getAuthenticationManager();
+    }
 
     private static final String ADMIN = TipoPerfil.ADMIN.getValue();
     private static final String ADMINISTRATIVO = TipoPerfil.ADMINISTRATIVO.getValue();
@@ -33,81 +60,50 @@ public class SecurityConfig {
     private static final String FINANCEIRO = TipoPerfil.FINANCEIRO.getValue();
     private static final String RH = TipoPerfil.RH.getValue();
     private static final String TECNICO = TipoPerfil.TECNICO.getValue();
-    
-    
-    private UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService){
-        this.userDetailsService = userDetailsService;
-    }
-
-    @Bean
-    public static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(
-                                 AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
-
-   
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf().disable()
-                //.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeHttpRequests((requests) -> requests
-                .requestMatchers(HttpMethod.GET,"/api/auth/**").permitAll()
-                .requestMatchers("/api/test/**").permitAll()
-                .requestMatchers(h2ConsolePath + "/**").permitAll()
+        http
+                .csrf()
+                .disable()
+                .authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers(new AntPathRequestMatcher("/api/free")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/u/confirmacao/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/auth/authenticate")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/u/registrar")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/perfil/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                 //acessos privados admin                
-                .requestMatchers("/admin").hasAuthority(ADMIN)
-                .requestMatchers("/administrativo").hasAuthority(ADMINISTRATIVO)
-                .requestMatchers("/empresa/editar/senha", "/u/confirmar/senha").hasAnyAuthority(FINANCEIRO, ADMINISTRATIVO, ADMIN)
-                .requestMatchers("/empresa/**", "/avaliacoes/**", "/avaliacao/**").hasAuthority(ADMIN)
+                .requestMatchers("/api/admin").hasAuthority(ADMIN)
+                .requestMatchers("/api/administrativo").hasAuthority(ADMINISTRATIVO)
+                .requestMatchers("/api/empresa/editar/senha", "/u/confirmar/senha").hasAnyAuthority(FINANCEIRO, ADMINISTRATIVO, ADMIN)
+                .requestMatchers("/api/empresa/**", "/avaliacoes/**", "/avaliacao/**").hasAuthority(ADMIN)
                 //acessos privados financeiro                
-                .requestMatchers("/financeiro/contapagar/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
-                .requestMatchers("/empresas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
-                .requestMatchers("/pagarcontas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
-                .requestMatchers("/administrativo/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN)
+                .requestMatchers("/api/financeiro/contapagar/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
+                .requestMatchers("/api/empresas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
+                .requestMatchers("/api/pagarcontas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
+                .requestMatchers("/api/administrativo/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN)
                 //acessos privados diretoria
-                .requestMatchers("/diretoria/**").hasAuthority(DIRETOR)
+                .requestMatchers("/api/diretoria/**").hasAuthority(DIRETOR)
                 //acessos privados tecnico
-                .requestMatchers("/engenheiro").hasAuthority(ENGENHEIRO)
-                .requestMatchers("/financeiro").hasAuthority(FINANCEIRO)
-                .requestMatchers("/tecnico").hasAuthority(TECNICO)
-                .requestMatchers("/comprador").hasAuthority(COMPRADOR)
-                .requestMatchers("/rh").hasAuthority(RH)
-                .anyRequest().authenticated()
-                );
-               // .formLogin((form) -> form
-                //.loginPage("/login")
-                //.loginProcessingUrl("/login")
-                //.defaultSuccessUrl("/user/")
-                //.permitAll()
-               // )
-               // .logout((logout) -> logout.permitAll())
-                //.exceptionHandling().accessDeniedPage("/access-denied");
+                .requestMatchers("/api/engenheiro").hasAuthority(ENGENHEIRO)
+                .requestMatchers("/api/financeiro").hasAuthority(FINANCEIRO)
+                .requestMatchers("/api/tecnico").hasAuthority(TECNICO)
+                .requestMatchers("/api/comprador").hasAuthority(COMPRADOR)
+                .requestMatchers("/api/pessoa/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN)
+                .anyRequest()
+                .authenticated()
+                )
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
-        http.headers().frameOptions().sameOrigin();
-
-        //http.sessionManagement()
-        //.maximumSessions(1)
-        //.maxSessionsPreventsLogin(true)
-        //.sessionRegistry(sessionRegistry());
+      
+        http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
+        // http.formLogin(Customizer.withDefaults());
+        // http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
-
-   
-
-
-    //public void configure(WebSecurity web) throws Exception {
-     //   web.ignoring().requestMatchers("/resources/**");
-    //}
 
 }

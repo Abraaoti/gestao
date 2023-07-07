@@ -1,23 +1,22 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.exception.RecordNotFoundException;
+import br.ind.cmil.gestao.exceptions.FuncionarioException;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.mappers.FuncionarioMapper;
 import br.ind.cmil.gestao.model.repositorys.IFuncionarioRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioservice;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author abraao
  */
-@Validated
 @Service
-public class FuncionarioServiceImp implements IFuncionarioservice {
+public class FuncionarioServiceImp implements IFuncionarioService {
 
     private final IFuncionarioRepository fr;
     private final FuncionarioMapper fm;
@@ -28,21 +27,25 @@ public class FuncionarioServiceImp implements IFuncionarioservice {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FuncionarioDTO> list(Pageable pageable) {
         return fr.searchAll(pageable).stream().map(fm::toDTO).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FuncionarioDTO findById(Long id) {
-        return fr.findById(id).map(fm::toDTO).orElseThrow(() -> new RecordNotFoundException(id));
+        return fr.findById(id).map(fm::toDTO).orElseThrow(() -> new FuncionarioException(String.valueOf(id),"Este id não consta no bd! "));
     }
 
     @Override
+    @Transactional(readOnly = false,rollbackFor = Exception.class)
     public FuncionarioDTO create(FuncionarioDTO funcionario) {
         return fm.toDTO(fr.save(fm.toEntity(funcionario)));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FuncionarioDTO update(Long id, FuncionarioDTO f) {
         return fr.findById(id)
                 .map(recordFound -> {
@@ -63,12 +66,12 @@ public class FuncionarioServiceImp implements IFuncionarioservice {
                     recordFound.setSalario(f.salario());
                     recordFound.setId(f.id());
                     return fm.toDTO(fr.save(recordFound));
-                }).orElseThrow(() -> new RecordNotFoundException(id));
+                }).orElseThrow(() -> new FuncionarioException(String.valueOf(id),"Este id não consta no bd! "));
     }
 
     @Override
     public void delete(Long id) {
-        fr.delete(fr.findById(id).orElseThrow(() -> new RecordNotFoundException(id)));
+        fr.delete(fr.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id),"Este id não consta no bd! ")));
     }
 
 }

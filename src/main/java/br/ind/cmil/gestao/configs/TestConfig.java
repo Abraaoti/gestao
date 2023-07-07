@@ -20,14 +20,14 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Profile("test")
 public class TestConfig {
 
-    @Autowired
-    private DBService dbService;
+   // @Autowired
+    //private DBService dbService;
 
-    @Bean
-    public void instaciaBaseDeDados() {
-        this.dbService.instanciaBaseDeDados();
+   // @Bean
+    //public void instaciaBaseDeDados() {
+       // this.dbService.instanciaBaseDeDados();
 
-    }
+   // }
 
 
 }

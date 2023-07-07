@@ -17,20 +17,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    @Query("select u from Usuario u where  u.nome =:nome")
+    //@Query("select u from Usuario u where  u.nome =:nome")
     Optional<Usuario> findByNome(String nome);
 
-    @Query("select u from Usuario u where  u.email= :email")
-    Optional<Usuario> findByEmail(@Param("email") String email);
+    @Query("select u from Usuario u join u.perfis p where  u.email= :email")
+    Optional<Usuario> findByEmail(@Param("email")String email);
 
-    @Query("select u from Usuario u where  u.email = :email OR u.nome= :nome")
-    Optional<Usuario> findByEmailORNome(String email, String nome);
+    @Query("select u from Usuario u join u.perfis p where u.nome= :nome OR  u.email = :email")
+    Optional<Usuario> findByNomeOrEmail(@Param("nome")String nome, @Param("email")String email);
 
-    @Query("select u from Usuario u where  u.nome like :nome")
-    Boolean existsByNome(String nome);
+    @Query("select u from Usuario u join u.perfis p where  u.nome = :nome")
+    Boolean existsByNome(@Param("nome")String nome);
 
-    @Query("select u from Usuario u where  u.email like :email")
-    Boolean existsByEmail(String email);
+    @Query("select u from Usuario u join u.perfis p where  u.email = :email")
+    Boolean existsByEmail(@Param("email")String email);
 
     @Query("select distinct u from Usuario u join u.perfis p ")
     List<Usuario> usuarios();
@@ -56,5 +56,8 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
             + "WHERE LOWER(obj.nome) like %:searchTerm% "
             + "OR LOWER(obj.email) like %:searchTerm%")
     Page<Usuario> search(@Param("searchTerm") String searchTerm, Pageable pageable);
+
+    @Query("SELECT u FROM Usuario u JOIN FETCH u.perfis WHERE u.verificador = ?1")
+    Usuario findByVerificationCode(String code);
 
 }

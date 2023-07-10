@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author cmilseg
  */
 @RestController
-@RequestMapping("telefones")
+@RequestMapping("api/tel")
 public class TelefoneController {
 
     private final ITelefoneService telefoneService;

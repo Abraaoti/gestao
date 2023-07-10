@@ -2,6 +2,7 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.model.entidades.Telefone;
 import br.ind.cmil.gestao.model.repositorys.ITelefoneRepository;
+import br.ind.cmil.gestao.model.enums.TipoTelefone;
 import br.ind.cmil.gestao.model.services.interfaces.ITelefoneService;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -29,10 +30,10 @@ public class TelefoneServiceImp implements ITelefoneService {
             addTelefone.setPessoa(telefone.getPessoa());
             addTelefone.setTipo(convertTipoTelefoneValue("pessoal"));
             telefoneRepo.save(addTelefone);
-            return ;
-        }
-            return null ;
+            return null;
 
+        }
+        return null;
     }
 
     @Override
@@ -57,10 +58,10 @@ public class TelefoneServiceImp implements ITelefoneService {
             upTelefone.setTipo(convertTipoTelefoneValue(telefone.getTipo().getValue()));
             upTelefone.setPessoa(telefone.getPessoa());
             upTelefone.setId(telefone.getId());
-            return ;
+            return null;
 
         }
-        return ;
+        return null;
     }
 
     @Override
@@ -68,20 +69,30 @@ public class TelefoneServiceImp implements ITelefoneService {
         return telefoneRepo.findByNumero(cep).orElse(new Telefone());
     }
 
-    public TipoTelefone convertTipoTelefoneValue(String value) {
+    private TipoTelefone convertTipoTelefoneValue(String value) {
         if (value == null) {
             return null;
         }
         return switch (value) {
             case "pessoal" ->
-                Genero.FEMININO;
+                TipoTelefone.PESSOAL;
             case "comercial" ->
-                Genero.MASCULINO;
+                TipoTelefone.COMERCIAL;
             case "residencial" ->
-                Genero.OUTROS;
+                TipoTelefone.RESIDENCIAL;
             default ->
                 throw new IllegalArgumentException(" TipoTelefone invalido " + value);
         };
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteByTutorialId(Long pessoaId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

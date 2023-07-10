@@ -71,6 +71,7 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/free")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/confirmacao/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/pessoa/salvar")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/authenticate")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/registrar")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/perfil/**")).permitAll()
@@ -89,7 +90,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/administrativo/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN)
                 //acessos privados diretoria
                 .requestMatchers("/api/diretoria/**").hasAuthority(DIRETOR)
-                .requestMatchers("/api/pessoa/**").hasAuthority(RH)
+                //.requestMatchers("/api/pessoa/**").hasAuthority(RH)
                 //acessos privados tecnico
                 .requestMatchers("/api/engenheiro/**").hasAuthority(ENGENHEIRO)
                 .requestMatchers("/api/financeiro/**").hasAuthority(FINANCEIRO)

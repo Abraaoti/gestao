@@ -37,8 +37,8 @@ public class UsuarioControlle {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> fetchUserWithId(@PathVariable @NotNull @Positive Long id) {
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable @NotNull @Positive Long id) {
         return ResponseEntity.ok().body(us.buscarPorId(id));
     }
 

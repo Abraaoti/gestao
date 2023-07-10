@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
+import org.springframework.http.ResponseEntity;
 
 /**
  *
@@ -57,10 +58,11 @@ public class FuncionarioControlle {
         return fs.findById(id);
     }
 
-    @PostMapping("/create")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public FuncionarioDTO create(@RequestBody @Valid @NotNull FuncionarioDTO funcionaro) {
-        return fs.create(funcionaro);
+    @PostMapping("/salvar")
+    public ResponseEntity<FuncionarioDTO> create(@RequestBody @Valid @NotNull FuncionarioDTO funcionaro) {
+        System.out.println("Estamos aqui? "+ funcionaro.toString());
+        //return null; //fs.create(funcionaro);
+         return  new ResponseEntity<>(fs.create(funcionaro), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")

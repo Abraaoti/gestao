@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class ValidationError {
 
-    private StandardError er;
-    private List<FieldMessage> messages = new ArrayList<>();
+    private final StandardError er;
+    private final List<FieldMessage> messages = new ArrayList<>();
 
     public ValidationError(Instant timestamp, Integer status, String error, String message, String path) {
         er = new StandardError(timestamp, status, error, message, path);

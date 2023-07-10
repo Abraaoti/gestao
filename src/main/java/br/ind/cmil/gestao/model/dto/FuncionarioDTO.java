@@ -27,7 +27,7 @@ public record FuncionarioDTO(
         Date nascimento,
         @NotBlank
         @NotNull
-        @Pattern(regexp = "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", message = "cpf obrigatório")
+       // @Pattern(regexp = "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", message = "cpf obrigatório")
         String cpf,
         @NotBlank
         @NotNull
@@ -48,8 +48,7 @@ public record FuncionarioDTO(
         @NotBlank
         @NotNull
         String naturalidade,
-        @NotBlank
-        @NotNull
+       
         LocalDate admissao,
         @NotBlank
         @NotNull
@@ -57,8 +56,8 @@ public record FuncionarioDTO(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate demissao,
         @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
-        @NotBlank
-        @NotNull
+       // @NotBlank
+       // @NotNull
         BigDecimal salario) {
 
 }

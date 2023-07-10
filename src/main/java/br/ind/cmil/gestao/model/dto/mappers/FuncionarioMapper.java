@@ -4,6 +4,7 @@ import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
+import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +39,7 @@ public class FuncionarioMapper {
         f.setGenero(convertGeneroValue(dto.genero()));
         f.setEstado_civil(convertECValue(dto.estado_civil()));
         f.setNaturalidade(dto.naturalidade());
-        f.setAdmissao(dto.admissao());
+        f.setAdmissao(LocalDate.now());
         f.setMatricula(dto.matricula());
         f.setDemissao(dto.demissao());
         f.setSalario(dto.salario());

@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.controlles;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
-import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -33,12 +32,13 @@ import org.springframework.http.ResponseEntity;
 public class FuncionarioControlle {
 
     private final IFuncionarioService fs;
-    private final IDepartamentoService ds;
+   // private final IDepartamentoService ds;
 
-    public FuncionarioControlle(IFuncionarioService fs, IDepartamentoService ds) {
+    public FuncionarioControlle(IFuncionarioService fs) {
         this.fs = fs;
-        this.ds = ds;
     }
+
+   
 
     
 

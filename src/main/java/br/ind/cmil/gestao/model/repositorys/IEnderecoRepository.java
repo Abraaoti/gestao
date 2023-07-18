@@ -22,7 +22,7 @@ public interface IEnderecoRepository extends JpaRepository<Endereco, Long> {
     @Query(value = "SELECT obj FROM Endereco obj JOIN  obj.pessoa")
     List<Endereco> searchAll();
 
-    @Query(value = "SELECT obj FROM Endereco obj JOIN  obj.pessoa",
-            countQuery = "SELECT COUNT(obj) FROM Endereco obj JOIN obj.pessoa")
+    @Query(value = "SELECT obj FROM Endereco obj INNER JOIN  obj.pessoa",
+            countQuery = "SELECT COUNT(obj) FROM Endereco obj INNER JOIN obj.pessoa")
     Page<Endereco> searchAll(Pageable pageable);
 }

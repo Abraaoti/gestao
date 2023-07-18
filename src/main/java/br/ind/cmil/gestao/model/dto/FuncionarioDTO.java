@@ -58,7 +58,6 @@ public record FuncionarioDTO(
         String matricula,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate demissao,
-        EnderecoDTO endereco,
         DepartamentoDTO departamento,
         @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
         BigDecimal salario) {

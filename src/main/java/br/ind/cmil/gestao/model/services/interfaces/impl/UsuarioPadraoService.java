@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.core.email.services.interfaces.IEmailService;
 import br.ind.cmil.gestao.exceptions.AcessoNegadoException;
 import br.ind.cmil.gestao.exceptions.UsuarioNotFoundException;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
@@ -10,7 +9,7 @@ import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
-import br.ind.cmil.gestao.model.services.mappres.RegistrarUsuarioMapper;
+import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import jakarta.mail.MessagingException;
 import java.util.Base64;
 import java.util.HashSet;
@@ -35,20 +34,33 @@ public class UsuarioPadraoService implements IUsuarioService {
     private final IUsuarioRepository ur;
     private final IPerfilService ps;
     private final PasswordEncoder encoder;
-    private final IEmailService email;
-    private final RegistrarUsuarioMapper rm;
+    private final EmailServiceImp email;
+    private final UsuarioMapper rm;
 
-    public UsuarioPadraoService(IUsuarioRepository ur, IPerfilService ps,PasswordEncoder encoder, IEmailService email, RegistrarUsuarioMapper rm) {
+  
+    public UsuarioPadraoService(IUsuarioRepository ur, IPerfilService ps, PasswordEncoder encoder, EmailServiceImp email, UsuarioMapper rm) {
         this.ur = ur;
         this.ps = ps;
         this.encoder = encoder;
         this.email = email;
         this.rm = rm;
     }
-
+    
+    public void increaseFailedAttempts(Usuario user) {
+        int newFailAttempts = user.getFailedLoginAttempts() + 1;
+        ur.updateFailedAttempts(newFailAttempts, user.getEmail());
+    }
+     
+    public void resetFailedAttempts(String email) {
+        ur.updateFailedAttempts(0, email);
+    }
+     
+  
+     
+   
     @Override
     @Transactional(readOnly = false)
-    public void register(RegistrarUsuario request, String siteURL) {
+    public void register(RegistrarUsuario request, String siteURL) throws MessagingException {
         request.id();
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
@@ -56,9 +68,14 @@ public class UsuarioPadraoService implements IUsuarioService {
         Set<Perfil> roles = ps.perfis(request.role());
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
-
-        //this.email.confirmarCadastro(user, siteURL);
         ur.save(user);
+        //emailDeConfirmacaoDeCadastro(usuarioEmail.getEmail(),siteURL);
+    }
+
+    public void emailDeConfirmacaoDeCadastro(String email, String url) throws MessagingException {
+        Base64.Encoder encode = Base64.getEncoder();
+        String codigo = encode.encodeToString(email.getBytes());
+        this.email.enviarEmail(email, url, codigo);
     }
 
     @Override
@@ -75,10 +92,6 @@ public class UsuarioPadraoService implements IUsuarioService {
 
     }
 
-    // private void updateCustomerPerfil(Usuario userEntity) {
-    // Perfil group = pm.toEntity(ps.buscarPerfilPorNome("usuário"));
-    // userEntity.addUsuarioPerfis(group);
-    // }
     @Override
     public void alterarSenha(Usuario usuario, String s1) {
         usuario.setPassword(new BCryptPasswordEncoder().encode(s1));
@@ -111,7 +124,7 @@ public class UsuarioPadraoService implements IUsuarioService {
     }
 
     private void validarAtributos(RegistrarUsuario request) {
-        Optional<Usuario> usuario = ur.findByEmail(request.nome());
+        Optional<Usuario> usuario = ur.findByNome(request.nome());
         if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request.id())) {
             throw new DataIntegrityViolationException("nome já cadastro no sistema!");
         }

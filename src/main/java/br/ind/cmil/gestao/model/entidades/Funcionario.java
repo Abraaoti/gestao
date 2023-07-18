@@ -56,8 +56,8 @@ public class Funcionario extends PessoaFisica {
         this.salario = salario;
     }
 
-    public Funcionario(LocalDate admissao, String matricula, Departamento departmento, LocalDate demissao, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento) {
-        super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, nome, sobrenome, nascimento);
+    public Funcionario(LocalDate admissao, String matricula, Departamento departmento, LocalDate demissao, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento, Endereco endereco) {
+        super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, nome, sobrenome, nascimento, endereco);
         this.admissao = admissao;
         this.matricula = matricula;
         this.departmento = departmento;
@@ -110,5 +110,4 @@ public class Funcionario extends PessoaFisica {
         return "Funcionario{" + "admissao=" + admissao + ", matricula=" + matricula + ", departmento=" + departmento + ", demissao=" + demissao + ", salario=" + salario + '}';
     }
 
-   
 }

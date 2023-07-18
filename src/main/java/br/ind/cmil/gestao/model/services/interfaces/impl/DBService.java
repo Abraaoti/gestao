@@ -5,7 +5,9 @@ import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class DBService {
 
-   
     @Autowired
     private PerfilMapper pm;
     @Autowired
@@ -46,8 +47,9 @@ public class DBService {
 
         }
         Set<Perfil> perfis = new HashSet<>();
+        List<Usuario> usuarios = new ArrayList<>();
         Usuario usuario = new Usuario();
-       
+
         perfis.add(pe);
 
         usuario.setNome("abraao calelesso");
@@ -56,7 +58,21 @@ public class DBService {
         usuario.setDataCadastro(LocalDateTime.now());
         usuario.setAtivo(false);
         usuario.setPerfis(perfis);
-        ur.save(usuario);
+        //ur.save(usuario);
+
+        Usuario usuario2 = new Usuario();
+
+        perfis.add(pe);
+
+        usuario2.setNome("cmil");
+        usuario2.setEmail("cmil@cmil.com.br");
+        usuario2.setPassword(encoder.encode("123"));
+        usuario2.setDataCadastro(LocalDateTime.now());
+        usuario2.setAtivo(false);
+        usuario2.setPerfis(perfis);
+        usuarios.add(usuario);
+        usuarios.add(usuario2);
+        ur.saveAll(usuarios);
 
     }
 

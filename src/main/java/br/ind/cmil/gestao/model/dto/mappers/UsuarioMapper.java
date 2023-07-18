@@ -1,14 +1,12 @@
-package br.ind.cmil.gestao.model.services.mappres;
+package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
-import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @author abraao
  */
 @Component
-public class RegistrarUsuarioMapper {
+public class UsuarioMapper {
 
     private PerfilMapper pm;
 
@@ -45,26 +43,10 @@ public class RegistrarUsuarioMapper {
         u.setPassword(dto.password());
         u.setVerificador(dto.verificador());
         u.setDataCadastro(LocalDateTime.now());
-        u.setAtivo(false);
-
-       
+        u.setAtivo(false);       
         return u;
     }
 
-    private void verificador(Usuario userEntity) {
-        String randomCode = RandomStringUtils.randomAlphanumeric(64);
-        userEntity.setVerificador(randomCode);
-    }
-
-    private void validarAtributo(Usuario dto) {
-    }
-
-    public PerfilMapper getPm() {
-        return pm;
-    }
-
-    public void setPm(PerfilMapper pm) {
-        this.pm = pm;
-    }
+   
 
 }

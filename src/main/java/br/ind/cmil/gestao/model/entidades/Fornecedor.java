@@ -37,10 +37,13 @@ public class Fornecedor extends PessoaJuridica {
         this.produtos = produtos;
     }
 
-    public Fornecedor(List<Produto> produtos, String cnpj, String ie, String im, String nome, String sobrenome, Date nascimento) {
-        super(cnpj, ie, im, nome, sobrenome, nascimento);
+    public Fornecedor(List<Produto> produtos, String cnpj, String ie, String im, String nome, String sobrenome, Date nascimento, Endereco endereco) {
+        super(cnpj, ie, im, nome, sobrenome, nascimento, endereco);
         this.produtos = produtos;
     }
+
+   
+   
 
     public void addProduto(Produto produto) {
         if (this.produtos == null) {

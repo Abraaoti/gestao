@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -59,7 +58,7 @@ public class SecurityConfig {
     private static final String ENGENHEIRO = TipoPerfil.ENGENHEIRO.getValue();
     private static final String COMPRADOR = TipoPerfil.COMPRADOR.getValue();
     private static final String FINANCEIRO = TipoPerfil.FINANCEIRO.getValue();
-    private static final String RH = TipoPerfil.RH.getValue();
+   // private static final String RH = TipoPerfil.RH.getValue();
     private static final String TECNICO = TipoPerfil.TECNICO.getValue();
 
     @Bean
@@ -71,10 +70,12 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/free")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/confirmacao/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/pessoa/salvar")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/pessoa/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/endereco/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/authenticate")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/registrar")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/perfil/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/departamento/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/editar/senha", "/u/confirmar/senha")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/empresa/avaliar/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()

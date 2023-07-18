@@ -41,29 +41,10 @@ public class PessoaServiceImp implements IPessoaService {
        return  pr.findById(id).orElseThrow(() -> new ObjectNotFoundException("Not found Tutorial with id = " + id));
     }
 
+  
     @Override
-    public Pessoa createPessoa(Pessoa pessoa) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Pessoa updatePessoa(Long id, Pessoa pessoa) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteAllPessoa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<Pessoa> findByPublished() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Pessoa buscarPorNome(String nome) {
+        return pr.findByNome(nome).orElseThrow(() -> new ObjectNotFoundException("Not found Tutorial with nome = " +nome));
     }
 
 }

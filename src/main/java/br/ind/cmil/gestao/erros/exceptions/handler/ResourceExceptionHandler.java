@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.erros.exceptions.handler;
 
 import br.ind.cmil.gestao.exceptions.AcessoNegadoException;
+import br.ind.cmil.gestao.exceptions.DepartamentoException;
 import br.ind.cmil.gestao.exceptions.FuncionarioException;
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
 import br.ind.cmil.gestao.exceptions.PerfilExistenteException;
@@ -66,6 +67,14 @@ public class ResourceExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
     }
+    @ExceptionHandler(DepartamentoException.class)
+    public ResponseEntity<StandardError> conflit(DepartamentoException ex, HttpServletRequest request) {
+        StandardError erro = new StandardError(Instant.now(), HttpStatus.CONFLICT.value(), "Departamento existente!",
+                ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+    }
+    
     @ExceptionHandler(FuncionarioException.class)
     public ResponseEntity<StandardError> entityNotFoundFuncionario(FuncionarioException ex, HttpServletRequest request) {
         StandardError erro = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(), "Funcionário não existente!",

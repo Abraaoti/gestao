@@ -9,6 +9,7 @@ import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ public class PerfilServiceImp implements IPerfilService {
     @Override
     public PerfilDTO create(PerfilDTO p) {
         // Perfil perfil = pr.findByTipoPerfil(pm.convertPerfilValue(p.p())).get();        
-
+        validarPerfil(p);
         return pm.toDTO(pr.save(pm.toEntity(p)));
     }
 
@@ -77,7 +78,7 @@ public class PerfilServiceImp implements IPerfilService {
 
     private void validarPerfil(PerfilDTO p) {
         Optional<Perfil> perfil = pr.findByTipoPerfil(pm.convertPerfilValue(p.p()));
-        if (perfil.isPresent() && perfil.get().getId() != p.id()) {
+        if (perfil.isPresent() && !Objects.equals(perfil.get().getId(), p.id())) {
             throw new DataIntegrityViolationException("Perfil já cadastro no sistema!");
         }
 

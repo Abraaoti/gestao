@@ -9,18 +9,12 @@ import java.util.List;
  */
 public interface IPessoaService {
 
-   List<Pessoa> getAllNome( String nome);
+    List<Pessoa> getAllNome(String nome);
+
+    Pessoa buscarPorNome(String nome);
 
     Pessoa getPessoaById(Long id);
 
-    Pessoa createPessoa(Pessoa pessoa);
-
-    Pessoa updatePessoa(Long id, Pessoa pessoa);
-
-    void delete(Long id);
-
-    void deleteAllPessoa();
-
-    List<Pessoa> findByPublished();
+   
 
 }

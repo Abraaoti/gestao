@@ -1,9 +1,13 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
+import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
+import br.ind.cmil.gestao.model.dto.EnderecoDTO;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
+import br.ind.cmil.gestao.model.entidades.Endereco;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +22,13 @@ public class FuncionarioMapper {
         if (f == null) {
             return null;
         }
-        return new FuncionarioDTO(f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), f.getSalario());
+        Endereco endereco = f.getEndereco();
+        EnderecoMapper em = new EnderecoMapper();
+        EnderecoDTO enderecodto = em.toDTO(endereco);
+        DepartamentoMapper dm = new DepartamentoMapper();
+        DepartamentoDTO departamento = dm.toDTO(f.getDepartmento());
+         
+        return new FuncionarioDTO(f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(),enderecodto,departamento ,f.getSalario());
     }
 
     public Funcionario toEntity(FuncionarioDTO dto) {
@@ -35,7 +45,7 @@ public class FuncionarioMapper {
         f.setMae(dto.mae());
         f.setPai(dto.pai());
         f.setPassaporte(dto.passaporte());
-
+//f.setDepartmento(dto.);
         f.setGenero(convertGeneroValue(dto.genero()));
         f.setEstado_civil(convertECValue(dto.estado_civil()));
         f.setNaturalidade(dto.naturalidade());
@@ -43,6 +53,7 @@ public class FuncionarioMapper {
         f.setMatricula(dto.matricula());
         f.setDemissao(dto.demissao());
         f.setSalario(dto.salario());
+        //f.setEndereco(dto.endereco());
         return f;
     }
 

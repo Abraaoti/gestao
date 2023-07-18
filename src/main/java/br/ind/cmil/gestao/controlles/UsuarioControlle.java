@@ -3,6 +3,7 @@ package br.ind.cmil.gestao.controlles;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.dto.response.UsuarioResponse;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,18 +30,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioControlle {
 
     @Autowired
-    private IUsuarioService us;
+    private IUsuarioService service;
 
     @PostMapping("/registrar")
-    public ResponseEntity  registrarUsuario(@RequestBody @Valid RegistrarUsuario usuario, HttpServletRequest request){
+    public ResponseEntity  registrarUsuario(@RequestBody @Valid RegistrarUsuario usuario, HttpServletRequest request) throws MessagingException{
         
-        us.register(usuario, getSiteURL(request));
+        service.register(usuario, getSiteURL(request));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable @NotNull @Positive Long id) {
-        return ResponseEntity.ok().body(us.buscarPorId(id));
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
    
@@ -49,13 +51,15 @@ public class UsuarioControlle {
         return siteURL.replace(request.getServletPath(), "");
     }
 
-    @GetMapping("/verify")
-    public String verifyUser(@Param("code") String code) {
-        if (us.verify(code)) {
+    @GetMapping("/confirmacao/cadastro")
+    public String verifyUser(@RequestParam("codigo") String codigo) {
+        if (service.verify(codigo)) {
             return "verify_success";
         } else {
             return "verify_fail";
         }
     }
+    
+ 
 
 }

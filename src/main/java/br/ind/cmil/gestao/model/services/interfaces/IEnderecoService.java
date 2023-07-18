@@ -1,6 +1,9 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
+import br.ind.cmil.gestao.model.dto.EnderecoDTO;
 import br.ind.cmil.gestao.model.entidades.Endereco;
+import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -8,13 +11,15 @@ import br.ind.cmil.gestao.model.entidades.Endereco;
  */
 public interface IEnderecoService {
 
-    void save(Endereco endereco);
+    List<EnderecoDTO> list(Pageable pageable);
 
-    Endereco buscarEnderecoPorId(Long id);
+    EnderecoDTO buscarEnderecoPorId(Long id);
+
+    EnderecoDTO create(EnderecoDTO e);
+
+    EnderecoDTO update(Long id, EnderecoDTO e);
 
     void delete(Long id);
-
-    void update(Endereco endereco);
 
     Endereco buscarPorCep(String cep);
 }

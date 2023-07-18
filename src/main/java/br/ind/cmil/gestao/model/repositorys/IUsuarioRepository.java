@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,20 +18,24 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
+    @Query("UPDATE Usuario u SET u.failedLoginAttempts = ?1 WHERE u.email = ?2")
+    @Modifying
+     void updateFailedAttempts(int failAttempts, String email);
+
     //@Query("select u from Usuario u where  u.nome =:nome")
     Optional<Usuario> findByNome(String nome);
 
     @Query("select u from Usuario u join u.perfis p where  u.email= :email")
-    Optional<Usuario> findByEmail(@Param("email")String email);
+    Optional<Usuario> findByEmail(@Param("email") String email);
 
     @Query("select u from Usuario u join u.perfis p where u.nome= :nome OR  u.email = :email")
-    Optional<Usuario> findByNomeOrEmail(@Param("nome")String nome, @Param("email")String email);
+    Optional<Usuario> findByNomeOrEmail(@Param("nome") String nome, @Param("email") String email);
 
     @Query("select u from Usuario u join u.perfis p where  u.nome = :nome")
-    Boolean existsByNome(@Param("nome")String nome);
+    Boolean existsByNome(@Param("nome") String nome);
 
     @Query("select u from Usuario u join u.perfis p where  u.email = :email")
-    Boolean existsByEmail(@Param("email")String email);
+    Boolean existsByEmail(@Param("email") String email);
 
     @Query("select distinct u from Usuario u join u.perfis p ")
     List<Usuario> usuarios();

@@ -1,8 +1,6 @@
 package br.ind.cmil.gestao.controlles;
 
-import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
-import br.ind.cmil.gestao.model.enums.EstadoCivil;
-import br.ind.cmil.gestao.model.enums.Genero;
+import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -28,55 +25,42 @@ import org.springframework.http.ResponseEntity;
  * @author abraao
  */
 @RestController
-@RequestMapping("/api/pessoa")
+@RequestMapping("/api/departamento")
 @CrossOrigin(origins = "http://localhost:4200/")
-public class FuncionarioControlle {
+public class DepartamentoControlle {
 
-    private final IFuncionarioService fs;
     private final IDepartamentoService ds;
 
-    public FuncionarioControlle(IFuncionarioService fs, IDepartamentoService ds) {
-        this.fs = fs;
+    public DepartamentoControlle(IDepartamentoService ds) {
         this.ds = ds;
     }
 
-    
+   
 
     @GetMapping("/lista")
-    public List<FuncionarioDTO> list(Pageable pageable) {
-        return fs.list(pageable);
+    public List<DepartamentoDTO> list(Pageable pageable) {
+        return ds.list(pageable);
     }
 
-    @GetMapping("/generos")
-    public Genero[] getGeneros() {
-        return Genero.values();
-    }
-
-    @GetMapping("/estadoCivil")
-    public EstadoCivil[] getEstadoCivil() {
-
-        return EstadoCivil.values();
-    }
-
+  
     @GetMapping("/{id}")
-    public FuncionarioDTO findById(@PathVariable @NotNull @Positive Long id) {
-        return fs.findById(id);
+    public DepartamentoDTO findById(@PathVariable @NotNull @Positive Long id) {
+        return ds.findById(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody @Valid FuncionarioDTO funcionaro) {
-      //  Departamento d = ds.findBy(funcionaro.departamento().nome())
-        return ResponseEntity.status(HttpStatus.CREATED).body(fs.create(funcionaro));
+    public ResponseEntity<?> create(@RequestBody @Valid DepartamentoDTO d) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(ds.create(d));
     }
 
     @PutMapping("/update/{id}")
-    public FuncionarioDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull FuncionarioDTO funcionario) {
-        return fs.update(id, funcionario);
+    public DepartamentoDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull DepartamentoDTO d) {
+        return ds.update(id, d);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable @NotNull @Positive Long id) {
-        fs.delete(id);
+        ds.delete(id);
     }
 }

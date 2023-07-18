@@ -3,7 +3,10 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.exceptions.FuncionarioException;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.mappers.FuncionarioMapper;
+import br.ind.cmil.gestao.model.entidades.Departamento;
+import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.repositorys.IFuncionarioRepository;
+import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +23,15 @@ public class FuncionarioServiceImp implements IFuncionarioService {
 
     private final IFuncionarioRepository fr;
     private final FuncionarioMapper fm;
+    private final IDepartamentoService d;
 
-    public FuncionarioServiceImp(IFuncionarioRepository fr, FuncionarioMapper fm) {
+    public FuncionarioServiceImp(IFuncionarioRepository fr, FuncionarioMapper fm, IDepartamentoService d) {
         this.fr = fr;
         this.fm = fm;
+        this.d = d;
     }
+
+  
 
     @Override
     @Transactional(readOnly = true)
@@ -40,8 +47,12 @@ public class FuncionarioServiceImp implements IFuncionarioService {
 
     @Override
     @Transactional(readOnly = false,rollbackFor = Exception.class)
-    public FuncionarioDTO create(FuncionarioDTO funcionario) {
-        return fm.toDTO(fr.save(fm.toEntity(funcionario)));
+    public FuncionarioDTO create(FuncionarioDTO f) {
+        Funcionario funcionario = fm.toEntity(f);
+        Departamento departamento = d.findByNome(f.departamento().nome());
+        funcionario.setDepartmento(departamento);
+        
+        return fm.toDTO(fr.save(funcionario));
     }
 
     @Override
@@ -64,6 +75,7 @@ public class FuncionarioServiceImp implements IFuncionarioService {
                     recordFound.setMatricula(f.matricula());
                     recordFound.setDemissao(f.demissao());
                     recordFound.setSalario(f.salario());
+                   // recordFound.setDepartmento(f.departamento());
                     recordFound.setId(f.id());
                     return fm.toDTO(fr.save(recordFound));
                 }).orElseThrow(() -> new FuncionarioException(String.valueOf(id),"Este id não consta no bd! "));

@@ -12,13 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public interface IUsuarioService {
 
-    void register(RegistrarUsuario request, String siteURL);
+    void register(RegistrarUsuario request, String siteURL)throws MessagingException;
 
     UsuarioResponse buscarPorId(Long id);
 
     public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
         return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
     }
+  // Usuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
 
     void alterarSenha(Usuario usuario, String s1);
 

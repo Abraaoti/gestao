@@ -64,8 +64,8 @@ public class PessoaFisica extends Pessoa {
         this.naturalidade = naturalidade;
     }
 
-    public PessoaFisica(String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento) {
-        super(nome, sobrenome, nascimento);
+    public PessoaFisica(String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento, Endereco endereco) {
+        super(nome, sobrenome, nascimento, endereco);
         this.cpf = cpf;
         this.rg = rg;
         this.mae = mae;
@@ -75,6 +75,8 @@ public class PessoaFisica extends Pessoa {
         this.estado_civil = estado_civil;
         this.naturalidade = naturalidade;
     }
+
+   
 
     public String getCpf() {
         return cpf;

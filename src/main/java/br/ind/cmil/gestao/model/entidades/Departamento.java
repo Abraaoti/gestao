@@ -20,7 +20,7 @@ import lombok.ToString;
 @Table(name = "tbl_departamentos")
 public class Departamento extends Entidade {
 
-    @Column(length = 80)
+    @Column(length = 80, unique = true)
     private String nome;
 
     public Departamento() {

@@ -7,6 +7,7 @@ import br.ind.cmil.gestao.model.entidades.Departamento;
 import br.ind.cmil.gestao.model.repositorys.IDepartamentoRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,12 @@ public class DepartamentoServiceImp implements IDepartamentoService {
     public Departamento findByNome(String nome) {
      return dr.findByNome(nome).orElseThrow(() -> new DepartamentoException(nome, "Este departamento não consta no bd! "));
     }
+
+    @Override
+    public Set<DepartamentoDTO> lista() {
+        return dr.searchAll().stream().map(dm::toDTO).collect(Collectors.toSet());
+    }
+
+   
 
 }

@@ -33,9 +33,7 @@ public class DepartamentoControlle {
 
     public DepartamentoControlle(IDepartamentoService ds) {
         this.ds = ds;
-    }
-
-   
+    }   
 
     @GetMapping("/lista")
     public List<DepartamentoDTO> list(Pageable pageable) {
@@ -54,7 +52,7 @@ public class DepartamentoControlle {
     }
 
     @PutMapping("/update/{id}")
-    public DepartamentoDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull DepartamentoDTO d) {
+    public DepartamentoDTO update(@PathVariable("id") Long id, @RequestBody  DepartamentoDTO d) {
         return ds.update(id, d);
     }
 

@@ -14,7 +14,6 @@ public class ApiController {
     public String auth() {
         return "estamos aqui!";
     }
-
     @RequestMapping("/login")
     public String login() {
         return "login";

@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.model.dto.request.Credentials;
 import br.ind.cmil.gestao.model.dto.response.AuthResponse;
 import br.ind.cmil.gestao.model.services.interfaces.IAuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +21,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     private final JwtServiceImpl jwtService;
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
+    //@Autowired
     public AuthenticationServiceImpl(JwtServiceImpl jwtService, AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;

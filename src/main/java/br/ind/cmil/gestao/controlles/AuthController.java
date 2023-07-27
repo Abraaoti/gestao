@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthenticationServiceImpl service;
-
-    
+    private final AuthenticationServiceImpl service;    
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody Credentials request) {

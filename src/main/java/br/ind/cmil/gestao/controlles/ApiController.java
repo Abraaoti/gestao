@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author abraao
  */
 @RestController
-
 public class ApiController {
     @RequestMapping("/free")
     public String auth() {

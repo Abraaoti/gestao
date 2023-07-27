@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.entidades.Telefone;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -18,11 +17,7 @@ public interface ITelefoneService {
     Telefone update(Telefone telefoneDTO);
 
     Telefone buscarPorNumero(String numero);
-    
-      @Transactional
-    void deleteById(Long id);
 
-    @Transactional
-    void deleteByTutorialId(Long pessoaId);
+  
 
 }

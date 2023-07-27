@@ -51,9 +51,9 @@ public class DepartamentoControlle {
         return ResponseEntity.status(HttpStatus.CREATED).body(ds.create(d));
     }
 
-    @PutMapping("/update/{id}")
-    public DepartamentoDTO update(@PathVariable("id") Long id, @RequestBody  DepartamentoDTO d) {
-        return ds.update(id, d);
+    @PutMapping("/update")
+   public ResponseEntity<?>  update(@RequestBody  DepartamentoDTO d) {
+       return ResponseEntity.status(HttpStatus.CREATED).body(ds.create(d));
     }
 
     @DeleteMapping("/delete/{id}")

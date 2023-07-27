@@ -1,8 +1,5 @@
 package br.ind.cmil.gestao.controlles;
 
-
-import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
-import br.ind.cmil.gestao.model.entidades.Endereco;
 import br.ind.cmil.gestao.model.entidades.Pessoa;
 import br.ind.cmil.gestao.model.entidades.Telefone;
 import br.ind.cmil.gestao.model.services.interfaces.IPessoaService;
@@ -34,44 +31,28 @@ public class TelefoneController {
         this.pessoaService = pessoaService;
     }
 
-   
-
-
     @PostMapping("/salvar/pessoa/{id}/telefone")
-    public ResponseEntity<Telefone>  salvar(@PathVariable("id") Long id, @RequestBody Telefone telefone) {
+    public ResponseEntity<Telefone> salvar(@PathVariable("id") Long id, @RequestBody Telefone telefone) {
 
-            Pessoa pessoa = pessoaService.getPessoaById(id);
+        Pessoa pessoa = pessoaService.getPessoaById(id);
         if (pessoa.getId() != null) {
             telefone.setPessoa(pessoa);
         }
-       
+
         return new ResponseEntity<>(telefoneService.save(telefone), HttpStatus.CREATED);
     }
 
-    @PutMapping("/endereco/{id}/")
-    public ResponseEntity<Telefone> update(@PathVariable("id") Long id,  @RequestBody Telefone telefone, RedirectAttributes red) {
-           
-        
-    return new ResponseEntity<>(telefoneService.update(telefone), HttpStatus.OK);
+    @PutMapping("/update")
+    public ResponseEntity<Telefone> update(@RequestBody Telefone telefone, RedirectAttributes red) {
+
+        return new ResponseEntity<>(telefoneService.save(telefone), HttpStatus.OK);
     }
 
-    @DeleteMapping("/endereco/{id}")
-  public ResponseEntity<HttpStatus> deleteTelefone(@PathVariable("id") long id) {
-    telefoneService.deleteById(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteTelefone(@PathVariable("id") long id) {
+        telefoneService.delete(id);
 
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
-
-  @DeleteMapping("/pessoa/{pessoaId}/endereco")
-  public ResponseEntity<Endereco> deleteDetailsOfPessoa(@PathVariable(value = "pessoaId") Long pessoaId) {
-    if (!pessoaService.equals(pessoaId)) {
-      throw new ObjectNotFoundException("Not found Tutorial with id = " + pessoaId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    telefoneService.deleteByTutorialId(pessoaId);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
-   
-
 
 }

@@ -46,14 +46,14 @@ public class UsuarioPadraoService implements IUsuarioService {
         this.rm = rm;
     }
     
-    public void increaseFailedAttempts(Usuario user) {
-        int newFailAttempts = user.getFailedLoginAttempts() + 1;
-        ur.updateFailedAttempts(newFailAttempts, user.getEmail());
-    }
+    //public void increaseFailedAttempts(Usuario user) {
+     //   int newFailAttempts = user.getFailedLoginAttempts() + 1;
+    //    ur.updateFailedAttempts(newFailAttempts, user.getEmail());
+    //}
      
-    public void resetFailedAttempts(String email) {
-        ur.updateFailedAttempts(0, email);
-    }
+   // public void resetFailedAttempts(String email) {
+       // ur.updateFailedAttempts(0, email);
+    //}
      
   
      

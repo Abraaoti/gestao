@@ -1,13 +1,11 @@
 
 package br.ind.cmil.gestao.configs;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 /**
  *
  * @author ti
  */
-//@ConfigurationProperties(prefix="app")
+//@ConfigurationProperties(prefix="api")
 public class FileStorageProperties {
   /**  private String uploadDir;
 

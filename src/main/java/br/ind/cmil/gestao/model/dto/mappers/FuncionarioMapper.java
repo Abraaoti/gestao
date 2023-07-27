@@ -19,11 +19,11 @@ public class FuncionarioMapper {
         if (f == null) {
             return null;
         }
-       
+
         DepartamentoMapper dm = new DepartamentoMapper();
         DepartamentoDTO departamento = dm.toDTO(f.getDepartmento());
-         
-        return new FuncionarioDTO(f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(),departamento ,f.getSalario());
+
+        return new FuncionarioDTO(f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, f.getSalario());
     }
 
     public Funcionario toEntity(FuncionarioDTO dto) {
@@ -44,8 +44,13 @@ public class FuncionarioMapper {
         f.setGenero(convertGeneroValue(dto.genero()));
         f.setEstado_civil(convertECValue(dto.estado_civil()));
         f.setNaturalidade(dto.naturalidade());
-        f.setAdmissao(LocalDate.now());
-        f.setMatricula(dto.matricula());
+        LocalDate data = (dto.admissao()) == null ? LocalDate.now() : dto.admissao();
+        f.setAdmissao(data);
+
+        String ano = String.valueOf(data);
+        String ma = ano.substring(0, 4);
+        ma += String.valueOf(1);
+        f.setMatricula(ma);
         f.setDemissao(dto.demissao());
         f.setSalario(dto.salario());
         //f.setEndereco(dto.endereco());

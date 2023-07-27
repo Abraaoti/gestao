@@ -47,18 +47,20 @@ public class PerfilServiceImp implements IPerfilService {
 
     @Override
     public PerfilDTO create(PerfilDTO p) {
-        // Perfil perfil = pr.findByTipoPerfil(pm.convertPerfilValue(p.p())).get();        
-        validarPerfil(p);
-        return pm.toDTO(pr.save(pm.toEntity(p)));
+        if (p.id() == null) {
+            validarPerfil(p);
+            return pm.toDTO(pr.save(pm.toEntity(p)));
+        }
+        return update(p);
     }
 
     @Override
-    public PerfilDTO update(Long id, PerfilDTO p) {
-        return pr.findById(id)
+    public PerfilDTO update(PerfilDTO p) {
+        return pr.findById(p.id())
                 .map(recordFound -> {
                     recordFound.setTp(pm.convertPerfilValue(p.p()));
                     return pm.toDTO(pr.save(recordFound));
-                }).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id), "Este id não consta no bd! "));
+                }).orElseThrow(() -> new PerfilExistenteException(String.valueOf(p.id()), "Este id não consta no bd! "));
     }
 
     @Override
@@ -73,7 +75,7 @@ public class PerfilServiceImp implements IPerfilService {
 
     @Override
     public boolean checkIfPerfilExist(String name) {
-        return pr.findByTipoPerfil(pm.convertPerfilValue(name)) != null ? true : false;
+        return pr.findByTipoPerfil(pm.convertPerfilValue(name)) != null;
     }
 
     private void validarPerfil(PerfilDTO p) {

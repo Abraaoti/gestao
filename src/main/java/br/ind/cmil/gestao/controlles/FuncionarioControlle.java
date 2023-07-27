@@ -2,14 +2,10 @@ package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
-import br.ind.cmil.gestao.model.dto.mappers.FuncionarioMapper;
-import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
 import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -44,7 +40,6 @@ public class FuncionarioControlle {
         this.fs = fs;
         this.ds = ds;
     }
-   
 
     @GetMapping("/lista")
     public List<FuncionarioDTO> list(Pageable pageable) {
@@ -89,14 +84,14 @@ public class FuncionarioControlle {
         return ResponseEntity.status(HttpStatus.CREATED).body(fs.create(funcionaro));
     }
 
-    @PutMapping("/update/{id}")
-    public FuncionarioDTO update(@PathVariable("id") Long id, @RequestBody @Valid FuncionarioDTO funcionario) {
-        return fs.update(id, funcionario);
+    @PutMapping("/update")
+    public ResponseEntity<FuncionarioDTO> update(@RequestBody @Valid FuncionarioDTO funcionario) {
+        return ResponseEntity.ok(fs.create(funcionario));
     }
 
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable(value = "id") Long id) {
         fs.delete(id);
+        return new ResponseEntity<>("Funcionário deletado!", HttpStatus.OK);
     }
 }

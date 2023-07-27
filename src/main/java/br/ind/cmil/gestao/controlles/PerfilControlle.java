@@ -4,14 +4,13 @@ import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import java.util.HashSet;
-import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +33,11 @@ public class PerfilControlle {
    
 
     @PostMapping("/add")
-    public ResponseEntity<PerfilDTO> save(@RequestBody PerfilDTO perfilDTO) {        
+    public ResponseEntity<?> save(@RequestBody PerfilDTO perfilDTO) {        
+        return new ResponseEntity<>(ps.create(perfilDTO), HttpStatus.CREATED);
+    }
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody PerfilDTO perfilDTO) {        
         return new ResponseEntity<>(ps.create(perfilDTO), HttpStatus.CREATED);
     }
 

@@ -17,7 +17,7 @@ public interface IEnderecoService {
 
     EnderecoDTO create(EnderecoDTO e);
 
-    EnderecoDTO update(Long id, EnderecoDTO e);
+    EnderecoDTO update(EnderecoDTO e);
 
     void delete(Long id);
 

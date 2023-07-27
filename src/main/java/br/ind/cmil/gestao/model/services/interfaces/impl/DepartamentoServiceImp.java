@@ -41,19 +41,22 @@ public class DepartamentoServiceImp implements IDepartamentoService {
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public DepartamentoDTO create(DepartamentoDTO dep) {
-        return dm.toDTO(dr.save(dm.toEntity(dep)));
+    public DepartamentoDTO create(DepartamentoDTO d) {
+        if (d.id() == null) {
+            return dm.toDTO(dr.save(dm.toEntity(d)));
+        }
+        return update(d);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public DepartamentoDTO update(Long id, DepartamentoDTO d) {
-        return dr.findById(id)
+    public DepartamentoDTO update(DepartamentoDTO d) {
+        return dr.findById(d.id())
                 .map(recordFound -> {
                     recordFound.setNome(d.nome());
                     recordFound.setId(d.id());
                     return dm.toDTO(dr.save(recordFound));
-                }).orElseThrow(() -> new DepartamentoException(String.valueOf(id), "Este id não consta no bd! "));
+                }).orElseThrow(() -> new DepartamentoException(String.valueOf(d.id()), "Este id não consta no bd! "));
     }
 
     @Override
@@ -63,14 +66,12 @@ public class DepartamentoServiceImp implements IDepartamentoService {
 
     @Override
     public Departamento findByNome(String nome) {
-     return dr.findByNome(nome).orElseThrow(() -> new DepartamentoException(nome, "Este departamento não consta no bd! "));
+        return dr.findByNome(nome).orElseThrow(() -> new DepartamentoException(nome, "Este departamento não consta no bd! "));
     }
 
     @Override
     public Set<DepartamentoDTO> lista() {
         return dr.searchAll().stream().map(dm::toDTO).collect(Collectors.toSet());
     }
-
-   
 
 }

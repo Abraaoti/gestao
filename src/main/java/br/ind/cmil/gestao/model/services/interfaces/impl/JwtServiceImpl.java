@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.configs.securitys.services.IJwtService;
+import br.ind.cmil.gestao.model.services.interfaces.IJwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -63,8 +63,7 @@ public class JwtServiceImpl implements IJwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token)
-                .getBody();
+        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
     }
 
     private Key getSigningKey() {

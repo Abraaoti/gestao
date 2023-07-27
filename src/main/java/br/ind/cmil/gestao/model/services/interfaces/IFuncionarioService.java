@@ -16,7 +16,5 @@ public interface IFuncionarioService {
 
     FuncionarioDTO create(FuncionarioDTO funcionario);
 
-    FuncionarioDTO update(Long id,FuncionarioDTO funcionario);
-
     void delete(Long id);
 }

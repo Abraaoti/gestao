@@ -21,14 +21,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Profile("dev")
 public class DevConfig {
     
-      @Autowired
-    private DBService dbService;
-
-    @Bean
-    public void instaciaBaseDeDados() {
-        this.dbService.instanciaBaseDeDados();
-
-    }
+   
     
  @Bean
     public DataSource dataSource() {

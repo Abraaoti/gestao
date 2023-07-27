@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.configs.securitys.services;
+
 
 import org.springframework.security.core.userdetails.UserDetails;
 

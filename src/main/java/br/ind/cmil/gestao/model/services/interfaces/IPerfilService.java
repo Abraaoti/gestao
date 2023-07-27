@@ -18,15 +18,15 @@ public interface IPerfilService {
 
     Set<Perfil> perfis(Set<String> perfil);
 
-    PerfilDTO findById(@NotNull @Positive Long id);
+    PerfilDTO findById(Long id);
 
     PerfilDTO buscarPerfilPorNome(String name);
 
-    PerfilDTO create(@Valid @NotNull PerfilDTO p);
+    PerfilDTO create(PerfilDTO p);
 
-    PerfilDTO update(@NotNull @Positive Long id, @Valid @NotNull PerfilDTO p);
+    PerfilDTO update(PerfilDTO p);
 
     boolean checkIfPerfilExist(String name);
 
-    void delete(@NotNull @Positive Long id);
+    void delete(Long id);
 }

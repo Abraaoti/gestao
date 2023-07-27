@@ -53,8 +53,7 @@ public record FuncionarioDTO(
         @NotNull(message = "NATURALIDADE é um campo requerido")
         String naturalidade,
         LocalDate admissao,
-        @NotBlank
-        @NotNull(message = "MATRÍCULA é um campo requerido")
+       
         String matricula,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate demissao,

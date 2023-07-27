@@ -49,9 +49,9 @@ public class EnderecoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(es.create(e));
     }
 
-    @PutMapping("/update/{id}")
-    public EnderecoDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull EnderecoDTO e) {
-        return es.update(id, e);
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody @Valid @NotNull EnderecoDTO e) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(es.create(e));
     }
 
     @DeleteMapping("/delete/{id}")

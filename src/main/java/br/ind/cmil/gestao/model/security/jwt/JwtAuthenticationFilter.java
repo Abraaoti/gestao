@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.security.jwt;
 
-import br.ind.cmil.gestao.configs.securitys.services.IJwtService;
+import br.ind.cmil.gestao.model.services.interfaces.IJwtService;
 import br.ind.cmil.gestao.model.services.interfaces.IUserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -43,7 +43,11 @@ public class EnderecoServiceImp implements IEnderecoService {
         Endereco endereco = em.toEntity(e);
         Pessoa p = ps.buscarPorNome(e.pessoa().getNome());
         endereco.setPessoa(p);
+        if (endereco.getId() ==null) {
         return em.toDTO(er.save(endereco));
+            
+        }
+        return update(e);
 
     }
     /**private void validarAtributos(EnderecoDTO request) {
@@ -68,9 +72,9 @@ public class EnderecoServiceImp implements IEnderecoService {
 
     @Override
     @Transactional(readOnly = false)
-    public EnderecoDTO update(Long id, EnderecoDTO endereco) {
+    public EnderecoDTO update(EnderecoDTO endereco) {
 
-        return er.findById(id)
+        return er.findById(endereco.id())
                 .map(upEndereco -> {
                     upEndereco.setUf(endereco.uf());
                     upEndereco.setCidade(endereco.cidade());

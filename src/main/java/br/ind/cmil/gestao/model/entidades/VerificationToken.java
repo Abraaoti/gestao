@@ -1,12 +1,9 @@
 package br.ind.cmil.gestao.model.entidades;
 
-import br.ind.cmil.gestao.model.base.Entidade;
-import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,9 +11,8 @@ import java.util.Date;
  *
  * @author abraao
  */
-@Entity
-@Table(name = "tbl_verification_tokens")
-public class VerificationToken extends Entidade {
+
+public class VerificationToken  {
 
     private static final int EXPIRATION = 60 * 24;
     private String token;

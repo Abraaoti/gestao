@@ -45,10 +45,6 @@ public class Usuario extends Entidade implements UserDetails{
     private boolean ativo;
     @Column(name = "verificador", length = 64)
     private String verificador;
-    private String token;
-    private boolean accountVerified;
-    private int failedLoginAttempts;
-    private boolean loginDisabled;
     // @OneToMany(mappedBy = "user")
     //private Set<Token> tokens;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -65,7 +61,7 @@ public class Usuario extends Entidade implements UserDetails{
         super.setId(id);
     }
 
-    public Usuario(String nome, String email, String password, LocalDateTime dataCadastro, LocalDateTime updatedAt, boolean ativo, String verificador, String token, boolean accountVerified, int failedLoginAttempts, boolean loginDisabled) {
+    public Usuario(String nome, String email, String password, LocalDateTime dataCadastro, LocalDateTime updatedAt, boolean ativo, String verificador) {
         this.nome = nome;
         this.email = email;
         this.password = password;
@@ -73,11 +69,9 @@ public class Usuario extends Entidade implements UserDetails{
         this.updatedAt = updatedAt;
         this.ativo = ativo;
         this.verificador = verificador;
-        this.token = token;
-        this.accountVerified = accountVerified;
-        this.failedLoginAttempts = failedLoginAttempts;
-        this.loginDisabled = loginDisabled;
     }
+
+   
 
     public void addUsuarioPerfis(Perfil perfil) {
         this.perfis.add(perfil);
@@ -145,39 +139,7 @@ public class Usuario extends Entidade implements UserDetails{
 
     public void setVerificador(String verificador) {
         this.verificador = verificador;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public boolean isAccountVerified() {
-        return accountVerified;
-    }
-
-    public void setAccountVerified(boolean accountVerified) {
-        this.accountVerified = accountVerified;
-    }
-
-    public int getFailedLoginAttempts() {
-        return failedLoginAttempts;
-    }
-
-    public void setFailedLoginAttempts(int failedLoginAttempts) {
-        this.failedLoginAttempts = failedLoginAttempts;
-    }
-
-    public boolean isLoginDisabled() {
-        return loginDisabled;
-    }
-
-    public void setLoginDisabled(boolean loginDisabled) {
-        this.loginDisabled = loginDisabled;
-    }
+    }  
 
     public Set<Perfil> getPerfis() {
         return perfis;
@@ -189,8 +151,10 @@ public class Usuario extends Entidade implements UserDetails{
 
     @Override
     public String toString() {
-        return "Usuario{" + "nome=" + nome + ", email=" + email + ", password=" + password + ", dataCadastro=" + dataCadastro + ", updatedAt=" + updatedAt + ", ativo=" + ativo + ", verificador=" + verificador + ", token=" + token + ", accountVerified=" + accountVerified + ", failedLoginAttempts=" + failedLoginAttempts + ", loginDisabled=" + loginDisabled + ", perfis=" + perfis + '}';
+        return "Usuario{" + "nome=" + nome + ", email=" + email + ", password=" + password + ", dataCadastro=" + dataCadastro + ", updatedAt=" + updatedAt + ", ativo=" + ativo + ", verificador=" + verificador + ", perfis=" + perfis + '}';
     }
+
+    
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

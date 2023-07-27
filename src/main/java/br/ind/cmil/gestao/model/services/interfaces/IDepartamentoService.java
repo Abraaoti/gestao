@@ -20,7 +20,7 @@ public interface IDepartamentoService {
 
     DepartamentoDTO create(DepartamentoDTO dep);
 
-    DepartamentoDTO update(Long id, DepartamentoDTO dep);
+    DepartamentoDTO update(DepartamentoDTO dep);
 
     void delete(Long id);
 

@@ -29,7 +29,7 @@ import org.springframework.http.ResponseEntity;
  * @author abraao
  */
 @RestController
-@RequestMapping("/api/pessoa")
+@RequestMapping("/api/p")
 @CrossOrigin(origins = "http://localhost:4200/")
 public class FuncionarioControlle {
 
@@ -41,7 +41,7 @@ public class FuncionarioControlle {
         this.ds = ds;
     }
 
-    @GetMapping("/lista")
+    @GetMapping("/pessoas")
     public List<PessoaDTO> list(Pageable pageable) {
         List<PessoaDTO> lis = fs.list(pageable);
         return lis;
@@ -86,7 +86,7 @@ public class FuncionarioControlle {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<PessoaDTO> update(@RequestBody @Valid FuncionarioDTO funcionario) {
+    public ResponseEntity<PessoaDTO> update(@PathVariable(value = "id") Long id,@RequestBody @Valid FuncionarioDTO funcionario) {
         return ResponseEntity.ok(fs.create(funcionario));
     }
 

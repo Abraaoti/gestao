@@ -1,8 +1,7 @@
-
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.base.Entidade;
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -10,6 +9,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -37,16 +38,12 @@ public class Endereco extends Entidade {
     @Column(length = 70)
     protected String complemento;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pessoa_fk", referencedColumnName = "id")
-	//@JsonBackReference
+    @OneToOne
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Pessoa pessoa;
 
     public Endereco() {
-    }
-
-    public Endereco(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 
     public Endereco(String uf, String cidade, String bairro, String rua, String cep, String numero, String complemento, Pessoa pessoa) {
@@ -59,7 +56,5 @@ public class Endereco extends Entidade {
         this.complemento = complemento;
         this.pessoa = pessoa;
     }
-
-    
 
 }

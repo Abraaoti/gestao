@@ -5,6 +5,7 @@ import br.ind.cmil.gestao.exceptions.DepartamentoException;
 import br.ind.cmil.gestao.exceptions.FuncionarioException;
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
 import br.ind.cmil.gestao.exceptions.PerfilExistenteException;
+import br.ind.cmil.gestao.exceptions.TelefoneException;
 import br.ind.cmil.gestao.exceptions.dto.StandardError;
 import br.ind.cmil.gestao.exceptions.TokenException;
 import br.ind.cmil.gestao.exceptions.UsuarioExistenteException;
@@ -78,6 +79,13 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(FuncionarioException.class)
     public ResponseEntity<StandardError> entityNotFoundFuncionario(FuncionarioException ex, HttpServletRequest request) {
         StandardError erro = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(), "Funcionário não existente!",
+                ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }
+    @ExceptionHandler(TelefoneException.class)
+    public ResponseEntity<StandardError> entityNotTelefone(TelefoneException ex, HttpServletRequest request) {
+        StandardError erro = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(), "Telefone não existente!",
                 ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);

@@ -15,6 +15,9 @@ public class DepartamentoMapper {
         if (d == null) {
             return null;
         }
+       // List<FuncionarioDTO> funcionarios = d.getFuncionarios().stream()
+           //     .map(f ->  new FuncionarioDTO(f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(),null,f.getTelefones(), f.getSalario() ))
+               // .collect(Collectors.toList());
         return new DepartamentoDTO(d.getId(), d.getNome());
     }
 

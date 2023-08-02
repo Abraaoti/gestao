@@ -3,14 +3,17 @@ package br.ind.cmil.gestao.model.entidades;
 import br.ind.cmil.gestao.model.base.Entidade;
 import br.ind.cmil.gestao.model.enums.TipoTelefone;
 import br.ind.cmil.gestao.model.enums.converters.TipoTelefoneConvert;
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -27,8 +30,10 @@ public class Telefone extends Entidade {
     @Column(name = "tipo", nullable = false, length = 20)
     @Convert(converter = TipoTelefoneConvert.class)
     private TipoTelefone tipo;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pessoa_fk", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Pessoa pessoa;
 
     public String getNumero() {
@@ -54,7 +59,5 @@ public class Telefone extends Entidade {
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
-
-   
 
 }

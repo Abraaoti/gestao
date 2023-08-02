@@ -69,9 +69,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers(new AntPathRequestMatcher("/api/free")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/telefone/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/confirmacao/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/pessoa/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/endereco/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/authenticate")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/registrar")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/perfil/**")).permitAll()

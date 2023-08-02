@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author cmilseg
  */
 @RestController
-@RequestMapping("/api/endereco")
+@RequestMapping("/api/e")
 public class EnderecoController {
 
     private final IEnderecoService es;
@@ -33,25 +33,25 @@ public class EnderecoController {
         this.es = enderecoService;
     }
 
-    @GetMapping("/lista")
+    @GetMapping("/enderecos")
     public List<EnderecoDTO> list(Pageable pageable) {
         return es.list(pageable);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/endereco/{id}")
     public EnderecoDTO findById(@PathVariable @NotNull @Positive Long id) {
         return es.buscarEnderecoPorId(id);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody EnderecoDTO e) {
+    @PostMapping("/pessoa/{pessoa_id}/endereco")
+    public ResponseEntity<EnderecoDTO> createEndereco(@PathVariable(value = "pessoa_id") Long pessoa_id, @RequestBody EnderecoDTO endereco) {
         //  Departamento d = ds.findBy(funcionaro.departamento().nome())
-        return ResponseEntity.status(HttpStatus.CREATED).body(es.create(e));
+        return ResponseEntity.status(HttpStatus.CREATED).body(es.create(pessoa_id, endereco));
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody @Valid @NotNull EnderecoDTO e) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(es.create(e));
+    @PutMapping("/endereco/{id}")
+    public ResponseEntity<?> update(@PathVariable  Long id,@RequestBody @Valid @NotNull EnderecoDTO e) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(es.create(e.pessoa().getId(), e));
     }
 
     @DeleteMapping("/delete/{id}")

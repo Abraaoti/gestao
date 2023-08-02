@@ -20,6 +20,9 @@ public interface ITelefoneRepository extends JpaRepository<Telefone, Long> {
     @Query("select t from Telefone t where t.numero = :numero")
     Optional<Telefone> findByNumero(String numero);
 
+    @Query("select t from Telefone t where t.pessoa.id =:pessoa_id")
+    Optional<Telefone> findByPessoa(Long pessoa_id);
+
     @Transactional
     void deleteByPessoaId(Long pessoaId);
 
@@ -37,5 +40,12 @@ public interface ITelefoneRepository extends JpaRepository<Telefone, Long> {
 
     @Query("select t from Telefone t join fetch t.pessoa where t.id = ?1")
     Telefone findTelefone(Long id);
+
+    @Query(value = "SELECT obj FROM Telefone obj JOIN  obj.pessoa")
+    List<Telefone> searchAll();
+
+    @Query(value = "SELECT obj FROM Telefone obj JOIN FETCH  obj.pessoa",
+            countQuery = "SELECT COUNT(obj) FROM Telefone obj  JOIN obj.pessoa")
+    Page<Telefone> searchAll(Pageable pageable);
 
 }

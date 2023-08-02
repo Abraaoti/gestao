@@ -1,12 +1,13 @@
 package br.ind.cmil.gestao.controlles;
 
-import br.ind.cmil.gestao.model.entidades.Pessoa;
-import br.ind.cmil.gestao.model.entidades.Telefone;
-import br.ind.cmil.gestao.model.services.interfaces.IPessoaService;
+import br.ind.cmil.gestao.model.dto.TelefoneDTO;
 import br.ind.cmil.gestao.model.services.interfaces.ITelefoneService;
+import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,38 +21,35 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author cmilseg
  */
 @RestController
-@RequestMapping("api/tel")
+@RequestMapping("api/t")
 public class TelefoneController {
 
-    private final ITelefoneService telefoneService;
-    private final IPessoaService pessoaService;
+    private final ITelefoneService telService;
 
-    public TelefoneController(ITelefoneService telefoneService, IPessoaService pessoaService) {
-        this.telefoneService = telefoneService;
-        this.pessoaService = pessoaService;
+    public TelefoneController(ITelefoneService telefoneService) {
+        this.telService = telefoneService;
     }
 
-    @PostMapping("/salvar/pessoa/{id}/telefone")
-    public ResponseEntity<Telefone> salvar(@PathVariable("id") Long id, @RequestBody Telefone telefone) {
-
-        Pessoa pessoa = pessoaService.getPessoaById(id);
-        if (pessoa.getId() != null) {
-            telefone.setPessoa(pessoa);
-        }
-
-        return new ResponseEntity<>(telefoneService.save(telefone), HttpStatus.CREATED);
+    @GetMapping("/telefones")
+    public List<TelefoneDTO> list(Pageable pageable) {
+        return telService.list(pageable);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Telefone> update(@RequestBody Telefone telefone, RedirectAttributes red) {
+    @PostMapping("/pessoa/{pessoa_id}/telefone")
+    public ResponseEntity<TelefoneDTO> salvaTelefone(@PathVariable("pessoa_id") Long pessoa_id,@RequestBody TelefoneDTO telefone) {
 
-        return new ResponseEntity<>(telefoneService.save(telefone), HttpStatus.OK);
+         return ResponseEntity.status(HttpStatus.CREATED).body(telService.save(pessoa_id,telefone));
+    }
+
+    @PutMapping("/telefone/{id}")
+    public ResponseEntity<TelefoneDTO> update(@PathVariable("id") Long id,@RequestBody TelefoneDTO telefone, RedirectAttributes red) {
+
+         return ResponseEntity.status(HttpStatus.CREATED).body(telService.save(id,telefone));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteTelefone(@PathVariable("id") long id) {
-        telefoneService.delete(id);
-
+    public ResponseEntity<HttpStatus> deleteTelefone(@PathVariable("id") Long id) {
+        telService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

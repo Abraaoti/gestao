@@ -1,16 +1,20 @@
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.base.Entidade;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -24,25 +28,17 @@ public class Pessoa extends Entidade {
 
     @Column(length = 80)
     protected String nome;
-
     @Column(length = 120)
     protected String sobrenome;
-
     @Column(name = "nasc")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected Date nascimento;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoa")
-    // @JsonManagedReference
+    @OneToOne(mappedBy = "pessoa",cascade = CascadeType.ALL, orphanRemoval = true)
     protected Endereco endereco;
+   
 
-    // @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoa")
-    // @JsonManagedReference
-    // private Email mail;
-    //@JsonIgnore
-    //@OneToMany(mappedBy = "pessoa", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    //protected List<Telefone> telefones;
     public Pessoa() {
 
     }
@@ -54,7 +50,19 @@ public class Pessoa extends Entidade {
         this.endereco = endereco;
     }
 
-   
+    public void addEndereco(Endereco endereco) {
+        this.endereco = endereco;
+        endereco.setPessoa(this);
+    }
+
+    public void removeEndereco(Endereco endereco) {
+        if (endereco != null) {
+            endereco.setPessoa(null);
+        }
+        this.endereco = null;
+    }
+
+  
 
     public String getNome() {
         return nome;
@@ -92,5 +100,7 @@ public class Pessoa extends Entidade {
     public String toString() {
         return "Pessoa{" + "nome=" + nome + ", sobrenome=" + sobrenome + ", nascimento=" + nascimento + ", endereco=" + endereco + '}';
     }
+
+   
 
 }

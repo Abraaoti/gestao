@@ -2,6 +2,7 @@ package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
+import br.ind.cmil.gestao.model.dto.PessoaDTO;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
 import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
 import java.util.HashSet;
@@ -42,8 +42,9 @@ public class FuncionarioControlle {
     }
 
     @GetMapping("/lista")
-    public List<FuncionarioDTO> list(Pageable pageable) {
-        return fs.list(pageable);
+    public List<PessoaDTO> list(Pageable pageable) {
+        List<PessoaDTO> lis = fs.list(pageable);
+        return lis;
     }
 
     @GetMapping("/departamentos")
@@ -74,7 +75,7 @@ public class FuncionarioControlle {
     }
 
     @GetMapping("/{id}")
-    public FuncionarioDTO findById(@PathVariable Long id) {
+    public PessoaDTO findById(@PathVariable Long id) {
         return fs.findById(id);
     }
 
@@ -85,7 +86,7 @@ public class FuncionarioControlle {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<FuncionarioDTO> update(@RequestBody @Valid FuncionarioDTO funcionario) {
+    public ResponseEntity<PessoaDTO> update(@RequestBody @Valid FuncionarioDTO funcionario) {
         return ResponseEntity.ok(fs.create(funcionario));
     }
 

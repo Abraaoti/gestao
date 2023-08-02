@@ -1,7 +1,9 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.model.dto.EnderecoDTO;
+import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.entidades.Endereco;
+import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.entidades.Pessoa;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +18,9 @@ public class EnderecoMapper {
         if (e == null) {
             return null;
         }
-        
-      Pessoa pessoa = e.getPessoa();
+         FuncionarioMapper dm = new FuncionarioMapper();
+        FuncionarioDTO pessoa = dm.toDTO((Funcionario) e.getPessoa());
+     
         return new EnderecoDTO(e.getId(), e.getUf(), e.getCidade(),e.getBairro(),e.getRua(),e.getCep(),e.getNumero(),e.getComplemento(),pessoa);
     }
 

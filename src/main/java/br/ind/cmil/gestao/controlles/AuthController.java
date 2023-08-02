@@ -3,6 +3,7 @@ package br.ind.cmil.gestao.controlles;
 import br.ind.cmil.gestao.model.dto.request.Credentials;
 import br.ind.cmil.gestao.model.services.interfaces.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody Credentials request) {
-        return ResponseEntity.ok(service.authenticate(request));
+         return ResponseEntity.status(HttpStatus.CREATED).body(service.authenticate(request));
 
     }
 

@@ -1,6 +1,9 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
+import br.ind.cmil.gestao.model.dto.TelefoneDTO;
 import br.ind.cmil.gestao.model.entidades.Telefone;
+import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -8,16 +11,14 @@ import br.ind.cmil.gestao.model.entidades.Telefone;
  */
 public interface ITelefoneService {
 
-    Telefone save(Telefone telefone);
+    List<TelefoneDTO> list(Pageable pageable);
 
-    Telefone buscarTelefonePorId(Long id);
+    TelefoneDTO save(Long pessoa_id,TelefoneDTO telefone);
+
+    TelefoneDTO buscarTelefonePorId(Long id);
 
     void delete(Long id);
 
-    Telefone update(Telefone telefoneDTO);
-
-    Telefone buscarPorNumero(String numero);
-
-  
+    TelefoneDTO buscarPorNumero(String numero);
 
 }

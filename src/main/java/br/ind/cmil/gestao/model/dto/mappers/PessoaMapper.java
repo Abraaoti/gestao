@@ -2,7 +2,9 @@ package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
+import br.ind.cmil.gestao.model.dto.PessoaDTO;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
+import br.ind.cmil.gestao.model.entidades.Pessoa;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
 import java.time.LocalDate;
@@ -13,9 +15,9 @@ import org.springframework.stereotype.Component;
  * @author abraao
  */
 @Component
-public class FuncionarioMapper {
+public class PessoaMapper {
 
-    public FuncionarioDTO toDTO(Funcionario f) {
+    public PessoaDTO toDTO(Funcionario f) {
         if (f == null) {
             return null;
         }
@@ -32,7 +34,7 @@ public class FuncionarioMapper {
         // return new FuncionarioDTO(f.getId, f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, endereco, telefones, f.getSalario());
     }
 
-    public Funcionario toEntity(FuncionarioDTO dto) {
+    public Pessoa toEntity(FuncionarioDTO dto) {
         if (dto == null) {
             return null;
         }

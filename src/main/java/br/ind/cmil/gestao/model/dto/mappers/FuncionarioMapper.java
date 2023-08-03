@@ -28,7 +28,7 @@ public class FuncionarioMapper {
         DepartamentoMapper dm = new DepartamentoMapper();
         DepartamentoDTO departamento = dm.toDTO(f.getDepartmento());
 
-        return new FuncionarioDTO(f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, f.getSalario(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(),f.getNome(), f.getSobrenome(), f.getNascimento());
+        return new FuncionarioDTO(f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, f.getSalario(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(),f.getId(),f.getNome(), f.getSobrenome(), f.getNascimento());
         // return new FuncionarioDTO(f.getId, f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, endereco, telefones, f.getSalario());
     }
 

@@ -18,7 +18,7 @@ public class PessoaJuridicaMapper {
             return null;
         }
 
-        return new PessoaJuridicaDTO(j.getCnpj(), j.getIe(), j.getIm(), j.getNome(), j.getSobrenome(), j.getNascimento());
+        return new PessoaJuridicaDTO(j.getCnpj(), j.getIe(), j.getIm(),j.getId(), j.getNome(), j.getSobrenome(), j.getNascimento());
     }
 
     public Pessoa toEntity(PessoaJuridicaDTO dto) {

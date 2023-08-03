@@ -1,19 +1,21 @@
 package br.ind.cmil.gestao.model.dto;
 
-import br.ind.cmil.gestao.model.base.IdBase;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author abraao
  */
-public class PessoaDTO extends IdBase {
-
+public class PessoaDTO implements Serializable  {
+  private static final long serialVersionUID = 1L;
+    @JsonProperty
+    protected Long id;
     @Column(length = 80)
     protected String nome;
     @Column(length = 120)
@@ -22,10 +24,19 @@ public class PessoaDTO extends IdBase {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected Date nascimento;
 
-    public PessoaDTO(String nome, String sobrenome, Date nascimento) {
+    public PessoaDTO(Long id, String nome, String sobrenome, Date nascimento) {
+        this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.nascimento = nascimento;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -54,9 +65,8 @@ public class PessoaDTO extends IdBase {
 
     @Override
     public String toString() {
-        return "PessoaDTO{" + "nome=" + nome + ", sobrenome=" + sobrenome + ", nascimento=" + nascimento + '}';
+        return "PessoaDTO{" + "id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", nascimento=" + nascimento + '}';
     }
 
-  
-
+   
 }

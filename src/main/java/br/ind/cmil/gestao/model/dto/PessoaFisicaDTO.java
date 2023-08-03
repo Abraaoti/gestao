@@ -38,8 +38,8 @@ public class PessoaFisicaDTO extends PessoaDTO {
     @NotNull(message = "NATURALIDADE é um campo requerido")
     protected String naturalidade;
 
-    public PessoaFisicaDTO(String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento) {
-        super(nome, sobrenome, nascimento);
+    public PessoaFisicaDTO(String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
+        super(id, nome, sobrenome, nascimento);
         this.cpf = cpf;
         this.rg = rg;
         this.mae = mae;
@@ -49,10 +49,6 @@ public class PessoaFisicaDTO extends PessoaDTO {
         this.estado_civil = estado_civil;
         this.naturalidade = naturalidade;
     }
-
-  
-
-   
 
     public String getCpf() {
         return cpf;

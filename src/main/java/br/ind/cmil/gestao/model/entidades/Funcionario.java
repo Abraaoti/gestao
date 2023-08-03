@@ -31,10 +31,8 @@ public class Funcionario extends PessoaFisica {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate admissao;
     protected String matricula;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "departmento_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private Departamento departmento;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate demissao;

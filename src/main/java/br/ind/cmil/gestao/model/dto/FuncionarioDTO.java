@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.model.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -20,16 +19,14 @@ public class FuncionarioDTO extends PessoaFisicaDTO{
     @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
     protected BigDecimal salario;
 
-    public FuncionarioDTO(LocalDate admissao, String matricula, LocalDate demissao, DepartamentoDTO departamento, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento) {
-        super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, nome, sobrenome, nascimento);
+    public FuncionarioDTO(LocalDate admissao, String matricula, LocalDate demissao, DepartamentoDTO departamento, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
+        super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, id, nome, sobrenome, nascimento);
         this.admissao = admissao;
         this.matricula = matricula;
         this.demissao = demissao;
         this.departamento = departamento;
         this.salario = salario;
     }
-
-   
 
 
     public LocalDate getAdmissao() {

@@ -21,8 +21,8 @@ public class PessoaJuridicaDTO extends PessoaDTO {
     @NotNull(message = "IM é um campo requerido")
     private String im;
 
-    public PessoaJuridicaDTO(String cnpj, String ie, String im, String nome, String sobrenome, Date nascimento) {
-        super(nome, sobrenome, nascimento);
+    public PessoaJuridicaDTO(String cnpj, String ie, String im, Long id, String nome, String sobrenome, Date nascimento) {
+        super(id, nome, sobrenome, nascimento);
         this.cnpj = cnpj;
         this.ie = ie;
         this.im = im;

@@ -86,7 +86,8 @@ public class FuncionarioControlle {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<PessoaDTO> update(@PathVariable(value = "id") Long id,@RequestBody @Valid FuncionarioDTO funcionario) {
+    public ResponseEntity<PessoaDTO> update(@RequestBody @Valid FuncionarioDTO funcionario) {
+        System.out.println("O que temos? " + funcionario);
         return ResponseEntity.ok(fs.create(funcionario));
     }
 

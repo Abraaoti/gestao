@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 public interface IFuncionarioService {
 
     List<PessoaDTO> list(Pageable pageable);
- 
+
     PessoaDTO findById(Long id);
 
     PessoaDTO create(FuncionarioDTO funcionario);

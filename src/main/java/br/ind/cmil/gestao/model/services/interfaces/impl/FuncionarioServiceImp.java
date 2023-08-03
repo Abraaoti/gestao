@@ -44,7 +44,6 @@ public class FuncionarioServiceImp implements IFuncionarioService {
     public List<PessoaDTO> list(Pageable pageable) {
         return fr.searchAll(pageable).stream().map(fm::toDTO).collect(Collectors.toList());
     }
-   
 
     @Override
     @Transactional(readOnly = true)
@@ -55,11 +54,10 @@ public class FuncionarioServiceImp implements IFuncionarioService {
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public PessoaDTO create(FuncionarioDTO f) {
-        
-        f.getId();
-        validarAtributos(f);
         Funcionario funcionario = (Funcionario) fm.toEntity(f);
-              
+        f.getId();
+        validarAtributos(funcionario);
+
         if (funcionario.getId() == null) {
             Departamento departamento = d.findByNome(f.getDepartamento().nome());
             funcionario.setDepartmento(departamento);
@@ -70,13 +68,13 @@ public class FuncionarioServiceImp implements IFuncionarioService {
         return update(f);
     }
 
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     protected PessoaDTO update(FuncionarioDTO f) {
         Optional<Funcionario> funcionarioId = fr.findById(f.getId());
         if (funcionarioId.isEmpty()) {
             return null;
         }
 
-      
         var funcionario = funcionarioId.get();
 
         funcionario.setNome(f.getNome());
@@ -108,7 +106,7 @@ public class FuncionarioServiceImp implements IFuncionarioService {
         fr.delete(fr.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! ")));
     }
 
-    private void validarAtributos(FuncionarioDTO f) {
+    private void validarAtributos(Funcionario f) {
         Optional<Funcionario> funcionario = fr.findByNome(f.getNome());
         if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
             throw new DataIntegrityViolationException("nome já cadastro no sistema!");

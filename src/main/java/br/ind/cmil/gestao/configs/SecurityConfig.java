@@ -72,6 +72,7 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/confirmacao/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/p/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/c/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/e/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/authenticate")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/registrar")).permitAll()

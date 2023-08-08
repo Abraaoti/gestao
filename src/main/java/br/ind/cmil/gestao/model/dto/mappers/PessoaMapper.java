@@ -1,5 +1,6 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
+import br.ind.cmil.gestao.model.dto.CargoDTO;
 import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PessoaDTO;
@@ -30,7 +31,10 @@ public class PessoaMapper {
         DepartamentoMapper dm = new DepartamentoMapper();
         DepartamentoDTO departamento = dm.toDTO(f.getDepartmento());
 
-        return new FuncionarioDTO(f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, f.getSalario(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(),f.getId(),f.getNome(), f.getSobrenome(), f.getNascimento());
+        CargoMapper cm = new CargoMapper();
+        CargoDTO cargo = cm.toDTO(f.getCargo());
+
+        return new FuncionarioDTO(f.getAdmissao(), f.getDemissao(), f.getSalario(), departamento, cargo, f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento());
         // return new FuncionarioDTO(f.getId, f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, endereco, telefones, f.getSalario());
     }
 
@@ -55,15 +59,14 @@ public class PessoaMapper {
         LocalDate data = (dto.getAdmissao()) == null ? LocalDate.now() : dto.getAdmissao();
         f.setAdmissao(data);
 
-        String ano = String.valueOf(data);
-        String ma = ano.substring(0, 4);
-        ma += String.valueOf(1);
-        f.setMatricula(ma);
         f.setDemissao(dto.getDemissao());
         f.setSalario(dto.getSalario());
 
         DepartamentoMapper dm = new DepartamentoMapper();
         f.setDepartmento(dm.toEntity(dto.getDepartamento()));
+        
+         CargoMapper cm = new CargoMapper();
+        f.setCargo(cm.toEntity(dto.getCargo()));
 
         //TelefoneMapper tm = new TelefoneMapper();
         //List<Telefone> telefones = dto.getTelefones().stream().map(telefoneDTO -> {

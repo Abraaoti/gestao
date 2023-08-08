@@ -3,12 +3,14 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.exceptions.FuncionarioException;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PessoaDTO;
+import br.ind.cmil.gestao.model.dto.mappers.CargoMapper;
 import br.ind.cmil.gestao.model.dto.mappers.DepartamentoMapper;
-import br.ind.cmil.gestao.model.dto.mappers.FuncionarioMapper;
 import br.ind.cmil.gestao.model.dto.mappers.PessoaMapper;
+import br.ind.cmil.gestao.model.entidades.Cargo;
 import br.ind.cmil.gestao.model.entidades.Departamento;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.repositorys.IFuncionarioRepository;
+import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
 import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,13 +32,17 @@ public class FuncionarioServiceImp implements IFuncionarioService {
     private final IFuncionarioRepository fr;
     private final PessoaMapper fm;
     private final IDepartamentoService d;
+    private final ICargoService c;
     private final DepartamentoMapper dm;
+    private final CargoMapper cm;
 
-    public FuncionarioServiceImp(IFuncionarioRepository fr, PessoaMapper fm, IDepartamentoService d, DepartamentoMapper dm) {
+    public FuncionarioServiceImp(IFuncionarioRepository fr, PessoaMapper fm, IDepartamentoService d, ICargoService c, DepartamentoMapper dm, CargoMapper cm) {
         this.fr = fr;
         this.fm = fm;
         this.d = d;
+        this.c = c;
         this.dm = dm;
+        this.cm = cm;
     }
 
     @Override
@@ -61,6 +67,8 @@ public class FuncionarioServiceImp implements IFuncionarioService {
         if (funcionario.getId() == null) {
             Departamento departamento = d.findByNome(f.getDepartamento().nome());
             funcionario.setDepartmento(departamento);
+            Cargo cargo = c.findByNome(f.getCargo().nome());
+            funcionario.setCargo(cargo);
 
             return fm.toDTO(fr.save(funcionario));
         }
@@ -89,11 +97,10 @@ public class FuncionarioServiceImp implements IFuncionarioService {
         funcionario.setEstado_civil(fm.convertECValue(f.getEstado_civil()));
         funcionario.setNaturalidade(f.getNaturalidade());
         funcionario.setAdmissao(f.getAdmissao());
-        funcionario.setMatricula(f.getMatricula());
         funcionario.setDemissao(f.getDemissao());
         funcionario.setSalario(f.getSalario());
         funcionario.setDepartmento(dm.toEntity(f.getDepartamento()));
-        funcionario.setMatricula(f.getMatricula());
+        funcionario.setCargo(cm.toEntity(f.getCargo()));
 
         funcionario.setId(f.getId());
 

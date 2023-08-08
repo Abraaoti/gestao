@@ -10,24 +10,26 @@ import org.springframework.format.annotation.NumberFormat;
  *
  * @author abraao
  */
-public class FuncionarioDTO extends PessoaFisicaDTO{
-    protected LocalDate admissao;
-    protected String matricula;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDate demissao;
-    protected DepartamentoDTO departamento;
-    @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
-    protected BigDecimal salario;
+public class FuncionarioDTO extends PessoaFisicaDTO {
 
-    public FuncionarioDTO(LocalDate admissao, String matricula, LocalDate demissao, DepartamentoDTO departamento, BigDecimal salario, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
+    private LocalDate admissao;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate demissao;
+    @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
+    private BigDecimal salario;
+    private DepartamentoDTO departamento;
+    private CargoDTO cargo;
+
+    public FuncionarioDTO(LocalDate admissao, LocalDate demissao, BigDecimal salario, DepartamentoDTO departamento, CargoDTO cargo, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
         super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, id, nome, sobrenome, nascimento);
         this.admissao = admissao;
-        this.matricula = matricula;
         this.demissao = demissao;
-        this.departamento = departamento;
         this.salario = salario;
+        this.departamento = departamento;
+        this.cargo = cargo;
     }
 
+   
 
     public LocalDate getAdmissao() {
         return admissao;
@@ -35,14 +37,6 @@ public class FuncionarioDTO extends PessoaFisicaDTO{
 
     public void setAdmissao(LocalDate admissao) {
         this.admissao = admissao;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
     public LocalDate getDemissao() {
@@ -61,6 +55,14 @@ public class FuncionarioDTO extends PessoaFisicaDTO{
         this.departamento = departamento;
     }
 
+    public CargoDTO getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(CargoDTO cargo) {
+        this.cargo = cargo;
+    }
+
     public BigDecimal getSalario() {
         return salario;
     }
@@ -71,9 +73,15 @@ public class FuncionarioDTO extends PessoaFisicaDTO{
 
     @Override
     public String toString() {
-        return "FuncionarioDTO{" + "admissao=" + admissao + ", matricula=" + matricula + ", demissao=" + demissao + ", departamento=" + departamento + ", salario=" + salario + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("FuncionarioDTO{");
+        sb.append("admissao=").append(admissao);
+        sb.append(", demissao=").append(demissao);
+        sb.append(", departamento=").append(departamento);
+        sb.append(", cargo=").append(cargo);
+        sb.append(", salario=").append(salario);
+        sb.append('}');
+        return sb.toString();
     }
-    
-    
 
 }

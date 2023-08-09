@@ -38,7 +38,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
             return new AuthResponse(token);
         } catch (AuthenticationException e) {
-            return new AuthResponse("Credenciais incorretas! " + e.getMessage());
+            return new AuthResponse("Credenciais incorretas! ");
         }
 
     }

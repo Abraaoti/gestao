@@ -93,7 +93,7 @@ public class CargoServiceImp implements ICargoService {
 
     @Override
     public Cargo findByNome(String nome) {
-        return cr.findByNome(nome).orElseThrow(() -> new CargoException(nome, "Este departamento não consta no bd! "));
+        return cr.findByNome(nome).orElseThrow(() -> new CargoException(nome, "Este cargo não consta no bd! "));
     }
 
 }

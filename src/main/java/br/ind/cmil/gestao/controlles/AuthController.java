@@ -24,8 +24,8 @@ public class AuthController {
     private final AuthenticationServiceImpl service;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody Credentials request) {
-         return ResponseEntity.status(HttpStatus.CREATED).body(service.authenticate(request));
+    public ResponseEntity<?> authenticate(@RequestBody Credentials request) throws Exception{
+         return ResponseEntity.ok(service.authenticate(request));
 
     }
 

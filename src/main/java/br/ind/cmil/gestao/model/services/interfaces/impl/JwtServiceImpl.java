@@ -26,7 +26,7 @@ public class JwtServiceImpl implements IJwtService {
     private String jwtSigningKey;
 
     @Override
-    public String getUsernameFromToken(String token) {
+    public String parseToken(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -37,7 +37,7 @@ public class JwtServiceImpl implements IJwtService {
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String userName = getUsernameFromToken(token);
+        final String userName = parseToken(token);
         return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 

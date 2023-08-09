@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public interface IJwtService {
 
-    String parseToken(String token);
+    String getUsernameFromToken(String token);
 
     String generateToken(UserDetails userDetails);
 

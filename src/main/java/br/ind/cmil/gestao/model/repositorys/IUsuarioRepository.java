@@ -17,32 +17,31 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
 
-   // @Query("UPDATE Usuario u SET u.failedLoginAttempts = ?1 WHERE u.email = ?2")
-   // @Modifying
-     //void updateFailedAttempts(int failAttempts, String email);
-
+    // @Query("UPDATE Usuario u SET u.failedLoginAttempts = ?1 WHERE u.email = ?2")
+    // @Modifying
+    //void updateFailedAttempts(int failAttempts, String email);
     //@Query("select u from Usuario u where  u.nome =:nome")
     Optional<Usuario> findByNome(String nome);
 
-    @Query("select u from Usuario u join u.perfis p where  u.email= :email")
+    @Query("select u from Usuario u JOIN FETCH u.perfis p where  u.email= :email")
     Optional<Usuario> findByEmail(@Param("email") String email);
 
-    @Query("select u from Usuario u join u.perfis p where u.nome= :nome OR  u.email = :email")
+    @Query("SELECT obj FROM Usuario obj JOIN FETCH obj.perfis p where obj.nome= :nome OR  obj.email = :email")
     Optional<Usuario> findByNomeOrEmail(@Param("nome") String nome, @Param("email") String email);
 
-    @Query("select u from Usuario u join u.perfis p where  u.nome = :nome")
+    @Query("select u from Usuario u JOIN FETCH u.perfis p where  u.nome = :nome")
     Boolean existsByNome(@Param("nome") String nome);
 
-    @Query("select u from Usuario u join u.perfis p where  u.email = :email")
+    @Query("select u from Usuario u JOIN FETCH u.perfis p where  u.email = :email")
     Boolean existsByEmail(@Param("email") String email);
 
-    @Query("select distinct u from Usuario u join u.perfis p ")
+    @Query("select distinct u from Usuario u JOIN FETCH u.perfis p ")
     List<Usuario> usuarios();
 
-    @Query("select u from Usuario u join u.perfis p where u.id = :usuarioId AND p.id IN :perfisId")
+    @Query("select u from Usuario u JOIN FETCH u.perfis p where u.id = :usuarioId AND p.id IN :perfisId")
     Optional<Usuario> findByIdAndPerfis(Long usuarioId, Long[] perfisId);
 
-    @Query("select u from Usuario u JOIN FETCH u.perfis p where u.id = :usuarioId")
+    @Query("SELECT obj FROM Usuario obj JOIN FETCH obj.perfis p where obj.id = :usuarioId")
     Optional<Usuario> findByUsuarioId(Long usuarioId);
 
     @Query("select u from Usuario u where  u.email like :email AND ativo = true")
@@ -51,8 +50,8 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query(value = "SELECT obj FROM Usuario obj JOIN FETCH obj.perfis")
     List<Usuario> searchAll();
 
-    @Query(value = "SELECT obj FROM Usuario obj JOIN FETCH obj.perfis",
-            countQuery = "SELECT COUNT(obj) FROM Usuario obj JOIN obj.perfis")
+    @Query(value = "SELECT obj FROM Usuario obj INNER JOIN  FETCH obj.perfis",
+            countQuery = "SELECT COUNT(obj) FROM Usuario obj INNER JOIN  obj.perfis")
     Page<Usuario> searchAll(Pageable pageable);
 
     @Query(value = "SELECT obj FROM Usuario obj JOIN FETCH obj.perfis ",

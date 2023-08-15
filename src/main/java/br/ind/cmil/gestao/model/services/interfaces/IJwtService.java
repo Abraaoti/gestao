@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 
 /**
  *
@@ -10,8 +10,8 @@ public interface IJwtService {
 
     String parseToken(String token);
 
-    String generateToken(UserDetails userDetails);
+    String generateToken(Authentication authentication);
 
-    boolean isTokenValid(String token, UserDetails userDetails);
+    void isTokenValid(String token);
 
 }

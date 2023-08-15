@@ -1,9 +1,9 @@
 package br.ind.cmil.gestao.model.security.jwt.data;
 
+import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +22,13 @@ public class UsuarioDetalhesimp implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<GrantedAuthority> authorities = usuario.getPerfis().stream()
-                .map(perfil -> new SimpleGrantedAuthority(perfil.getTp().getValue()))
-                .collect(Collectors.toSet());
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        for (Perfil userPerfil : usuario.getPerfis()) {
+            authorities.add(new SimpleGrantedAuthority(userPerfil.getAuthority()));
+        }
 
         return authorities;
+
     }
 
     @Override

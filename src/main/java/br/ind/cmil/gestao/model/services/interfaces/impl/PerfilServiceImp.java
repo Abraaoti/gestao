@@ -4,7 +4,6 @@ import br.ind.cmil.gestao.exceptions.PerfilExistenteException;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.entidades.Perfil;
-import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import java.util.HashSet;
@@ -33,6 +32,18 @@ public class PerfilServiceImp implements IPerfilService {
     public PerfilServiceImp(IPerfilRepository iPerfilRepository, PerfilMapper pm) {
         this.pr = iPerfilRepository;
         this.pm = pm;
+    }
+
+    @Override
+    public Perfil getOrCreate(String name) {
+        Perfil role = pr.findByTipoPerfil(pm.convertPerfilValue(name)).get();
+
+        if (role == null) {         
+          
+           role = pr.save(new Perfil(pm.convertPerfilValue("usuário")));
+        }
+
+        return role;
     }
 
     @Override
@@ -87,23 +98,43 @@ public class PerfilServiceImp implements IPerfilService {
     }
 
     @Override
-    public Set<Perfil> perfis(Set<String> perfis) {
-        Set<Perfil> roles = new HashSet<>();
-        Perfil p = new Perfil();
-        if (perfis == null) {
-            TipoPerfil tp = pm.convertPerfilValue("usuário");
-            p.setTp(tp);
-            p = pr.save(p);
-            roles.add(p);
-        } else {
-            for (String strRole : perfis) {
-
-                p.setTp(pm.convertPerfilValue(strRole));
-
-                roles.add(p);
+    public Set<Perfil> perfis(Set<String> strings) {
+        Set<Perfil> perfis = new HashSet<>();
+        for (String perfisString : strings) {
+            if (perfisString == null) {
+                perfis.add(new Perfil(pm.convertPerfilValue("usuário")));
             }
+            perfis.add(new Perfil(pm.convertPerfilValue(perfisString)));
+
         }
-        return roles;
+        return perfis;
+
+    }
+
+    public Set<PerfilDTO> perfisdto(Set<String> strings) {
+        Set<PerfilDTO> perfis = new HashSet<>();
+        for (String perfisString : strings) {
+            Perfil p = new Perfil();
+            if (perfisString == null) {
+                p.setTp(pm.convertPerfilValue("usuário"));
+                perfis.add(new PerfilDTO(p.getId(), p.getTp().getValue()));
+            }
+            p.setTp(pm.convertPerfilValue(perfisString));
+            perfis.add(new PerfilDTO(p.getId(), p.getAuthority()));
+
+        }
+        return perfis;
+
+    }
+
+    public void perfis(Perfil tipo) {
+        Perfil t = pr.findByTipoPerfil(tipo.getTp()).get();
+        Perfil p = new Perfil();
+        if (t.getTp().getValue() == null) {
+            p.setTp(pm.convertPerfilValue("usuário"));
+        } else {
+            p.setTp(pm.convertPerfilValue(t.getTp().getValue()));
+        }
     }
 
 }

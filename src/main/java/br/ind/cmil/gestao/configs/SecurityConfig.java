@@ -1,8 +1,12 @@
 package br.ind.cmil.gestao.configs;
 
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
+import br.ind.cmil.gestao.model.security.jwt.ApiAuthenticationEntryPoint;
 import br.ind.cmil.gestao.model.security.jwt.JwtAuthenticationFilter;
 import br.ind.cmil.gestao.model.services.interfaces.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.RegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,31 +30,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final IUserService userService;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, IUserService userService) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.userService = userService;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+    // private final IUserService userService;
+    @Autowired
+    JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    ApiAuthenticationEntryPoint authenticationEntryPoint;
 
     private static final String ADMIN = TipoPerfil.ADMIN.getValue();
     private static final String ADMINISTRATIVO = TipoPerfil.ADMINISTRATIVO.getValue();
@@ -58,24 +42,35 @@ public class SecurityConfig {
     private static final String ENGENHEIRO = TipoPerfil.ENGENHEIRO.getValue();
     private static final String COMPRADOR = TipoPerfil.COMPRADOR.getValue();
     private static final String FINANCEIRO = TipoPerfil.FINANCEIRO.getValue();
-   // private static final String RH = TipoPerfil.RH.getValue();
+    // private static final String RH = TipoPerfil.RH.getValue();
     private static final String TECNICO = TipoPerfil.TECNICO.getValue();
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers(new AntPathRequestMatcher("/api/free")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/u/confirmacao/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/u/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/p/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/c/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/e/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/authenticate")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/u/registrar")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/perfil/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/departamento/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/editar/senha", "/u/confirmar/senha")).permitAll()
@@ -102,8 +97,7 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 )
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authenticationProvider(authenticationProvider())
+                //.authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
@@ -111,4 +105,17 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public RegistrationBean jwtAuthFilterRegister(JwtAuthenticationFilter filter) {
+        FilterRegistrationBean<JwtAuthenticationFilter> registrationBean = new FilterRegistrationBean<>(filter);
+        registrationBean.setEnabled(false);
+        return registrationBean;
+    }
+    /**
+     * @Bean public AuthenticationProvider authenticationProvider() {
+     * DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+     * authProvider.setUserDetailsService(userService);
+     * authProvider.setPasswordEncoder(passwordEncoder()); return authProvider;
+     * }*
+     */
 }

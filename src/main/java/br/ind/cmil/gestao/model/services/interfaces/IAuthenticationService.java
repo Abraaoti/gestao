@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.dto.request.Credentials;
-import br.ind.cmil.gestao.model.dto.response.AuthResponse;
+import br.ind.cmil.gestao.model.dto.response.Response;
 import java.io.IOException;
 
 /**
@@ -11,10 +11,10 @@ import java.io.IOException;
 public interface IAuthenticationService {
 
     //Usuario buscarPorEmail(String email);
+    //MessageResponse register(RegistrarUsuario request); 
+    Response authenticate(Credentials credencias) throws IOException;
 
-    //MessageResponse register(RegistrarUsuario request);
-
-    AuthResponse authenticate(Credentials credencias)throws IOException;;
+   // void register(RegistrarUsuario request, String siteURL) throws MessagingException;
 
     //void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

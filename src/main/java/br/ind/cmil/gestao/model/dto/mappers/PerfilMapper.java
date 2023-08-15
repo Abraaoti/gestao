@@ -15,7 +15,9 @@ public class PerfilMapper {
     public PerfilDTO toDTO(Perfil p) {
         if (p == null) {
             return null;
-        }
+        }       
+        
+        
         return new PerfilDTO(p.getId(),p.getTp().getValue());
     }
 

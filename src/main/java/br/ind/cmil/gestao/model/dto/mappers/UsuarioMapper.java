@@ -1,12 +1,14 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
+import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import static java.util.stream.Collectors.toSet;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,19 +18,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsuarioMapper {
 
-    private PerfilMapper pm;
-
     public RegistrarUsuario toDTO(Usuario u) {
 
-        Set<String> perfis = new HashSet<>();
-        for (Perfil perfi : u.getPerfis()) {
+        Set<String> roles = u.getPerfis().stream().map(Perfil::getAuthority).collect(toSet());
 
-            Perfil p = new Perfil();
-            p.setTp(pm.convertPerfilValue(perfi.getTp().getValue()));
-            perfis.add(p.getTp().getValue());
-        }
-
-        return new RegistrarUsuario(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.getUpdatedAt(), u.isAtivo(), u.getVerificador(), perfis);
+        return new RegistrarUsuario(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.getUpdatedAt(), u.isAtivo(), u.getVerificador(), roles);
     }
 
     public Usuario toEntity(RegistrarUsuario dto) {
@@ -43,10 +37,32 @@ public class UsuarioMapper {
         u.setPassword(dto.password());
         u.setVerificador(dto.verificador());
         u.setDataCadastro(LocalDateTime.now());
-        u.setAtivo(false);       
+
+        u.setAtivo(false);
+        // u.setPerfis(new HashSet<>());
         return u;
     }
 
-   
+    private String converter(String p) {
+
+        Perfil pe = new Perfil();
+        PerfilMapper pm = new PerfilMapper();
+        pe.setTp(pm.convertPerfilValue(p));
+        return pe.getTp().getValue();
+    }
+
+    private Set<String> perfis(Set<Perfil> perfis) {
+        PerfilMapper pm = new PerfilMapper();
+        Set<String> s = perfis.stream().map(perfil -> converter(perfil.getAuthority())).collect(toSet());
+        Set<String> ps = new HashSet<>();
+        Set<PerfilDTO> perfisdt = (Set<PerfilDTO>) perfis.stream().map(dto -> new PerfilDTO(dto.getId(), dto.getTp().getValue())).collect(toSet());
+       
+        for (PerfilDTO perfilDTO : perfisdt) {
+            Perfil pe = pm.toEntity(perfilDTO);
+            ps.add(converter(pe.getAuthority()));
+        }
+
+        return ps;
+    }
 
 }

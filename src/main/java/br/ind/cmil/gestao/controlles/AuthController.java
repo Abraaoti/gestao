@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.request.Credentials;
+import br.ind.cmil.gestao.model.dto.response.Response;
 import br.ind.cmil.gestao.model.services.interfaces.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,8 @@ public class AuthController {
     private final AuthenticationServiceImpl service;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody Credentials request) throws Exception{
-         return ResponseEntity.ok(service.authenticate(request));
-
+    public ResponseEntity<Response> authenticate(@RequestBody Credentials request) {
+        return new ResponseEntity<>(service.authenticate(request), HttpStatus.OK);
     }
 
 }

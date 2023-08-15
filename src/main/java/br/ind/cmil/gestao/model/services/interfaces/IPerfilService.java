@@ -2,11 +2,10 @@ package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  *
@@ -29,4 +28,6 @@ public interface IPerfilService {
     boolean checkIfPerfilExist(String name);
 
     void delete(Long id);
+
+    Perfil getOrCreate(String name);
 }

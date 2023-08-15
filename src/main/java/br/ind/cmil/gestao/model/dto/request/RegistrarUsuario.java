@@ -29,7 +29,7 @@ public record RegistrarUsuario(
         LocalDateTime updatedAt,
         boolean ativo,
         String verificador,
-        Set<String> role
+        Set<String> perfis
         ) {
 
 }

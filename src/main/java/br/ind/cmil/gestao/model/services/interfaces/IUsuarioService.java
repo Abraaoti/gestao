@@ -1,25 +1,29 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
-import br.ind.cmil.gestao.model.dto.response.UsuarioResponse;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import jakarta.mail.MessagingException;
+import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
  * @author abraao
  */
-public interface IUsuarioService {
+public interface IUsuarioService  extends IUserService{
 
-    void register(RegistrarUsuario request, String siteURL)throws MessagingException;
+    void register(RegistrarUsuario request, String siteURL) throws MessagingException;
 
-    UsuarioResponse buscarPorId(Long id);
+    Usuario buscarPorId(Long id);
+
+    List<Usuario> usuarios(Pageable pageable);
+    List<Usuario> getUsuarios();
 
     public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
         return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
     }
-  // Usuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
+    // Usuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
 
     void alterarSenha(Usuario usuario, String s1);
 

@@ -6,9 +6,7 @@ import br.ind.cmil.gestao.model.enums.converters.TipoPerfilConvert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -18,13 +16,11 @@ import org.springframework.security.core.GrantedAuthority;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_perfis")
-public class Perfil extends Entidade implements GrantedAuthority{
+public class Perfil extends Entidade implements GrantedAuthority {
 
     @Column(name = "perfil", nullable = false, unique = true)
     @Convert(converter = TipoPerfilConvert.class)
     private TipoPerfil tp;
-    @ManyToMany(mappedBy = "perfis")
-    private Set<Usuario> usuarios;
 
     public Perfil() {
         super();
@@ -33,6 +29,10 @@ public class Perfil extends Entidade implements GrantedAuthority{
 
     public Perfil(Long id) {
         super.setId(id);
+    }
+
+    public Perfil(TipoPerfil tp) {
+        this.tp = tp;
     }
 
     public Perfil(String nome) {
@@ -47,25 +47,13 @@ public class Perfil extends Entidade implements GrantedAuthority{
         this.tp = tp;
     }
 
-    public Set<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(Set<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
-
     @Override
     public String getAuthority() {
-         return tp.getValue();
+        return this.tp.getValue();
     }
 
-/**
-    @PreRemove
-    private void removeUsuarioAssociations() {
-        for (Usuario book : this.usuarios) {
-            book.getPerfis().remove(this);
-        }
-    }
-*/
+    /**
+     * @PreRemove private void removeUsuarioAssociations() { for (Usuario book :
+     * this.usuarios) { book.getPerfis().remove(this); } }
+     */
 }

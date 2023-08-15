@@ -1,15 +1,14 @@
 package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
-import br.ind.cmil.gestao.model.dto.response.UsuarioResponse;
+import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,22 +32,26 @@ public class UsuarioControlle {
     private IUsuarioService service;
 
     @PostMapping("/registrar")
-    public ResponseEntity  registrarUsuario(@RequestBody @Valid RegistrarUsuario usuario, HttpServletRequest request) throws MessagingException{
-        
+    public ResponseEntity registrarUsuario(@RequestBody @Valid RegistrarUsuario usuario, HttpServletRequest request) throws MessagingException {
+
         service.register(usuario, getSiteURL(request));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/usuario/{id}")
-    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable @NotNull @Positive Long id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok().body(service.buscarPorId(id));
     }
-
-   
 
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");
+    }
+
+    @GetMapping("/usuarios")
+    public List<Usuario> list() {
+       //List<PessoaDTO> lis = service.usuarios(pageable);
+        return service.getUsuarios();
     }
 
     @GetMapping("/confirmacao/cadastro")
@@ -59,7 +62,5 @@ public class UsuarioControlle {
             return "verify_fail";
         }
     }
-    
- 
 
 }

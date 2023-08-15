@@ -1,18 +1,22 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.exceptions.JwtTokenMalformedException;
+import br.ind.cmil.gestao.exceptions.JwtTokenMissingException;
+import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IJwtService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,48 +26,56 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtServiceImpl implements IJwtService {
 
-    @Value("${app.jwt-secret}")
+    @Value("${jwt.secret}")
     private String jwtSigningKey;
+    @Value("${jwt.token.validity}")
+    private long tokenValidity;
 
     @Override
     public String parseToken(String token) {
-        return extractClaim(token, Claims::getSubject);
+        try {
+
+            Claims body = Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+
+            return body.getSubject();
+        } catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | SignatureException | IllegalArgumentException e) {
+            System.out.println(e.getMessage() + " => " + e);
+        }
+        return null;
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
+    public String generateToken(Authentication authentication) {
+        Usuario user = (Usuario) authentication.getPrincipal();
+        Claims claims = Jwts.claims().setSubject(user.getNome());
 
-    @Override
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String userName = parseToken(token);
-        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
-    }
+        final long nowMillis = System.currentTimeMillis();
+        final long expMillis = nowMillis + tokenValidity;
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolvers.apply(claims);
-    }
+        Date exp = new Date(expMillis);
 
-    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-       
-        return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+        return Jwts.builder().setClaims(claims)
+                .setIssuedAt(new Date(nowMillis))
+                .setExpiration(exp)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
+    @Override
+    public void isTokenValid(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+        } catch (SignatureException ex) {
+            throw new JwtTokenMalformedException("Invalid JWT signature");
+        } catch (MalformedJwtException ex) {
+            throw new JwtTokenMalformedException("Invalid JWT token");
+        } catch (ExpiredJwtException ex) {
+            throw new JwtTokenMalformedException("Expired JWT token");
+        } catch (UnsupportedJwtException ex) {
+            throw new JwtTokenMalformedException("Unsupported JWT token");
+        } catch (IllegalArgumentException ex) {
+            throw new JwtTokenMissingException("JWT claims string is empty.");
+        }
 
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
     }
 
     private Key getSigningKey() {

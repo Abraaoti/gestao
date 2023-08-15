@@ -78,6 +78,7 @@ public class FuncionarioControlle {
     public PessoaDTO findById(@PathVariable Long id) {
         return fs.findById(id);
     }
+   
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody @Valid FuncionarioDTO funcionaro) {

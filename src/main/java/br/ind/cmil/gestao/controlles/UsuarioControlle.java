@@ -6,6 +6,7 @@ import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class UsuarioControlle {
 
     @PostMapping("/registrar")
     public ResponseEntity registrarUsuario(@RequestBody @Valid RegistrarUsuario usuario, HttpServletRequest request) throws MessagingException {
-
+       
         service.register(usuario, getSiteURL(request));
         return ResponseEntity.ok().build();
     }

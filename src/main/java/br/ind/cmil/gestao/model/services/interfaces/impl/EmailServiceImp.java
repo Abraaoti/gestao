@@ -26,18 +26,18 @@ public class EmailServiceImp {
         this.template = template;
     }
 
-    public void enviarEmail(String destino, String siteUR, String codigo) throws MessagingException {
+    public void enviarEmail(String emailDestino, String siteUR, String codigo) throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, "UTF-8");
 
         Context context = new Context();
-        context.setVariable("titulo", "Bem vindo a Plataforma CMIL");
+        context.setVariable("titulo", "Link de confirmação de cadastro");
         context.setVariable("texto", "Precisamos que confirme seu cadastro, clicando no link abaixo");
         context.setVariable("linkConfirmacao", siteUR + "/api/u/confirmacao/cadastro?codigo=" + codigo);
 
-        //String html = template.process("email/confirmacao", context);
-        helper.setTo(destino);
-      //  helper.setText(html, true);
+        String html = template.process("confirmacao", context);
+        helper.setTo(emailDestino);
+        helper.setText(html, true);
         helper.setSubject("Confirmacao de Cadastro");
         helper.setFrom("nao_responder@cmil.com.br");
 
@@ -55,9 +55,9 @@ public class EmailServiceImp {
                 + "quando exigido no formulário.");
         context.setVariable("verificador", verificador);
 
-       // String html = template.process("email/confirmacao", context);
+        // String html = template.process("confirmacao", context);
         helper.setTo(destino);
-       // helper.setText(html, true);
+        // helper.setText(html, true);
         helper.setSubject("Redefinição de Senha");
         helper.setFrom("elavokokassinda@gmail.com");
 

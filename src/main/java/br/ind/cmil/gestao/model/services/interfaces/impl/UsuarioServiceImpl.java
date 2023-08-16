@@ -55,14 +55,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
         request.id();
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
-        
-       // Set<Perfil> roles = request.perfis().stream().map(tipoPerfil -> ps.getOrCreate(tipoPerfil)).collect(toSet());
 
-       Set<Perfil> roles = ps.perfis(request.perfis());
+        Set<Perfil> roles = ps.perfis(request.perfis());
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
         ur.save(user);
-        //emailDeConfirmacaoDeCadastro(usuarioEmail.getEmail(),siteURL);
+        // emailDeConfirmacaoDeCadastro(usuario.getEmail(),siteURL);
     }
 
     public void emailDeConfirmacaoDeCadastro(String email, String url) throws MessagingException {
@@ -75,12 +73,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
     public RegistrarUsuario buscarPorId(Long id) {
         return ur.findByUsuarioId(id).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(String.valueOf(id), "Este id: não consta no nosso banco de dados "));
 
-        // Set<String> perfis = new HashSet<>();
-        //for (Perfil perfi : u.getPerfis()) {
-        //Perfil p = perfi;
-        // perfis.add(p.getTp().getValue());
-        //}
-        //return new UsuarioResponse(u.getId(), u.getNome(), u.getEmail(), perfis);
     }
 
     @Override
@@ -92,7 +84,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public RegistrarUsuario buscarEmailAtivo(String email) {
         return ur.findByEmailAndAtivo(email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
-    
+
     }
 
     @Override
@@ -147,26 +139,23 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return ur.findByNomeOrEmail(email, email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
     }
 
-  
-
     @Override
     @Transactional(readOnly = true)
     public Set<RegistrarUsuario> getUsuarios(Pageable pageable) {
-        
+
         return ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toSet());
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return   ur.findByNomeOrEmail(username, username).get();
+        return ur.findByNomeOrEmail(username, username).get();
         //Usuario usuario = ur.findByNomeOrEmail(username, username).get();
-       // return new User(
-         //       usuario.getEmail(),
+        // return new User(
+        //       usuario.getEmail(),
         /// ////       usuario.getPassword(),
         //        AuthorityUtils.createAuthorityList(getAtuthorities((List<Perfil>) usuario.getPerfis()))
         //);
     }
 
-   
 }

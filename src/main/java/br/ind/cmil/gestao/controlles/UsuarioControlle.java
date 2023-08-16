@@ -7,6 +7,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -49,9 +50,9 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/usuarios")
-    public List<Usuario> list() {
-       //List<PessoaDTO> lis = service.usuarios(pageable);
-        return service.getUsuarios();
+    public Set<RegistrarUsuario> list(Pageable pageable) {
+        //List<PessoaDTO> lis = service.usuarios(pageable);
+        return service.getUsuarios(pageable);
     }
 
     @GetMapping("/confirmacao/cadastro")

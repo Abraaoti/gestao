@@ -120,7 +120,7 @@ public class PerfilServiceImp implements IPerfilService {
                 perfis.add(new PerfilDTO(p.getId(), p.getTp().getValue()));
             }
             p.setTp(pm.convertPerfilValue(perfisString));
-            perfis.add(new PerfilDTO(p.getId(), p.getAuthority()));
+            perfis.add(new PerfilDTO(p.getId(), p.getTp().getValue()));
 
         }
         return perfis;

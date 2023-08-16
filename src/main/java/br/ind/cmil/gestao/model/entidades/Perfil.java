@@ -7,7 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  *
@@ -16,7 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_perfis")
-public class Perfil extends Entidade implements GrantedAuthority {
+public class Perfil extends Entidade {
 
     @Column(name = "perfil", nullable = false, unique = true)
     @Convert(converter = TipoPerfilConvert.class)
@@ -45,11 +44,6 @@ public class Perfil extends Entidade implements GrantedAuthority {
 
     public void setTp(TipoPerfil tp) {
         this.tp = tp;
-    }
-
-    @Override
-    public String getAuthority() {
-        return this.tp.getValue();
     }
 
     /**

@@ -8,6 +8,7 @@ import br.ind.cmil.gestao.model.entidades.Usuario;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,9 @@ import org.springframework.stereotype.Component;
 public class UsuarioMapper {
 
     public RegistrarUsuario toDTO(Usuario u) {
-
-        Set<String> roles = u.getPerfis().stream().map(Perfil::getAuthority).collect(toSet());
+//Set<PerfilDTO> perfis = u.getPerfis().stream().map(dto -> new PerfilDTO(dto.getId(), dto.getTp().getValue())).collect(toSet());
+       
+        Set<String> roles = u.getPerfis().stream().map(p -> p.getTp().getValue()).collect(Collectors.toSet());
 
         return new RegistrarUsuario(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.getUpdatedAt(), u.isAtivo(), u.getVerificador(), roles);
     }
@@ -39,7 +41,7 @@ public class UsuarioMapper {
         u.setDataCadastro(LocalDateTime.now());
 
         u.setAtivo(false);
-        // u.setPerfis(new HashSet<>());
+        u.setPerfis(getPerfis(dto.perfis()));
         return u;
     }
 
@@ -53,16 +55,22 @@ public class UsuarioMapper {
 
     private Set<String> perfis(Set<Perfil> perfis) {
         PerfilMapper pm = new PerfilMapper();
-        Set<String> s = perfis.stream().map(perfil -> converter(perfil.getAuthority())).collect(toSet());
+        Set<String> s = perfis.stream().map(perfil -> converter(perfil.getTp().getValue())).collect(toSet());
         Set<String> ps = new HashSet<>();
         Set<PerfilDTO> perfisdt = (Set<PerfilDTO>) perfis.stream().map(dto -> new PerfilDTO(dto.getId(), dto.getTp().getValue())).collect(toSet());
        
         for (PerfilDTO perfilDTO : perfisdt) {
             Perfil pe = pm.toEntity(perfilDTO);
-            ps.add(converter(pe.getAuthority()));
+            ps.add(converter(pe.getTp().getValue()));
         }
 
         return ps;
+    }
+    private Set<Perfil> getPerfis(Set<String> perfis) {
+        PerfilMapper pm = new PerfilMapper();
+        Set<Perfil> s = perfis.stream().map(perfil -> new Perfil(pm.convertPerfilValue(perfil))).collect(toSet());
+       
+        return s;
     }
 
 }

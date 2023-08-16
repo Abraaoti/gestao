@@ -24,7 +24,7 @@ public class UsuarioDetalhesimp implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         for (Perfil userPerfil : usuario.getPerfis()) {
-            authorities.add(new SimpleGrantedAuthority(userPerfil.getAuthority()));
+            authorities.add(new SimpleGrantedAuthority(userPerfil.getTp().getValue()));
         }
 
         return authorities;

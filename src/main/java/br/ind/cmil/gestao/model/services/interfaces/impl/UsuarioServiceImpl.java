@@ -12,18 +12,14 @@ import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import jakarta.mail.MessagingException;
 import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import static java.util.stream.Collectors.toSet;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -76,8 +72,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario buscarPorId(Long id) {
-        return ur.findByUsuarioId(id).orElseThrow(() -> new UsuarioNotFoundException(String.valueOf(id), "Este id: não consta no nosso banco de dados "));
+    public RegistrarUsuario buscarPorId(Long id) {
+        return ur.findByUsuarioId(id).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(String.valueOf(id), "Este id: não consta no nosso banco de dados "));
 
         // Set<String> perfis = new HashSet<>();
         //for (Perfil perfi : u.getPerfis()) {
@@ -94,13 +90,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario buscarEmailAtivo(String email) {
-        return ur.findByEmailAndAtivo(email).get();
+    public RegistrarUsuario buscarEmailAtivo(String email) {
+        return ur.findByEmailAndAtivo(email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
+    
     }
 
     @Override
     public void redefinirSenha(String email) throws MessagingException {
-        Usuario usuario = buscarEmailAtivo(email);
+        Usuario usuario = rm.toEntity(buscarEmailAtivo(email));
         String verificador = RandomStringUtils.randomAlphanumeric(6);
 
         usuario.setVerificador(verificador);
@@ -146,31 +143,17 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public Usuario buscarPorEmail(String email) {
-        return ur.findByNomeOrEmail(email, email).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
+    public RegistrarUsuario buscarPorEmail(String email) {
+        return ur.findByNomeOrEmail(email, email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
     }
+
+  
 
     @Override
     @Transactional(readOnly = true)
-    public List<Usuario> usuarios(Pageable pageable) {
-        // List<Usuario> u =  (List<Usuario>) ur.searchAll(pageable);
-        // List<Usuario> u =  ur.searchAll(pageable).stream().collect(Collectors.toList());
-
-        Set<String> roles = new HashSet<>();
-        // for (Perfil perfi : u.getPerfis()) {
-        //     Perfil p = perfi;
-        //    roles.add(p.getTp().getValue());
-        // }
-
-        //return new UsuarioResponse(u.getId(), u.getNome(), u.getEmail(), roles);
-        // return ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toList());
-        return null;// ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Usuario> getUsuarios() {
-        return ur.searchAll();
+    public Set<RegistrarUsuario> getUsuarios(Pageable pageable) {
+        
+        return ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toSet());
     }
 
     @Override
@@ -185,11 +168,5 @@ public class UsuarioServiceImpl implements IUsuarioService {
         //);
     }
 
-    private String[] getAtuthorities(List<Perfil> perfis) {
-        String[] authorities = new String[perfis.size()];
-        for (int i = 0; i < perfis.size(); i++) {
-            authorities[i] = perfis.get(i).getAuthority();
-        }
-        return authorities;
-    }
+   
 }

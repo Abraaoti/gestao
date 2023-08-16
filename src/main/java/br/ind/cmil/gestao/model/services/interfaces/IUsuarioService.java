@@ -4,6 +4,7 @@ import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import jakarta.mail.MessagingException;
 import java.util.List;
+import java.util.Set;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -11,14 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  *
  * @author abraao
  */
-public interface IUsuarioService  extends IUserService{
+public interface IUsuarioService extends IUserService {
 
     void register(RegistrarUsuario request, String siteURL) throws MessagingException;
 
-    Usuario buscarPorId(Long id);
+    RegistrarUsuario buscarPorId(Long id);
 
-    List<Usuario> usuarios(Pageable pageable);
-    List<Usuario> getUsuarios();
+    Set<RegistrarUsuario> getUsuarios(Pageable pageable);
 
     public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
         return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
@@ -27,9 +27,9 @@ public interface IUsuarioService  extends IUserService{
 
     void alterarSenha(Usuario usuario, String s1);
 
-    Usuario buscarEmailAtivo(String email);
+    RegistrarUsuario buscarEmailAtivo(String email);
 
-    Usuario buscarPorEmail(String email);
+    RegistrarUsuario buscarPorEmail(String email);
 
     void redefinirSenha(String email) throws MessagingException;
 

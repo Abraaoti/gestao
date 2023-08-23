@@ -59,8 +59,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
         Set<Perfil> roles = ps.perfis(request.perfis());
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
-        ur.save(user);
-        // emailDeConfirmacaoDeCadastro(usuario.getEmail(),siteURL);
+        Usuario usuario = ur.save(user);
+         emailDeConfirmacaoDeCadastro(usuario.getEmail(),siteURL);
     }
 
     public void emailDeConfirmacaoDeCadastro(String email, String url) throws MessagingException {

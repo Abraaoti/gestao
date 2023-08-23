@@ -20,7 +20,7 @@ public class SendEmailBean {
         mailSender.setPort(587);
 
         mailSender.setUsername("dtimuila@gmail.com");
-        mailSender.setPassword("agostinho");
+        mailSender.setPassword("liupujgexgoczvsb");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

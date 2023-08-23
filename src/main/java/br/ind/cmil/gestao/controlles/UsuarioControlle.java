@@ -1,13 +1,10 @@
 package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
-import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.util.Base64;
-import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -56,7 +53,7 @@ public class UsuarioControlle {
         return service.getUsuarios(pageable);
     }
 
-    @GetMapping("/confirmacao/cadastro")
+    @GetMapping("/confirmacao")
     public String verifyUser(@RequestParam("codigo") String codigo) {
         if (service.verify(codigo)) {
             return "verify_success";

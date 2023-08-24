@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -33,15 +32,15 @@ public class EmailServiceImp {
         Context context = new Context();
         context.setVariable("titulo", "Link de confirmação de cadastro");
         context.setVariable("texto", "Precisamos que confirme seu cadastro, clicando no link abaixo");
-        context.setVariable("linkConfirmacao", siteUR + "/api/u/confirmacao?codigo=" + codigo);
+        context.setVariable("linkConfirmacao", siteUR + "/api/u/confirmacao/cadastro?codigo="+codigo);
 
-        String html = template.process("confirmacao", context);
+        String html = template.process("email/confirmacao", context);
         helper.setTo(emailDestino);
         helper.setText(html, true);
-        helper.setSubject("Confirmacao de Cadastro");
+        helper.setSubject("Confirmação de Cadastro");
         helper.setFrom("nao_responder@cmil.com.br");
 
-        // helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
+        //helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
         emailSender.send(message);
     }
 
@@ -55,13 +54,13 @@ public class EmailServiceImp {
                 + "quando exigido no formulário.");
         context.setVariable("verificador", verificador);
 
-        // String html = template.process("confirmacao", context);
+        String html = template.process("email/confirmacao", context);
         helper.setTo(destino);
-        // helper.setText(html, true);
+         helper.setText(html, true);
         helper.setSubject("Redefinição de Senha");
         helper.setFrom("elavokokassinda@gmail.com");
 
-        helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
+       // helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
 
         emailSender.send(message);
     }

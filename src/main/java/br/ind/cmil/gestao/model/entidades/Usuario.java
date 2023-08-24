@@ -2,7 +2,6 @@ package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.base.Entidade;
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -51,7 +49,7 @@ public class Usuario extends Entidade implements UserDetails {
     private String verificador;
     // @OneToMany(mappedBy = "user")
     //private Set<Token> tokens;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "tbl_usuario_perfis",
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "perfil_id", referencedColumnName = "id"))
@@ -162,7 +160,7 @@ public class Usuario extends Entidade implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(perfil.getTp().getValue()));
         }
 
-        return authorities ;
+        return authorities;
     }
 
     @Override

@@ -1,15 +1,15 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
-import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
+import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import static java.util.stream.Collectors.toSet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,10 +20,7 @@ import org.springframework.stereotype.Component;
 public class UsuarioMapper {
 
     public RegistrarUsuario toDTO(Usuario u) {
-//Set<PerfilDTO> perfis = u.getPerfis().stream().map(dto -> new PerfilDTO(dto.getId(), dto.getTp().getValue())).collect(toSet());
-       
         Set<String> roles = u.getPerfis().stream().map(p -> p.getTp().getValue()).collect(Collectors.toSet());
-
         return new RegistrarUsuario(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.getUpdatedAt(), u.isAtivo(), u.getVerificador(), roles);
     }
 
@@ -39,38 +36,21 @@ public class UsuarioMapper {
         u.setPassword(dto.password());
         u.setVerificador(dto.verificador());
         u.setDataCadastro(LocalDateTime.now());
-
         u.setAtivo(false);
-        u.setPerfis(getPerfis(dto.perfis()));
+        //u.setPerfis(perfis(dto.perfis()));
         return u;
     }
 
-    private String converter(String p) {
-
-        Perfil pe = new Perfil();
+    public Set<Perfil> perfis(Set<String> perfis) {
         PerfilMapper pm = new PerfilMapper();
-        pe.setTp(pm.convertPerfilValue(p));
-        return pe.getTp().getValue();
-    }
-
-    private Set<String> perfis(Set<Perfil> perfis) {
-        PerfilMapper pm = new PerfilMapper();
-        Set<String> s = perfis.stream().map(perfil -> converter(perfil.getTp().getValue())).collect(toSet());
-        Set<String> ps = new HashSet<>();
-        Set<PerfilDTO> perfisdt = (Set<PerfilDTO>) perfis.stream().map(dto -> new PerfilDTO(dto.getId(), dto.getTp().getValue())).collect(toSet());
-       
-        for (PerfilDTO perfilDTO : perfisdt) {
-            Perfil pe = pm.toEntity(perfilDTO);
-            ps.add(converter(pe.getTp().getValue()));
+        Perfil p = new Perfil();
+        Set<Perfil> roles = new HashSet<>();
+        for (String strPerfi : perfis) {
+            p.setTp(pm.convertPerfilValue(strPerfi));
+            roles.add(p);
         }
 
-        return ps;
-    }
-    private Set<Perfil> getPerfis(Set<String> perfis) {
-        PerfilMapper pm = new PerfilMapper();
-        Set<Perfil> s = perfis.stream().map(perfil -> new Perfil(pm.convertPerfilValue(perfil))).collect(toSet());
-       
-        return s;
+        return roles;
     }
 
 }

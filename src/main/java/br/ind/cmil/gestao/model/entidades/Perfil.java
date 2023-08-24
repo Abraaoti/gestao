@@ -21,6 +21,8 @@ public class Perfil extends Entidade {
     @Convert(converter = TipoPerfilConvert.class)
     private TipoPerfil tp;
 
+   
+
     public Perfil() {
         super();
 
@@ -45,6 +47,8 @@ public class Perfil extends Entidade {
     public void setTp(TipoPerfil tp) {
         this.tp = tp;
     }
+
+   
 
     /**
      * @PreRemove private void removeUsuarioAssociations() { for (Usuario book :

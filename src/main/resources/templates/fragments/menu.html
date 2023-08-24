@@ -1,0 +1,61 @@
+
+<nav th:fragment="menu" >
+    <div class="nav-side-menu" >
+        <div class="brand">
+            <a class="navbar-brand" th:href="@{/home}">
+                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+                <img th:src="@{/image/spring-security.png}" width="30" heiight="30"/>
+            </a>
+        </div>
+
+        <div class="menu-list">
+
+            <ul id="menu-content" class="menu-content collapse out">
+                <li>
+                    <a href="/home"><i class="fa fa-tachometer-alt sidebar-icon"></i> Dashboard</a>
+                </li>
+
+                <li  data-toggle="collapse" data-target="#admin" class="collapsed">
+                    <a href="#"><i  class='fas fa-user-cog'></i> ADMINISTRADOR <span class="arrow"><i class="fa fa-angle-down"></i></spam></a>
+                </li>
+                <ul class="sub-menu collapse" id="admin">
+                    <li><a href="#" id="especialidad" th:href="@{/especialidades}"><i class="fa fa-angle-right"></i> Especialidade</a></li>
+                    <li><a href="#" id="dc" th:href="@{/departamentos}"><i class="fa fa-angle-right"></i>Departamento</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li><a href="#" id="cadastrouser" th:href="@{/u/novo/cadastro/usuario}"><i style="font-size:24px" class="fa">&#xf234;</i> </a></li>
+                    <li><a href="#" id="listaUser" th:href="@{/u/lista}"><i style='font-size:24px' class='fas'>&#xf0c0;</i> <small><i class="fa fa-external-link"></i></small></a></li>
+                </ul>
+
+
+                <li  data-toggle="collapse" data-target="#rh" class="collapsed">
+                    <a href="#"><i class='fa fa-group'></i> ASSOCIADOS <span class="arrow"><i class="fa fa-angle-down"></i></spam></a>
+
+                </li>
+                <ul class="sub-menu collapse" id="rh"> 
+                    <li><a href="#" id="cad_associado" th:href="@{/associados/novo}"><i class="fa fa-plus">Associado</i> </a></li>
+                    <li><a href="#" id="cad_associado" th:href="@{/associados/dados}"><i class="fa fa-angle-right"></i> Lista Associado</a></li>
+                    <div class="dropdown-divider"></div>
+                    <li><a href="#" id="enderecos" th:href="@{/enderecos/lista/endereco}"><i class="fa fa-angle-right"></i> Lista Endereco</a></li>
+                    <li><a href="#" id="enderecos" th:href="@{/enderecos/novo}"><i class="fa fa-plus">Endereço</i>  </a></li>
+                    <li><a href="#" id="emails" th:href="@{/email/lista/email}"><i class="fa fa-angle-right"></i> Lista E-mail</a></li>
+                    <li><a href="#" id="telefonos" th:href="@{/telefones/lista/telefone}"><i class="fa fa-angle-right"></i> Lista telefone</a></li>
+                    <li><a href="#" id="empresa" th:href="@{/empresas}"><i class="fa fa-angle-right"></i> Empresa</a></li>
+                    <li><a href="#" id="empresa" th:href="@{/empresas/}"><i class="fa fa-angle-right"></i> Empresas</a></li>
+                </ul>
+                <li  data-toggle="collapse" data-target="#financa" class="collapsed">
+                    <a href="#"><i class='fa fa-group'></i> Finanças <span class="arrow"><i class="fa fa-angle-down"></i></spam></a>
+
+                </li>
+                <ul class="sub-menu collapse" id="financa"> 
+                    <li><a href="#" id="cad_processo" th:href="@{/processos}"><i class="fa fa-plus">ADD</i> </a></li>
+                  
+                    <div class="dropdown-divider"></div>
+                    <li><a href="#" id="processos" th:href="@{/processos/processos}"><i class="fa fa-angle-right"></i> Processos</a></li>                    
+                </ul>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:with="version=${#strings.randomAlphanumeric(3)}">
+    <head th:replace="fragments/base :: baseHead(~{::title}, ~{::link})">
+        <title>Mensagem</title>
+        <link href="../static/css/style-home.css" th:rel="stylesheet" type="text/css" media="all"  th:href="@{/css/style-home.css}"/>
+        <!-- Custom styles for this template -->
+        <link th:href="@{/css/style-home.css(v=${version}) }" rel="stylesheet" />
+        <link th:href="@{/css/style.css(v=${version}) }" rel="stylesheet" />
+        <link th:rel="stylesheet" type="text/css" media="all"  th:href="@{/css/index.css}"/>
+    </head>
+    <body>
+        <div th:insert="fragments/menuindex" />
+        <section class="layout-content" layout:fragment="corpo">	
+            <main role="main">
+                <section class="jumbotron text-center">
+                        <div class="container">
+                            <h1 class="jumbotron-heading">Timuila</h1>
+                            <p class="lead text-muted">Membros e Associados</p>
+                        </div>				
+                </section>	
+
+                <div class="album py-5 bg-light">
+                    <div class="container d-flex justify-content-center">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading">Seja bem vindo!</h4>
+                            <p>Seu cadastro foi realizado com sucesso.</p>
+                            <hr>
+                                <p class="mb-0">Em breve você receberá um email para confirmação 
+                                    de sua conta de acesso.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </main>
+        </section>
+        <script th:src="~{}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript"></script>
+</html>

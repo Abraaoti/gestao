@@ -38,20 +38,22 @@ public class PerfilServiceImp implements IPerfilService {
     public Perfil getOrCreate(String name) {
         Perfil role = pr.findByTipoPerfil(pm.convertPerfilValue(name)).get();
 
-        if (role == null) {         
-          
-           role = pr.save(new Perfil(pm.convertPerfilValue("usuário")));
+        if (role == null) {
+
+            role = pr.save(new Perfil(pm.convertPerfilValue("usuário")));
         }
 
         return role;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PerfilDTO> list() {
         return pr.findAll().stream().map(pm::toDTO).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PerfilDTO findById(Long id) {
         return pr.findById(id).map(pm::toDTO).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id), "Este id não consta no bd! "));
     }
@@ -66,6 +68,7 @@ public class PerfilServiceImp implements IPerfilService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public PerfilDTO update(PerfilDTO p) {
         return pr.findById(p.id())
                 .map(recordFound -> {
@@ -80,11 +83,13 @@ public class PerfilServiceImp implements IPerfilService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PerfilDTO buscarPerfilPorNome(String name) {
         return pr.findByTipoPerfil(pm.convertPerfilValue(name)).map(pm::toDTO).get();
     }
 
     @Override
+    @Transactional(readOnly = false)
     public boolean checkIfPerfilExist(String name) {
         return pr.findByTipoPerfil(pm.convertPerfilValue(name)) != null;
     }
@@ -98,31 +103,29 @@ public class PerfilServiceImp implements IPerfilService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Perfil> perfis(Set<String> strings) {
         Set<Perfil> perfis = new HashSet<>();
-        for (String perfisString : strings) {
-            if (perfisString == null) {
-                perfis.add(new Perfil(pm.convertPerfilValue("usuário")));
-            }
-            perfis.add(new Perfil(pm.convertPerfilValue(perfisString)));
+        if (strings == null) {
+            perfis.add(pm.toEntity(this.buscarPerfilPorNome("usuário")));
+        } else {
+            for (String string : strings) {
 
+                perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue(string)).get());
+
+            }
         }
         return perfis;
 
     }
 
-    public Set<PerfilDTO> perfisdto(Set<String> strings) {
-        Set<PerfilDTO> perfis = new HashSet<>();
-        for (String perfisString : strings) {
-            Perfil p = new Perfil();
-            if (perfisString == null) {
-                p.setTp(pm.convertPerfilValue("usuário"));
-                perfis.add(new PerfilDTO(p.getId(), p.getTp().getValue()));
-            }
-            p.setTp(pm.convertPerfilValue(perfisString));
-            perfis.add(new PerfilDTO(p.getId(), p.getTp().getValue()));
-
+    @Transactional(readOnly = false)
+    public Set<Perfil> perfisVazio(Set<String> strings) {
+        Set<Perfil> perfis = new HashSet<>();
+        if (strings == null) {
+            perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue("usuário")).get());
         }
+
         return perfis;
 
     }

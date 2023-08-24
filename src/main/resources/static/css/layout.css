@@ -1,0 +1,12 @@
+header,.layout-main, .main, .corpo{
+    margin-left: 220px;
+
+}
+
+#headers{
+    padding-top:  0px;
+    background-color: #fff;
+    height: 125px;
+    margin-left: 220px;
+    border-bottom: 2.5px solid #0dcaf0;
+}

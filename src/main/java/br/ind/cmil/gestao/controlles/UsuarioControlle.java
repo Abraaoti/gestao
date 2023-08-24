@@ -53,13 +53,11 @@ public class UsuarioControlle {
         return service.getUsuarios(pageable);
     }
 
-    @GetMapping("/confirmacao")
-    public String verifyUser(@RequestParam("codigo") String codigo) {
-        if (service.verify(codigo)) {
-            return "verify_success";
-        } else {
-            return "verify_fail";
-        }
+    @GetMapping("/confirmacao/cadastro")
+    public String confirmarCadastro(@RequestParam("codigo") String codigo) {
+         service.ativarCadastro(codigo);
+       return "redirect:/login";
     }
+    
 
 }

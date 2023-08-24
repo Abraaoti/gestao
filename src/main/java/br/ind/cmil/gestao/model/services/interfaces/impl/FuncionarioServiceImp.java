@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -49,6 +50,12 @@ public class FuncionarioServiceImp implements IFuncionarioService {
     @Transactional(readOnly = true)
     public List<PessoaDTO> list(Pageable pageable) {
         return fr.searchAll(pageable).stream().map(fm::toDTO).collect(Collectors.toList());
+    }
+
+    public void demitir(String nomeOrCpf) {
+        Funcionario f = fr.findByNomeOrCpf(nomeOrCpf, nomeOrCpf).orElseThrow(() -> new FuncionarioException(nomeOrCpf, " Este usuário não consta no nosso banco de dados "));
+        f.setDemissao(LocalDate.now());
+
     }
 
     @Override

@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.model.services.interfaces;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import jakarta.mail.MessagingException;
-import java.util.List;
 import java.util.Set;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

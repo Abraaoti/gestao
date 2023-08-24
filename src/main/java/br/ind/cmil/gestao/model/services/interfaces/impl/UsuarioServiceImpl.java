@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.exceptions.AcessoNegadoException;
 import br.ind.cmil.gestao.exceptions.UsuarioNotFoundException;
 import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
@@ -37,10 +36,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     private final IUsuarioRepository ur;
     private final IPerfilService ps;
-    private final PerfilMapper pm;
     private final PasswordEncoder encoder;
     private final EmailServiceImp email;
     private final UsuarioMapper rm;
+    private final PerfilMapper pm;
 
     //public void increaseFailedAttempts(Usuario user) {
     //   int newFailAttempts = user.getFailedLoginAttempts() + 1;
@@ -52,15 +51,15 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     @Transactional(readOnly = false)
     public void register(RegistrarUsuario request, String siteURL) throws MessagingException {
+       
         request.id();
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
-
         Set<Perfil> roles = ps.perfis(request.perfis());
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
         Usuario usuario = ur.save(user);
-         emailDeConfirmacaoDeCadastro(usuario.getEmail(),siteURL);
+        emailDeConfirmacaoDeCadastro(usuario.getEmail(), siteURL);
     }
 
     public void emailDeConfirmacaoDeCadastro(String email, String url) throws MessagingException {
@@ -82,11 +81,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RegistrarUsuario buscarEmailAtivo(String email) {
         return ur.findByEmailAndAtivo(email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
 
     }
 
+    @Transactional(readOnly = false)
+    @SuppressWarnings("empty-statement")
     @Override
     public void redefinirSenha(String email) throws MessagingException {
         Usuario usuario = rm.toEntity(buscarEmailAtivo(email));
@@ -97,17 +99,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void ativarCadastro(String codigo) {
         Base64.Decoder decode = Base64.getDecoder();
-        String email = new String(decode.decode(codigo));
-        Usuario usuario = ur.findByEmail(email).get();
-        if (usuario.getId() == null) {
-            throw new AcessoNegadoException(codigo, "Não foi possível ativar seu cadastro. Entre em contato com o suporte!");
-        }
+        String mail = new String(decode.decode(codigo));
+        Usuario usuario = ur.findByNomeOrEmail(mail, mail).orElseThrow(() -> new UsuarioNotFoundException(mail, " Este usuário não consta no nosso banco de dados "));
         usuario.setAtivo(true);
     }
 
     private void validarAtributos(RegistrarUsuario request) {
+    
         Optional<Usuario> usuario = ur.findByNome(request.nome());
         if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request.id())) {
             throw new DataIntegrityViolationException("nome já cadastro no sistema!");

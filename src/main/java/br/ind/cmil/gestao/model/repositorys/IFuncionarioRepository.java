@@ -29,8 +29,8 @@ public interface IFuncionarioRepository extends JpaRepository<Funcionario, Long>
     Optional<Funcionario> findBySobrenome(String sobronome);
 
     //Optional<Funcionario> findByNascimento(String nascimento);
-    @Query("SELECT obj FROM Usuario obj INNER JOIN FETCH obj.departmento p where  obj.nome= :nome OR  obj.cpf = :cpf")
-    Optional<Funcionario> findByNomeOrCpf(@Param("nome") String nome, @Param("cpf") String cpf);
+   // @Query("SELECT obj FROM Usuario obj INNER JOIN FETCH obj.departmento p where  obj.nome= :nome OR  obj.cpf = :cpf")
+   // Optional<Funcionario> findByNomeOrCpf(@Param("nome") String nome, @Param("cpf") String cpf);
 
     Optional<Funcionario> findByCpf(String cpf);
 

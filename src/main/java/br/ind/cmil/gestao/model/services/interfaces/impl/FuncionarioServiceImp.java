@@ -52,11 +52,6 @@ public class FuncionarioServiceImp implements IFuncionarioService {
         return fr.searchAll(pageable).stream().map(fm::toDTO).collect(Collectors.toList());
     }
 
-    public void demitir(String nomeOrCpf) {
-        Funcionario f = fr.findByNomeOrCpf(nomeOrCpf, nomeOrCpf).orElseThrow(() -> new FuncionarioException(nomeOrCpf, " Este usuário não consta no nosso banco de dados "));
-        f.setDemissao(LocalDate.now());
-
-    }
 
     @Override
     @Transactional(readOnly = true)

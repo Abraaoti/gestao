@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import jakarta.mail.MessagingException;
 import java.util.Set;

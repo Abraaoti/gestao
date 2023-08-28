@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.model.dto.request;
+package br.ind.cmil.gestao.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

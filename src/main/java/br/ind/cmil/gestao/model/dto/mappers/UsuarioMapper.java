@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
-import br.ind.cmil.gestao.model.dto.request.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;

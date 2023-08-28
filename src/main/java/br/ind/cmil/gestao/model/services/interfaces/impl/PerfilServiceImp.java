@@ -7,13 +7,13 @@ import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,8 +48,8 @@ public class PerfilServiceImp implements IPerfilService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PerfilDTO> list() {
-        return pr.findAll().stream().map(pm::toDTO).collect(Collectors.toList());
+    public Set<PerfilDTO> list(Pageable pageable) {
+        return pr.searchAll(pageable).stream().map(pm::toDTO).collect(Collectors.toSet());
     }
 
     @Override

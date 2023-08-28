@@ -3,7 +3,7 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.exceptions.DisabledUserException;
 import br.ind.cmil.gestao.exceptions.InvalidUserCredentialsException;
 import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
-import br.ind.cmil.gestao.model.dto.request.Credentials;
+import br.ind.cmil.gestao.model.dto.Credentials;
 import br.ind.cmil.gestao.model.dto.response.Response;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;

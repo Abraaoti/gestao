@@ -5,6 +5,8 @@ import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,5 +24,7 @@ public interface IPerfilRepository extends JpaRepository<Perfil, Long> {
     @Query("select p from Perfil p where  p.tp IN :tp")
     Set<Perfil> findByIdAndPerfis(Set<String> tp);
 
-    //List<Perfil> findPerfisByUsuariosId(Long usuarioFId);
+    @Query(value = "SELECT obj FROM Perfil obj ",
+            countQuery = "SELECT COUNT(obj) FROM Perfil obj ")
+    Page<Perfil> searchAll(Pageable pageable);
 }

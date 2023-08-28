@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.model.dto.request;
+package br.ind.cmil.gestao.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +29,8 @@ public record RegistrarUsuario(
         LocalDateTime updatedAt,
         boolean ativo,
         String verificador,
-        Set<String> perfis
-        ) {
+        @NotBlank
+        @NotNull
+        Set<String> perfis) {
 
 }

@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import br.ind.cmil.gestao.model.dto.request.Credentials;
+import br.ind.cmil.gestao.model.dto.Credentials;
 import br.ind.cmil.gestao.model.dto.response.Response;
 import java.io.IOException;
 

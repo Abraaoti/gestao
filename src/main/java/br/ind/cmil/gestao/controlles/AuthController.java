@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.controlles;
 
-import br.ind.cmil.gestao.model.dto.request.Credentials;
+import br.ind.cmil.gestao.model.dto.Credentials;
 import br.ind.cmil.gestao.model.dto.response.Response;
 import br.ind.cmil.gestao.model.services.interfaces.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;

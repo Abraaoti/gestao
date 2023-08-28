@@ -4,6 +4,8 @@ import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import java.util.Set;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,14 +32,18 @@ public class PerfilControlle {
         this.ps = ps;
     }
 
-   
-
     @PostMapping("/add")
-    public ResponseEntity<?> save(@RequestBody PerfilDTO perfilDTO) {        
+    public ResponseEntity<?> save(@RequestBody PerfilDTO perfilDTO) {
         return new ResponseEntity<>(ps.create(perfilDTO), HttpStatus.CREATED);
     }
+
+    @GetMapping("/perfis")
+    public Set<PerfilDTO> list(Pageable pageable) {
+        return ps.list(pageable);
+    }
+
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody PerfilDTO perfilDTO) {        
+    public ResponseEntity<?> update(@RequestBody PerfilDTO perfilDTO) {
         return new ResponseEntity<>(ps.create(perfilDTO), HttpStatus.CREATED);
     }
 
@@ -45,6 +51,7 @@ public class PerfilControlle {
     public ResponseEntity<PerfilDTO> fetchUserWithId(@PathVariable @NotNull @Positive Long id) {
         return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
     }
+
     @GetMapping("/search/{p}")
     public ResponseEntity<PerfilDTO> buscarPorNome(@PathVariable("p") String p) {
         return new ResponseEntity<>(ps.buscarPerfilPorNome(p), HttpStatus.OK);

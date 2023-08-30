@@ -3,6 +3,7 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class EmailServiceImp {
         helper.setSubject("Confirmação de Cadastro");
         helper.setFrom("nao_responder@cmil.com.br");
 
-        //helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
+        helper.addInline("logo", new ClassPathResource("/static/image/logo.png"));
         emailSender.send(message);
     }
 
@@ -60,7 +61,7 @@ public class EmailServiceImp {
         helper.setSubject("Redefinição de Senha");
         helper.setFrom("elavokokassinda@gmail.com");
 
-       // helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
+       helper.addInline("logo", new ClassPathResource("/static/image/logo.png"));
 
         emailSender.send(message);
     }

@@ -57,6 +57,8 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.loginPage("/login").permitAll()
+                )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
@@ -94,6 +96,7 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 )
+                //.formLogin(formLoginCustomizer-> formLoginCustomizer)
                 //.authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

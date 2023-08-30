@@ -1,10 +1,10 @@
 package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -28,12 +30,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioControlle {
 
     @Autowired
+    private UsuarioMapper um;
+    @Autowired
     private IUsuarioService service;
 
     @PostMapping("/registrar")
-    public ResponseEntity registrarUsuario(@RequestBody @Valid RegistrarUsuario usuario, HttpServletRequest request) throws MessagingException {
-       
-        service.register(usuario, getSiteURL(request));
+    public ResponseEntity registrarUsuario(@RequestBody RegistrarUsuario u, HttpServletRequest request) throws MessagingException {
+
+        service.register(u, getSiteURL(request));
         return ResponseEntity.ok().build();
     }
 
@@ -54,10 +58,13 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/confirmacao/cadastro")
-    public String confirmarCadastro(@RequestParam("codigo") String codigo) {
-         service.ativarCadastro(codigo);
-       return "redirect:/login";
+    public ModelAndView confirmarCadastro(@RequestParam("codigo") String codigo, RedirectAttributes attr) {
+        service.ativarCadastro(codigo);
+        attr.addFlashAttribute("alerta", "sucesso");
+        attr.addFlashAttribute("titulo", "Cadastro Ativado!");
+        attr.addFlashAttribute("texto", "Parabéns, seu cadastro está ativo.");
+        attr.addFlashAttribute("subtexto", "Singa com seu login/senha");
+        return new ModelAndView("login");
     }
-    
 
 }

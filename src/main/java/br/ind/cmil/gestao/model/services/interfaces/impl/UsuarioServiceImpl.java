@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.exceptions.UsuarioNotFoundException;
-import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
@@ -10,6 +9,7 @@ import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import jakarta.mail.MessagingException;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
@@ -35,11 +35,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioServiceImpl implements IUsuarioService {
 
     private final IUsuarioRepository ur;
-    private final IPerfilService ps;
     private final PasswordEncoder encoder;
     private final EmailServiceImp email;
     private final UsuarioMapper rm;
-    private final PerfilMapper pm;
+    private final IPerfilService ps;
 
     //public void increaseFailedAttempts(Usuario user) {
     //   int newFailAttempts = user.getFailedLoginAttempts() + 1;
@@ -51,8 +50,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     @Transactional(readOnly = false)
     public void register(RegistrarUsuario request, String siteURL) throws MessagingException {
-       
-        request.id();
+
+        if (request.id() != null) {
+            update(request);
+        }
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
         Set<Perfil> roles = ps.perfis(request.perfis());
@@ -60,8 +61,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
         user.setPerfis(roles);
         Usuario usuario = ur.save(user);
         emailDeConfirmacaoDeCadastro(usuario.getEmail(), siteURL);
+
     }
 
+    public void update(RegistrarUsuario request) {
+        Usuario us = ur.findById(request.id()).get();
+        us.setNome(request.nome());
+        us.setDataCadastro(us.getDataCadastro());
+        us.setUpdatedAt(LocalDateTime.now());
+        us.setEmail(request.email());
+        us.setAtivo(request.ativo());
+        us.setPassword(new BCryptPasswordEncoder().encode(request.password()));
+        us.setVerificador(request.verificador());
+        Set<Perfil> roles = ps.perfis(request.perfis());
+        us.setPerfis(roles);
+        ur.save(us);
+
+    }
+
+    @Transactional(readOnly = false)
     public void emailDeConfirmacaoDeCadastro(String email, String url) throws MessagingException {
         Base64.Encoder encode = Base64.getEncoder();
         String codigo = encode.encodeToString(email.getBytes());
@@ -69,12 +87,14 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RegistrarUsuario buscarPorId(Long id) {
         return ur.findByUsuarioId(id).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(String.valueOf(id), "Este id: não consta no nosso banco de dados "));
 
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void alterarSenha(Usuario usuario, String s1) {
         usuario.setPassword(new BCryptPasswordEncoder().encode(s1));
         ur.save(usuario);
@@ -108,7 +128,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     private void validarAtributos(RegistrarUsuario request) {
-    
+
         Optional<Usuario> usuario = ur.findByNome(request.nome());
         if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request.id())) {
             throw new DataIntegrityViolationException("nome já cadastro no sistema!");

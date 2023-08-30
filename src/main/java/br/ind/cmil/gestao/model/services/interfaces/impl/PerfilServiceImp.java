@@ -104,15 +104,14 @@ public class PerfilServiceImp implements IPerfilService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<Perfil> perfis(Set<String> strings) {
+    public Set<Perfil> perfis(Set<String> roles) {
         Set<Perfil> perfis = new HashSet<>();
-        if (strings == null) {
-            perfis.add(pm.toEntity(this.buscarPerfilPorNome("usuário")));
+       
+        if (roles.isEmpty()) {           
+            perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue("usuário")).get());
         } else {
-            for (String string : strings) {
-
+            for (String string : roles) {
                 perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue(string)).get());
-
             }
         }
         return perfis;
@@ -130,7 +129,7 @@ public class PerfilServiceImp implements IPerfilService {
 
     }
 
-    public void perfis(Perfil tipo) {
+    private void perfis(Perfil tipo) {
         Perfil t = pr.findByTipoPerfil(tipo.getTp()).get();
         Perfil p = new Perfil();
         if (t.getTp().getValue() == null) {

@@ -2,10 +2,7 @@ package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
-import br.ind.cmil.gestao.model.enums.TipoPerfil;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 import org.springframework.data.domain.Pageable;
 
 /**

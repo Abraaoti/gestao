@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @author abraao
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationServiceImpl service;

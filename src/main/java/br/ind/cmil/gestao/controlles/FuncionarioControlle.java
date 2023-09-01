@@ -22,24 +22,21 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 /**
  *
  * @author abraao
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/p")
-@CrossOrigin(origins = "http://localhost:4200/")
 public class FuncionarioControlle {
 
     private final IFuncionarioService fs;
     private final IDepartamentoService ds;
-
-    public FuncionarioControlle(IFuncionarioService fs, IDepartamentoService ds) {
-        this.fs = fs;
-        this.ds = ds;
-    }
 
     @GetMapping("/pessoas")
     public List<PessoaDTO> list(Pageable pageable) {

@@ -6,6 +6,7 @@ import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author abraao
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/u")
 public class UsuarioControlle {
 
-    @Autowired
-    private UsuarioMapper um;
-    @Autowired
-    private IUsuarioService service;
+    
+    private final IUsuarioService service;
 
     @PostMapping("/registrar")
     public ResponseEntity registrarUsuario(@RequestBody RegistrarUsuario u, HttpServletRequest request) throws MessagingException {

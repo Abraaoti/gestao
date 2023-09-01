@@ -5,6 +5,7 @@ import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author abraao
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/perfil")
-@CrossOrigin(origins = "http://localhost:4200/")
 public class PerfilControlle {
 
     private final IPerfilService ps;
 
-    public PerfilControlle(IPerfilService ps) {
-        this.ps = ps;
-    }
 
     @PostMapping("/add")
     public ResponseEntity<?> save(@RequestBody PerfilDTO perfilDTO) {

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,23 +25,19 @@ import org.springframework.http.ResponseEntity;
  *
  * @author abraao
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/departamento")
-@CrossOrigin(origins = "http://localhost:4200/")
 public class DepartamentoControlle {
 
     private final IDepartamentoService ds;
-
-    public DepartamentoControlle(IDepartamentoService ds) {
-        this.ds = ds;
-    }   
 
     @GetMapping("/lista")
     public List<DepartamentoDTO> list(Pageable pageable) {
         return ds.list(pageable);
     }
 
-  
     @GetMapping("/{id}")
     public DepartamentoDTO findById(@PathVariable @NotNull @Positive Long id) {
         return ds.findById(id);
@@ -52,8 +49,8 @@ public class DepartamentoControlle {
     }
 
     @PutMapping("/update")
-   public ResponseEntity<?>  update(@RequestBody  DepartamentoDTO d) {
-       return ResponseEntity.status(HttpStatus.CREATED).body(ds.create(d));
+    public ResponseEntity<?> update(@RequestBody DepartamentoDTO d) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(ds.create(d));
     }
 
     @DeleteMapping("/delete/{id}")

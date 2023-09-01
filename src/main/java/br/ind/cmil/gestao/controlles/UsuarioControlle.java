@@ -24,9 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author abraao
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/u")
-@CrossOrigin(origins = "http://localhost:4200/")
 public class UsuarioControlle {
 
     @Autowired

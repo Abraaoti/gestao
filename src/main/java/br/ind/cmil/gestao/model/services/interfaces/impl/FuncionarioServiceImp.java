@@ -52,11 +52,16 @@ public class FuncionarioServiceImp implements IFuncionarioService {
         return fr.searchAll(pageable).stream().map(fm::toDTO).collect(Collectors.toList());
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public PessoaDTO findById(Long id) {
         return fr.findById(id).map(fm::toDTO).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! "));
+    }
+
+    @Transactional(readOnly = false)
+    public void demitirFuncionario(Long id) {
+        Funcionario fu = fr.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! "));
+        fu.setDemissao(LocalDate.now());
     }
 
     @Override

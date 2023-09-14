@@ -1,22 +1,29 @@
 package br.ind.cmil.gestao.controlles;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * /**
  *
  * @author abraao
  */
-@RestController
+@Controller
 public class ApiController {
-    @GetMapping("/free")
-    public String auth() {
-        return "estamos aqui!";
-    }
-    @GetMapping("/login")
-    public String login() {
-         return "redirect:/login";
-    }
+   
+   
+    
+     @PostMapping("/login_success_handler")
+  public String loginSuccessHandler() {
+    //perform audit action
+    return "/home";
+  }
+
+  @PostMapping("/login_failure_handler")
+  public String loginFailureHandler() {
+    //perform audit action
+    return "login";
+  }
 
 }

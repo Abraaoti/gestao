@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,12 +35,15 @@ public class SecurityConfig {
     ApiAuthenticationEntryPoint authenticationEntryPoint;
 
     private static final String ADMIN = TipoPerfil.ADMIN.getValue();
+    private static final String ADMINISTRADOR = TipoPerfil.ADMINISTRADOR.getValue();
     private static final String ADMINISTRATIVO = TipoPerfil.ADMINISTRATIVO.getValue();
+    private static final String ASSISTENTE = TipoPerfil.ASSISTENTEADMINISTRATIVO.getValue();
+    private static final String AUXDMINISTRATIVO = TipoPerfil.AUXDMINISTRATIVO.getValue();
     private static final String DIRETOR = TipoPerfil.DIRETOR.getValue();
     private static final String ENGENHEIRO = TipoPerfil.ENGENHEIRO.getValue();
     private static final String COMPRADOR = TipoPerfil.COMPRADOR.getValue();
     private static final String FINANCEIRO = TipoPerfil.FINANCEIRO.getValue();
-    // private static final String RH = TipoPerfil.RH.getValue();
+    private static final String RH = TipoPerfil.RH.getValue();
     private static final String TECNICO = TipoPerfil.TECNICO.getValue();
 
     @Bean
@@ -57,19 +61,29 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.loginPage("/login").permitAll()
+                .formLogin(form -> form
+                .loginPage("/login")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login-error")
+                .permitAll()
+                )
+                .logout(logout -> logout
+                .logoutSuccessUrl("/login?logout=true")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers(new AntPathRequestMatcher("/api/free")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/p/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/c/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/e/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/auth/authenticate")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/authenticate")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/perfil/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/departamento/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/u/editar/senha", "/u/confirmar/senha")).permitAll()
@@ -110,6 +124,12 @@ public class SecurityConfig {
         FilterRegistrationBean<JwtAuthenticationFilter> registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/resources/**", "/js/**", "/css/**", "/webjars/**", "/docs/**", "/image/**");
+
     }
     /**
      * @Bean public AuthenticationProvider authenticationProvider() {

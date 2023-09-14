@@ -27,10 +27,11 @@ public record RegistrarUsuario(
         LocalDateTime dataCadastro,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDateTime updatedAt,
-        boolean ativo,
+        Boolean ativo,
         String verificador,
         @NotBlank
         @NotNull
         Set<String> perfis) {
+
 
 }

@@ -1,75 +1,69 @@
-
 package br.ind.cmil.gestao.controlles;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author abraao
  */
-@Validated
-@RestController
-@RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:4200/")
-public class HomeController {  
+@Controller
+public class HomeController {
 
-    @GetMapping("/admin")
-    public String getAdminPage() {
-        return "adminPage";
+    // abrir pagina home
+    @GetMapping({"/", "/home"})
+    public String home(HttpServletResponse response) {
+        return "home";
     }
 
-    @GetMapping("/analista")
-    public String getAnalistaPage() {
-        return "analistaPage";
-    }
-    @GetMapping("/comprador")
-    public String getCompradorPage() {
-        return "compradorPage";
+    // abrir pagina login
+    @GetMapping({"/login"})
+    public String login() {
+
+        return "login";
     }
 
-    @GetMapping("/diretor")
-    public String getDiretorPage() {
-        return "diretorPage";
+    // login invalido
+    @GetMapping({"/login-error"})
+    public String loginError(ModelMap model, HttpServletRequest resp) {
+        HttpSession session = resp.getSession();
+        String lastException = String.valueOf(session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION"));
+        if (lastException.contains(SessionAuthenticationException.class.getName())) {
+            model.addAttribute("alerta", "erro");
+            model.addAttribute("titulo", "Acesso recusado!");
+            model.addAttribute("texto", "Você já está logado em outro dispositivo.");
+            model.addAttribute("subtexto", "Faça o logout ou espere sua sessão expirar.");
+            return "login";
+        }
+        model.addAttribute("alerta", "erro");
+        model.addAttribute("titulo", "Crendenciais inválidas!");
+        model.addAttribute("texto", "Login ou senha incorretos, tente novamente.");
+        model.addAttribute("subtexto", "Acesso permitido apenas para cadastros já ativados.");
+        return "login";
     }
 
-    @GetMapping("/finaceiro")
-    public String getFinanceiroPage() {
-        return "finaceiroPage";
+    @GetMapping("/expired")
+    public String sessaoExpirada(ModelMap model) {
+        model.addAttribute("alerta", "erro");
+        model.addAttribute("titulo", "Acesso recusado!");
+        model.addAttribute("texto", "Sua sessão expirou.");
+        model.addAttribute("subtexto", "Você logou em outro dispositivo");
+        return "login";
     }
 
-    @GetMapping("/gerente")
-    public String getManagerPage() {
-        return "gerentePage";
+    // acesso negado
+    @GetMapping({"/acesso-negado"})
+    public String acessoNegado(ModelMap model, HttpServletResponse resp) {
+        model.addAttribute("status", resp.getStatus());
+        model.addAttribute("error", "Acesso Negado");
+        model.addAttribute("message", "Você não tem permissão para acesso a esta área ou ação.");
+        return "error";
     }
-
-    @GetMapping("/empregado")
-    public String getEmployeePage() {
-        return "empregadoPage";
-    }
-
-    @GetMapping("/hr")
-    public String getHrPage() {
-        return "hrPage";
-    }
-
-    @GetMapping("/common")
-    public String getCommonPage() {
-        return "commonPage";
-    }
-
-    @GetMapping("/tecnico")
-    public String getTecnicoPage() {
-        return "tecnicoPage";
-    }
-
-  
-     @GetMapping("/restrict")
-    public String acessoNegado() {        
-        return "restrição";
-    }
-
 }

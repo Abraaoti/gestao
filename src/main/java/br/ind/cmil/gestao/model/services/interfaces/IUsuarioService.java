@@ -22,7 +22,7 @@ public interface IUsuarioService extends IUserService {
     public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
         return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
     }
-    // Usuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
+     RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
 
     void alterarSenha(Usuario usuario, String s1);
 

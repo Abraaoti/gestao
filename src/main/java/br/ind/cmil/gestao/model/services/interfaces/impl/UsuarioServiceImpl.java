@@ -179,4 +179,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
         //);
     }
 
+    @Override
+    public RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+
+
+/** Set<String> perfis = usuario.perfis();
+        if (perfis.size() > 2
+                || perfis.containsAll(Arrays.asList(new Perfil(1L), new Perfil(3L)))
+                || perfis.containsAll(Arrays.asList(new Perfil(2L), new Perfil(3L)))) {
+            attr.addFlashAttribute("falha", "auxiliar administrativo não pode ser Admin e/ou Assistente.");
+            attr.addFlashAttribute("usuario", usuario);
+        } else {
+            try {
+                service.salvarUsuario(usuario);
+                attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
+            } catch (DataIntegrityViolationException ex) {
+                attr.addFlashAttribute("falha", "Cadastro não realizado, email já existente.");
+            }
+        }**/
 }

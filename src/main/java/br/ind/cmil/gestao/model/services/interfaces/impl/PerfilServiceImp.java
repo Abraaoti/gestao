@@ -1,18 +1,23 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.exceptions.PerfilExistenteException;
+import br.ind.cmil.gestao.model.datatables.Datatables;
+import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +32,13 @@ public class PerfilServiceImp implements IPerfilService {
 
     private final IPerfilRepository pr;
     private final PerfilMapper pm;
+     private final Datatables datatables;
 
     @Autowired
-    public PerfilServiceImp(IPerfilRepository iPerfilRepository, PerfilMapper pm) {
+    public PerfilServiceImp(IPerfilRepository iPerfilRepository, PerfilMapper pm,Datatables datatables) {
         this.pr = iPerfilRepository;
         this.pm = pm;
+        this.datatables = datatables;
     }
 
     @Override
@@ -45,11 +52,27 @@ public class PerfilServiceImp implements IPerfilService {
 
         return role;
     }
+    
+    
+     @Override
+         @Transactional(readOnly = true)
+    public Map<String, Object> buscarTodos(HttpServletRequest request) {
+        datatables.setRequest(request);
+        datatables.setColunas(DatatablesColunas.PERFIL);
+        Page<?> page = datatables.getSearch().isEmpty() ? pr.findAll(datatables.getPageable())
+                : pr.findAllByEmailOrPerfil(pm.convertPerfilValue(datatables.getSearch()), datatables.getPageable());
+        return datatables.getResponse(page);
+    }
 
     @Override
     @Transactional(readOnly = true)
     public Set<PerfilDTO> list(Pageable pageable) {
         return pr.searchAll(pageable).stream().map(pm::toDTO).collect(Collectors.toSet());
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Set<PerfilDTO> perfis() {
+        return pr.searchAll().stream().map(pm::toDTO).collect(Collectors.toSet());
     }
 
     @Override

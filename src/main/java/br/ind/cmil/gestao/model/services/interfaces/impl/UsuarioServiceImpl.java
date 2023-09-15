@@ -19,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -167,17 +165,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toSet());
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return ur.findByNomeOrEmail(username, username).get();
-        //Usuario usuario = ur.findByNomeOrEmail(username, username).get();
-        // return new User(
-        //       usuario.getEmail(),
-        /// ////       usuario.getPassword(),
-        //        AuthorityUtils.createAuthorityList(getAtuthorities((List<Perfil>) usuario.getPerfis()))
-        //);
-    }
+   
 
     @Override
     public RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {

@@ -11,9 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  *
  * @author abraao
  */
-public interface IUsuarioService extends IUserService {
+public interface IUsuarioService {
 
     void register(RegistrarUsuario request, String siteURL) throws MessagingException;
+
     void salvarUsuarioGeral(RegistrarUsuario request, String siteURL) throws MessagingException;
 
     RegistrarUsuario buscarPorId(Long id);
@@ -23,7 +24,8 @@ public interface IUsuarioService extends IUserService {
     public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
         return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
     }
-     RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
+
+    RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
 
     void alterarSenha(Usuario usuario, String s1);
 
@@ -75,6 +77,4 @@ public interface IUsuarioService extends IUserService {
     //void saveCadastroFinanceiro(Usuario usuario) throws MessagingException;
     //void redefinirSenha(String email);
     //void ativarCadastro(String codigo);*/
-
-    
 }

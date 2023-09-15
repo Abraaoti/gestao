@@ -6,8 +6,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -17,8 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
     // abrir pagina home
-    @GetMapping({"/", "/home"})
+    @GetMapping("/home")
     public String home(HttpServletResponse response) {
         return "home";
     }

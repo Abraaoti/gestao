@@ -78,7 +78,7 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/novo/usuario")
-    public String addUsuario(Model model, @ModelAttribute RegistrarUsuario usuario) {
+    public String addUsuario(Model model, RegistrarUsuario usuario) {
         model.addAttribute("usuario", usuario);
         // model.addAttribute("perfis", perfis.perfis());
         return "cadastro";
@@ -138,7 +138,7 @@ public class UsuarioControlle {
     public String novoCadastro(Model model, @ModelAttribute RegistrarUsuario usuario) {
 
         model.addAttribute("usuario", usuario);
-        //model.addAttribute("perfis", perfis.perfis());   
+        model.addAttribute("perfis", perfis.perfis());   
 
         return "cadastro";
     }
@@ -152,7 +152,7 @@ public class UsuarioControlle {
     @PostMapping("/cadastro/paciente/salvar")
     public String salvarCadastroAuxiliar(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
         try {
-            service.salvarUsuarioGeral(usuario, getSiteURL(request));
+           service.salvarUsuarioGeral(usuario, getSiteURL(request));
         } catch (DataIntegrityViolationException ex) {
             result.reject("email", "Ops... Este e-mail já existe na base de dados.");
             return "cadastro";

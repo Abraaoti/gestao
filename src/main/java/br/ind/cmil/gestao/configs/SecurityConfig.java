@@ -10,6 +10,8 @@ import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -34,7 +37,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // private final IUserService userService;
+    @Autowired
+    private UserDetailsService userDetailsService;
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
@@ -61,30 +65,30 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+    
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login-error")
-                .permitAll()
-                )
-                .logout(logout -> logout
-                .logoutSuccessUrl("/")
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-                )
+                //.formLogin(form -> form
+                //.loginPage("/login")
+                // .defaultSuccessUrl("/", true)
+                // .failureUrl("/login-error")
+                //.permitAll()
+                // )
+                //.logout(logout -> logout
+                //.logoutSuccessUrl("/")
+                //.deleteCookies("JSESSIONID")
+                //.permitAll()
+                // )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS)
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/u/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/p/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/c/**")).permitAll()
@@ -95,40 +99,49 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/empresa/avaliar/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                .requestMatchers("/u/novo/cadastro", "/u/cadastro/realizado", "/u/cadastro/paciente/salvar").permitAll()
-                .requestMatchers("/u/confirmacao/cadastro").permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/u/novo/cadastro", "/u/cadastro/realizado")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/u/confirmacao/cadastro", "/u/cadastro/paciente/salvar")).permitAll()
                 .requestMatchers("/u/p/**").permitAll()
                 //acessos privados admin  
-                .requestMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(ADMINISTRADOR, AUXDMINISTRATIVO,ASSISTENTE,RH)
-                .requestMatchers("/u/**").hasAuthority(ADMIN)
-                .requestMatchers("/administrativo/**").hasAuthority(ADMINISTRATIVO)
+                .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).hasAnyAuthority(ADMINISTRADOR, AUXDMINISTRATIVO, ASSISTENTE, RH)
+                .requestMatchers(new AntPathRequestMatcher("/home")).hasAuthority(ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/u/**")).hasAuthority(ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/administrativo/**")).hasAuthority(ADMINISTRATIVO)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers("/administrador/**").hasAuthority(ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/administrador/**")).hasAuthority(ADMINISTRADOR)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers("/auxiliar/**").hasAuthority(AUXDMINISTRATIVO)
+                .requestMatchers(new AntPathRequestMatcher("/auxiliar/**")).hasAuthority(AUXDMINISTRATIVO)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers("/assistente/**").hasAuthority(ASSISTENTE)
-               
+                .requestMatchers(new AntPathRequestMatcher("/assistente/**")).hasAuthority(ASSISTENTE)
                 //acessos privados financeiro                
-                .requestMatchers("/rh/**").hasAnyAuthority(ADMIN, RH)
-                .requestMatchers("/rh/pessoas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, RH, DIRETOR)
-                
+                .requestMatchers(new AntPathRequestMatcher("/rh/**")).hasAnyAuthority(ADMIN, RH)
+                .requestMatchers(new AntPathRequestMatcher("/rh/pessoas/**")).hasAnyAuthority(ADMINISTRATIVO, ADMIN, RH, DIRETOR)
                 //acessos privados diretoria
-                .requestMatchers("/diretoria/**").hasAuthority(DIRETOR)
+                .requestMatchers(new AntPathRequestMatcher("/diretoria/**")).hasAuthority(DIRETOR)
                 //.requestMatchers("/api/pessoa/**").hasAuthority(RH)
                 //acessos privados tecnico
-                .requestMatchers("/engenheiro/**").hasAuthority(ENGENHEIRO)
-                .requestMatchers("/financeiro/**").hasAuthority(FINANCEIRO)
-                .requestMatchers("/tecnico").hasAuthority(TECNICO)
-                .requestMatchers("/comprador").hasAuthority(COMPRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/engenheiro/**")).hasAuthority(ENGENHEIRO)
+                .requestMatchers(new AntPathRequestMatcher("/financeiro/**")).hasAuthority(FINANCEIRO)
+                .requestMatchers(new AntPathRequestMatcher("/tecnico")).hasAuthority(TECNICO)
+                .requestMatchers(new AntPathRequestMatcher("/comprador")).hasAuthority(COMPRADOR)
                 .anyRequest()
                 .authenticated()
-                )
-                //.formLogin(formLoginCustomizer-> formLoginCustomizer)
-                //.authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                ).formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/home")
+                                .permitAll()
+                ).logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                );
+        http.authenticationProvider(authenticationProvider());
 
-        http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+       // http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
 
         return http.build();
     }
@@ -161,11 +174,12 @@ public class SecurityConfig {
         return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
     }
 
-    /**
-     * @Bean public AuthenticationProvider authenticationProvider() {
-     * DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-     * authProvider.setUserDetailsService(userService);
-     * authProvider.setPasswordEncoder(passwordEncoder()); return authProvider;
-     * }*
-     */
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
 }

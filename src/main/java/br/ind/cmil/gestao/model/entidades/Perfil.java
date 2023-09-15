@@ -6,7 +6,9 @@ import br.ind.cmil.gestao.model.enums.converters.TipoPerfilConvert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.util.Set;
 
 /**
  *
@@ -21,7 +23,8 @@ public class Perfil extends Entidade {
     @Convert(converter = TipoPerfilConvert.class)
     private TipoPerfil tp;
 
-   
+    @ManyToMany(mappedBy = "perfis")
+    private Set<Usuario> usuarios;
 
     public Perfil() {
         super();
@@ -48,7 +51,13 @@ public class Perfil extends Entidade {
         this.tp = tp;
     }
 
-   
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 
     /**
      * @PreRemove private void removeUsuarioAssociations() { for (Usuario book :

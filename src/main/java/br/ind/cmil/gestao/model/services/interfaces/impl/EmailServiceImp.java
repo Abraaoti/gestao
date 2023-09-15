@@ -33,7 +33,7 @@ public class EmailServiceImp {
         Context context = new Context();
         context.setVariable("titulo", "Link de confirmação de cadastro");
         context.setVariable("texto", "Precisamos que confirme seu cadastro, clicando no link abaixo");
-        context.setVariable("linkConfirmacao", siteUR + "/api/u/confirmacao/cadastro?codigo="+codigo);
+        context.setVariable("linkConfirmacao", siteUR + "/u/confirmacao/cadastro?codigo="+codigo);
 
         String html = template.process("email/confirmacao", context);
         helper.setTo(emailDestino);

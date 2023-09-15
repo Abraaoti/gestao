@@ -11,14 +11,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -29,7 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
     @UniqueConstraint(columnNames = "nome"),
     @UniqueConstraint(columnNames = "email")
 })
-public class Usuario extends Entidade implements UserDetails {
+public class Usuario extends Entidade{
 
     @Column(name = "nome", unique = true, nullable = false)
     private String nome;
@@ -99,7 +94,7 @@ public class Usuario extends Entidade implements UserDetails {
         this.email = email;
     }
 
-    @Override
+  
     public String getPassword() {
         return password;
     }
@@ -153,7 +148,7 @@ public class Usuario extends Entidade implements UserDetails {
         return "Usuario{" + "nome=" + nome + ", email=" + email + ", password=" + password + ", dataCadastro=" + dataCadastro + ", updatedAt=" + updatedAt + ", ativo=" + ativo + ", verificador=" + verificador + ", perfis=" + perfis + '}';
     }
 
-    @Override
+   /** @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         for (Perfil perfil : perfis) {
@@ -186,6 +181,6 @@ public class Usuario extends Entidade implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
+    }**/
 
 }

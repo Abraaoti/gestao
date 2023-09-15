@@ -6,6 +6,7 @@ import br.ind.cmil.gestao.model.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.RegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,10 +15,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -63,18 +69,18 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/home", true)
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/login-error")
                 .permitAll()
                 )
                 .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout=true")
-                .invalidateHttpSession(true)
+                .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
                 .permitAll()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS)
+                )
                 .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
@@ -89,24 +95,32 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/empresa/avaliar/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                //acessos privados admin                
-                .requestMatchers("/api/**").hasAuthority(ADMIN)
-                .requestMatchers("/api/administrativo").hasAuthority(ADMINISTRATIVO)
-                .requestMatchers("/api/empresa/editar/senha", "/u/confirmar/senha").hasAnyAuthority(FINANCEIRO, ADMINISTRATIVO, ADMIN)
-                .requestMatchers("/api/empresa/**").hasAuthority(ADMIN)
+                .requestMatchers("/u/novo/cadastro", "/u/cadastro/realizado", "/u/cadastro/paciente/salvar").permitAll()
+                .requestMatchers("/u/confirmacao/cadastro").permitAll()
+                .requestMatchers("/u/p/**").permitAll()
+                //acessos privados admin  
+                .requestMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(ADMINISTRADOR, AUXDMINISTRATIVO,ASSISTENTE,RH)
+                .requestMatchers("/u/**").hasAuthority(ADMIN)
+                .requestMatchers("/administrativo/**").hasAuthority(ADMINISTRATIVO)
+                //acessos privados auxiliar administrativo                
+                .requestMatchers("/administrador/**").hasAuthority(ADMINISTRADOR)
+                //acessos privados auxiliar administrativo                
+                .requestMatchers("/auxiliar/**").hasAuthority(AUXDMINISTRATIVO)
+                //acessos privados auxiliar administrativo                
+                .requestMatchers("/assistente/**").hasAuthority(ASSISTENTE)
+               
                 //acessos privados financeiro                
-                .requestMatchers("/api/financeiro/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
-                .requestMatchers("/api/empresas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
-                .requestMatchers("/api/pagarcontas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, FINANCEIRO, DIRETOR)
-                .requestMatchers("/api/administrativo/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN)
+                .requestMatchers("/rh/**").hasAnyAuthority(ADMIN, RH)
+                .requestMatchers("/rh/pessoas/**").hasAnyAuthority(ADMINISTRATIVO, ADMIN, RH, DIRETOR)
+                
                 //acessos privados diretoria
-                .requestMatchers("/api/diretoria/**").hasAuthority(DIRETOR)
+                .requestMatchers("/diretoria/**").hasAuthority(DIRETOR)
                 //.requestMatchers("/api/pessoa/**").hasAuthority(RH)
                 //acessos privados tecnico
-                .requestMatchers("/api/engenheiro/**").hasAuthority(ENGENHEIRO)
-                .requestMatchers("/api/financeiro/**").hasAuthority(FINANCEIRO)
-                .requestMatchers("/api/tecnico").hasAuthority(TECNICO)
-                .requestMatchers("/api/comprador").hasAuthority(COMPRADOR)
+                .requestMatchers("/engenheiro/**").hasAuthority(ENGENHEIRO)
+                .requestMatchers("/financeiro/**").hasAuthority(FINANCEIRO)
+                .requestMatchers("/tecnico").hasAuthority(TECNICO)
+                .requestMatchers("/comprador").hasAuthority(COMPRADOR)
                 .anyRequest()
                 .authenticated()
                 )
@@ -131,6 +145,22 @@ public class SecurityConfig {
         return (web) -> web.ignoring().requestMatchers("/resources/**", "/js/**", "/css/**", "/webjars/**", "/docs/**", "/image/**");
 
     }
+
+    @Bean
+    public SessionAuthenticationStrategy sessionAuthStrategy() {
+        return new RegisterSessionAuthenticationStrategy(sessionRegistry());
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<?> servletListenerRegistrationBean() {
+        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
+    }
+
     /**
      * @Bean public AuthenticationProvider authenticationProvider() {
      * DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

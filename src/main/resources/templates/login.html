@@ -32,16 +32,10 @@
     </head>
     <body>
 
-        <h1>Please Log In</h1>
-        <div th:if="${param.error}">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
+
         <form class="form-signin was-validated" method="post" th:action="@{/login}">
             <div class="text-center mb-4">
-                <img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72"/>
+                <!--img class="mb-4" th:src="@{/image/registration.jpg}" alt="" width="72" height="72"/-->
                 <h1 class="h3 mb-3 font-weight-normal">Gestão de Pessoas</h1>
 
                 <p class="font-weight-lighter">Seja bem-vindo.</p>
@@ -63,9 +57,9 @@
             </div>
 
             <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control"
+                <input type="password" id="password" class="form-control"
                        placeholder="Password" name="password" required/> 
-                <label for="inputPassword">Senha</label>
+                <label for="password">Senha</label>
                 <div class="invalid-feedback">Digite sua senha.</div>	
             </div>
 
@@ -88,5 +82,7 @@
 
                 </p>
         </form>
+
+
     </body>
 </html>

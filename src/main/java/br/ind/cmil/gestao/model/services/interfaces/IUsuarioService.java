@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public interface IUsuarioService extends IUserService {
 
     void register(RegistrarUsuario request, String siteURL) throws MessagingException;
+    void salvarUsuarioGeral(RegistrarUsuario request, String siteURL) throws MessagingException;
 
     RegistrarUsuario buscarPorId(Long id);
 
@@ -74,4 +75,6 @@ public interface IUsuarioService extends IUserService {
     //void saveCadastroFinanceiro(Usuario usuario) throws MessagingException;
     //void redefinirSenha(String email);
     //void ativarCadastro(String codigo);*/
+
+    
 }

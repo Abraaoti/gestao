@@ -28,7 +28,7 @@ import org.springframework.http.ResponseEntity;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/departamento")
+@RequestMapping("/departamento")
 public class DepartamentoControlle {
 
     private final IDepartamentoService ds;

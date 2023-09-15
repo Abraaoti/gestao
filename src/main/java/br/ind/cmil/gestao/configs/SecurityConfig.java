@@ -1,12 +1,7 @@
 package br.ind.cmil.gestao.configs;
 
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
-import br.ind.cmil.gestao.model.security.jwt.ApiAuthenticationEntryPoint;
-import br.ind.cmil.gestao.model.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.RegistrationBean;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,17 +11,10 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -39,10 +27,6 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
-    @Autowired
-    ApiAuthenticationEntryPoint authenticationEntryPoint;
 
     private static final String ADMIN = TipoPerfil.ADMIN.getValue();
     private static final String ADMINISTRADOR = TipoPerfil.ADMINISTRADOR.getValue();
@@ -62,10 +46,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-    
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -83,12 +74,12 @@ public class SecurityConfig {
                 //.deleteCookies("JSESSIONID")
                 //.permitAll()
                 // )
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS)
-                )
+                //.exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
+                //.sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS)
+                // )
                 .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/u/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/p/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/c/**")).permitAll()
@@ -104,7 +95,7 @@ public class SecurityConfig {
                 .requestMatchers("/u/p/**").permitAll()
                 //acessos privados admin  
                 .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).hasAnyAuthority(ADMINISTRADOR, AUXDMINISTRATIVO, ASSISTENTE, RH)
-                .requestMatchers(new AntPathRequestMatcher("/home")).hasAuthority(ADMIN)
+               
                 .requestMatchers(new AntPathRequestMatcher("/u/**")).hasAuthority(ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/administrativo/**")).hasAuthority(ADMINISTRATIVO)
                 //acessos privados auxiliar administrativo                
@@ -129,57 +120,25 @@ public class SecurityConfig {
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/home")
+                                .defaultSuccessUrl("/home", true)
+                                 .failureUrl("/login?error=true")
                                 .permitAll()
                 ).logout(
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
                 );
-        http.authenticationProvider(authenticationProvider());
+        //http.authenticationProvider(authenticationProvider());
 
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-       // http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
-
+        // http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        // http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
         return http.build();
-    }
-
-    @Bean
-    public RegistrationBean jwtAuthFilterRegister(JwtAuthenticationFilter filter) {
-        FilterRegistrationBean<JwtAuthenticationFilter> registrationBean = new FilterRegistrationBean<>(filter);
-        registrationBean.setEnabled(false);
-        return registrationBean;
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/resources/**", "/js/**", "/css/**", "/webjars/**", "/docs/**", "/image/**");
 
-    }
-
-    @Bean
-    public SessionAuthenticationStrategy sessionAuthStrategy() {
-        return new RegisterSessionAuthenticationStrategy(sessionRegistry());
-    }
-
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-    }
-
-    @Bean
-    public ServletListenerRegistrationBean<?> servletListenerRegistrationBean() {
-        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
     }
 
 }

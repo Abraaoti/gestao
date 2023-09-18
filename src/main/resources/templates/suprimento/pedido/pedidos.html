@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+            <a href="form.html" th:href="@{/pedidos/novo}">Novo pedido</a>
+		<div class="alert alert-success" th:if="${globalMessage}"
+			th:text="${globalMessage}">mensagem</div>			
+		<table class="table table-bordered table-striped">
+			<thead> 
+				<tr>
+					<td>ID</td>
+					<td>Cliente</td>
+					<td>Data</td>
+					<td>Valor total</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${pedidos.empty}">
+					<td colspan="3">Sem pedidos</td>
+				</tr>
+				<tr th:each="pedido : ${pedidos}">
+					<td th:text="${pedido.id}">1</td>
+					<td><a href="view.html" th:href="@{'/pedidos/' + ${pedido.id}}"   th:text="${pedido.cliente != null} ? ${pedido.cliente.nome}"> nome </a></td>
+					<td th:text="${#dates.format(pedido.data,'dd-MM-yyyy')}">data</td>
+					<td th:text="${pedido.valorTotal}">1</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+   
+
+
+        <script	th:src="@{/js/pedidos.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

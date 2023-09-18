@@ -32,7 +32,6 @@ public class Administrador extends Entidade {
     @JsonIgnore
     @OneToMany(mappedBy = "administrador")
     private List<Projeto> projetos;
-
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

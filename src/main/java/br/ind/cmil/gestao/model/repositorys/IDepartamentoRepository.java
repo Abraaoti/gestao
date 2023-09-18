@@ -23,6 +23,9 @@ public interface IDepartamentoRepository extends JpaRepository<Departamento, Lon
             countQuery = "SELECT COUNT(obj) FROM Departamento obj ")
     Page<Departamento> searchAll(Pageable pageable);
 
+    @Query("SELECT obj FROM Departamento obj where obj.nome =: search")
+    Page<?> searchAll(String search, Pageable pageable);
+
     Optional<Departamento> findByNome(String nome);
 
 }

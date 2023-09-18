@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+
+            <div class="container bg-light">
+                <div class="col-sm">
+                    <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+                    <div class="col-md-12">
+
+                        <h2>Processos Cadastrados</h2>
+                        <table id="table-processo" class="table table-sm table-striped table-bordered display nowrap" style="width:100%">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Emissão</th>
+                                    <th scope="col">Vencimento</th>
+                                    <th scope="col">Fornecedor</th>
+                                    <th scope="col">Título</th>                                           
+                                    <th scope="col">CCusto</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Parcela</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Arquivo</th>
+                                    <th scope="col">Operador</th>
+                                    <th scope="col">Editar</th>
+                                    <th scope="col">Excluir</th>
+                                    <th scope="col">GerarPDF</th>
+                                    <th scope="col">GerarHtml</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <script	th:src="@{/js/processofinanceiro.js(v=${version})}" th:fragment="js"></script>
+            <script th:inline="javascript" th:fragment="inlinescript">
+
+            </script>
+    </body>
+</html>

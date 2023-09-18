@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+
+            <form th:action="${conta_a_pagar.id == null} ? @{/pagarcontas/pagar} : @{/pagarcontas/editar}" th:object="${conta_a_pagar}" method="POST" class="was-validated" enctype="multipart/form-data">
+
+                <div class="row g-3">
+                    <div class="col-md">                     
+
+                         <div class="form-floating">
+                            <input type="text" class="form-control" th:field="*{documento}"  id="documento" required/>
+                            <label for="documento">Título<span class="invalid-feedback">*</span></label>                                          
+                        </div>
+                    </div>
+
+
+                    <div class="col-md">
+                         <div class="form-floating">
+                            <input type="text" class="form-control" th:field="*{valorPagar}"  id="valorPagar" required/>
+                            <label for="valorPagar" >Valor a Pagar<span class="invalid-feedback">*</span></label>                                          
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                         <div class="form-floating">
+                            <select  id="banco" th:field="*{banco}" class="form-control">
+                                <option th:each="banco : ${T(br.com.cmil.controle.dominio.enuns.Banco).values()}" th:value="${banco.name()}" th:text="${banco.name()}" selected="selected"/>
+                            </select>
+                            <label for="banco">Banco</label> 
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row g-3">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" th:field="*{vencimento}"  id="vencimento" required/>
+                            <label for="vencimento" >Vencimento<span class="invalid-feedback">*</span></label>                                          
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" th:field="*{data_pagamento}"  id="data_pagamento" required/>
+                            <label for="data_pagamento">Data Pag<span class="invalid-feedback">*</span></label>                                          
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="mb-3 row">
+                            <div class="form-floating">                                      
+                                <textarea class="form-control"  th:field="*{observacao}"  id="observacao"></textarea>
+                                <label for="observacao">Obs<span class="invalid-feedback">*</span></label>                                          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{id}"/>	
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Gegar"><i class="fa fa-credit-card" aria-hidden="true"></i>Pagar</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <script	th:src="~{}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+
+
+        </script>
+    </body>
+</html>

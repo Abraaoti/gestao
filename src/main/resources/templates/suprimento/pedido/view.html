@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo"  class="well">
+		<div class="alert alert-success" th:if="${globalMessage}"
+			th:text="${globalMessage}">pedido gravado com sucesso</div>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Data</th>
+					<th>Valor total</th>
+					<th>Itens</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td id="id" th:text="${pedido.id}">123</td>
+					<td id="nome" th:text="${pedido.cliente.nome}">Nome...</td>
+					<td id="data" th:text="${pedido.data}">Preco...</td>
+					<td id="valorTotal" th:text="${pedido.valorTotal}">Valor total...</td>
+					<td id="itens" th:each="item : ${pedido.itens}">
+					  <div th:text="${item.nome}"> nome </div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="pull-left">
+			<a href="form.html" th:href="@{'/pedidos/alterar/' + ${pedido.id}}">alterar</a>
+			| <a href="pedidos" th:href="@{'/pedidos/remover/' + ${pedido.id}}">remover</a>
+			| <a href="pedidos" th:href="@{'/pedidos/novo/'}">novo pedido</a>
+		    | <a th:href="@{/pedidos/lista/pedidos}" href="pedidos.html">voltar</a>
+		</div>
+	</div>
+
+
+        <script	th:src="@{/js/pedidos.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

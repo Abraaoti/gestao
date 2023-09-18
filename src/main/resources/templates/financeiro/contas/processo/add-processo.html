@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+
+        <div  layout:fragment="corpo">
+
+
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+            <form th:action="@{/processofinanceiro/salvar}" 
+
+                  th:object="${processo}" 
+                  method="post"                                 
+                  class="was-validated"                                   
+                  enctype="multipart/form-data"
+                  >  
+
+
+
+
+
+                <div class="row g-3">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" th:field="*{documento}"  id="documento" required/>
+                            <label for="titulo" >Título<span class="invalid-feedback">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" th:field="*{emissao}" id="emissao" placeholder="00/00/0000" required />
+
+                            <label for="emissao" >Emissão<span class="invalid-feedback">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" th:field="*{vencimento}"  id="vencimento" required/>
+                            <label for="vencimento" >Vencimento<span class="invalid-feedback">*</span></label>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="row g-3">
+
+
+
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select  id="fornecedor" th:field="*{fornecedor}" class="form-control">
+                                <option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.id}" th:text="${fornecedor.nome}" selected="selected"/>
+                            </select>
+                            <label for="fornecedor">Fornecedor<span class="invalid-feedback">*</span></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+
+                            <select  id="centroCusto" th:field="*{centroCusto}" class="form-control">
+                                <option th:each="centroCusto : ${centroCustos}" th:value="${centroCusto.id}" th:text="${centroCusto.nome}" selected="selected"/>
+                            </select>
+                            <label for="centroCusto">Centro de Custo<span class="invalid-feedback">*</span></label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row g-3">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select  id="centroCusto" th:field="*{forma_pagamento}" class="form-control">
+                                <option th:each="forma_pagamento : ${T(br.com.cmil.controle.dominio.enuns.FormaPagamento).values()}" th:value="${forma_pagamento.name()}" th:text="${forma_pagamento.name()}" selected="selected"/>
+                            </select>
+                            <label for="forma_pagamento">Forma Pag<span class="invalid-feedback">*</span></label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="qtdparcela" placeholder="0000"  th:field="*{qtdparcela}" required />
+                            <label for="qtdparcela" >PARCELA<span class="invalid-feedback">*</span></label> 
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" th:field="*{valor}"  id="valor" data-mask="#.##0,00"  data-mask-reverse="true" required/>
+                            <label for="valor">Valor Total<span class="invalid-feedback">*</span></label>                                          
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="file" class="form-control" accept="image/*,.pdf" id="file" name="file" required />
+                            <label for="file">Arquivo</label> 
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <input type="hidden" th:field="*{id}"/>	
+                <input type="hidden" name="id" th:field="*{usuario.id}">
+
+                <div style="overflow: auto;">
+                    <div style="float: right;">
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Salvar"><i class="fas fa-save"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <hr/>
+
+            <h2>Lista de Contas a Pagar</h2>
+
+            <div th:include="fragments/processo::processo"></div>
+        </div>
+
+        <script	th:src="@{/js/processofinanceiro.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

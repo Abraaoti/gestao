@@ -22,6 +22,8 @@ public interface ICargoRepository extends JpaRepository<Cargo, Long> {
     @Query(value = "SELECT obj FROM Cargo obj ",
             countQuery = "SELECT COUNT(obj) FROM Cargo obj ")
     Page<Cargo> searchAll(Pageable pageable);
+    @Query("SELECT obj FROM Cargo obj  where obj.nome =: search")
+    Page<?> searchAll(String search, Pageable pageable);
 
     Optional<Cargo> findByNome(String nome);
 

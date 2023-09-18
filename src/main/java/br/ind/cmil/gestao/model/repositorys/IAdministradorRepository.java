@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.model.repositorys;
 
 import br.ind.cmil.gestao.model.entidades.Administrador;
@@ -25,12 +24,14 @@ public interface IAdministradorRepository extends JpaRepository<Administrador, L
             countQuery = "SELECT COUNT(obj) FROM Administrador obj ")
     Page<Administrador> searchAll(Pageable pageable);
 
+    @Query("SELECT obj FROM Administrador obj where obj.nome =: search")
+    Page<?> searchAll(String search, Pageable pageable);
+
     Optional<Administrador> findByNome(String nome);
-    
-     @Query("select obj from Administrador obj INNER JOIN  obj.usuario u where u.nome =:nome OR u.email =:email")
-    Optional<Administrador> findByUsuarioEmail(String nome,String email);
-    
-    
+
+    @Query("select obj from Administrador obj INNER JOIN  obj.usuario u where u.nome =:nome OR u.email =:email")
+    Optional<Administrador> findByUsuarioEmail(String nome, String email);
+
     @Query("select a from Administrador a where a.nome like :search%")
     Page<?> findAllByTitulo(String search, Pageable pageable);
 
@@ -39,5 +40,5 @@ public interface IAdministradorRepository extends JpaRepository<Administrador, L
 
     @Query("select a from Administrador a where a.usuario.nome IN :titulos")
     Set<Administrador> findByAdministradorNome(String[] titulos);
-    
+
 }

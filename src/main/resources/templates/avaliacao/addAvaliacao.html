@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+
+            <form th:action="${avaliacao.id == null} ? @{/avaliacoes/salvar} : @{/avaliacoes/editar}"
+                  th:object="${avaliacao}"	method="POST" class="was-validated">
+
+                <div class="row mb-3">
+                    <div class="col-md">
+                        <div class="form-floating ">                    
+                            <input type="text" class="form-control" id="avaliador"  th:field="*{avaliador}" name="avaliador" required />
+                            <label for="avaliador">Nome</label>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating ">                           
+
+                            <select class="form-select" id="centro" name="centro" aria-label="Floating label select example" required>
+                                <option selected>Seleciona um centro de custo</option>
+                                <option  th:each="centro : ${centros}" 
+                                         th:text="${centro.nome}" 
+                                         th:value="${centro.id}"
+                                         th:field="*{centro}"
+                                         />
+                            </select>
+                            <label for="centro" >Centro(s) de Custo(s)</label>
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating "> 
+                            <select class="form-select" id="campanha" name="campanha" aria-label="Floating label select example" required>
+                                <option selected>Seleciona uma campanha</option>
+                                <option  th:each="campanha : ${campanhas}" 
+                                         th:text="${campanha.nome}"
+                                         th:value="${campanha.id}"
+                                         th:field="*{campanha}"
+                                         />
+                            </select>
+                            <label for="campanha" >Campanha</label>
+
+                        </div>
+                    </div>
+                </div>
+
+              
+                        <label class="form-check-label" for="nota">Nota: </label>
+                        <div class="form-check form-switch">
+                            <th:block th:each="nota : ${notas}">
+                                <div class="form-check ">
+                                    <input type="radio" name="nota" class="form-check-input"
+                                           th:text="${nota.name()}"
+                                           th:value="${nota.name()}"
+                                           th:field="*{nota}"
+                                           />
+                                </div>                    
+                            </th:block>
+
+
+                        </div>
+
+
+                <input type="hidden" th:field="*{id}"/>	
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <div class="col-sm-2">
+                            <button  class="btn btn-primary ">Cadastrar</button>                   
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <hr />
+            <!--div th:switch="${avaliacoes}">
+                <h2 th:case="null">Não há avaliações!</h2>
+                <div th:case="*"-->
+            <h2>Avaliações</h2>
+            <table id="table-avaliacao"  class="table table-sm table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Cód</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Centro De Custo</th>
+                        <th scope="col">Campanha</th>
+                        <th scope="col">Nota</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+
+            </table>
+
+
+
+        </div>
+
+
+        <script th:src="@{/js/avaliacao.js}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

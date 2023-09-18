@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+
+        <div  layout:fragment="corpo">
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+            <form th:action="${imobilizado.id == null} ? @{/imobilizados/salvar} : @{/imobilizados/editar}"
+                  th:object="${imobilizado}"	method="POST" class="was-validated">
+                <div class="form-row">
+                    <div class="form-group row">
+                        <label for="responsavel" class="col-sm-2 col-form-label">Responsavel </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control"  th:field="*{responsavel}" id="responsavel" 
+                                   required/>
+                            <div class="invalid-feedback">nome  é requerido.</div>
+                        </div>                                             
+
+
+                        <input type="hidden" name="id" th:field="*{id}"/>	
+
+
+                        <div class="col-sm-4">
+                            <input type="submit" class="btn btn-primary " value="Salvar"/>
+                        </div>
+
+                    </div>
+
+                </div>    
+            </form>
+
+            <hr/>
+
+            <h2>Lista de Imobilizados</h2>
+
+            <table id="table-imobilizado" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Excluir</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+        <script  th:src="@{/js/imobilizado.js}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript"></script>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+            <div th:switch="${fornecedores}">
+                <h2 th:case="null">Não há avaliações!</h2>
+                <div th:case="*">
+
+                    <h2>Fornecedores Cadastrados</h2>
+
+                    <table   class="table table-sm table-striped table-bordered">
+                        <thead class="thead-dark">                      
+                        <th scope="col">razão Social</th>
+                        <th scope="col">cnpj</th>                             
+                        <th scope="col">e-mail</th>                                
+                        <th scope="col">endereco</th>                                
+                        <th scope="col">telefone</th> 
+                        <th scope="col">editar</th>                      
+                       
+                        </thead>
+                        <tbody>
+                            <tr th:each="fornecedor : ${fornecedores}">                               
+                                <td th:text="${fornecedor.sobrenome}"></td>
+                                <td th:text="${fornecedor.cnpj}"></td>                              <td th:text="${fornecedor.mail.email}"></td>
+                                <td th:text="${fornecedor.endereco.uf}"></td>
+                                <td th:text="${fornecedor.telefone.telefone}"></td>
+                                <td><a th:href="@{/fornecedores/editar/{id}(id=${fornecedor.id})}">Editar</a></td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>      
+            </div>      
+            <p><a href="/fornecedores/add" style="text-transform: uppercase; border-radius: 10px;padding: 5px; text-decoration: none; background: #000; color: #fff;">Add a nova fornecedor</a></p>
+        </div>
+        <script	th:src="@{/js/forneor.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

@@ -32,30 +32,17 @@ public class PerfilServiceImp implements IPerfilService {
 
     private final IPerfilRepository pr;
     private final PerfilMapper pm;
-     private final Datatables datatables;
+    private final Datatables datatables;
 
     @Autowired
-    public PerfilServiceImp(IPerfilRepository iPerfilRepository, PerfilMapper pm,Datatables datatables) {
+    public PerfilServiceImp(IPerfilRepository iPerfilRepository, PerfilMapper pm, Datatables datatables) {
         this.pr = iPerfilRepository;
         this.pm = pm;
         this.datatables = datatables;
     }
 
     @Override
-    public Perfil getOrCreate(String name) {
-        Perfil role = pr.findByTipoPerfil(pm.convertPerfilValue(name)).get();
-
-        if (role == null) {
-
-            role = pr.save(new Perfil(pm.convertPerfilValue("usuário")));
-        }
-
-        return role;
-    }
-    
-    
-     @Override
-         @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.PERFIL);
@@ -69,6 +56,7 @@ public class PerfilServiceImp implements IPerfilService {
     public Set<PerfilDTO> list(Pageable pageable) {
         return pr.searchAll(pageable).stream().map(pm::toDTO).collect(Collectors.toSet());
     }
+
     @Override
     @Transactional(readOnly = true)
     public Set<PerfilDTO> perfis() {
@@ -102,7 +90,8 @@ public class PerfilServiceImp implements IPerfilService {
 
     @Override
     public void delete(Long id) {
-        pr.delete(pr.findById(id).orElseThrow(() -> new PerfilExistenteException(String.valueOf(id), "Este id não consta no bd! ")));
+        Optional<Perfil> perfil = pr.findById(id);
+        pr.delete(perfil.get());
     }
 
     @Override
@@ -129,8 +118,8 @@ public class PerfilServiceImp implements IPerfilService {
     @Transactional(readOnly = true)
     public Set<Perfil> perfis(Set<String> roles) {
         Set<Perfil> perfis = new HashSet<>();
-       
-        if (roles.isEmpty()) {           
+
+        if (roles.isEmpty()) {
             perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue("usuário")).get());
         } else {
             for (String string : roles) {

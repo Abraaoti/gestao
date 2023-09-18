@@ -1,0 +1,32 @@
+<div class="card-group col-md-3 pb-4" th:each="qualidade : ${qualidades}">
+    <div th:id="${qualidade.id}" class="card">
+        
+        <div class="card-body">
+            
+            
+            <div>
+                <p class="card-text" th:text="${qualidade.cafe}">sobre a promoção</p>
+            </div>
+            <div>
+                <p class="card-text" th:text="${qualidade.cafe}">sobre a promoção</p>
+            </div>
+            
+            <div class="btn-group">
+                <button th:id="${'likes-count-' + qualidade.id}" type="button"
+                        class="btn btn-sm btn-outline-secondary"
+                        th:text="${qualidade.likes}"></button>
+                <button th:id="${'likes-btn-' + qualidade.id}" type="button"
+                        class="btn btn-sm btn-outline-secondary">
+                    <i class="far fa-thumbs-up"></i>
+                </button>
+                <a th:href="${qualidade.linkPromocao}"
+                   class="btn btn-sm btn-outline-secondary" role="button"
+                   aria-pressed="true" target="new">Ver Oferta</a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted"
+                   th:text="${#temporals.format(qualidade.dtCadastro, 'dd/MM/yyyy')}">9 mins</small>
+        </div>
+    </div>
+</div>	

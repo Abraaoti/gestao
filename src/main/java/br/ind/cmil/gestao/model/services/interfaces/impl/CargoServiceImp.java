@@ -1,12 +1,16 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.exceptions.CargoException;
+import br.ind.cmil.gestao.model.datatables.Datatables;
+import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.CargoDTO;
 import br.ind.cmil.gestao.model.dto.mappers.CargoMapper;
 import br.ind.cmil.gestao.model.entidades.Cargo;
 import br.ind.cmil.gestao.model.repositorys.ICargoRepository;
 import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -25,10 +30,12 @@ public class CargoServiceImp implements ICargoService {
 
     private final ICargoRepository cr;
     private final CargoMapper cm;
+    private final Datatables datatables;
 
-    public CargoServiceImp(ICargoRepository cr, CargoMapper cm) {
+    public CargoServiceImp(ICargoRepository cr, CargoMapper cm, Datatables datatables) {
         this.cr = cr;
         this.cm = cm;
+        this.datatables = datatables;
     }
 
     @Override
@@ -94,6 +101,15 @@ public class CargoServiceImp implements ICargoService {
     @Override
     public Cargo findByNome(String nome) {
         return cr.findByNome(nome).orElseThrow(() -> new CargoException(nome, "Este cargo não consta no bd! "));
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> buscarTodos(HttpServletRequest request) {
+        datatables.setRequest(request);
+        datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
+        Page<?> page = datatables.getSearch().isEmpty() ? cr.findAll(datatables.getPageable())
+                : cr.searchAll(datatables.getSearch(), datatables.getPageable());
+        return datatables.getResponse(page);
     }
 
 }

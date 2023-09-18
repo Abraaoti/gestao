@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+            <hr />
+            <h2 style="text-align: center; text-transform: uppercase;">Fornecedores Cadastrados</h2>
+            <hr />
+
+                <table id="table-fornecedor"  class="table table-sm table-striped table-bordered nowrap"
+                       >
+                    <thead class="thead-dark">
+                    <th scope="col">#</th>
+                    <th scope="col">nome</th>
+                    <th scope="col">razão Social</th>
+                    <th scope="col">abertura</th>
+                    <th scope="col">cnpj</th>
+                    <th scope="col">ie</th>
+                    <th scope="col">im</th> 
+                    <th scope="col">Detalhe</th>
+                    <th scope="col">add endereço</th>
+                    <th scope="col">add telefone</th>        
+                    <th scope="col">Editar</th>
+                    <th scope="col">excluir</th>
+                  
+                    </thead>
+
+                </table>
+            </div>
+       
+
+
+        <script	th:src="@{/js/fornecedor.js(v=${version})}" th:fragment="js"></script>
+
+       
+        <script th:inline="javascript" th:fragment="inlinescript">
+            $('#cnpj').val().replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+        </script>
+    </body>
+</html>

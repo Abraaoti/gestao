@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+
+            <form th:action="${fornecedor.id == null}? @{/fornecedores/salvar} : @{/fornecedores/editar}"
+                  th:object="${fornecedor}"	method="POST" class="was-validated">
+
+                <div class="form-group row">
+                    <label for="nome" class="col-sm-4 col-form-label">Nome </label>
+                    <div class=" col-md-6">
+                        <input type="text" class="form-control" th:field="*{nome}" id="nome"  required/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="sobrenome" class="col-sm-4 col-form-label">Razão Social </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome"   required/>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="nascimento" class="col-sm-4 col-form-label">Data da Abertura</label> 
+                    <div class="col-md-3">
+                        <input type="date" class="form-control" id="nascimento" th:field="*{nascimento}" />
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="cnpj" class="col-sm-4 col-form-label">CNPJ</label> 
+                    <div class=" col-md-3">
+                        <input type="text" class="form-control" id="cnpj"  placeholder="00.000.0000/0000-00"  data-mask="00.000.000/0000-00" data-mask-selectonfocus="true" th:field="*{cnpj}" required />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="ie" class="col-sm-4 col-form-label">IE</label> 
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="ie" placeholder="000000000000" th:field="*{ie}" required />
+
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="im" class="col-sm-4 col-form-label">IM</label> 
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="im" th:field="*{im}" />
+                    </div>
+                </div>                      
+                <div th:include="fragments/email::email"></div>
+                <div th:include="fragments/endereco::endereco"></div>
+                <div th:include="fragments/telefone::telefone"></div>
+
+                <input type="hidden" th:field="*{id}"/>	
+             
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip"
+                                data-placement="right" title="Salvar"><i class="fas fa-save"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <hr/>
+
+            <h2>Lista </h2>
+
+            
+        </div>
+
+
+        <script	th:src="@{/js/forn.js(v=${version})}" th:fragment="js"></script>
+
+        <script	th:src="@{/js/apiCnpj.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+            $('#cnpj').val().replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+        </script>
+    </body>
+</html>

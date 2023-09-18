@@ -2,58 +2,98 @@ package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
  * @author abraao
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/api/perfil")
+@Controller
+@RequestMapping("/perfis")
 public class PerfilControlle {
 
     private final IPerfilService ps;
 
-
-    @PostMapping("/add")
-    public ResponseEntity<?> save(@RequestBody PerfilDTO perfilDTO) {
-        return new ResponseEntity<>(ps.create(perfilDTO), HttpStatus.CREATED);
+    @GetMapping("/add")
+    public String form(Model model, PerfilDTO perfilDTO) {
+        model.addAttribute("perfil", perfilDTO);
+        return "perfis/addPerfil";
     }
 
-    @GetMapping("/perfis")
-    public Set<PerfilDTO> list(Pageable pageable) {
+    @PostMapping("/salvar")
+    public ModelAndView save(@ModelAttribute PerfilDTO perfilDTO, RedirectAttributes redir) {
+        ps.create(perfilDTO);
+        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        return new ModelAndView("redirect:/perfis/add","perfil", perfilDTO);
+    }
+    
+     @GetMapping("/perfis")
+    public Set<PerfilDTO> getPerfis(Pageable pageable) {
         return ps.list(pageable);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody PerfilDTO perfilDTO) {
-        return new ResponseEntity<>(ps.create(perfilDTO), HttpStatus.CREATED);
+    @GetMapping("/lista")
+    public String lista() {
+        //model.addAttribute("perfis", ps.list(pageable));
+        return "perfis/perfis";
+
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PerfilDTO> fetchUserWithId(@PathVariable @NotNull @Positive Long id) {
-        return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
+    @PostMapping("/editar")
+    public ModelAndView editarPerfil(@ModelAttribute PerfilDTO perfilDTO, RedirectAttributes redir) {
+        ps.create(perfilDTO);
+        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        return new ModelAndView("perfis/perfis","perfil", perfilDTO);
     }
 
-    @GetMapping("/search/{p}")
-    public ResponseEntity<PerfilDTO> buscarPorNome(@PathVariable("p") String p) {
-        return new ResponseEntity<>(ps.buscarPerfilPorNome(p), HttpStatus.OK);
+    @GetMapping("/editar/{id}")
+    public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
+        model.addAttribute("perfis", ps.list(pageable));
+        model.addAttribute("perfil", ps.findById(id));
+        return "perfis/addPerfil";
     }
+
+    @GetMapping("/excluir/{id}")
+    public ModelAndView excluir(@PathVariable("id") Long id) {
+        Map<String, Object> model = new HashMap<>();
+        ps.delete(id);
+        model.put("sucesso", "Operação realizada com sucesso.");
+        return new ModelAndView("perfis/perfis", model);
+    }
+
+    @GetMapping("/datatables/server")
+    public ResponseEntity<?> perfis(HttpServletRequest request) {
+        //model.addAttribute("perfis", ps.list(pageable));
+        // return "perfis/perfis";
+        return ResponseEntity.ok(ps.buscarTodos(request));
+    }
+
+  
+
+   // @GetMapping("/{id}")
+   // public ResponseEntity<PerfilDTO> fetchUserWithId(@PathVariable @NotNull @Positive Long id) {
+    //    return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
+    //}
+
+    ///@GetMapping("/search/{p}")
+    //public ResponseEntity<PerfilDTO> buscarPorNome(@PathVariable("p") String p) {
+       // return new ResponseEntity<>(ps.buscarPerfilPorNome(p), HttpStatus.OK);
+   // }
 
 }

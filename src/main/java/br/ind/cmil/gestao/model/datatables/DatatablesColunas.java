@@ -17,14 +17,14 @@ public class DatatablesColunas {
     public static final String[] PESSOAFISICA = {"id", "nome", "sobrenome", "nascimento", "salario", "cpf", "rg", "passaporte", "mae", "pai", "ec.desc", "genero.desc", "admissao", "naturalidade"};
     public static final String[] FUNCIONARIOS = {"id", "nome", "sobrenome", "nascimento", "matricula", "salario", "cpf", "rg", "passaporte", "mae", "pai", "ec", "genero", "admissao", "naturalidade", "departamento.nome", "cargo.nome"};
 
-    public static final String[] PRESENCA = {"id", "nome"};
+    public static final String[] PRESENCA = {"id", "dataPresenca","horario.id","horatio.horaMinuto","auxiliarAdministrativo.id","funcionario.id","status"};
     public static final String[] PROJETO = {"id", "contrato", "numero", "inicio", "fim", "updatedAt", "responsavel", "seguranca", "gestor", "administrador.id", "administrador.nome"};
     public static final String[] HISTORICO_PRESENCA = {"id", "nome"};
     public static final String[] SOCIO = {"id", "nome"};
     public static final String[] ENDERECO = {"id", "pessoa.nome", "uf", "cidade", "bairro", "rua", "cep", "numero", "complemento"};
     public static final String[] TELEFONE = {"id", "pessoa", "numero", "tipo"};
     public static final String[] EMAIL = {"id", "pessoa", "email"};
-    public static final String[] DEPARTAMENTOS = {"id", "nome"};
+    public static final String[] DEPARTAMENTO = {"id", "nome"};
     public static final String[] CATEGORIAS = {"id", "nome"};
     public static final String[] CENTROCUSTO = {"id", "nome"};
     public static final String[] PROCESSOPAGARCONTA = {"id", "emissao", "vencimento", "fornecedor.nome", "documento", "centroCusto.centro", "valor", "qtdparcela", "forma_pagamento", "arquivo", "usuario.email"};

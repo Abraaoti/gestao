@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+
+        <div  layout:fragment="corpo">
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+            <form th:action="${cotacao.id == null} ? @{/cotacaos/salvar} : @{/cotacaos/editar}"
+                  th:object="${cotacao}"	method="POST" class="was-validated">
+                <div class="row g-3">
+                    <div class="col-md">
+                        <div class="form-floating">                      
+                            <input type="date" class="form-control" th:field="*{data_cotacao}" id="data_cotacao" required/>
+                            <div class="invalid-feedback">data de entrega  é requerida.</div>
+                            <label for="data_cotacao" >Data Entrega </label>
+                        </div>                                             
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select  id="produto" th:field="*{produto}" class="form-control">
+                                <option th:each="produto : ${produtos}" th:value="${produto.id}" th:text="${produto.nome}" selected="selected"/>
+                            </select>
+                            <div class="invalid-feedback">produto é requerido.</div>
+                            <label for="produto">produto<span class="invalid-feedback">*</span></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">                           
+                            <input type="text" class="form-control" th:field="*{qtd}" id="qtd" required/>
+                            <div class="invalid-feedback">qtd  é requerido.</div>
+                            <label for="qtd" >qtd </label>
+                        </div>  
+
+                    </div>
+                </div>
+
+                <input type="hidden" name="id" th:field="*{id}"/>	
+                <input type="hidden"  th:field="*{comprador.id}"/>	
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary"
+                                data-toggle="tooltip" data-placement="right" title="Salvar">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <hr/>
+
+            <h2>Lista de Cotacao</h2>
+
+            <table id="table-cotacao" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">responsável</th>                       
+                        <th scope="col">produto</th>                     
+                        <th scope="col">preço</th>                     
+                        <th scope="col">data</th>
+                        <th scope="col">entrega</th>
+                        <th scope="col">qtd</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Excluir</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+        <script  th:src="@{/js/cotacao.js}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript"></script>
+    </body>
+</html>

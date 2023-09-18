@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+        <link th:href="@{/css/filtro.css(v=${version}) }" rel="stylesheet" />
+    </head>
+    <body>
+
+        <div  layout:fragment="corpo">
+
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+
+            <form th:action="${centro.id == null} ? @{/centros/salvar} : @{/centros/editar}"
+                  th:object="${centro}"	method="POST" class="was-validated">
+                <div class="mb-3 row">
+                    <label for="nome" class="col-sm-3 col-form-label">CENTRO DE CUSTO </label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control form-control-sm"  th:field="*{nome}" id="nome"  required/>
+                    </div>
+                    <input type="hidden" th:field="*{id}"/>	
+                  
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Salvar</i></button>
+                    </div>
+                </div>
+
+            </form>
+
+            <hr/>
+
+           
+
+           <h2>Centro Cadastrados</h2>
+
+                <table id="centro_custos" class="table table-sm table-striped table-bordered nowrap"
+                       >
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">nome </th>
+                                              
+                            <th scope="col">editar</th>
+                            <th scope="col">excluir</th>
+                        </tr>
+                    </thead>
+                </table>
+          
+        </div>
+
+
+
+        <script	th:src="@{/js/centro.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

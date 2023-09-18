@@ -2,65 +2,76 @@ package br.ind.cmil.gestao.controlles;
 
 import br.ind.cmil.gestao.model.dto.CargoDTO;
 import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
  * @author abraao
  */
-@RestController
-@RequestMapping("/api/c")
-@CrossOrigin(origins = "http://localhost:4200/")
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("cargo")
 public class CargoControlle {
 
     private final ICargoService cs;
 
-    public CargoControlle(ICargoService cs) {
-        this.cs = cs;
-    }
-
-  
-
     @GetMapping("/lista")
-    public List<CargoDTO> list(Pageable pageable) {
-        return cs.list(pageable);
+    public String list() {
+        return "cargos/cargos";
     }
 
-  
-    @GetMapping("/{id}")
-    public CargoDTO findById(@PathVariable @NotNull @Positive Long id) {
-        return cs.findById(id);
+    @GetMapping("/add")
+    public String form(CargoDTO cargo, Model model) {
+        model.addAttribute("cargo", cargo);
+        return "cargos/cargo";
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody @Valid CargoDTO c) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(cs.create(c));
+    public ModelAndView save(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
+        cs.create(c);
+        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        return new ModelAndView("redirect:/cargo/add");
     }
 
     @PutMapping("/update")
-   public ResponseEntity<?>  update(@RequestBody  CargoDTO c) {
-       return ResponseEntity.status(HttpStatus.CREATED).body(cs.create(c));
+    public ModelAndView update(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
+        cs.create(c);
+        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        return new ModelAndView("redirect:/cargo/add");
     }
 
-    @DeleteMapping("/delete/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @NotNull @Positive Long id) {
+    @GetMapping("/editar/{id}")
+    public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
+
+        model.addAttribute("cargo", cs.findById(id));
+        return "cargos/cargo";
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView excluir(@PathVariable("id") Long id) {
+        Map<String, Object> model = new HashMap<>();
         cs.delete(id);
+        model.put("sucesso", "Operação realizada com sucesso.");
+        return new ModelAndView("cargos/cargos", model);
+    }
+
+    @GetMapping("/datatables/server")
+    public ResponseEntity<?> perfis(HttpServletRequest request) {       
+        return ResponseEntity.ok(cs.buscarTodos(request));
     }
 }

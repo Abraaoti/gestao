@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+            <div class="col-md-12">
+
+                <h2>Processos Cadastrados</h2>
+                <div th:include="fragments/processo::processo"></div>
+            </div>
+
+        </div>
+
+        <script	th:src="@{/js/processofinanceiro.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

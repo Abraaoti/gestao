@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+       <div class="card">
+            <div class="card-header">Dados Cadastrados</div>
+            <div class="card-body">
+                    <div th:each="p :${pessoa}">
+                        <p>Código <strong th:text="${p.id}"></strong></p>
+                        <p>Nome: <strong th:text="${p.nome}"></strong></p>                      
+                       
+                    </div>
+            </div>
+            <div class="card-footer">
+                <a href="#" th:href="@{/enderecos/pessoaid/{pessoaid}(pessoaid=${pessoa.id})}" class="card-link btn btn-primary">add endereço</a>
+                 <a href="#" th:href="@{/telefones/pessoaid/{pessoaid}(pessoaid=${pessoa.id})}" class="card-link btn btn-primary">add telefone</a>
+            </div>
+        </div>
+           
+            
+             </div>
+       
+
+
+     
+ <script th:src="@{/js/appiEndereco.js(v=${version})}" th:fragment="js"></script>       
+ <script th:src="@{/js/pessoa.js(v=${version})}" th:fragment="js"></script>       
+   
+        
+        <script th:inline="javascript" th:fragment="inlinescript">
+            $('#cnpj').val().replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+            
+             $(document).ready(function () {
+		moment.locale('pt-BR');
+		var pessoaid = [[${endereco.id != null  ? pessoa.id : 0}]];
+		if (pessoaid !== 0) {
+	var table = $('#historico_pessoa').DataTable({
+            searching: false,
+            lengthMenu: [1, 1],
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            ajax: {
+                    url: '/pessoa/datatables/server/' + pessoaid,data: 'data'
+		},
+            columns: [
+            {data: 'id'},
+            {data: 'nome'},            
+            {data: 'uf'},
+            {data: 'cidade'},
+            {data: 'bairro'},
+            {data: 'rua'},
+            {data: 'numero'},
+            {data: 'cep'},
+            {data: 'complemento'}, 
+           
+ 
+               {orderable: false,
+                data: 'id',
+                "render": function (id) {
+                    return '<a class="btn btn-primary btn-sm btn-block" href="/pessoa/pessoaid/' +
+                            id + '" role="button"><i class="fas fa-plus"></i></a>';
+                }
+            }
+            
+        ]
+		});
+		}
+	});   
+            
+        </script>
+    </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+
+        <div  layout:fragment="corpo">
+
+
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+            <form th:action="@{/processofinanceiro/salvar}" 
+
+                  th:object="${processo}" method="post"                                 
+                  class="was-validated" 
+                  name="formProcesso"
+                  enctype="multipart/form-data">                                 
+                <div class="form-group row">
+
+                    <div class="form-group col-md-3">
+                        <label for="emissao">Emissão<span class="invalid-feedback">*</span></label>                                       
+                        <input type="date" class="form-control" th:field="*{emissao}" id="emissao" placeholder="00/00/0000" required />
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="vencimento">Vencimento<span class="invalid-feedback">*</span></label>                                          
+                        <input type="date" class="form-control" th:field="*{vencimento}"  id="vencimento" required/>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="documento">Número Documento<span class="invalid-feedback">*</span></label>                                          
+                        <input type="text" class="form-control" th:field="*{documento}"  id="documento" required/>
+                    </div>
+
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="valor">Valor Total<span class="invalid-feedback">*</span></label>                                          
+                        <input type="text" class="form-control" th:field="*{valor}"  id="valor" required/>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="arquivo">Arquivo<span class="invalid-feedback">*</span></label>                                          
+                        <input type="file" class="form-control" th:field="*{arquivo}" accept="image/*,.pdf" id="arquivo" required/>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="fornecedor">Fornecedor<span class="invalid-feedback">*</span></label>
+                        <select  id="fornecedor" th:field="*{fornecedor}" class="form-control">
+                            <option th:each="fornecedor : ${fornecedores}" th:value="${fornecedor.id}" th:text="${fornecedor.nome}" selected="selected"/>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="centroCusto">CC<span class="invalid-feedback">*</span></label>
+                        <select  id="centroCusto" th:field="*{centroCusto}" class="form-control">
+                            <option th:each="centroCusto : ${centroCustos}" th:value="${centroCusto.id}" th:text="${centroCusto.centro}" selected="selected"/>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="forma_pagamento">Forma Pag<span class="invalid-feedback">*</span></label>
+                        <select  id="centroCusto" th:field="*{forma_pagamento}" class="form-control">
+                            <option th:each="forma_pagamento : ${T(br.com.cmil.controle.dominio.enuns.FormaPagamento).values()}" th:value="${forma_pagamento.name()}" th:text="${forma_pagamento.name()}" selected="selected"/>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="qtdparcela">QTD PARCELA<span class="invalid-feedback">*</span></label> 
+                        <input type="text" class="form-control" id="qtdparcela" placeholder="0000"  th:field="*{qtdparcela}" required />
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="operador">OPERADOR<span class="invalid-feedback">*</span></label> 
+                        <input type="text" class="form-control" id="operador" placeholder="Ad" th:field="*{operador}" required />
+                    </div>
+
+                </div>
+
+
+
+                <input type="hidden" th:field="*{id}"/>	
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Salvar"><i class="fas fa-save"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <hr/>
+
+            <h2>Lista de Contas a Pagar</h2>
+
+            <table id="table-processo" class="table table-sm table-striped table-bordered display nowrap" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Emissão</th>
+                        <th scope="col">Vencimento</th>
+                        <th scope="col">Fornecedor</th>
+                        <th scope="col">Documento</th>                                        
+                        <th scope="col">CCusto</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Parcela</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Arquivo</th>
+                        <th scope="col">Operador</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Excluir</th>
+                        <th scope="col">Gerar</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+        <script	th:src="@{/js/processofinanceiro.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

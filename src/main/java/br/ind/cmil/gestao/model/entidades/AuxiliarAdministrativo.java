@@ -29,7 +29,7 @@ public class AuxiliarAdministrativo extends Entidade {
     private String nome;
     //@JsonIgnore
     //@OneToMany(mappedBy = "auxiliar_rh")
-    private List<String> presencas;
+    //private List<String> presencas;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "usuario_id")

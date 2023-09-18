@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+
+            <form th:action="@{/avaliacoes/editar/{id}(id=${avaliacao.id})}"
+                  th:object="${avaliacao}"	method="POST" class="was-validated">
+                <div class="row mb-3">
+                    <label for="centro" class="col-sm-4 form-check-label">Centro(s) de Custo(s)</label>
+                    <div class="col-sm-5">
+                        <input type="radio" id="centro" name="centro"
+                               th:each="centro : ${centros}"
+                               th:text="${centro.centro}"
+                               th:value="${centro.id}"
+                               th:field="*{centro}"
+                               class="form-check-input"  /> 
+                    </div>
+                    <span th:if="${#fields.hasErrors('centro')}" th:errors="*{centro}"></span>
+
+                </div>
+                <div class="row mb-3">
+                    <label for="campanha" class="col-sm-4 form-check-label">Campanha</label>
+                    <div class="col-sm-5">
+                        <input type="radio" id="campanha" name="campanha}"
+                               th:each="campanha : ${campanhas}"
+                               th:text="${campanha.nome}"
+                               th:value="${campanha.id}"
+                               th:field="*{campanha}"
+                               class="form-check-input"  /> 
+                    </div>
+                    <span th:if="${#fields.hasErrors('campanha')}" th:errors="*{campanha}"></span>
+
+                </div>
+                <div class="row mb-3">
+                    <label for="data" class="col-sm-4 form-check-label">Data</label>
+                    <input type="datetime" th:field="*{data}" id="data" >
+                    <span th:if="${#fields.hasErrors('data')}" th:errors="*{data}"></span>
+
+                </div>
+                <div class="row mb-3">
+                    <label for="nota" class="col-sm-4 form-check-label">Nota</label>
+                    <input type="text" th:field="*{nota}" id="nota" >
+                    <span th:if="${#fields.hasErrors('nota')}" th:errors="*{nota}"></span>
+
+                </div>
+
+
+
+
+
+
+
+                <input type="hidden" th:field="*{id}"/>	
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button id="btn-salvar" type="submit" class="btn btn-primary" 
+                                data-toggle="tooltip" data-placement="right" title="Salvar">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+            <br />
+            <hr />
+
+
+
+        </div>
+
+
+        <script th:src="@{/js/avaliac.js}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

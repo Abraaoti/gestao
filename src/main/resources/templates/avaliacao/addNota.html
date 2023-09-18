@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+
+            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+
+
+            <form th:action="${avaliacao.id == null} ? @{/avaliacoes/salvar} : @{/avaliacoes/editar/{id}(id=${avaliacao.id})}"
+                  th:object="${avaliacao}"	method="POST" class="was-validated">
+
+                <div class="row mb-3">
+                    <label for="avaliador" class="col-sm-4 form-check-label">Nome</label>
+
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control"   id="avaliador"  th:field="*{avaliador}" name="avaliador" required />
+
+                        <div class="invalid-feedback">Nome requerido.</div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="row mb-3">
+                    <label for="nota" class="col-sm-4 form-check-label">Nota: </label>
+                    <div class=" col-sm-6">
+                        <th:block th:each="nota : ${notas}">
+                            <div class="form-check">
+                                <input type="radio" name="nota"
+                                       th:text="${nota.name()}"
+                                       th:value="${nota.code}"
+                                       class="form-check-input"
+                                       th:field="*{nota}"
+                                       required
+                                       />
+
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <input type="hidden" th:field="*{id}"/>	
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button id="btn-salvar" type="submit" class="btn btn-primary" 
+                                data-toggle="tooltip" data-placement="right" title="Salvar">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+            <br />
+            <hr />
+
+
+
+        </div>
+
+
+        <script th:src="@{/js/avaliac.js}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

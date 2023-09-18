@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <title>Cadastrar Funcionários</title>
+
+    </head>
+    <body>
+
+        <div layout:fragment="corpo">
+
+            <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
+
+            <form th:action="${funcionario.id == null} ? @{/pessoas/salvar} : @{/pessoas/editar}"  th:object="${funcionario}"	method="POST" class="was-validated row g-3">
+                <div class="col-md-4">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label" for="sobrenome">Sobrenome </label>
+                    <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome" required/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="nascimento" >Nascimento</label> 
+                    <input type="date" class="form-control " id="nascimento" th:field="*{nascimento}" required />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="mae" >Mãe </label>
+                    <input type="text" class="form-control" th:field="*{mae}" id="mae"  />
+
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="pai">Pai</label>                        
+                    <input type="text" class="form-control "  th:field="*{pai}" id="pai"   />
+
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="naturalidade" >Naturalidade</label>
+                    <input type="text" class="form-control" th:field="*{naturalidade}" id="naturalidade"  />
+
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" for="passaporte">Passaporte</label> 
+                    <input type="text" class="form-control" id="passaporte"  th:field="*{passaporte}" required />
+
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label" for="cpf" >CPF</label> 
+                    <input type="text" class="form-control "  id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
+                           th:field="*{cpf}"  required maxlength="14" minlength="5" />
+
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" for="rg" >RG</label> 
+                    <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
+
+                </div>
+
+
+                <div class="col-md-3">
+                    <label class="form-label"for="cargos" >Cargo</label> 
+                    <select class="form-select" th:field="*{cargo}" >
+                        <option th:each="cargo : ${cargos}"   th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
+                    </select>  
+                </div>
+
+                <div class="row mb-3">
+                    <label class="form-label" for="departamento" >Departamento</label> 
+                    <select class="form-select" th:field="*{departamento}">                               
+                        <option selected th:each="departamento : ${departamentos}"   th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" /> 
+                    </select>                          
+
+
+                </div>
+
+
+
+                <div class="col-md-3">
+                    <label class="form-label" for="estado_civil">Estado Civil</label> 
+                    <select class="form-select" th:field="*{estado_civil}" >
+                        <option th:each="estado_civil : ${ec}" id="estado_civil"  th:value="${estado_civil}" th:text="${estado_civil}"   />
+                    </select>    
+                </div>
+
+
+                <div class="col-md-3">
+                    <label class="form-label" for="genero">Genero</label> 
+                    <select  th:field="*{genero}" class="form-select">
+                        <option th:each="genero : ${generos}"  th:value="${genero}"  th:text="${genero}" id="genero" />
+                    </select> 
+                </div>
+
+
+                <!--div th:include="fragments/endereco::endereco"></div>
+                               <div th:include="fragments/contatos::contatos"></div-->
+
+                <input type="hidden" th:field="*{id}"/>	
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary fas fa-save">salvar</button>
+                </div>
+
+            </form>
+
+            <hr/>
+
+            <h2>Lista de Funcionários</h2>
+
+            <table id="funcionario" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome </th>
+                        <th scope="col">Sobrenome</th>
+                        <th scope="col">Sobrenome</th>
+                        <th scope="col">Nascimento</th>                        
+                        <th scope="col">Matrícula</th>                      
+                        <th scope="col">CPF</th>
+                        <th scope="col">RG</th>
+                        <th scope="col">MÃE</th>
+                        <th scope="col">PAI</th>
+                        <th scope="col">GENERO</th>
+                        <th scope="col">ES</th>
+                        <th scope="col">NATURALIDADE</th>
+                        <th scope="col">ADMISSÃO</th>                               
+                        <th scope="col">FUNÇÃO</th>
+                        <th scope="col">Departamento</th>
+                        <th scope="col">editar</th>                                        
+                        <th scope="col">add endereço</th>
+                        <th scope="col">add telefone</th>                                      
+                        <th scope="col">Excluir</th>     
+
+
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+
+
+        <script  th:src="@{/js/funcionario.js}" th:fragment="js"></script>
+        <script th:src="@{/js/mascaras.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

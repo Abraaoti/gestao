@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <div  layout:fragment="corpo" >
+		<a href="form.html" th:href="@{/itens/novo}">Novo item</a>
+		<div class="alert alert-success" th:if="${globalMessage}"
+			th:text="${globalMessage}">mensagem</div>			
+		<table class="table table-bordered table-striped">
+			<thead> 
+				<tr>
+					<td>ID</td>
+					<td>Nome</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${itens.empty}">
+					<td colspan="3">Sem itens</td>
+				</tr>
+				<tr th:each="item : ${itens}">
+					<td th:text="${item.id}">1</td>
+					<td><a href="view.html" th:href="@{'/itens/' + ${item.id}}" th:text="${item.nome}"> nome </a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+     
+
+
+        <script	th:src="@{/js/itens.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

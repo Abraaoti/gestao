@@ -20,7 +20,6 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "tbl_cargos")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Cargo extends Entidade {
 
     @Column(length = 80)
@@ -30,7 +29,7 @@ public class Cargo extends Entidade {
 
     }
 
-    public Cargo(String nome, String sobrenome) {
+    public Cargo(String nome) {
         this.nome = nome;
 
     }

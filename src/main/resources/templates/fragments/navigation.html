@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <div  th:fragment="naveg">
+            <div class="wrapper">
+                <input type="checkbox" id="checkbox"/>
+                <header class="header">
+                    <h2 class="u-name">CMIL <span>Gestão de Pessoas</span>
+                        <label for="checkbox">
+                            <i id="navbtn" class="fa fa-bars"></i>
+                        </label>
+                    </h2>
+                    
+                    <form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
+                        <div class="form-check mb-2 mr-sm-2">
+                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                               th:href="@{/login}">Login</a>
+                        </div>
+
+                        <div class="form-check mb-2 mr-sm-2">
+                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                               th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
+                        </div>
+                    </form>
+
+                    <form th:action="@{/logout}" sec:authorize="isAuthenticated()"
+                          method="post"  class="form-inline mt-2 mt-md-0">
+                        <div class="btn-group mb-2 mr-sm-2">
+                            <button type="button" class="btn btn-light">
+                               <i  class="fas fa-user" aria-hidden="true" ></i> 
+                               <span class=""  sec:authentication="name">Bob</span>
+                            </button>
+                            <button type="button"
+                                    class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu">
+                                <button type="submit" class="dropdown-item">Sair</button>
+                            </div>
+                        </div>
+                    </form>
+                </header>
+                <div class="sidebarmenu">
+                    <nav class="side-bar">
+
+                       
+
+
+                        <a class="navbar-brand" th:href="@{/}">
+                            <!--img  th:src="@{/image/logo.png}" height="72" width="72" /-->
+                            CMIL</a>
+                      
+                        <!--div class="collapse navbar-collapse" id="navbarCollapse"-->
+                            <ul>
+                                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')"><a
+                                        class="btn btn-dark dropdown-toggle" href="#" id="dropdown01"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admistrador</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown01">							
+                                        <a class="dropdown-item" th:href="@{/u/abrir/form}">Cadastro de Usuários</a>
+                                        <a class="dropdown-item" th:href="@{/u/lista}">Lista de Usuários</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMINISTRATIVO','ADMIN')"><a
+                                        class="btn btn-dark dropdown-toggle" href="#" id="dropdown02"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrativo</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown02">
+                                        <a class="dropdown-item" th:href="@{/administrativo/**}">Dados Cadastrais</a>
+                                        <a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/historico/consultas}">Consultas Agendadas</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown" sec:authorize="hasRole('ASSISTENTE')"><a
+                                        class="btn btn-dark dropdown-toggle" href="#" id="dropdown03"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ASSISTENTE </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown03">
+                                        <a class="dropdown-item" th:href="@{/assistente/**}">Cadastrar Dados</a>
+                                        <a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/agendar}">Agendar Consulta</a>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a>
+                                    </div>
+                                </li>					
+                                <li class="nav-item dropdown" sec:authorize="hasRole('ASSISTENTE')"><a
+                                        class="btn btn-dark dropdown-toggle" href="#" id="dropdown04"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">AUXILIAR ADMINISTRATIVO </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                                        <a class="dropdown-item" th:href="@{/auxiliar/**}">Cadastrar Dados</a>
+                                        <a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/agendar}">Agendar Consulta</a>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a>
+                                    </div>
+                                </li>					
+                                <li class="nav-item dropdown" sec:authorize="hasRole('ADMINISTRATIVO')"><a
+                                        class="btn btn-dark dropdown-toggle" href="#" id="dropdown05"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMINISTRATIVO </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown05">
+                                        <a class="dropdown-item" th:href="@{/administrador/**}">Cadastrar Dados</a>
+                                        <a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/agendar}">Agendar Consulta</a>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a>
+                                    </div>
+                                </li>					
+                                <li class="nav-item dropdown" sec:authorize="hasRole('RH')"><a
+                                        class="btn btn-dark dropdown-toggle" href="#" id="dropdown06"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">RH </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown06">
+                                        <a class="dropdown-item" th:href="@{/pacientes/dados}">Cadastrar Dados</a>
+                                        <a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/agendar}">Agendar Consulta</a>
+                                        <a class="dropdown-item" th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a>
+                                    </div>
+                                </li>					
+                            </ul>
+
+                      
+
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

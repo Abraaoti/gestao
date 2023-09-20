@@ -3,8 +3,11 @@ package br.ind.cmil.gestao.controlles;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Random;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
+    private static final Random RANDOM = new Random(System.currentTimeMillis());
+
     @GetMapping("/")
     public String index() {
         return "index";
@@ -22,8 +27,26 @@ public class HomeController {
 
     // abrir pagina home
     @GetMapping("/home")
-    public String home(HttpServletResponse response) {
+    public String home(Model model) {
+        model.addAttribute("chartData", getChartData());
         return "home";
+    }
+
+    private List<List<Object>> getChartData() {
+        return List.of(
+                List.of("Janeiro", RANDOM.nextInt(5)),
+                List.of("Fevereiro", RANDOM.nextInt(5)),
+                List.of("Marco", RANDOM.nextInt(5)),
+                List.of("Abril", RANDOM.nextInt(5)),
+                List.of("Maio", RANDOM.nextInt(5)),
+                List.of("Junho", RANDOM.nextInt(5)),
+                List.of("Julho", RANDOM.nextInt(5)),
+                List.of("Agosto", RANDOM.nextInt(5)),
+                List.of("Setembro", RANDOM.nextInt(5)),
+                List.of("Outubro", RANDOM.nextInt(1)),
+                List.of("Novembro", RANDOM.nextInt(2)),
+                List.of("Dezembro", RANDOM.nextInt(3))
+        );
     }
 
     // abrir pagina login

@@ -16,6 +16,15 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
+    
+    
+    @Query("select distinct u from Usuario u "
+			+ "join u.perfis p "
+			+ "where u.email like :search% OR p.tp like :search%") 
+	Page<Usuario> findByEmailOrPerfil(String search, Pageable pageable);
+
+	
+
 
     // @Query("UPDATE Usuario u SET u.failedLoginAttempts = ?1 WHERE u.email = ?2")
     // @Modifying

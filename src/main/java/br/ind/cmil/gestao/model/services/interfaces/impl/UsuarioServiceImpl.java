@@ -2,6 +2,7 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.exceptions.UsuarioNotFoundException;
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
@@ -10,6 +11,7 @@ import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,6 +57,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
         Set<Perfil> roles = ps.perfis(request.perfis());
+        if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil(ps.tipoPerfil("admin")), new Perfil(ps.tipoPerfil("usuario"))))
+                || roles.containsAll(Arrays.asList(new Perfil(ps.tipoPerfil("administrativo")), new Perfil(ps.tipoPerfil("usuario"))))) {
+            throw new RuntimeException("Usuário não pode ser Admin e/ou Administrativo.");
+        }
+
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
         Usuario usuario = ur.save(user);
@@ -165,8 +172,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toSet());
     }
 
-   
-
     @Override
     public RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -185,6 +190,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
         user.setPerfis(roles);
         Usuario usuario = ur.save(user);
         emailDeConfirmacaoDeCadastro(usuario.getEmail(), siteURL);
+
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void salvarUsuarioExterno(UtenteDTO usuario) throws MessagingException {
 
     }
 

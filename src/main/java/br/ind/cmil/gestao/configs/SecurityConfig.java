@@ -63,30 +63,10 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.disable())
                 .csrf(csrf -> csrf.disable())
-                //.formLogin(form -> form
-                //.loginPage("/login")
-                // .defaultSuccessUrl("/", true)
-                // .failureUrl("/login-error")
-                //.permitAll()
-                // )
-                //.logout(logout -> logout
-                //.logoutSuccessUrl("/")
-                //.deleteCookies("JSESSIONID")
-                //.permitAll()
-                // )
-                //.exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
-                //.sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS)
-                // )
+               
                 .authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/t/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/u/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/p/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/c/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/e/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/authenticate")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/perfis/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/departamento/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/empresa/avaliar/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
@@ -96,21 +76,21 @@ public class SecurityConfig {
                 //acessos privados admin  
                 .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).hasAnyAuthority(ADMINISTRADOR, AUXDMINISTRATIVO, ASSISTENTE, RH)
                
-                .requestMatchers(new AntPathRequestMatcher("/u/**")).hasAuthority(ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/u/**","/projeto/**")).hasAuthority(ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/administrativo/**")).hasAuthority(ADMINISTRATIVO)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers(new AntPathRequestMatcher("/administrador/**")).hasAuthority(ADMINISTRADOR)
+              
+                .requestMatchers(new AntPathRequestMatcher("/departamentos/**","/administrador/**")).hasAnyAuthority(ADMIN,ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/suprimento/**")).hasAnyAuthority(ADMIN,ADMINISTRADOR,COMPRADOR)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers(new AntPathRequestMatcher("/auxiliar/**")).hasAuthority(AUXDMINISTRATIVO)
+                .requestMatchers(new AntPathRequestMatcher("/auxiliar/**")).hasAnyAuthority(ADMIN,AUXDMINISTRATIVO)
+                .requestMatchers(new AntPathRequestMatcher("/presenca/**")).hasAnyAuthority(ADMIN,AUXDMINISTRATIVO)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers(new AntPathRequestMatcher("/assistente/**")).hasAuthority(ASSISTENTE)
+                .requestMatchers(new AntPathRequestMatcher("/assistente/**")).hasAnyAuthority(ADMIN,ASSISTENTE)
                 //acessos privados financeiro                
                 .requestMatchers(new AntPathRequestMatcher("/rh/**")).hasAnyAuthority(ADMIN, RH)
-                .requestMatchers(new AntPathRequestMatcher("/rh/pessoas/**")).hasAnyAuthority(ADMINISTRATIVO, ADMIN, RH, DIRETOR)
-                //acessos privados diretoria
-                .requestMatchers(new AntPathRequestMatcher("/diretoria/**")).hasAuthority(DIRETOR)
-                //.requestMatchers("/api/pessoa/**").hasAuthority(RH)
-                //acessos privados tecnico
+                .requestMatchers(new AntPathRequestMatcher("/diretoria/**")).hasAnyAuthority(ADMIN,DIRETOR)
+               
                 .requestMatchers(new AntPathRequestMatcher("/engenheiro/**")).hasAuthority(ENGENHEIRO)
                 .requestMatchers(new AntPathRequestMatcher("/financeiro/**")).hasAuthority(FINANCEIRO)
                 .requestMatchers(new AntPathRequestMatcher("/tecnico")).hasAuthority(TECNICO)

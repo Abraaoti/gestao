@@ -39,7 +39,7 @@ public class DepartamentoControlle {
 
 
     @GetMapping("/add")
-    public String form(Model model, DepartamentoDTO departamento) {
+    public String form(Model model, @ModelAttribute DepartamentoDTO departamento) {
         model.addAttribute("departamento", departamento);
         return "departamentos/departamento";
     }
@@ -58,7 +58,7 @@ public class DepartamentoControlle {
     public ModelAndView create(@ModelAttribute DepartamentoDTO d, RedirectAttributes redir) {
         ds.create(d);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/departamento/add", "departamento", d);
+        return new ModelAndView("redirect:/departamento/add");
     }
 
     @PutMapping("/update")
@@ -78,7 +78,7 @@ public class DepartamentoControlle {
     public String preEditar(Model model, @PathVariable("id") Long id) {
        
         model.addAttribute("departamento", ds.findById(id));
-        return "perfis/addPerfil";
+        return "departamentos/departamento";
     }
 
     @GetMapping("/excluir/{id}")
@@ -86,7 +86,7 @@ public class DepartamentoControlle {
         Map<String, Object> model = new HashMap<>();
         ds.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("departamento/departamentos", model);
+        return new ModelAndView("departamentos/departamentos", model);
     }
 
     @GetMapping("/datatables/server")

@@ -1,122 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html layout:decorate="~{fragments/layout}"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Página de Cadastro</title>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="cmil" />
-        <link rel="icon" th:href="@{/image/favicon.ico}" />
-        <!-- Icons fontawesome -->
-        <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
-        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css(v=${version}) }" rel="stylesheet" />
-        <style>
-            .bd-placeholder-img {
-                font-size: 1.125rem;
-                text-anchor: middle;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-            }
+        <title>Cadastro</title>
+        <link th:href="@{/css/cadastro.css(v=${version})}" rel="stylesheet" />
 
-            @media ( min-width : 768px) {
-                .bd-placeholder-img-lg {
-                    font-size: 3.5rem;
-                }
-            }
-        </style>
-
-        <!-- Custom styles for this template -->
-        <link th:href="@{/css/style-login.css(v=${version})}" rel="stylesheet" />
-        <script th:src="@{/webjars/jquery/jquery.min.js(v=${version}) }"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js(v=${version}) }"></script>
     </head>
-    <body>	
-        <form class="form-signin was-validated" method="POST" 
-              th:action="@{/u/cadastro/paciente/salvar}" th:object="${usuario}">		
-            <div class="text-center mb-4">
-                <!--img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72"/-->
-                <h1 class="h3 mb-3 font-weight-normal">Gestão de Pessoas</h1>
+    <body>
+        <section  layout:fragment="corpo">
 
-                <p class="font-weight-lighter">Seja bem-vindo.</p>
-                <p class="text-muted">cria o seu login e senha aqui</p>					
-                <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
-                     role="alert">
-                    <h4 th:text="${titulo}" class="alert-heading">Credenciais...</h4>
-                    <p th:text="${texto}">Login ou senha incorretos...</p>
-                    <hr>
+            <form class="form-signin was-validated" method="POST"  th:action="@{/u/cadastrar}" th:object="${usuario}">		
+                <div class="text-center mb-4">
+                    <!--img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72"/-->
+                    <h1 class="h3 mb-3 font-weight-normal">Cadastrar Usuário</h1>
+
+                    <p class="text-muted">cria o seu login e senha aqui</p>					
+                    <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
+                         role="alert">
+                        <h4 th:text="${titulo}" class="alert-heading">Credenciais...</h4>
+                        <p th:text="${texto}">Login ou senha incorretos...</p>
+                        <hr>
                         <p class="mb-0"><small th:text="${subtexto}">Acesso permitido...</small></p>
-                </div>
-            </div>
-
-            <div th:if="${#fields.hasAnyErrors()}">	
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <div th:each="error : ${#fields.detailedErrors()}">
-                        <i class="oi oi-warning"></i>
-                        <span th:text="${error.message}"></span>
                     </div>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
-            </div>	
-            <div class="form-label-group">
-                <input type="text" id="nome" class="form-control" placeholder="antony" 
-                       th:field="*{nome}" required autofocus />
-                <label for="nome">nome</label>
-                <div class="invalid-feedback">
-                    Use seu nome como login.
-                </div>
-            </div>
-            <div class="form-label-group">
-                <input type="email" id="email" class="form-control" placeholder="e-mail" 
-                       th:field="*{email}" required autofocus />
-                <label for="email">E-mail</label>
-                <div class="invalid-feedback">
-                    Use seu email como login.
-                </div>
-            </div>
 
-
-
-
-
-
-            <div class="mb-3" >
-                <label class="form-check-label" for="perfis"><b>Perfil</b></label>
-                <th:block th:each="perfis : ${perfis}" >
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" th:value="${perfis.p}" th:text="${perfis.p}" id="perfis"  th:field="*{perfis}" />
+                <div th:if="${#fields.hasAnyErrors()}">	
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div th:each="error : ${#fields.detailedErrors()}">
+                            <i class="oi oi-warning"></i>
+                            <span th:text="${error.message}"></span>
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </th:block>
-                <div class="invalid-feedback">Pelo menos um perfil é requerido.</div>
+                </div>	
+                <div class="form-label-group">
+                    <input type="text" id="nome" class="form-control" placeholder="antony" 
+                           th:field="*{nome}" required autofocus />
+                    <label for="nome">nome</label>
+                    <div class="invalid-feedback">
+                        Use seu nome como login.
+                    </div>
+                </div>
+                <div class="form-label-group">
+                    <input type="email" id="email" class="form-control" placeholder="e-mail" 
+                           th:field="*{email}" required autofocus />
+                    <label for="email">E-mail</label>
+                    <div class="invalid-feedback">
+                        Use seu email como login.
+                    </div>
+                </div>
+                <div class="mb-3" >
+                    <label class="form-check-label" for="perfis"><b>Perfil</b></label>
+                    <th:block th:each="perfis : ${perfis}" >
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" th:value="${perfis.p}" th:text="${perfis.p}" id="perfis"  th:field="*{perfis}" />
+                        </div>
+                    </th:block>
+                    <div class="invalid-feedback">Pelo menos um perfil é requerido.</div>
 
-            </div>
+                </div>
 
-            <div class="form-label-group">
-                <input type="password" id="password" class="form-control"
-                       placeholder="Password" th:field="*{password}" required /> 
-                <label for="password">Senha</label>
-                <div class="invalid-feedback">Digite uma senha.</div>	
-            </div>
+                <div class="form-label-group">
+                    <input type="password" id="password" class="form-control"
+                           placeholder="Password" th:field="*{password}" required /> 
+                    <label for="password">Senha</label>
+                    <div class="invalid-feedback">Digite uma senha.</div>	
+                </div>
 
-            <button class="btn btn-lg btn-info btn-block" type="submit">Confirmar</button>
-            <hr>
+                <button class="btn btn-lg btn-info btn-block" type="submit">Confirmar</button>
+                <hr>
                 <nav class="nav nav-pills flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/login}">
                         =========================================</a>
                 </nav>
-                <p class="mt-5 mb-3 text-muted text-center">
-                    <!--span  th:text="#{nome.firma}">Todos os direitos reservados</span-->cmil
-                    &copy; 
-                    <span  th:text="${#calendars.format(#calendars.createNow(), 'yyyy')}"></span>
 
-                </p>
-        </form>
-
+            </form>
+        </section>
         <script	th:src="~{}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript">
             $('#perfis').ready(function(){
@@ -126,5 +88,6 @@
             })
             });
         </script>
+
     </body>
 </html>

@@ -1,6 +1,8 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.exceptions.FuncionarioException;
+import br.ind.cmil.gestao.model.datatables.Datatables;
+import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PessoaDTO;
 import br.ind.cmil.gestao.model.dto.mappers.CargoMapper;
@@ -17,10 +19,13 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,14 +41,16 @@ public class FuncionarioServiceImp implements IFuncionarioService {
     private final ICargoService c;
     private final DepartamentoMapper dm;
     private final CargoMapper cm;
+    private final Datatables datatables;
 
-    public FuncionarioServiceImp(IFuncionarioRepository fr, PessoaMapper fm, IDepartamentoService d, ICargoService c, DepartamentoMapper dm, CargoMapper cm) {
+    public FuncionarioServiceImp(IFuncionarioRepository fr, PessoaMapper fm, IDepartamentoService d, ICargoService c, DepartamentoMapper dm, CargoMapper cm, Datatables datatables) {
         this.fr = fr;
         this.fm = fm;
         this.d = d;
         this.c = c;
         this.dm = dm;
         this.cm = cm;
+        this.datatables = datatables;
     }
 
     @Override
@@ -138,6 +145,15 @@ public class FuncionarioServiceImp implements IFuncionarioService {
             throw new DataIntegrityViolationException("rg já cadastro no sistema!");
         }
 
+    }
+
+    @Override
+    public Map<String, Object> buscarTodos(HttpServletRequest request) {
+        datatables.setRequest(request);
+        datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
+        Page<?> page = datatables.getSearch().isEmpty() ? fr.findAll(datatables.getPageable())
+                : fr.searchAll(datatables.getSearch(), datatables.getPageable());
+        return datatables.getResponse(page);
     }
 
 }

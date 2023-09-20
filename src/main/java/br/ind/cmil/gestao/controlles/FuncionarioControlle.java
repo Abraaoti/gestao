@@ -5,6 +5,7 @@ import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PessoaDTO;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
+import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
 import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -18,12 +19,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -31,12 +40,43 @@ import org.springframework.http.ResponseEntity;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/api/p")
+@Controller
+@RequestMapping("/funcionarios")
 public class FuncionarioControlle {
 
     private final IFuncionarioService fs;
     private final IDepartamentoService ds;
+    private final ICargoService cs;
+
+    @GetMapping("/add")
+    public String form(Model model,@ModelAttribute FuncionarioDTO funcionario) {
+        model.addAttribute("funcionario", funcionario);
+        model.addAttribute("departamentos", ds.lista());
+        model.addAttribute("cargos",cs.lista());
+        model.addAttribute("estadoCivil", getEstadoCivil());
+        model.addAttribute("generos", getGeneros());
+        return "rh/funcionarios/funcionario";
+    }
+
+    @PostMapping("/create")
+    public ModelAndView save(@ModelAttribute FuncionarioDTO funcionario, RedirectAttributes redir) {
+        fs.create(funcionario);
+        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        return new ModelAndView("redirect:/funcionario/add", "funcionario", funcionario);
+    }
+
+    @PostMapping("/update")
+    public ModelAndView update(@ModelAttribute FuncionarioDTO funcionario, RedirectAttributes redir) {
+        fs.create(funcionario);
+        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        return new ModelAndView("redirect:/funcionario/add", "funcionario", funcionario);
+    }
+
+    @GetMapping("/lista")
+    public String lista() {
+        return "rh/funcinarios/funcionarios";
+
+    }
 
     @GetMapping("/pessoas")
     public List<PessoaDTO> list(Pageable pageable) {
@@ -44,13 +84,25 @@ public class FuncionarioControlle {
         return lis;
     }
 
-    @GetMapping("/departamentos")
-    public Set<DepartamentoDTO> getDepartamentos() {
-        return ds.lista();
+    @GetMapping("/graficofuncionario")
+    public ResponseEntity<?> getDataForMultipleLine(Pageable pageable) {
+        List<PessoaDTO> dataList = fs.list(pageable);
+        Map<String, List<PessoaDTO>> mappedData = new HashMap<>();
+        for (PessoaDTO data : dataList) {
+
+            if (mappedData.containsKey(data.getNome())) {
+                mappedData.get(data.getNome()).add(data);
+            } else {
+                List<PessoaDTO> tempList = new ArrayList<>();
+                tempList.add(data);
+                mappedData.put(data.getNome(), tempList);
+            }
+
+        }
+        return new ResponseEntity<>(mappedData, HttpStatus.OK);
     }
 
-    @GetMapping("/generos")
-    public Set<String> getGeneros() {
+    private Set<String> getGeneros() {
         Set<String> generos = new HashSet<>();
         for (Genero value : Genero.values()) {
             Genero g = value;
@@ -60,8 +112,7 @@ public class FuncionarioControlle {
         return generos;
     }
 
-    @GetMapping("/estadoCivil")
-    public Set<String> getEstadoCivil() {
+    private Set<String> getEstadoCivil() {
         Set<String> ec = new HashSet<>();
         for (EstadoCivil value : EstadoCivil.values()) {
             EstadoCivil c = value;
@@ -71,27 +122,30 @@ public class FuncionarioControlle {
         return ec;
     }
 
-    @GetMapping("/{id}")
-    public PessoaDTO findById(@PathVariable Long id) {
-        return fs.findById(id);
-    }
-   
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody @Valid FuncionarioDTO funcionaro) {
-        //  Departamento d = ds.findBy(funcionaro.departamento().nome())
-        return ResponseEntity.status(HttpStatus.CREATED).body(fs.create(funcionaro));
+    @GetMapping("/editar/{id}")
+    public String editar(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("funcionario", fs.findById(id));
+        model.addAttribute("departamentos", ds.lista());
+        model.addAttribute("estadoCivil", getEstadoCivil());
+        model.addAttribute("generos", getGeneros());
+        return "rh/funcinarios/funcionario";
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<PessoaDTO> update(@RequestBody @Valid FuncionarioDTO funcionario) {
-        System.out.println("O que temos? " + funcionario);
-        return ResponseEntity.ok(fs.create(funcionario));
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable(value = "id") Long id) {
+    @GetMapping("/delete/{id}")
+    public ModelAndView excluir(@PathVariable("id") Long id) {
+        Map<String, Object> model = new HashMap<>();
         fs.delete(id);
-        return new ResponseEntity<>("Funcionário deletado!", HttpStatus.OK);
+        model.put("sucesso", "Operação realizada com sucesso.");
+
+        return new ModelAndView("rh/funcinarios/funcionarios", model);
     }
+
+    @GetMapping("/datatables/server")
+    public ResponseEntity<?> funcionarios(HttpServletRequest request) {
+        //model.addAttribute("perfis", ps.list(pageable));
+        // return "perfis/perfis";
+        return ResponseEntity.ok(fs.buscarTodos(request));
+    }
+
 }

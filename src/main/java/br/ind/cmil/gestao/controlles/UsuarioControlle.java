@@ -40,7 +40,10 @@ public class UsuarioControlle {
     private final IPerfilService perfis;
 
     @GetMapping("/abrir/form")
-    public String abrirFormGeral(RegistrarUsuario usuario) {
+    public String abrirFormGeral(Model model, @ModelAttribute RegistrarUsuario usuario) {
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("perfis", perfis.perfis());
         return "usuario/cadastro";
     }
 
@@ -49,11 +52,10 @@ public class UsuarioControlle {
 
         try {
 
-            //return ResponseEntity.ok().build();
             service.register(usuario, getSiteURL(request));
-        } catch (DataIntegrityViolationException ex) {
+        } catch (RuntimeException ex) {
             result.reject("email", "Ups... Este e-mail já existe na base de dados.");
-            return "cadastro";
+          return "usuario/cadastro";
         }
         return "redirect:/u/abrir/form";
 
@@ -77,11 +79,30 @@ public class UsuarioControlle {
 
     }
 
-    @GetMapping("/novo/usuario")
-    public String addUsuario(Model model, RegistrarUsuario usuario) {
+    @GetMapping("/novo/cadastro")
+    public String novoCadastro(Model model, @ModelAttribute RegistrarUsuario usuario) {
+
         model.addAttribute("usuario", usuario);
-        // model.addAttribute("perfis", perfis.perfis());
+        model.addAttribute("perfis", perfis.perfis());
+
         return "cadastro";
+    }
+
+    @PostMapping("/cadastrar")
+    public String salvarCadastroAuxiliar(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
+        try {
+            service.salvarUsuarioGeral(usuario, getSiteURL(request));
+        } catch (DataIntegrityViolationException ex) {
+            result.reject("email", "Ops... Este e-mail já existe na base de dados.");
+            return "cadastro";
+        }
+        return "redirect:/u/cadastro/realizado";
+    }
+
+    @GetMapping("/cadastro/realizado")
+    public String cadastroRealizado() {
+
+        return "fragments/mensagem";
     }
 
     @GetMapping("/confirmacao/cadastro")
@@ -132,32 +153,6 @@ public class UsuarioControlle {
         //service.alterarSenha(u, s1);
         attr.addFlashAttribute("sucesso", "Senha alterada com sucesso.");
         return "redirect:/u/editar/senha";
-    }
-
-    @GetMapping("/novo/cadastro")
-    public String novoCadastro(Model model, @ModelAttribute RegistrarUsuario usuario) {
-
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("perfis", perfis.perfis());   
-
-        return "cadastro";
-    }
-
-    @GetMapping("/cadastro/realizado")
-    public String cadastroRealizado() {
-
-        return "fragments/mensagem";
-    }
-
-    @PostMapping("/cadastro/paciente/salvar")
-    public String salvarCadastroAuxiliar(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
-        try {
-           service.salvarUsuarioGeral(usuario, getSiteURL(request));
-        } catch (DataIntegrityViolationException ex) {
-            result.reject("email", "Ops... Este e-mail já existe na base de dados.");
-            return "cadastro";
-        }
-        return "redirect:/u/cadastro/realizado";
     }
 
     // abre a pagina de pedido de redefinicao de senha

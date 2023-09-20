@@ -4,6 +4,7 @@ import br.ind.cmil.gestao.model.dto.CargoDTO;
 import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PessoaDTO;
+import br.ind.cmil.gestao.model.dto.ProjetoDTO;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.entidades.Pessoa;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
@@ -33,9 +34,12 @@ public class PessoaMapper {
 
         CargoMapper cm = new CargoMapper();
         CargoDTO cargo = cm.toDTO(f.getCargo());
-
-        return new FuncionarioDTO(f.getAdmissao(), f.getDemissao(), f.getSalario(), departamento, cargo, f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento());
-        // return new FuncionarioDTO(f.getId, f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, endereco, telefones, f.getSalario());
+        
+          ProjetoMapper pm = new ProjetoMapper();
+        ProjetoDTO projeto = pm.toDTO(f.getProjeto());
+        
+        return new FuncionarioDTO(f.getAdmissao(), f.getDemissao(), f.getSalario(), departamento, cargo, projeto, f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento());
+      // return new FuncionarioDTO(f.getId, f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, endereco, telefones, f.getSalario());
     }
 
     public Pessoa toEntity(FuncionarioDTO dto) {
@@ -58,15 +62,17 @@ public class PessoaMapper {
         f.setNaturalidade(dto.getNaturalidade());
         LocalDate data = (dto.getAdmissao()) == null ? LocalDate.now() : dto.getAdmissao();
         f.setAdmissao(data);
-
         f.setDemissao(dto.getDemissao());
         f.setSalario(dto.getSalario());
-
+        
         DepartamentoMapper dm = new DepartamentoMapper();
         f.setDepartmento(dm.toEntity(dto.getDepartamento()));
         
-         CargoMapper cm = new CargoMapper();
+        CargoMapper cm = new CargoMapper();
         f.setCargo(cm.toEntity(dto.getCargo()));
+        
+        ProjetoMapper pm = new ProjetoMapper();
+        f.setProjeto(pm.toEntity(dto.getProjeto()));
 
         //TelefoneMapper tm = new TelefoneMapper();
         //List<Telefone> telefones = dto.getTelefones().stream().map(telefoneDTO -> {

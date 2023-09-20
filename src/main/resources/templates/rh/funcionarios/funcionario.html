@@ -12,7 +12,7 @@
 
             <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-            <form th:action="${funcionario.id == null} ? @{/pessoas/salvar} : @{/pessoas/editar}"  th:object="${funcionario}"	method="POST" class="was-validated row g-3">
+            <form th:action="${funcionario.id == null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"  th:object="${funcionario}"	method="POST" class="was-validated row g-3">
                 <div class="col-md-4">
                     <label for="nome" class="form-label">Nome</label>
                     <input type="text" class="form-control" id="nome" name="nome">
@@ -81,7 +81,7 @@
                 <div class="col-md-3">
                     <label class="form-label" for="estado_civil">Estado Civil</label> 
                     <select class="form-select" th:field="*{estado_civil}" >
-                        <option th:each="estado_civil : ${ec}" id="estado_civil"  th:value="${estado_civil}" th:text="${estado_civil}"   />
+                        <option th:each="estado_civil : ${estadoCivil}" id="estado_civil"  th:value="${estado_civil}" th:text="${estado_civil}"   />
                     </select>    
                 </div>
 

@@ -3,75 +3,91 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
    <head>
-    <title>Add projetos</title>
+    <title>Cadastrar projetos</title>
     </head>
     <body>
         <div  layout:fragment="corpo">
 
 
-            <div th:replace="fragments/alert :: alerta-sucesso"></div>	
+            <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
 
-            <form th:action="${avaliacao.id == null} ? @{/avaliacoes/salvar} : @{/avaliacoes/editar}"
-                  th:object="${avaliacao}"	method="POST" class="was-validated">
+            <form th:action="${projeto.id == null} ? @{/projeto/salvar} : @{/projeto/editar}"
+                  th:object="${projeto}"	method="POST" class="was-validated">
 
                 <div class="row mb-3">
                     <div class="col-md">
                         <div class="form-floating ">                    
-                            <input type="text" class="form-control" id="avaliador"  th:field="*{avaliador}" name="avaliador" required />
-                            <label for="avaliador">Nome</label>
+                            <input type="text" class="form-control" id="contrato"  th:field="*{contrato}" name="contrato" required />
+                            <label for="contrato">Contrato</label>
 
                         </div>
                     </div>
 
+                </div>
+                <div class="row mb-3">
                     <div class="col-md">
-                        <div class="form-floating ">                           
+                            <label for="numero">numero</label>
+                        <div class="form-floating ">                    
+                            <input type="text" class="form-control" id="numero"  th:field="*{numero}" name="numero" required />
 
-                            <select class="form-select" id="centro" name="centro" aria-label="Floating label select example" required>
-                                <option selected>Seleciona um centro de custo</option>
-                                <option  th:each="centro : ${centros}" 
-                                         th:text="${centro.nome}" 
-                                         th:value="${centro.id}"
-                                         th:field="*{centro}"
-                                         />
-                            </select>
-                            <label for="centro" >Centro(s) de Custo(s)</label>
                         </div>
-
-
-
                     </div>
+
+                </div>
+                <div class="row mb-3">
                     <div class="col-md">
-                        <div class="form-floating "> 
-                            <select class="form-select" id="campanha" name="campanha" aria-label="Floating label select example" required>
-                                <option selected>Seleciona uma campanha</option>
-                                <option  th:each="campanha : ${campanhas}" 
-                                         th:text="${campanha.nome}"
-                                         th:value="${campanha.id}"
-                                         th:field="*{campanha}"
-                                         />
-                            </select>
-                            <label for="campanha" >Campanha</label>
+                            <label for="inicio">inicio</label>
+                        <div class="form-floating ">                    
+                            <input type="date" class="form-control" id="inicio"  th:field="*{inicio}" name="inicio" required />
 
                         </div>
                     </div>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md">
+                            <label for="fim">Fim</label>
+                        <div class="form-floating ">                    
+                            <input type="date" class="form-control" id="fim"  th:field="*{fim}" name="fim" required />
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md">
+                            <label for="responsavel">responsavel</label>
+                        <div class="form-floating ">                    
+                            <input type="text" class="form-control" id="responsavel"  th:field="*{responsavel}" name="responsavel" required />
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md">
+                            <label for="seguranca">seguranca</label>
+                        <div class="form-floating ">                    
+                            <input type="text" class="form-control" id="seguranca"  th:field="*{seguranca}" name="seguranca" required />
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md">
+                            <label for="gestor">gestor</label>
+                        <div class="form-floating ">                    
+                            <input type="text" class="form-control" id="gestor"  th:field="*{gestor}" name="gestor" required />
+
+                        </div>
+                    </div>
+
                 </div>
 
               
-                        <label class="form-check-label" for="nota">Nota: </label>
-                        <div class="form-check form-switch">
-                            <th:block th:each="nota : ${notas}">
-                                <div class="form-check ">
-                                    <input type="radio" name="nota" class="form-check-input"
-                                           th:text="${nota.name()}"
-                                           th:value="${nota.name()}"
-                                           th:field="*{nota}"
-                                           />
-                                </div>                    
-                            </th:block>
-
-
-                        </div>
+                        
 
 
                 <input type="hidden" th:field="*{id}"/>	
@@ -89,7 +105,7 @@
             <!--div th:switch="${avaliacoes}">
                 <h2 th:case="null">Não há avaliações!</h2>
                 <div th:case="*"-->
-            <h2>Avaliações</h2>
+            <h2>Projetos</h2>
             <table id="table-avaliacao"  class="table table-sm table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>

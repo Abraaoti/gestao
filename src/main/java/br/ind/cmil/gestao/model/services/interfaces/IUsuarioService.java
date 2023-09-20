@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import jakarta.mail.MessagingException;
 import java.util.Set;
@@ -39,6 +40,7 @@ public interface IUsuarioService {
 
     boolean verify(String verificationCode);
 
+    void salvarUsuarioExterno(UtenteDTO usuario) throws MessagingException;
     /*
 
     boolean checkIfUserExist(final String email);

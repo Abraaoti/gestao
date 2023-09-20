@@ -30,24 +30,22 @@ public class PresencaControlle {
     private final IPresencaService ps;
 
     @GetMapping("/add")
-    public String form(Model model, PresencaDTO presenca) {
+    public String form(Model model, @ModelAttribute PresencaDTO presenca) {
         model.addAttribute("presenca", presenca);
-        return "presencas/presenca";
+        return "/rh/funcionario/presencas/presenca";
     }
 
     @PostMapping("/salvar")
     public ModelAndView save(@ModelAttribute PresencaDTO presenca, RedirectAttributes redir) {
         ps.create(presenca);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/presenca/add","presenca", presenca);
+        return new ModelAndView("redirect:/presenca/add", "presenca", presenca);
     }
-    
-    
 
     @GetMapping("/lista")
     public String lista() {
-       
-        return "presencas/presencas";
+
+        return "/rh/funcionario/presencas/presencas";
 
     }
 
@@ -55,14 +53,14 @@ public class PresencaControlle {
     public ModelAndView editarPerfil(@ModelAttribute PresencaDTO presenca, RedirectAttributes redir) {
         ps.create(presenca);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("presencas/presenca","presenca", presenca);
+        return new ModelAndView("/rh/funcionario/presencas/presenca");
     }
 
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
-       
+
         model.addAttribute("presenca", ps.findById(id));
-        return "presencas/presenca";
+        return "/rh/funcionario/presencas/presenca";
     }
 
     @GetMapping("/excluir/{id}")
@@ -70,7 +68,7 @@ public class PresencaControlle {
         Map<String, Object> model = new HashMap<>();
         ps.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("presencas/presencas", model);
+        return new ModelAndView("/rh/funcionario/presencas/presencas", model);
     }
 
     @GetMapping("/datatables/server")
@@ -79,7 +77,5 @@ public class PresencaControlle {
         // return "perfis/perfis";
         return ResponseEntity.ok(ps.presencas(request));
     }
-
-  
 
 }

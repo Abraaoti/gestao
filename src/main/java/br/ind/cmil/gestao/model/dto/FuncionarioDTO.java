@@ -19,17 +19,17 @@ public class FuncionarioDTO extends PessoaFisicaDTO {
     private BigDecimal salario;
     private DepartamentoDTO departamento;
     private CargoDTO cargo;
+    private ProjetoDTO projeto;
 
-    public FuncionarioDTO(LocalDate admissao, LocalDate demissao, BigDecimal salario, DepartamentoDTO departamento, CargoDTO cargo, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
+    public FuncionarioDTO(LocalDate admissao, LocalDate demissao, BigDecimal salario, DepartamentoDTO departamento, CargoDTO cargo, ProjetoDTO projeto, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
         super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, id, nome, sobrenome, nascimento);
         this.admissao = admissao;
         this.demissao = demissao;
         this.salario = salario;
         this.departamento = departamento;
         this.cargo = cargo;
+        this.projeto = projeto;
     }
-
-   
 
     public LocalDate getAdmissao() {
         return admissao;
@@ -45,6 +45,14 @@ public class FuncionarioDTO extends PessoaFisicaDTO {
 
     public void setDemissao(LocalDate demissao) {
         this.demissao = demissao;
+    }
+
+    public BigDecimal getSalario() {
+        return salario;
+    }
+
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
     }
 
     public DepartamentoDTO getDepartamento() {
@@ -63,12 +71,12 @@ public class FuncionarioDTO extends PessoaFisicaDTO {
         this.cargo = cargo;
     }
 
-    public BigDecimal getSalario() {
-        return salario;
+    public ProjetoDTO getProjeto() {
+        return projeto;
     }
 
-    public void setSalario(BigDecimal salario) {
-        this.salario = salario;
+    public void setProjeto(ProjetoDTO projeto) {
+        this.projeto = projeto;
     }
 
     @Override
@@ -77,11 +85,14 @@ public class FuncionarioDTO extends PessoaFisicaDTO {
         sb.append("FuncionarioDTO{");
         sb.append("admissao=").append(admissao);
         sb.append(", demissao=").append(demissao);
+        sb.append(", salario=").append(salario);
         sb.append(", departamento=").append(departamento);
         sb.append(", cargo=").append(cargo);
-        sb.append(", salario=").append(salario);
+        sb.append(", projeto=").append(projeto);
         sb.append('}');
         return sb.toString();
     }
+
+   
 
 }

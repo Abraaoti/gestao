@@ -1,16 +1,14 @@
 package br.ind.cmil.gestao.controlles;
 
-import br.ind.cmil.gestao.model.dto.CargoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
+import br.ind.cmil.gestao.model.dto.ProjetoDTO;
+import br.ind.cmil.gestao.model.services.interfaces.IProjetoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,53 +23,54 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("cargo")
-public class CargoControlle {
+@RequestMapping("projeto")
+public class ProjetoControlle {
 
-    private final ICargoService cs;
+    private final IProjetoService ps;
 
     @GetMapping("/lista")
     public String list() {
-        return "rh/cargos/cargos";
+        return "projetos/projetos";
     }
 
     @GetMapping("/add")
-    public String form(CargoDTO cargo, Model model) {
-        model.addAttribute("cargo", cargo);
-        return "rh/cargos/cargo";
+    public String form(@ModelAttribute ProjetoDTO projeto, Model model) {
+        model.addAttribute("projeto", projeto);
+        return "projetos/projeto";
     }
 
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
+    public ModelAndView save(@ModelAttribute ProjetoDTO projeto, RedirectAttributes redir) {
+        ps.create(projeto);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/cargo/add");
+        return new ModelAndView("redirect:/projeto/add");
+    }
+    @PostMapping("/update")
+    public ModelAndView update(@ModelAttribute ProjetoDTO projeto, RedirectAttributes redir) {
+        ps.create(projeto);
+        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        return new ModelAndView("redirect:/projeto/add");
     }
 
-    @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
-        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/cargo/add");
-    }
+   
 
     @GetMapping("/editar/{id}")
-    public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
+    public String preEditar(Model model, @PathVariable("id") Long id) {
 
-        model.addAttribute("cargo", cs.findById(id));
-        return "rh/cargos/cargo";
+        model.addAttribute("projeto", ps.findById(id));
+        return "projetos/projeto";
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView excluir(@PathVariable("id") Long id) {
         Map<String, Object> model = new HashMap<>();
-        cs.delete(id);
+        ps.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("rh/cargos/cargos", model);
+        return new ModelAndView("projetos/projetos", model);
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> perfis(HttpServletRequest request) {       
-        return ResponseEntity.ok(cs.buscarTodos(request));
+    public ResponseEntity<?> projetos(HttpServletRequest request) {       
+        return ResponseEntity.ok(ps.buscarTodos(request));
     }
 }

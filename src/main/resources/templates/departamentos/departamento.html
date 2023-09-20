@@ -11,7 +11,7 @@
 
             <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-            <form th:action="${departamento.id == null} ? @{/departamentos/create} : @{/departamentos/editar}"
+            <form th:action="${departamento.id == null} ? @{/departamento/create} : @{/departamento/editar}"
                   th:object="${departamento}"	method="POST" class="was-validated">
                 <div class="form-group row">
 

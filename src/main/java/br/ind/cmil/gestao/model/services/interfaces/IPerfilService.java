@@ -2,6 +2,7 @@ package br.ind.cmil.gestao.model.services.interfaces;
 
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
+import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,8 @@ public interface IPerfilService {
 
     PerfilDTO create(PerfilDTO p);
 
+    String tipoPerfil(String tipo);
+
     PerfilDTO update(PerfilDTO p);
 
     Map<String, Object> buscarTodos(HttpServletRequest request);
@@ -33,5 +36,5 @@ public interface IPerfilService {
 
     void delete(Long id);
 
-   // Perfil getOrCreate(String name);
+    // Perfil getOrCreate(String name);
 }

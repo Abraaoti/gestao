@@ -6,6 +6,7 @@ import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.entidades.Perfil;
+import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -149,6 +150,14 @@ public class PerfilServiceImp implements IPerfilService {
         } else {
             p.setTp(pm.convertPerfilValue(t.getTp().getValue()));
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public String tipoPerfil(String tipo) {
+        Perfil perfil = pr.findByTipoPerfil(pm.convertPerfilValue(tipo)).get();
+        return perfil.getTp().getValue();
+
     }
 
 }

@@ -1,5 +1,9 @@
 package br.ind.cmil.gestao.configs;
 
+import br.ind.cmil.gestao.model.services.interfaces.impl.DBService;
+import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -11,14 +15,18 @@ import org.springframework.context.annotation.Profile;
 @Profile("test")
 public class TestConfig {
 
-   // @Autowired
-    //private DBService dbService;
+    @Autowired
+    private DBService dbService;
 
-   // @Bean
-    //public void instaciaBaseDeDados() {
-       // this.dbService.instanciaBaseDeDados();
+    @Bean
+    public void instaciaBaseDePerfis() {
+        this.dbService.instanciaBaseDePerfis();
 
-   // }
+    }
 
+    @Bean
+    public void instaciaBaseDeDados() throws MessagingException {
+        this.dbService.instanciaBaseDeDados();
 
+    }
 }

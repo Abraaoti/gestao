@@ -17,7 +17,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface IPerfilRepository extends JpaRepository<Perfil, Long> {
-@Query("select p from Perfil p where  p.tp =:tp")
+
+    @Query("select p from Perfil p where  p.tp =:tp")
     Optional<Perfil> findByTipoPerfil(TipoPerfil tp);
 
     @Query("select p from Perfil p where  p.tp IN :tp")
@@ -30,9 +31,7 @@ public interface IPerfilRepository extends JpaRepository<Perfil, Long> {
     @Query(value = "SELECT obj FROM Perfil obj ",
             countQuery = "SELECT COUNT(obj) FROM Perfil obj ")
     List<Perfil> searchAll();
-    
-    
-    
-       @Query("select p from Perfil p where  p.tp =:tp")
-     Page<?> findAllByEmailOrPerfil(TipoPerfil tp, Pageable pageable);
+
+    @Query("select p from Perfil p where  p.tp like :tp%")
+    Page<Perfil> findAllByEmailOrPerfil(TipoPerfil tp, Pageable pageable);
 }

@@ -9,73 +9,53 @@
 
     </head>
     <body>
-        <section class="layout-content" layout:fragment="corpo">
-            <main role="main">
+        <div layout:fragment="corpo">
 
+            <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-                <div class="my-5">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
+            <form th:action="${perfil.id == null} ? @{/perfis/salvar} : @{/perfis/editar}"  th:object="${perfil}" method="POST" class="was-validated">
+                <div class="form-group row">
 
-                                <div class="add-toast position-absolute" aria-live="polite" aria-atomic="true" style="top:0px; right:20px;">
-                                    <!--toast-->
-                                </div>
-
-                                <form th:action="${perfil.id == null} ? @{/perfis/salvar} : @{/perfis/editar}"  th:object="${perfil}" method="POST" class="was-validated">
-                                    <div class="row g-3">
-                                        <div class="col-md">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" th:field="*{p}" id="p" 
-                                                       required/>
-                                                <div class="invalid-feedback">nome  é requerido.</div>
-                                                <label for="nome">nome </label>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-                                    <input type="hidden" name="id" th:field="*{id}">
-
-                                    <div class="form-group row">
-                                        <div class="col-sm-10">
-                                            <button type="submit" class="btn btn-primary"
-                                                    data-toggle="tooltip" data-placement="right" title="Salvar">
-                                                <i class="fas fa-save"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <hr />
-
-                                <h2>Perfis</h2>
-
-
-                                <table id="table-perfis"  class="table table-sm table-striped table-bordered nowrap" style="width: 100%">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">nome</th>
-
-                                            <th scope="col">editar</th>
-                                            <th scope="col">excluir</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
+                    <label for="nome" class="col-sm-2 col-form-label">nome </label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control"   th:field="*{p}" id="p"  required/>
+                        <div class="invalid-feedback">nome  é requerido.</div>
                     </div>
 
+
+                    <input type="hidden" name="id" th:field="*{id}">
+
+
+                    <div class="form-group">
+
+                        <input type="submit" class="btn btn-primary mb-3" value="Salvar"/>
+                    </div>
                 </div>
+            </form>
+
+            <hr />
+
+            <h2>Perfis</h2>
 
 
-            </main>
+            <table id="table-perfil"  class="table table-sm table-striped table-bordered nowrap" style="width: 100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">nome</th>
 
-        </section>
-        <script  type="text/javascript" th:src="@{/js/perfil.js(v=${version})}"	th:fragment="js"></script>
+                        <th scope="col">editar</th>
+                        <th scope="col">excluir</th>
+                    </tr>
+                </thead>
+            </table>
+
+
+        </div>
+
+
+
+        <script  type="text/javascript" th:src="@{/js/perfis.js(v=${version})}"	th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript"></script>
     </body>
 </html>

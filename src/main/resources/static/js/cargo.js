@@ -1,6 +1,6 @@
 $(document).ready(function () {
 	moment.locale('pt-BR');
-    var table = $('#table-departamento').DataTable({
+    var table = $('#table-cargo').DataTable({
     	searching: true,
     	order: [[ 1, "asc" ]],
     	lengthMenu: [5, 10],
@@ -8,7 +8,7 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         ajax: {
-            url: '/departamento/datatables/server',
+            url: '/cargo/datatables/server',
             data: 'data'
         },
         columns: [

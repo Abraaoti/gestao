@@ -1,6 +1,8 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.exceptions.UsuarioNotFoundException;
+import br.ind.cmil.gestao.model.datatables.Datatables;
+import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
@@ -10,9 +12,11 @@ import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +44,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private final EmailServiceImp email;
     private final UsuarioMapper rm;
     private final IPerfilService ps;
+    private final Datatables datatables;
 
     //public void increaseFailedAttempts(Usuario user) {
     //   int newFailAttempts = user.getFailedLoginAttempts() + 1;
@@ -47,8 +53,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
     // public void resetFailedAttempts(String email) {
     // ur.updateFailedAttempts(0, email);
     //}
-    @Override
     @Transactional(readOnly = false)
+    @Override
     public void register(RegistrarUsuario request, String siteURL) throws MessagingException {
 
         if (request.id() != null) {
@@ -57,10 +63,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
         Set<Perfil> roles = ps.perfis(request.perfis());
-        if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil(ps.tipoPerfil("admin")), new Perfil(ps.tipoPerfil("usuario"))))
-                || roles.containsAll(Arrays.asList(new Perfil(ps.tipoPerfil("administrativo")), new Perfil(ps.tipoPerfil("usuario"))))) {
-            throw new RuntimeException("Usuário não pode ser Admin e/ou Administrativo.");
-        }
+        // if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil("admin"), new Perfil(ps.tipoPerfil("usuario"))))
+        //       || roles.containsAll(Arrays.asList(new Perfil(ps.tipoPerfil("administrativo")), new Perfil(ps.tipoPerfil("usuario"))))) {
+        //    throw new RuntimeException("Usuário não pode ser Admin e/ou Administrativo.");
+        // }
 
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
@@ -197,6 +203,17 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Transactional(readOnly = false)
     public void salvarUsuarioExterno(UtenteDTO usuario) throws MessagingException {
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> buscarTodos(HttpServletRequest request) {
+        datatables.setRequest(request);
+        datatables.setColunas(DatatablesColunas.USUARIOS);
+        Page<Usuario> page = datatables.getSearch().isEmpty()
+                ? ur.findAll(datatables.getPageable())
+                : ur.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
+        return datatables.getResponse(page);
     }
 
     /**

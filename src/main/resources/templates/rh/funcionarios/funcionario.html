@@ -12,85 +12,113 @@
 
             <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-            <form th:action="${funcionario.id == null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"  th:object="${funcionario}"	method="POST" class="was-validated row g-3">
-                <div class="col-md-4">
-                    <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome">
+            <form th:action="${funcionario.id == null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"  th:object="${funcionario}"	method="POST" class="was-validated ">
+                <div class="mb-3 row">
+                    <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="nome" name="nome">
+                    </div>
                 </div>
-                <div class="col-md-5">
-                    <label class="form-label" for="sobrenome">Sobrenome </label>
-                    <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome" required/>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="sobrenome">Sobrenome </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome" required/>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label" for="nascimento" >Nascimento</label> 
-                    <input type="date" class="form-control " id="nascimento" th:field="*{nascimento}" required />
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label" for="mae" >Mãe </label>
-                    <input type="text" class="form-control" th:field="*{mae}" id="mae"  />
-
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label" for="pai">Pai</label>                        
-                    <input type="text" class="form-control "  th:field="*{pai}" id="pai"   />
-
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label" for="naturalidade" >Naturalidade</label>
-                    <input type="text" class="form-control" th:field="*{naturalidade}" id="naturalidade"  />
-
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label" for="passaporte">Passaporte</label> 
-                    <input type="text" class="form-control" id="passaporte"  th:field="*{passaporte}" required />
-
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="nascimento" >Nascimento</label> 
+                    <div class="col-sm-2">
+                        <input type="date" class="form-control " id="nascimento" th:field="*{nascimento}" required />
+                    </div>
                 </div>
 
-                <div class="col-md-2">
-                    <label class="form-label" for="cpf" >CPF</label> 
-                    <input type="text" class="form-control "  id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
-                           th:field="*{cpf}"  required maxlength="14" minlength="5" />
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="mae"> Mãe </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{mae}" id="mae"  />
 
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label" for="rg" >RG</label> 
-                    <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="pai">Pai</label>  
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control "  th:field="*{pai}" id="pai"   />
 
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="naturalidade" >Naturalidade</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{naturalidade}" id="naturalidade"  />
+
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="passaporte">Passaporte</label> 
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="passaporte"  th:field="*{passaporte}" required />
+
+                    </div>
                 </div>
 
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="cpf" >CPF</label> 
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control "  id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
+                               th:field="*{cpf}"  required maxlength="14" minlength="5" />
 
-                <div class="col-md-3">
-                    <label class="form-label"for="cargos" >Cargo</label> 
-                    <select class="form-select" th:field="*{cargo}" >
-                        <option th:each="cargo : ${cargos}"   th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
-                    </select>  
+                    </div>
                 </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="rg" >RG</label> 
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
 
-                <div class="row mb-3">
-                    <label class="form-label" for="departamento" >Departamento</label> 
-                    <select class="form-select" th:field="*{departamento}">                               
-                        <option selected th:each="departamento : ${departamentos}"   th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" /> 
-                    </select>                          
-
-
-                </div>
-
-
-
-                <div class="col-md-3">
-                    <label class="form-label" for="estado_civil">Estado Civil</label> 
-                    <select class="form-select" th:field="*{estado_civil}" >
-                        <option th:each="estado_civil : ${estadoCivil}" id="estado_civil"  th:value="${estado_civil}" th:text="${estado_civil}"   />
-                    </select>    
+                    </div>
                 </div>
 
 
-                <div class="col-md-3">
-                    <label class="form-label" for="genero">Genero</label> 
-                    <select  th:field="*{genero}" class="form-select">
-                        <option th:each="genero : ${generos}"  th:value="${genero}"  th:text="${genero}" id="genero" />
-                    </select> 
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label"  for="cargos" >Cargo</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select" th:field="*{cargo}" >
+                            <option th:each="cargo : ${cargos}"   th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
+                        </select>  
+
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="departamento" >Departamento</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select " th:field="*{departamento}">                               
+                            <option selected th:each="departamento : ${departamentos}"   th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" /> 
+                        </select>
+
+                    </div>
+                </div>
+
+
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="estado_civil">Estado Civil</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select" th:field="*{estado_civil}" >
+                            <option th:each="estado_civil : ${estadoCivil}" id="estado_civil"  th:value="${estado_civil}" th:text="${estado_civil}"   />
+                        </select>    
+
+                    </div>
+                </div>
+
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="genero">Genero</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select"  th:field="*{genero}">
+                            <option th:each="genero : ${generos}"  th:value="${genero}"  th:text="${genero}" id="genero" />
+                        </select> 
+
+                    </div>
                 </div>
 
 

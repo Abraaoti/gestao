@@ -2,8 +2,8 @@
 <html lang="pt" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
-   <head>
-    <title>Cadastrar projetos</title>
+    <head>
+        <title>Cadastrar projetos</title>
     </head>
     <body>
         <div  layout:fragment="corpo">
@@ -15,79 +15,73 @@
             <form th:action="${projeto.id == null} ? @{/projeto/salvar} : @{/projeto/editar}"
                   th:object="${projeto}"	method="POST" class="was-validated">
 
-                <div class="row mb-3">
-                    <div class="col-md">
-                        <div class="form-floating ">                    
-                            <input type="text" class="form-control" id="contrato"  th:field="*{contrato}" name="contrato" required />
-                            <label for="contrato">Contrato</label>
+                <div class="mb-3 row">
+                    <label  class="col-sm-2 col-form-label" for="nome">Contrato</label> 
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="contrato"  th:field="*{contrato}" name="contrato" required />
 
-                        </div>
+
                     </div>
-
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md">
-                            <label for="numero">numero</label>
-                        <div class="form-floating ">                    
-                            <input type="text" class="form-control" id="numero"  th:field="*{numero}" name="numero" required />
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md">
-                            <label for="inicio">inicio</label>
-                        <div class="form-floating ">                    
-                            <input type="date" class="form-control" id="inicio"  th:field="*{inicio}" name="inicio" required />
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md">
-                            <label for="fim">Fim</label>
-                        <div class="form-floating ">                    
-                            <input type="date" class="form-control" id="fim"  th:field="*{fim}" name="fim" required />
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md">
-                            <label for="responsavel">responsavel</label>
-                        <div class="form-floating ">                    
-                            <input type="text" class="form-control" id="responsavel"  th:field="*{responsavel}" name="responsavel" required />
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md">
-                            <label for="seguranca">seguranca</label>
-                        <div class="form-floating ">                    
-                            <input type="text" class="form-control" id="seguranca"  th:field="*{seguranca}" name="seguranca" required />
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md">
-                            <label for="gestor">gestor</label>
-                        <div class="form-floating ">                    
-                            <input type="text" class="form-control" id="gestor"  th:field="*{gestor}" name="gestor" required />
-
-                        </div>
-                    </div>
-
                 </div>
 
-              
-                        
+
+                <div class="mb-3 row">
+                    <label  class="col-sm-2 col-form-label"for="numero">Número</label>
+                    <div class="col-sm-4">                    
+                        <input type="text" class="form-control" id="numero"  th:field="*{numero}" name="numero" required />
+
+                    </div>
+                </div>
+
+
+                <div class="mb-3 row">
+                    <label  class="col-sm-2 col-form-label" for="inicio">Inicio</label>
+                    <div class="col-sm-2">                    
+                        <input type="date" class="form-control" id="inicio"  th:field="*{inicio}" name="inicio" required />
+
+                    </div>
+                </div>
+
+
+                <div class="mb-3 row">
+                    <label  class="col-sm-2 col-form-label" for="fim">Fim</label>
+                    <div class="col-sm-2">                  
+                        <input type="date" class="form-control" id="fim"  th:field="*{fim}" name="fim" required />
+
+                    </div>
+                </div>
+
+
+                <div class="mb-3 row">
+                    <label  class="col-sm-2 col-form-label" for="responsavel">Responsavel</label>
+                    <div class="col-sm-6">                    
+                        <input type="text" class="form-control" id="responsavel"  th:field="*{responsavel}" name="responsavel" required />
+
+                    </div>
+                </div>
+
+
+                <div class="mb-3 row">
+                    <label  class="col-sm-2 col-form-label" for="seguranca">Segurança</label>
+                    <div class="col-sm-6">                 
+                        <input type="text" class="form-control" id="seguranca"  th:field="*{seguranca}" name="seguranca" required />
+
+                    </div>
+                </div>
+
+
+                <div class="mb-3 row">
+                    <label  class="col-sm-2 col-form-label" for="gestor">Gestor</label>
+                    <div class="col-sm-6">                   
+                        <input type="text" class="form-control" id="gestor"  th:field="*{gestor}" name="gestor" required />
+
+                    </div>
+                </div>
+
+
+
+
+
 
 
                 <input type="hidden" th:field="*{id}"/>	

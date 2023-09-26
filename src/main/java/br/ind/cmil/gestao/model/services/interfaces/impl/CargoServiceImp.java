@@ -104,10 +104,11 @@ public class CargoServiceImp implements ICargoService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
-        Page<?> page = datatables.getSearch().isEmpty() ? cr.findAll(datatables.getPageable())
+        Page<Cargo> page = datatables.getSearch().isEmpty() ? cr.findAll(datatables.getPageable())
                 : cr.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }

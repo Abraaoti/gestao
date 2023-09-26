@@ -90,7 +90,7 @@ public class DepartamentoServiceImp implements IDepartamentoService {
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
-        Page<?> page = datatables.getSearch().isEmpty() ? dr.findAll(datatables.getPageable())
+        Page<Departamento> page = datatables.getSearch().isEmpty() ? dr.findAll(datatables.getPageable())
                 : dr.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }

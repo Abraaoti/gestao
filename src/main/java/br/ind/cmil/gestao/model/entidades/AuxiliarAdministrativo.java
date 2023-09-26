@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.base.Entidade;
@@ -8,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,5 +35,13 @@ public class AuxiliarAdministrativo extends Entidade {
 
     public AuxiliarAdministrativo() {
     }
-    
+
+    public AuxiliarAdministrativo(Long id) {
+        super.setId(id);
+    }
+
+    public AuxiliarAdministrativo(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }

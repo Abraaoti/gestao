@@ -24,8 +24,8 @@ public interface IAdministradorRepository extends JpaRepository<Administrador, L
             countQuery = "SELECT COUNT(obj) FROM Administrador obj ")
     Page<Administrador> searchAll(Pageable pageable);
 
-    @Query("SELECT obj FROM Administrador obj where obj.nome =: search")
-    Page<?> searchAll(String search, Pageable pageable);
+    @Query("SELECT obj FROM Administrador obj where obj.nome like :search%")
+    Page<Administrador> searchAll(String search, Pageable pageable);
 
     Optional<Administrador> findByNome(String nome);
 
@@ -33,7 +33,7 @@ public interface IAdministradorRepository extends JpaRepository<Administrador, L
     Optional<Administrador> findByUsuarioEmail(String nome, String email);
 
     @Query("select a from Administrador a where a.nome like :search%")
-    Page<?> findAllByTitulo(String search, Pageable pageable);
+    Page<Administrador> findAllByTitulo(String search, Pageable pageable);
 
     @Query("select a.nome from Administrador a where a.nome like :termo%")
     List<String> findByAdministradorTermo(String termo);

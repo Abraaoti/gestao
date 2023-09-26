@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
 import br.ind.cmil.gestao.model.dto.ProjetoDTO;
 import br.ind.cmil.gestao.model.services.interfaces.IProjetoService;
@@ -34,7 +34,7 @@ public class ProjetoControlle {
     }
 
     @GetMapping("/add")
-    public String form(@ModelAttribute ProjetoDTO projeto, Model model) {
+    public String form(ProjetoDTO projeto, Model model) {
         model.addAttribute("projeto", projeto);
         return "projetos/projeto";
     }

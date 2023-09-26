@@ -15,10 +15,9 @@ public class PerfilMapper {
     public PerfilDTO toDTO(Perfil p) {
         if (p == null) {
             return null;
-        }       
-        
-        
-        return new PerfilDTO(p.getId(),p.getTp().getValue());
+        }
+
+        return new PerfilDTO(p.getId(), p.getTp().getValue());
     }
 
     public Perfil toEntity(PerfilDTO dto) {
@@ -37,20 +36,25 @@ public class PerfilMapper {
         return switch (value) {
             case "admin" ->
                 TipoPerfil.ADMIN;
-            case "administrativo" ->
-                TipoPerfil.ADMINISTRATIVO;
+            case "administrador" ->
+                TipoPerfil.ADMINISTRADOR;
+            case "assistente" ->
+                TipoPerfil.ASSISTENTE;
+            case "auxiliar" ->
+                TipoPerfil.AUXILIAR;
             case "comprador" ->
                 TipoPerfil.COMPRADOR;
             case "diretor" ->
                 TipoPerfil.DIRETOR;
             case "engenheiro" ->
                 TipoPerfil.ENGENHEIRO;
-            case "financeiro" ->
-                TipoPerfil.FINANCEIRO;
+            case "gerente" ->
+                TipoPerfil.GERENTE;
             case "funcionário" ->
                 TipoPerfil.FUNCIONARIO;
-            case "rh" ->
-                TipoPerfil.RH;
+            case "líder" ->
+                TipoPerfil.LIDERFINANCEIRO;
+          
             case "técnico" ->
                 TipoPerfil.TECNICO;
             case "usuário" ->

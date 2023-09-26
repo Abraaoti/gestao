@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
@@ -47,16 +47,29 @@ public class UsuarioControlle {
         return "usuario/cadastro";
     }
 
-    @PostMapping(path = "/registrar")
-    public String registrarUsuario(@ModelAttribute("usuario") RegistrarUsuario usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
+    @GetMapping("/lista")
+    public String listarUsuarios() {
 
-        try {
+        return "usuario/lista";
+    }
 
-            service.register(usuario, getSiteURL(request));
-        } catch (RuntimeException ex) {
+    @GetMapping("/datatables/server/usuarios")
+    public ResponseEntity<?> listarUsuariosDatatables(HttpServletRequest request) {
+
+        return ResponseEntity.ok(service.buscarTodos(request));
+    }
+
+    @PostMapping("/registrar")
+    public String registrarUsuario(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result, RedirectAttributes atts) throws MessagingException {
+
+        if (result.hasErrors()) {
             result.reject("email", "Ups... Este e-mail já existe na base de dados.");
-          return "usuario/cadastro";
+            return "redirect:/u/abrir/form";
         }
+
+        service.register(usuario, getSiteURL(request));
+        atts.addAttribute("sucesso", "Operação realizada com sucesso");
+
         return "redirect:/u/abrir/form";
 
     }

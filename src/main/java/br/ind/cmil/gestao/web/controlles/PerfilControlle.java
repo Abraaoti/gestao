@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
@@ -33,14 +33,14 @@ public class PerfilControlle {
     @GetMapping("/add")
     public String form(Model model, PerfilDTO perfilDTO) {
         model.addAttribute("perfil", perfilDTO);
-        return "perfis/addPerfil";
+        return "perfis/perfil";
     }
 
     @PostMapping("/salvar")
     public ModelAndView save(@ModelAttribute PerfilDTO perfilDTO, RedirectAttributes redir) {
         ps.create(perfilDTO);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/perfis/add","perfil", perfilDTO);
+        return new ModelAndView("redirect:/perfis/add");
     }
     
      @GetMapping("/perfis")
@@ -59,14 +59,14 @@ public class PerfilControlle {
     public ModelAndView editarPerfil(@ModelAttribute PerfilDTO perfilDTO, RedirectAttributes redir) {
         ps.create(perfilDTO);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("perfis/perfis","perfil", perfilDTO);
+        return new ModelAndView("perfis/perfis");
     }
 
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
         model.addAttribute("perfis", ps.list(pageable));
         model.addAttribute("perfil", ps.findById(id));
-        return "perfis/addPerfil";
+        return "perfis/perfil";
     }
 
     @GetMapping("/excluir/{id}")

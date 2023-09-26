@@ -1,5 +1,5 @@
 
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
 import br.ind.cmil.gestao.model.services.interfaces.IPessoaService;
 

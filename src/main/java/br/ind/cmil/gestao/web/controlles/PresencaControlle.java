@@ -1,6 +1,7 @@
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
 import br.ind.cmil.gestao.model.dto.PresencaDTO;
+import br.ind.cmil.gestao.model.enums.TipoPresenca;
 import br.ind.cmil.gestao.model.services.interfaces.IPresencaService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -30,8 +31,12 @@ public class PresencaControlle {
     private final IPresencaService ps;
 
     @GetMapping("/add")
-    public String form(Model model, @ModelAttribute PresencaDTO presenca) {
+    public String form(Model model,PresencaDTO presenca) {
         model.addAttribute("presenca", presenca);
+        model.addAttribute("horario", presenca);
+        model.addAttribute("status", TipoPresenca.values());
+        model.addAttribute("auxiliar", presenca);
+        model.addAttribute("funcionario", presenca);
         return "/rh/funcionario/presencas/presenca";
     }
 

@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.base.Entidade;
@@ -38,5 +37,13 @@ public class Administrador extends Entidade {
 
     public Administrador() {
     }
-    
+
+    public Administrador(Long id) {
+        super.setId(id);
+    }
+
+    public Administrador(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }

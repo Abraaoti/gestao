@@ -16,8 +16,10 @@ import java.time.Instant;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -30,6 +32,14 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> entityNotFound(ObjectNotFoundException ex, HttpServletRequest request) {
         StandardError erro = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(), "Usuário não achado!",
                 ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<StandardError> usuarioNaoEncontradoException(UsernameNotFoundException ex, HttpServletRequest request) {
+
+        StandardError erro = new StandardError(Instant.now(), HttpStatus.NOT_FOUND.value(), "Usuário inexixtente!", ex.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
@@ -89,8 +99,6 @@ public class ResourceExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
     }
-
-   
 
     @ExceptionHandler(FuncionarioException.class)
     public ResponseEntity<StandardError> entityNotFoundFuncionario(FuncionarioException ex, HttpServletRequest request) {

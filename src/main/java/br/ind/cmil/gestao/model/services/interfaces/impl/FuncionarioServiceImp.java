@@ -151,7 +151,7 @@ public class FuncionarioServiceImp implements IFuncionarioService {
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
-        Page<?> page = datatables.getSearch().isEmpty() ? fr.findAll(datatables.getPageable())
+        Page<Funcionario> page = datatables.getSearch().isEmpty() ? fr.findAll(datatables.getPageable())
                 : fr.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }

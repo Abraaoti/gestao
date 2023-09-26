@@ -44,7 +44,7 @@ public class PresencaServiceImp implements IPresencaService {
         update(p);
     }
 
-    public PresencaDTO update(PresencaDTO p) {
+    private PresencaDTO update(PresencaDTO p) {
         return pr.findById(p.id()).map(pm::toDTO).get();
     }
 

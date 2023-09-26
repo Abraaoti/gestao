@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.model.repositorys;
 
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
@@ -25,5 +24,11 @@ public interface IAssistenteAdministrativoRepository extends JpaRepository<Assis
     Page<AssistenteAdministrativo> searchAll(Pageable pageable);
 
     Optional<AssistenteAdministrativo> findByNome(String nome);
-    
+
+    @Query("SELECT obj FROM AssistenteAdministrativo obj where obj.nome like :search%")
+    Page<AssistenteAdministrativo> searchAll(String search, Pageable pageable);
+
+    @Query("select obj from AssistenteAdministrativo obj INNER JOIN  obj.usuario u where u.nome =:nome OR u.email =:email")
+    Optional<AssistenteAdministrativo> findByUsuarioEmail(String nome, String email);
+
 }

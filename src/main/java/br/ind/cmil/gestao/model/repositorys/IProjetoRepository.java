@@ -22,7 +22,7 @@ public interface IProjetoRepository extends JpaRepository<Projeto, Long> {
     List<Projeto> searchAll();
 
     @Query("select p from Projeto p where p.contrato like :search%")
-    Page<?> searchAll(String search, Pageable pageable);
+    Page<Projeto> searchAll(String search, Pageable pageable);
 
     Optional<Projeto> findByContrato(String contrato);
 

@@ -1,7 +1,7 @@
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
-import br.ind.cmil.gestao.model.dto.CargoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
+import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
+import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,53 +27,53 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("cargo")
-public class CargoControlle {
+@RequestMapping("auxiliar")
+public class AuxiliarAdministrativoControlle {
 
-    private final ICargoService cs;
+    private final IAuxiliarAdministrativoService as;
 
     @GetMapping("/lista")
     public String list() {
-        return "rh/cargos/cargos";
+        return "aux/auxliares";
     }
 
-    @GetMapping("/add")
-    public String form(CargoDTO cargo, Model model) {
-        model.addAttribute("cargo", cargo);
-        return "rh/cargos/cargo";
+    @GetMapping("/dados")
+    public String form(AuxiliarAdministrativoDTO auxiliar, Model model, @AuthenticationPrincipal User user) {        
+        model.addAttribute("auxiliar", as.form(auxiliar, user));
+        return "aux/auxiliar";
     }
 
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
+    public ModelAndView save(@ModelAttribute AuxiliarAdministrativoDTO c, RedirectAttributes redir) {
+        as.create(c);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/cargo/add");
+        return new ModelAndView("redirect:/auxiliar/dados");
     }
 
     @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
+    public ModelAndView update(@ModelAttribute AuxiliarAdministrativoDTO a, RedirectAttributes redir) {
+        as.create(a);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/cargo/add");
+        return new ModelAndView("redirect:/auxiliar/dados");
     }
 
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
-        model.addAttribute("cargo", cs.findById(id));
-        return "rh/cargos/cargo";
+        model.addAttribute("auxiliar", as.findById(id));
+        return "aux/auxiliar";
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView excluir(@PathVariable("id") Long id) {
         Map<String, Object> model = new HashMap<>();
-        cs.delete(id);
+        as.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("rh/cargos/cargos", model);
+        return new ModelAndView("aux/auxiliares", model);
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> perfis(HttpServletRequest request) {       
-        return ResponseEntity.ok(cs.buscarTodos(request));
+    public ResponseEntity<?> auxiliares(HttpServletRequest request) {       
+        return ResponseEntity.ok(as.aux(request));
     }
 }

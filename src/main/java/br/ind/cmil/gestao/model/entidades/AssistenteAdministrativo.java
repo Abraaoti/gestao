@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.base.Entidade;
@@ -36,5 +35,13 @@ public class AssistenteAdministrativo extends Entidade {
 
     public AssistenteAdministrativo() {
     }
-    
+
+    public AssistenteAdministrativo(Long id) {
+        super.setId(id);
+    }
+
+    public AssistenteAdministrativo(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
 }

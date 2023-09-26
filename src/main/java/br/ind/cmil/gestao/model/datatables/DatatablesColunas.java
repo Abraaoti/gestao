@@ -7,7 +7,7 @@ package br.ind.cmil.gestao.model.datatables;
  */
 public class DatatablesColunas {
 
-    public static final String[] USUARIOS = {"id", "email", "foto", "ativo", "perfis"};
+    public static final String[] USUARIOS = {"id", "nome", "email", "ativo", "perfis"};
     public static final String[] PERFIL = {"id", "tp"};
     public static final String[] PESSOA = {"id", "nome", "sobrenome", "nascimento", "endereco", "telefones"};
     public static final String[] HISTORICO_PESSOA = {"id", "nome", "sobrenome", "endereco.id", "endereco.uf", "endereco.cidade", "endereco.bairro", "endereco.rua", "endereco.numero", "endereco.cep", "endereco.complemento", "telefone.id", "telefone.numero", "telefone.tipo"};
@@ -29,7 +29,7 @@ public class DatatablesColunas {
     public static final String[] CENTROCUSTO = {"id", "nome"};
     public static final String[] PROCESSOPAGARCONTA = {"id", "emissao", "vencimento", "fornecedor.nome", "documento", "centroCusto.centro", "valor", "qtdparcela", "forma_pagamento", "arquivo", "usuario.email"};
     public static final String[] CONTAPAGAR = {"id", "processoFinanceiro.id", "documento", "valorPagar", "banco", "vencimento", "forma_pagamento", "data_pagamento", "status", "observacao", "total"};
-    public static final String[] CARGO = {"id", "nome", "funcionarios"};
+    public static final String[] CARGO = {"id", "nome"};
     public static final String[] CAMPANHA = {"id", "nome"};
     //public static String[] AVALIACAO = {"id","ruim", "regular", "bom", "data_avaliacao","campanha","centro","auditor"};
     public static final String[] AVALIACAO = {"id", "avaliador", "centro.nome", "campanha.nome", "nota", "data"};
@@ -46,5 +46,7 @@ public class DatatablesColunas {
    // public static final String[] DEPENDENTE;
    // public static final String[] IMPRESSORA;
     //public static final String[] IMOBILIZADO;
+    public static String[] AUXILIARADMINISTRATIVO;
+    public static String[] ASSISTENTEADMINISTRATIVO;
 
 }

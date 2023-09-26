@@ -4,9 +4,12 @@ import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -41,6 +44,9 @@ public interface IUsuarioService {
     boolean verify(String verificationCode);
 
     void salvarUsuarioExterno(UtenteDTO usuario) throws MessagingException;
+
+    @Transactional(readOnly = true)
+    Map<String, Object> buscarTodos(HttpServletRequest request);
     /*
 
     boolean checkIfUserExist(final String email);

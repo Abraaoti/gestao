@@ -1,16 +1,17 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
-import br.ind.cmil.gestao.model.entidades.Perfil;
-import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
+import br.ind.cmil.gestao.model.dto.PerfilDTO;
+import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
+import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
+import br.ind.cmil.gestao.uri.UsuarioUri;
+import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,59 +22,44 @@ import org.springframework.stereotype.Service;
 public class DBService {
 
     @Autowired
-    private PerfilMapper pm;
-    @Autowired
-    private PasswordEncoder encoder;
+    private IPerfilService ps;
+   
 
     @Autowired
-    private IUsuarioRepository ur;
+    private IUsuarioService us;
 
-    public void instanciaBaseDeDados() {
-
-        Set<String> tipoPerfil = new HashSet<>();
-
-        tipoPerfil.add("usuário");
-        tipoPerfil.add("administrador");
-        tipoPerfil.add("administrativo");
-        tipoPerfil.add("comprador");
-        tipoPerfil.add("diretor");
-        tipoPerfil.add("engenheiro");
-        tipoPerfil.add("financeiro");
-        tipoPerfil.add("funcionário");
-        tipoPerfil.add("técnico");
-        Perfil pe = new Perfil();
-        for (String perfil : tipoPerfil) {
-            pe.setTp(pm.convertPerfilValue(perfil));
-
+    public void instanciaBaseDePerfis() {
+        List<String> perfis = new ArrayList<>();
+        perfis.add("admin");
+        perfis.add("administrador");
+        perfis.add("assistente");
+        perfis.add("auxiliar");
+        perfis.add("comprador");
+        perfis.add("diretor");
+        perfis.add("engenheiro");
+        perfis.add("funcionário");
+        perfis.add("gerente");
+        perfis.add("líder");
+        perfis.add("técnico");
+        perfis.add("usuário");
+        for (int i = 0; i < perfis.size(); i++) {            
+        ps.create(new PerfilDTO(null,perfis.get(i)));
         }
-        Set<Perfil> perfis = new HashSet<>();
-        List<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario = new Usuario();
 
-        perfis.add(pe);
+    }
 
-        usuario.setNome("abraao calelesso");
-        usuario.setEmail("abraao@cmil.com.br");
-        usuario.setPassword(encoder.encode("123"));
-        usuario.setDataCadastro(LocalDateTime.now());
-        usuario.setAtivo(false);
-        usuario.setPerfis(perfis);
-        //ur.save(usuario);
+    public void instanciaBaseDeDados() throws MessagingException {
 
-        Usuario usuario2 = new Usuario();
+        Set<String> perfis = new HashSet<>();
 
-        perfis.add(pe);
+        perfis.add("admin");
+        
 
-        usuario2.setNome("cmil");
-        usuario2.setEmail("cmil@cmil.com.br");
-        usuario2.setPassword(encoder.encode("123"));
-        usuario2.setDataCadastro(LocalDateTime.now());
-        usuario2.setAtivo(false);
-        usuario2.setPerfis(perfis);
-        usuarios.add(usuario);
-        usuarios.add(usuario2);
-        ur.saveAll(usuarios);
+        RegistrarUsuario usuario = new RegistrarUsuario(null, "Abraão","dtimuila@gmail.com", "123", LocalDateTime.now(), null, false, null, perfis);
+        String url = "http://localhost:8080";
+        us.salvarUsuarioGeral(usuario,url);
 
     }
 
 }
+

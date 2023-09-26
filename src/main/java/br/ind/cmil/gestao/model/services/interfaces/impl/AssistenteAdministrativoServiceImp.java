@@ -3,10 +3,15 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.AdministradorDTO;
+import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
 import br.ind.cmil.gestao.model.dto.mappers.AdministradorMapper;
+import br.ind.cmil.gestao.model.dto.mappers.AssistenteAdministrativoMapper;
 import br.ind.cmil.gestao.model.entidades.Administrador;
+import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
 import br.ind.cmil.gestao.model.repositorys.IAdministradorRepository;
+import br.ind.cmil.gestao.model.repositorys.IAssistenteAdministrativoRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
+import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
@@ -20,41 +25,43 @@ import org.springframework.transaction.annotation.Transactional;
  * @author abraao
  */
 @Service
-public class AdministradorServiceImp implements IAdministradorService {
+public class AssistenteAdministrativoServiceImp implements IAssistenteAdministrativoService {
 
-    private final IAdministradorRepository ar;
-    private final AdministradorMapper am;
+    private final IAssistenteAdministrativoRepository ar;
+    private final AssistenteAdministrativoMapper am;
     private final Datatables datatables;
 
-    public AdministradorServiceImp(IAdministradorRepository ar, AdministradorMapper am, Datatables datatables) {
+    public AssistenteAdministrativoServiceImp(IAssistenteAdministrativoRepository ar, AssistenteAdministrativoMapper am, Datatables datatables) {
         this.ar = ar;
         this.am = am;
         this.datatables = datatables;
     }
 
+    
+
     @Override
-    public AdministradorDTO findById(Long id) {
+    public AssistenteAdministrativoDTO findById(Long id) {
         return ar.findById(id).map(am::toDTO).get();
     }
 
     @Override
-    public void create(AdministradorDTO a) {
+    public void create(AssistenteAdministrativoDTO a) {
         if (a.id() == null) {
             ar.save(am.toEntity(a));
         }
         update(a);
     }
 
-    private AdministradorDTO update(AdministradorDTO a) {
+    private AssistenteAdministrativoDTO update(AssistenteAdministrativoDTO a) {
         return ar.findById(a.id()).map(am::toDTO).get();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String, Object> administradores(HttpServletRequest request) {
+    public Map<String, Object> assistentes(HttpServletRequest request) {
 
         datatables.setRequest(request);
-        datatables.setColunas(DatatablesColunas.ADMINISTRADOR);
+        datatables.setColunas(DatatablesColunas.ASSISTENTEADMINISTRATIVO);
         Page<?> page = datatables.getSearch().isEmpty() ? ar.findAll(datatables.getPageable())
                 : ar.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
@@ -62,26 +69,26 @@ public class AdministradorServiceImp implements IAdministradorService {
 
     @Override
     public void delete(Long id) {
-        Optional<Administrador> administrador = ar.findById(id);
-        ar.delete(administrador.get());
+        Optional<AssistenteAdministrativo> assisnte = ar.findById(id);
+        ar.delete(assisnte.get());
     }
 
     @Override
-    public AdministradorDTO buscarPorUsuarioId(Long id) {
+    public AssistenteAdministrativoDTO buscarPorUsuarioId(Long id) {
         return ar.findById(id).map(am::toDTO).get();
     }
 
     @Override
-    public AdministradorDTO buscarPorEmail(String email) {
+    public AssistenteAdministrativoDTO buscarPorEmail(String email) {
         return ar.findByUsuarioEmail(email, email).map(am::toDTO).get();
     }
 
     @Override
-    public AdministradorDTO form(AdministradorDTO administrador, User user) {
-        if (administrador.id() != null) {
-            return ar.findByUsuarioEmail(user.getUsername(), user.getUsername()).map(am::toDTO).get();
+    public AssistenteAdministrativoDTO form(AssistenteAdministrativoDTO assistente, User user) {
+        if (assistente.id() != null) {
+            return ar.findByUsuarioEmail(user.getUsername(),user.getUsername()).map(am::toDTO).get();
         }
-        return administrador;
+        return assistente;
     }
 
 }

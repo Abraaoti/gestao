@@ -1,23 +1,18 @@
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
-import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PessoaDTO;
 import br.ind.cmil.gestao.model.enums.EstadoCivil;
 import br.ind.cmil.gestao.model.enums.Genero;
 import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
 import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
-import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,7 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/funcionarios")
+@RequestMapping("/funcionario")
 public class FuncionarioControlle {
 
     private final IFuncionarioService fs;
@@ -49,7 +44,7 @@ public class FuncionarioControlle {
     private final ICargoService cs;
 
     @GetMapping("/add")
-    public String form(Model model,@ModelAttribute FuncionarioDTO funcionario) {
+    public String form(Model model,FuncionarioDTO funcionario) {
         model.addAttribute("funcionario", funcionario);
         model.addAttribute("departamentos", ds.lista());
         model.addAttribute("cargos",cs.lista());

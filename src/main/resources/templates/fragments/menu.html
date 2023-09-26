@@ -9,62 +9,59 @@
         <div th:fragment="menu">
             <ul class="list-unstyled components"  >             
 
-                <li  sec:authorize="hasRole('ADMIN')">
-                    <a href="#administrador" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admistrador</a>
-                    <ul class="collapse list-unstyled" id="administrador">                    							
-                        <li><a  th:href="@{/u/abrir/form}">Cadastro de Usuário</a> <li>
-                              <li><a  th:href="@{/projeto/add}">cadastrar Projeto</a></li>
-                              <li><a  th:href="@{/departamento/add}">cadastrar Departamento</a></li>
-                        <li> <a  th:href="@{/u/lista}">Lista de Usuários</a> <li>
+                <li  sec:authorize="hasAuthority('ADMIN')">
+                    <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
+                    <ul class="collapse list-unstyled" id="admin">                    							
+                        <li><a  th:href="@{/u/abrir/form}">add de Usuário</a> <li>
+                        <li><a  th:href="@{/u/lista}">Lista de Usuários</a> <li>
+                        <li><a  th:href="@{/perfis/lista}">Lista de  perfis</a> <li>
+                        <li><a  th:href="@{/perfis/add}">add perfil</a> <li>
                     </ul>
                 </li>
-                <li  sec:authorize="hasAnyRole('ADMINISTRATIVO','ADMIN')">
-                    <a href="#administrativo"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Administrativo</a>
-                    <ul class="collapse list-unstyled" id="administrativo">
-                        <li><a  th:href="@{/administrativo/**}">Dados Cadastrais</a> <li>
-                        <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>
-
+                <li  sec:authorize="hasAnyAuthority('ADMINISTRADOR','ADMIN')">
+                    <a href="#administrador"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Administrador</a>
+                    <ul class="collapse list-unstyled" id="administrador">
+                        <li><a  th:href="@{/projeto/add}">add Projeto</a></li>
+                        <li><a  th:href="@{/departamento/add}">add Departamento</a></li>
+                        <li><a  th:href="@{/departamento/lista}"> Departamentos</a></li>
+                        <li><a  th:href="@{/administrador/dados}">Dados Cadastrais</a> <li>
+                        <li><a  class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+                            <div class="dropdown-divider"></div>
                         <li><a  th:href="@{/agendamentos/historico/consultas}">Consultas Agendadas</a> <li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ASSISTENTE','ADMIN')">
+                <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ASSISTENTE','ADMIN')">
                     <a  href="#assistente"   data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">ASSISTENTE </a>
                     <ul class="collapse list-unstyled" id="assistente">
-                        <li><a  th:href="@{/assistente/**}">Cadastrar Dados</a></li>
+                        <li><a  th:href="@{/assistente/dados}">Cadastrar Dados</a></li>
                         <li><a  th:href="@{/u/editar/senha}">Editar Senha</a></li>
-
-                        <li> <a  th:href="@{/agendamentos/agendar}">Agendar Consulta</a></li>
-                        <li> <a  th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a></li>
+                        <li><a  th:href="@{/funcionario/add}">cadastrar funcionário</a></li>
+                        <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
+                          <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+                            <div class="dropdown-divider"></div>
+                        <li> <a  th:href="@{/funcionario/lista}"> Consultar funcionários</a></li>
+                        <li> <a  th:href="@{/funcionario/historico/funcionario}">Histórico de funcionário</a></li>
                     </ul>
                 </li>					
-                <li  sec:authorize="hasAnyRole('AUXDMINISTRATIVO','ADMIN')">
-                    <a  href="#auadministrativo"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">AUXILIAR  </a>
-                    <ul class="collapse list-unstyled" id="auadministrativo">
-                        <li><a th:href="@{/auxiliar/**}">Cadastrar Dados</a></li>
+                <li  sec:authorize="hasAnyAuthority('AUXDMINISTRATIVO','ADMIN')">
+                    <a  href="#aux"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">AUXILIAR  </a>
+                    <ul class="collapse list-unstyled" id="aux">
+                        <li><a th:href="@{/auxiliar/dados}">Cadastrar Dados</a></li>
                         <li> <a  th:href="@{/u/editar/senha}">Editar Senha</a></li>
-
                         <li><a  th:href="@{/presenca/add}">Marcar Presença</a></li>
+                         <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+                            <div class="dropdown-divider"></div>
                         <li><a  th:href="@{/presenca/consultar}"> Consultar Presença</a></li>
                         <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico de Presenças</a></li>
                     </ul>
                 </li>					
 
-                <li  sec:authorize="hasAnyRole('RH','ADMIN')">
-                    <a href="#rh"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">RH </a>
-                    <ul class="collapse list-unstyled" id="rh">
-                        <li><a  th:href="@{/pacientes/dados}">Cadastrar Dados</a></li>
-                        <li><a  th:href="@{/u/editar/senha}">Editar Senha</a></li>
 
-                        <li><a  th:href="@{/funcionarios/add}">cadastrar funcionário</a></li>
-                        <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
-                        <li><a  th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a></li>
-                    </ul>
-                </li>					
 
 
             </ul>
 
-           
+
         </div>
     </body>
 

@@ -5,7 +5,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:with="version=${#strings.randomAlphanumeric(3)}">
     <head th:replace="~{fragments/header :: header}">
-        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Principal</title>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">home</title>
+       
 
     </head>
     <body>
@@ -82,33 +83,29 @@
                 </div>
             </div>
         </div>
-        <footer th:replace="~{fragments/footer :: footer}" sec:authorize="!isAuthenticated()">
+        <div th:replace="~{fragments/footer :: rodape}" sec:authorize="!isAuthenticated()">
             <div>footer</div>
-        </footer>
-
+        </div>
         <span th:replace="~{fragments/modal-confirm :: modal-confirm}"></span>
 
-        <!-- Bootstrap core JavaScript
-        <script src="https://your-site-or-cdn.com/fontawesome/v6.0.0/js/all.js" data-auto-replace-svg="nest"></script>
+
+
+
+      
 
         <!-- Bootstrap core JavaScript
      ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>     
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+         <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>     
+         <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <!-- jQueryUI (autocomplete) -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.js" ></script>
-        <!-- 	Datatables JS -->
-        <script th:src="@{https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js }"></script>
-        <script th:src="@{https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js}"></script>
-        <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js}"></script>
-        <!-- 	Datatables JS -->
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" ></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js" ></script>
+         <!-- 	Datatables JS -->
+       
+        <script	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+        <script	src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script	src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script	src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
         <!-- 	Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <!-- 	MEUS JS -->
@@ -126,16 +123,21 @@
         <!-- Bootstrap core JavaScript
      ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script th:src="@{/webjars/jquery/jquery.min.js(v=${version}) }"></script>
+        <script th:src="@{/webjars/jquery/jquery.min.js(v=${version}) }" type="text/javascript"></script>
         <script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js(v=${version}) }"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js(v=${version})}" type="text/javascript"></script>
         <!-- jQueryUI (autocomplete) -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <!-- 	Datatables JS -->
-        <script th:src="@{https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js(v=${version}) }"></script>
+        <script th:src="@{https://code.jquery.com/jquery-3.7.0.js(v=${version}) }"></script>
+        <script th:src="@{https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js(v=${version}) }"></script>
+        <script th:src="@{https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js(v=${version}) }"></script>
+        <script th:src="@{https://code.jquery.com/jquery-3.7.0.js(v=${version}) }"></script>
+        <script th:src="@{https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js(v=${version}) }"></script>
         <script th:src="@{https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js(v=${version}) }"></script>
         <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js(v=${version}) }"></script>
 
+        <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <!-- Popper.JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
@@ -173,5 +175,6 @@
                 });
             });
         </script>
+
     </body>
 </html>

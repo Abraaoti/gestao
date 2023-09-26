@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.controlles;
+package br.ind.cmil.gestao.web.controlles;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -57,7 +57,8 @@ public class HomeController {
     }
 
     // login invalido
-    @GetMapping({"/login-error"})
+    //@GetMapping({"/login-error"})
+    @GetMapping("/login-error")
     public String loginError(ModelMap model, HttpServletRequest resp) {
         HttpSession session = resp.getSession();
         String lastException = String.valueOf(session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION"));

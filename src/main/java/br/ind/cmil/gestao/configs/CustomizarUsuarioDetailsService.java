@@ -30,6 +30,7 @@ public class CustomizarUsuarioDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = ur.findByNomeOrEmail(username, username).get();
+        System.out.println("\nEstamos aqui? \tFala a sério!!");
 
         if (usuario != null) {
             return new org.springframework.security.core.userdetails.User(usuario.getEmail(),
@@ -43,7 +44,7 @@ public class CustomizarUsuarioDetailsService implements UserDetailsService {
 
     private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Collection<Perfil> roles) {
         Collection< ? extends GrantedAuthority> mapRoles = roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_"+role.getTp().getValue().toUpperCase()))
+                .map(role -> new SimpleGrantedAuthority(role.getTp().getValue().toUpperCase()))
                 .collect(Collectors.toList());
         return mapRoles;
     }

@@ -1,5 +1,6 @@
 package br.ind.cmil.gestao.model.repositorys;
 
+import br.ind.cmil.gestao.model.entidades.Cargo;
 import br.ind.cmil.gestao.model.entidades.Departamento;
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +24,8 @@ public interface IDepartamentoRepository extends JpaRepository<Departamento, Lon
             countQuery = "SELECT COUNT(obj) FROM Departamento obj ")
     Page<Departamento> searchAll(Pageable pageable);
 
-    @Query("SELECT obj FROM Departamento obj where obj.nome =: search")
-    Page<?> searchAll(String search, Pageable pageable);
+    @Query("SELECT obj FROM Departamento obj where obj.nome like :search%")
+    Page<Departamento> searchAll(String search, Pageable pageable);
 
     Optional<Departamento> findByNome(String nome);
 

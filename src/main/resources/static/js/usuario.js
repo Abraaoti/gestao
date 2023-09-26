@@ -13,6 +13,7 @@ $(document).ready(function () {
         },
         columns: [
             {data: 'id'},
+            {data: 'nome'},
             {data: 'email'},
             {data: 'ativo',
                 render: function (ativo) {
@@ -23,7 +24,7 @@ $(document).ready(function () {
                 render: function (perfis) {
                     var aux = new Array();
                     $.each(perfis, function (index, value) {
-                        aux.push(value.desc);
+                        aux.push(value.tp);
                     });
                     return aux;
                 },
@@ -60,12 +61,12 @@ $(document).ready(function () {
 
 });
 $('.pass').keyup(function () {
-    if ($('#senha1').val() === "" || $('#senha1').val() === "") {
-        $('#senha3').attr('readonly', 'readonly');
+    if ($('#password1').val() === "" || $('#password1').val() === "") {
+        $('#password3').attr('readonly', 'readonly');
     } else {
-        $('#senha1').val() === $('#senha2').val()
-                ? $('#senha3').removeAttr('readonly')
-                : $('#senha3').attr('readonly', 'readonly');
+        $('#password1').val() === $('#password').val()
+                ? $('#password3').removeAttr('readonly')
+                : $('#password3').attr('readonly', 'readonly');
     }
 
 }

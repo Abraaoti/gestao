@@ -9,9 +9,7 @@ import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author abraao
  */
 @Service
-@Transactional
 public class PerfilServiceImp implements IPerfilService {
 
     private final IPerfilRepository pr;
@@ -49,7 +46,7 @@ public class PerfilServiceImp implements IPerfilService {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.PERFIL);
         Page<Perfil> page = datatables.getSearch().isEmpty() ? pr.findAll(datatables.getPageable())
-                : pr.findAllByEmailOrPerfil(pm.convertPerfilValue(datatables.getSearch()), datatables.getPageable());
+                : pr.findAllByPerfil(pm.convertPerfilValue(datatables.getSearch()), datatables.getPageable());
         return datatables.getResponse(page);
     }
 

@@ -29,8 +29,7 @@ public class CustomizarUsuarioDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = ur.findByNomeOrEmail(username, username).get();
-        System.out.println("\nEstamos aqui? \tFala a sério!!");
+        Usuario usuario = ur.findByNomeOrEmail(username, username).get();     
 
         if (usuario != null) {
             return new org.springframework.security.core.userdetails.User(usuario.getEmail(),

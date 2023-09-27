@@ -4,7 +4,6 @@ import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
-import br.ind.cmil.gestao.uri.UsuarioUri;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class DBService {
 
     @Autowired
     private IPerfilService ps;
-   
 
     @Autowired
     private IUsuarioService us;
@@ -42,8 +40,8 @@ public class DBService {
         perfis.add("líder");
         perfis.add("técnico");
         perfis.add("usuário");
-        for (int i = 0; i < perfis.size(); i++) {            
-        ps.create(new PerfilDTO(null,perfis.get(i)));
+        for (int i = 0; i < perfis.size(); i++) {
+            ps.create(new PerfilDTO(null, perfis.get(i)));
         }
 
     }
@@ -51,15 +49,29 @@ public class DBService {
     public void instanciaBaseDeDados() throws MessagingException {
 
         Set<String> perfis = new HashSet<>();
+        Set<String> perfis2 = new HashSet<>();
+        perfis2.add("auxiliar");
+        Set<String> perfis3 = new HashSet<>();
+        perfis3.add("assistente");
 
         perfis.add("admin");
-        
+        perfis.add("administrador");
+        perfis.addAll(perfis2);
+        perfis.addAll(perfis3);
 
-        RegistrarUsuario usuario = new RegistrarUsuario(null, "Abraão","dtimuila@gmail.com", "123", LocalDateTime.now(), null, false, null, perfis);
+        Set<RegistrarUsuario> usuarios = new HashSet<>();
+        RegistrarUsuario abraao = new RegistrarUsuario(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, false, null, perfis);
+        RegistrarUsuario beatriz = new RegistrarUsuario(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, false, null, perfis3);
+        RegistrarUsuario angelino = new RegistrarUsuario(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, false, null, perfis2);
+        usuarios.add(abraao);
+        usuarios.add(angelino);
+        usuarios.add(beatriz);
         String url = "http://localhost:8080";
-        us.salvarUsuarioGeral(usuario,url);
+
+        for (RegistrarUsuario usuario : usuarios) {
+            us.salvarUsuarioGeral(usuario, url);
+        }
 
     }
 
 }
-

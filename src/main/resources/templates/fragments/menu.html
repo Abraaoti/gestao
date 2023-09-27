@@ -18,19 +18,19 @@
                         <li><a  th:href="@{/perfis/add}">add perfil</a> <li>
                     </ul>
                 </li>
-                <li  sec:authorize="hasAnyAuthority('ADMINISTRADOR','ADMIN')">
+                <li  sec:authorize="hasAuthority('ADMINISTRADOR')">
                     <a href="#administrador"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Administrador</a>
                     <ul class="collapse list-unstyled" id="administrador">
                         <li><a  th:href="@{/projeto/add}">add Projeto</a></li>
                         <li><a  th:href="@{/departamento/add}">add Departamento</a></li>
                         <li><a  th:href="@{/departamento/lista}"> Departamentos</a></li>
                         <li><a  th:href="@{/administrador/dados}">Dados Cadastrais</a> <li>
-                        <li><a  class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+                        <li><a   th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
                             <div class="dropdown-divider"></div>
                         <li><a  th:href="@{/agendamentos/historico/consultas}">Consultas Agendadas</a> <li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ASSISTENTE','ADMIN')">
+                <li  sec:authorize="hasAuthority('ASSISTENTE')">
                     <a  href="#assistente"   data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">ASSISTENTE </a>
                     <ul class="collapse list-unstyled" id="assistente">
                         <li><a  th:href="@{/assistente/dados}">Cadastrar Dados</a></li>
@@ -43,7 +43,7 @@
                         <li> <a  th:href="@{/funcionario/historico/funcionario}">Histórico de funcionário</a></li>
                     </ul>
                 </li>					
-                <li  sec:authorize="hasAnyAuthority('AUXDMINISTRATIVO','ADMIN')">
+                <li  sec:authorize="hasAuthority('AUXILIAR')">
                     <a  href="#aux"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">AUXILIAR  </a>
                     <ul class="collapse list-unstyled" id="aux">
                         <li><a th:href="@{/auxiliar/dados}">Cadastrar Dados</a></li>

@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -45,7 +44,7 @@ public interface IUsuarioService {
 
     void salvarUsuarioExterno(UtenteDTO usuario) throws MessagingException;
 
-    @Transactional(readOnly = true)
+   
     Map<String, Object> buscarTodos(HttpServletRequest request);
     /*
 

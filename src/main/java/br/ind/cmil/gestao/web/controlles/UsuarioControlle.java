@@ -129,15 +129,16 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/editar/credenciais/usuario/{id}")
-    public ModelAndView preEditarCredenciais(@PathVariable("id") Long id) {
+    public String preEditarCredenciais(Model model, @PathVariable("id") Long id) {
 
-        return new ModelAndView("usuario/cadastro", "usuario", service.buscarPorId(id));
+        model.addAttribute("usuario", service.buscarPorId(id));
+        model.addAttribute("perfis", perfis.perfis());
+        return "usuario/cadastro";
     }
 
     @GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
     public ModelAndView dadosPessoais(@PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
         //RegistrarUsuario us = service.buscarPorIdEPerfis(usuarioId, perfisId);
-
         return new ModelAndView("redirect:/u/lista");
     }
 

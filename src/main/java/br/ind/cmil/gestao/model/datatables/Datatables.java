@@ -86,5 +86,4 @@ public class Datatables {
 	public Pageable getPageable() {
 		return PageRequest.of(getCurrentPage(), getLength(), getDirection(), getColumnName());
 	}
-    
 }

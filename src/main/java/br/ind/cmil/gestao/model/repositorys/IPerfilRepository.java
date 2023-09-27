@@ -33,5 +33,5 @@ public interface IPerfilRepository extends JpaRepository<Perfil, Long> {
     List<Perfil> searchAll();
 
     @Query("select p from Perfil p where  p.tp like :tp%")
-    Page<Perfil> findAllByEmailOrPerfil(TipoPerfil tp, Pageable pageable);
+    Page<Perfil> findAllByPerfil(TipoPerfil tp, Pageable pageable);
 }

@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.configs;
 
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
+import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -17,15 +18,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
-import static org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive.COOKIES;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -81,12 +78,13 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/u/novo/cadastro").permitAll()
                 .requestMatchers(HttpMethod.GET, "/u/cadastro/realizado").permitAll()
                 .requestMatchers(HttpMethod.GET, "/u/confirmacao/cadastro").permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/webjars/**", "/css/**")).permitAll()
+                //.requestMatchers(new AntPathRequestMatcher("/webjars/**", "/css/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/authenticate")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/empresa/avaliar/**")).permitAll()
-                .requestMatchers(toH2Console()).permitAll()
+                //.requestMatchers(toH2Console()).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/u/novo/cadastro", "/u/cadastro/realizado")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/u/p/**")).permitAll()
                 //acessos privados para todos ativos  
@@ -105,7 +103,8 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/assistente/create")).hasAnyAuthority(ASSISTENTE, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/assistente/update")).hasAnyAuthority(ASSISTENTE, ADMIN)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers(new AntPathRequestMatcher("/auxiliar/**", "/presenca/**")).hasAuthority(AUXILIAR)
+                .requestMatchers(new AntPathRequestMatcher("/auxiliar/**")).hasAuthority(AUXILIAR)
+                .requestMatchers(new AntPathRequestMatcher("/presenca/**")).hasAuthority(AUXILIAR)
                 .requestMatchers(new AntPathRequestMatcher("/auxiliar/dados")).hasAnyAuthority(AUXILIAR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/auxiliar/create")).hasAnyAuthority(AUXILIAR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/auxiliar/update")).hasAnyAuthority(AUXILIAR, ADMIN)
@@ -121,6 +120,7 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/cargo/lista")).hasAnyAuthority(ADMINISTRADOR, ASSISTENTE)
                 .requestMatchers(new AntPathRequestMatcher("/perfis/lista")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/funcionario/lista")).hasAnyAuthority(ADMIN, ASSISTENTE, ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/funcionario/create", "/funcionario/update")).hasAnyAuthority(ASSISTENTE)
                 .requestMatchers(new AntPathRequestMatcher("/suprimento/**")).hasAnyAuthority(ADMIN, ADMINISTRADOR, COMPRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/engenheiro/**")).hasAuthority(ENGENHEIRO)
                 .requestMatchers(new AntPathRequestMatcher("/contas/**")).hasAuthority(LIDERFINANCEIRO)
@@ -133,20 +133,18 @@ public class SecurityConfig {
                 .ignoringRequestMatchers(toH2Console())
                 .disable()
                 )
-                .exceptionHandling((excep) -> excep
-                .accessDeniedPage("/acesso-negado")
-                )
                 .formLogin((form) -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/home", true)
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/login-error")
                 .permitAll()
                 )
                 .logout((logout) -> logout
-                .addLogoutHandler(new HeaderWriterLogoutHandler(new ClearSiteDataHeaderWriter(COOKIES)))
+                .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .permitAll()
+                )
+                .exceptionHandling((ex) -> ex
+                .accessDeniedPage("/negado")
                 )
                 .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
 

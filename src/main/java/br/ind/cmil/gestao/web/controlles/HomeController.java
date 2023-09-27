@@ -20,43 +20,17 @@ public class HomeController {
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
-
-    // abrir pagina home
-    @GetMapping("/home")
-    public String home(Model model) {
-        model.addAttribute("chartData", getChartData());
+    @GetMapping({"/", "/home"})
+    public String home(HttpServletResponse response) {
         return "home";
     }
 
-    private List<List<Object>> getChartData() {
-        return List.of(
-                List.of("Janeiro", RANDOM.nextInt(5)),
-                List.of("Fevereiro", RANDOM.nextInt(5)),
-                List.of("Marco", RANDOM.nextInt(5)),
-                List.of("Abril", RANDOM.nextInt(5)),
-                List.of("Maio", RANDOM.nextInt(5)),
-                List.of("Junho", RANDOM.nextInt(5)),
-                List.of("Julho", RANDOM.nextInt(5)),
-                List.of("Agosto", RANDOM.nextInt(5)),
-                List.of("Setembro", RANDOM.nextInt(5)),
-                List.of("Outubro", RANDOM.nextInt(1)),
-                List.of("Novembro", RANDOM.nextInt(2)),
-                List.of("Dezembro", RANDOM.nextInt(3))
-        );
-    }
-
-    // abrir pagina login
     @GetMapping({"/login"})
     public String login() {
 
         return "login";
     }
 
-    // login invalido
     //@GetMapping({"/login-error"})
     @GetMapping("/login-error")
     public String loginError(ModelMap model, HttpServletRequest resp) {
@@ -86,11 +60,34 @@ public class HomeController {
     }
 
     // acesso negado
-    @GetMapping({"/acesso-negado"})
+    @GetMapping("/negado")
     public String acessoNegado(ModelMap model, HttpServletResponse resp) {
         model.addAttribute("status", resp.getStatus());
         model.addAttribute("error", "Acesso Negado");
         model.addAttribute("message", "Você não tem permissão para acesso a esta área ou ação.");
         return "error";
+    }
+
+    @GetMapping("/grafico")
+    public String grafico(Model model) {
+        model.addAttribute("chartData", getChartData());
+        return "grafico";
+    }
+
+    private List<List<Object>> getChartData() {
+        return List.of(
+                List.of("Janeiro", RANDOM.nextInt(5)),
+                List.of("Fevereiro", RANDOM.nextInt(5)),
+                List.of("Marco", RANDOM.nextInt(5)),
+                List.of("Abril", RANDOM.nextInt(5)),
+                List.of("Maio", RANDOM.nextInt(5)),
+                List.of("Junho", RANDOM.nextInt(5)),
+                List.of("Julho", RANDOM.nextInt(5)),
+                List.of("Agosto", RANDOM.nextInt(5)),
+                List.of("Setembro", RANDOM.nextInt(5)),
+                List.of("Outubro", RANDOM.nextInt(1)),
+                List.of("Novembro", RANDOM.nextInt(2)),
+                List.of("Dezembro", RANDOM.nextInt(3))
+        );
     }
 }

@@ -26,6 +26,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -180,7 +181,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return ur.findByIdAndPerfis(usuarioId, perfisId).map(rm::toDTO).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
     }
 
     @Transactional(readOnly = false)
@@ -215,6 +216,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
                 : ur.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
+    
 
     /**
      * Set<String> perfis = usuario.perfis(); if (perfis.size() > 2 ||

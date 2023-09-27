@@ -73,6 +73,21 @@ public class UsuarioControlle {
         return "redirect:/u/abrir/form";
 
     }
+    @PostMapping("/editar")
+    public String editarUsuario(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result, RedirectAttributes atts) throws MessagingException {
+
+        if (result.hasErrors()) {
+            result.reject("email", "Ups... Este e-mail já existe na base de dados.");
+            
+            return "redirect:/u/abrir/form";
+        }
+
+        service.register(usuario, getSiteURL(request));
+        atts.addAttribute("sucesso", "Operação realizada com sucesso");
+
+        return "redirect:/u/abrir/form";
+
+    }
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable(value = "id") Long id) {

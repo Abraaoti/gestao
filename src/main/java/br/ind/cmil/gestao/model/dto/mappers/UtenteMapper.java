@@ -21,10 +21,7 @@ public class UtenteMapper {
     public Usuario toEntity(UtenteDTO dto) {
 
         Usuario u = new Usuario();
-        u.setId(dto.id());
-        if (u.getId() != null) {
-            throw new ObjectNotFoundException("Usuário já consta no nosso banco de dados!");
-        }
+        u.setId(dto.id());       
         u.setNome(dto.nome());
         u.setEmail(dto.email());
         u.setPassword(dto.password());

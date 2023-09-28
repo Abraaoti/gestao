@@ -23,16 +23,13 @@ public class UsuarioMapper {
     public Usuario toEntity(RegistrarUsuario dto) {
 
         Usuario u = new Usuario();
-        u.setId(dto.id());
-        if (u.getId() != null) {
-            throw new ObjectNotFoundException("Usuário já consta no nosso banco de dados!");
-        }
+        u.setId(dto.id());        
         u.setNome(dto.nome());
         u.setEmail(dto.email());
         u.setPassword(dto.password());
         u.setVerificador(dto.verificador());
         u.setDataCadastro(LocalDateTime.now());
-        u.setAtivo(false);
+        u.setAtivo(dto.ativo());
        // u.setPerfis(perfis(dto.perfis()));
         return u;
     }

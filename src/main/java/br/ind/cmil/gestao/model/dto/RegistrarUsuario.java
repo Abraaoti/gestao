@@ -27,7 +27,7 @@ public record RegistrarUsuario(
         LocalDateTime dataCadastro,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDateTime updatedAt,
-        Boolean ativo,
+        Boolean ativo ,
         String verificador,
         @NotBlank
         @NotNull

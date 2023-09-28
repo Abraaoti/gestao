@@ -55,7 +55,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     //}
     @Transactional(readOnly = false)
     @Override
-    public void register(RegistrarUsuario request, String siteURL) throws MessagingException {
+    public void register(RegistrarUsuario request) {
 
         if (request.id() != null) {
             update(request);
@@ -70,8 +70,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
-        Usuario usuario = ur.save(user);
-        emailDeConfirmacaoDeCadastro(usuario.getEmail(), siteURL);
+       // user.setAtivo(true);
+        ur.save(user);
+      
 
     }
 
@@ -86,8 +87,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
         us.setVerificador(request.verificador());
         Set<Perfil> roles = ps.perfis(request.perfis());
         us.setPerfis(roles);
+        us.setId(request.id());
         ur.save(us);
-
     }
 
     @Transactional(readOnly = false)
@@ -180,7 +181,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
-       return ur.findByIdAndPerfis(usuarioId, perfisId).map(rm::toDTO).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
+        return ur.findByIdAndPerfis(usuarioId, perfisId).map(rm::toDTO).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
     }
 
     @Transactional(readOnly = false)
@@ -215,7 +216,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
                 : ur.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
-    
 
     /**
      * Set<String> perfis = usuario.perfis(); if (perfis.size() > 2 ||

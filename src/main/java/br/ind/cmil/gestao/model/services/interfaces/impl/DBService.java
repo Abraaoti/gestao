@@ -56,20 +56,20 @@ public class DBService {
 
         perfis.add("admin");
         perfis.add("administrador");
-        perfis.addAll(perfis2);
+       // perfis.addAll(perfis2);
         perfis.addAll(perfis3);
 
         Set<RegistrarUsuario> usuarios = new HashSet<>();
-        RegistrarUsuario abraao = new RegistrarUsuario(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, false, null, perfis);
-        RegistrarUsuario beatriz = new RegistrarUsuario(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, false, null, perfis3);
-        RegistrarUsuario angelino = new RegistrarUsuario(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, false, null, perfis2);
+        RegistrarUsuario abraao = new RegistrarUsuario(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, perfis);
+        RegistrarUsuario beatriz = new RegistrarUsuario(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, perfis3);
+        RegistrarUsuario angelino = new RegistrarUsuario(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, perfis2);
         usuarios.add(abraao);
-        usuarios.add(angelino);
-        usuarios.add(beatriz);
+        //usuarios.add(angelino);
+        //usuarios.add(beatriz);
         String url = "http://localhost:8080";
 
         for (RegistrarUsuario usuario : usuarios) {
-            us.salvarUsuarioGeral(usuario, url);
+            us.register(usuario);
         }
 
     }

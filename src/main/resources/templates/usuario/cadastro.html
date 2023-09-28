@@ -16,7 +16,7 @@
 
                         <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>
 
-                        <form th:action="${usuario.id == null} ?@{/u/registrar}} : @{/u/editar}" th:object="${usuario}" method="POST" class="was-validated">
+                        <form th:action="@{/u/registrar}" th:object="${usuario}" method="POST" class="was-validated">
                             <div class="text-center mb-4">
                                 <!--img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72"/-->
                                 <h1 class="h3 mb-3 font-weight-normal">Gestão de Pessoas</h1>

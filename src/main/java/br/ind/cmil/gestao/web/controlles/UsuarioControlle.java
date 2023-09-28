@@ -1,10 +1,13 @@
 package br.ind.cmil.gestao.web.controlles;
 
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -60,34 +63,37 @@ public class UsuarioControlle {
     }
 
     @PostMapping("/registrar")
-    public String registrarUsuario(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result, RedirectAttributes atts) throws MessagingException {
+    public ModelAndView registrarUsuario(@ModelAttribute RegistrarUsuario usuario, RedirectAttributes attr) {
+        
+        Set<Perfil> perfil = this.perfis.perfis(usuario.perfis());
+        Set<String> admin_usuario = new HashSet<>();
+        admin_usuario.add(perfis.tipoPerfil("admin"));
+        admin_usuario.add("usuário");
+        Set<String> adm_usuario = new HashSet<>();
+        
+        
+        adm_usuario.add(perfis.tipoPerfil("administrador"));
+        adm_usuario.add(perfis.tipoPerfil("usuário"));
+       
+        if (usuario.perfis().size() > 2 || perfil.containsAll(admin_usuario) || perfil.containsAll(adm_usuario)) {
 
-        if (result.hasErrors()) {
-            result.reject("email", "Ups... Este e-mail já existe na base de dados.");
-            return "redirect:/u/abrir/form";
+            attr.addFlashAttribute("falha", "usuário não pode ser Admin e/ou administrador.");
+            attr.addFlashAttribute("usuario", usuario);
+           
+        } else {
+            try {
+                service.register(usuario);
+                attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
+            } catch (DataIntegrityViolationException ex) {
+                attr.addFlashAttribute("falha", "Cadastro não realizado, email já existente.");
+            }
         }
 
-        service.register(usuario, getSiteURL(request));
-        atts.addAttribute("sucesso", "Operação realizada com sucesso");
-
-        return "redirect:/u/abrir/form";
+        return new ModelAndView("redirect:/u/abrir/form");
 
     }
-    @PostMapping("/editar")
-    public String editarUsuario(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result, RedirectAttributes atts) throws MessagingException {
 
-        if (result.hasErrors()) {
-            result.reject("email", "Ups... Este e-mail já existe na base de dados.");
-            
-            return "redirect:/u/abrir/form";
-        }
-
-        service.register(usuario, getSiteURL(request));
-        atts.addAttribute("sucesso", "Operação realizada com sucesso");
-
-        return "redirect:/u/abrir/form";
-
-    }
+   
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable(value = "id") Long id) {
@@ -152,8 +158,23 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
-    public ModelAndView dadosPessoais(@PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
-        //RegistrarUsuario us = service.buscarPorIdEPerfis(usuarioId, perfisId);
+    public ModelAndView dadosPessoais(Model model, @PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
+        RegistrarUsuario us = service.preEditarCadastroDadosPessoais(usuarioId, perfisId);
+        if (us.perfis().contains(new Perfil(perfis.tipoPerfil("admin"))) && us.perfis().contains(new Perfil(perfis.tipoPerfil("administrador")))) {
+            model.addAttribute("usuario", us);
+            model.addAttribute("perfis", perfis.perfis());
+            return new ModelAndView("usuario/cadastro");
+        } else if (us.perfis().contains(new Perfil(perfis.tipoPerfil("administrador")))) {
+            model.addAttribute("usuario", us);
+            model.addAttribute("perfis", perfis.perfis());
+            return new ModelAndView("usuario/cadastro");
+        } else if (us.perfis().contains(new Perfil(perfis.tipoPerfil("usuário")))) {
+
+            model.addAttribute("status", 403);
+            model.addAttribute("error", "Área Restrita");
+            model.addAttribute("message", "Os dados de pacientes são restritos a ele.");
+            return new ModelAndView("error");
+        }
         return new ModelAndView("redirect:/u/lista");
     }
 

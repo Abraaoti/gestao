@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public interface IUsuarioService {
 
-    void register(RegistrarUsuario request, String siteURL) throws MessagingException;
+    void register(RegistrarUsuario request);
 
     void salvarUsuarioGeral(RegistrarUsuario request, String siteURL) throws MessagingException;
 
@@ -44,7 +44,6 @@ public interface IUsuarioService {
 
     void salvarUsuarioExterno(UtenteDTO usuario) throws MessagingException;
 
-   
     Map<String, Object> buscarTodos(HttpServletRequest request);
     /*
 

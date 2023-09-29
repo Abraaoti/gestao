@@ -2,11 +2,11 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
-import br.ind.cmil.gestao.model.dto.mappers.AdministradorMapper;
-import br.ind.cmil.gestao.model.entidades.Administrador;
-import br.ind.cmil.gestao.model.repositorys.IAdministradorRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
+import br.ind.cmil.gestao.model.dto.DiretorDTO;
+import br.ind.cmil.gestao.model.dto.mappers.DiretorMapper;
+import br.ind.cmil.gestao.model.entidades.Diretor;
+import br.ind.cmil.gestao.model.repositorys.IDiretorRepository;
+import br.ind.cmil.gestao.model.services.interfaces.IDiretorService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
@@ -20,13 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @author abraao
  */
 @Service
-public class AdministradorServiceImp implements IAdministradorService {
+public class DiretorServiceImp implements IDiretorService {
 
-    private final IAdministradorRepository ar;
-    private final AdministradorMapper am;
+    private final IDiretorRepository ar;
+    private final DiretorMapper am;
     private final Datatables datatables;
 
-    public AdministradorServiceImp(IAdministradorRepository ar, AdministradorMapper am, Datatables datatables) {
+    public DiretorServiceImp(IDiretorRepository ar, DiretorMapper am, Datatables datatables) {
         this.ar = ar;
         this.am = am;
         this.datatables = datatables;
@@ -34,29 +34,29 @@ public class AdministradorServiceImp implements IAdministradorService {
 
     @Override
     @Transactional(readOnly = false)
-    public AdministradorDTO findById(Long id) {
+    public DiretorDTO findById(Long id) {
         return ar.findById(id).map(am::toDTO).get();
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void create(AdministradorDTO a) {
+    public void create(DiretorDTO a) {
         if (a.id() == null) {
             ar.save(am.toEntity(a));
         }
         update(a);
     }
 
-    private AdministradorDTO update(AdministradorDTO a) {
+    private DiretorDTO update(DiretorDTO a) {
         return ar.findById(a.id()).map(am::toDTO).get();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String, Object> administradores(HttpServletRequest request) {
+    public Map<String, Object> diretores(HttpServletRequest request) {
 
         datatables.setRequest(request);
-        datatables.setColunas(DatatablesColunas.ADMINISTRADOR);
+        datatables.setColunas(DatatablesColunas.DIRETOR);
         Page<?> page = datatables.getSearch().isEmpty() ? ar.findAll(datatables.getPageable())
                 : ar.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
@@ -65,29 +65,29 @@ public class AdministradorServiceImp implements IAdministradorService {
     @Override
     @Transactional(readOnly = false)
     public void delete(Long id) {
-        Optional<Administrador> administrador = ar.findById(id);
-        ar.delete(administrador.get());
+        Optional<Diretor> diretor = ar.findById(id);
+        ar.delete(diretor.get());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public AdministradorDTO buscarPorUsuarioId(Long id) {
+    public DiretorDTO buscarPorUsuarioId(Long id) {
         return ar.findById(id).map(am::toDTO).get();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public AdministradorDTO buscarPorEmail(String email) {
+    public DiretorDTO buscarPorEmail(String email) {
         return ar.findByUsuarioEmail(email, email).map(am::toDTO).get();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public AdministradorDTO form(AdministradorDTO administrador, User user) {
-        if (administrador.id() != null) {
+    public DiretorDTO form(DiretorDTO diretor, User user) {
+        if (diretor.id() != null) {
             return ar.findByUsuarioEmail(user.getUsername(), user.getUsername()).map(am::toDTO).get();
         }
-        return administrador;
+        return diretor;
     }
 
 }

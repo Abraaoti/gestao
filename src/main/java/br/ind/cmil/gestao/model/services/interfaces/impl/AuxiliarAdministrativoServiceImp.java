@@ -10,7 +10,10 @@ import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoServi
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +34,6 @@ public class AuxiliarAdministrativoServiceImp implements IAuxiliarAdministrativo
         this.am = am;
         this.datatables = datatables;
     }
-
-   
 
     @Override
     public AuxiliarAdministrativoDTO findById(Long id) {
@@ -81,9 +82,16 @@ public class AuxiliarAdministrativoServiceImp implements IAuxiliarAdministrativo
     @Override
     public AuxiliarAdministrativoDTO form(AuxiliarAdministrativoDTO auxiliar, User user) {
         if (auxiliar.id() != null) {
-            return ar.findByUsuarioEmail(user.getUsername(),user.getUsername()).map(am::toDTO).get();
+            return ar.findByUsuarioEmail(user.getUsername(), user.getUsername()).map(am::toDTO).get();
         }
         return auxiliar;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<AuxiliarAdministrativoDTO> list(Pageable pageable) {
+        return ar.searchAll(pageable).stream().map(am::toDTO).collect(Collectors.toSet());
+
     }
 
 }

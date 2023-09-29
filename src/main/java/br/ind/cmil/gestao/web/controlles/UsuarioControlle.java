@@ -1,7 +1,11 @@
 package br.ind.cmil.gestao.web.controlles;
 
+import br.ind.cmil.gestao.model.dto.AdministradorDTO;
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.entidades.Perfil;
+import br.ind.cmil.gestao.model.entidades.Usuario;
+import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
@@ -41,6 +45,7 @@ public class UsuarioControlle {
 
     private final IUsuarioService service;
     private final IPerfilService perfis;
+    private final IAdministradorService ds;
 
     @GetMapping("/abrir/form")
     public String abrirFormGeral(Model model, @ModelAttribute RegistrarUsuario usuario) {
@@ -68,7 +73,8 @@ public class UsuarioControlle {
         Set<Perfil> perfil = this.perfis.perfis(usuario.perfis());
         Set<String> admin_usuario = new HashSet<>();
         admin_usuario.add(perfis.tipoPerfil("admin"));
-        admin_usuario.add("usuário");
+        admin_usuario.add(perfis.tipoPerfil("usuário"));
+
         Set<String> adm_usuario = new HashSet<>();
         
         
@@ -165,9 +171,14 @@ public class UsuarioControlle {
             model.addAttribute("perfis", perfis.perfis());
             return new ModelAndView("usuario/cadastro");
         } else if (us.perfis().contains(new Perfil(perfis.tipoPerfil("administrador")))) {
+            AdministradorDTO administrador = ds.buscarPorUsuarioId(usuarioId);
+            
+            
             model.addAttribute("usuario", us);
             model.addAttribute("perfis", perfis.perfis());
-            return new ModelAndView("usuario/cadastro");
+            return (administrador.id() == null ) ? new ModelAndView("administrador/cadastro", "administrador", new Administrador(new Usuario(usuarioId)))
+    				: new ModelAndView("administrador/cadastro", "administrador", administrador);
+       
         } else if (us.perfis().contains(new Perfil(perfis.tipoPerfil("usuário")))) {
 
             model.addAttribute("status", 403);

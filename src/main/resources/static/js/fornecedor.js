@@ -7,6 +7,9 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+        },
         ajax: {
             url: '/fornecedores/datatables/server',
             data: 'data'

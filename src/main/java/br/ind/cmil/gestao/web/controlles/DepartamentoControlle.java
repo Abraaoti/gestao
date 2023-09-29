@@ -39,7 +39,7 @@ public class DepartamentoControlle {
 
 
     @GetMapping("/add")
-    public String form(Model model, @ModelAttribute DepartamentoDTO departamento) {
+    public String form(Model model,DepartamentoDTO departamento) {
         model.addAttribute("departamento", departamento);
         return "departamentos/departamento";
     }

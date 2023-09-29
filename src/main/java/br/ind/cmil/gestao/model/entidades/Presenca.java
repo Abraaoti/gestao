@@ -35,8 +35,8 @@ public class Presenca extends Entidade {
     @JoinColumn(name = "horario_id")
     private Horario horario;
     @ManyToOne
-    @JoinColumn(name = "auxiliar_rh_id")
-    private AuxiliarAdministrativo auxiliar_rh;
+    @JoinColumn(name = "auxiliar_id")
+    private AuxiliarAdministrativo auxiliar;
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
@@ -52,7 +52,7 @@ public class Presenca extends Entidade {
     public Presenca(LocalDate data_presenca, Horario horario, AuxiliarAdministrativo auxiliar_rh, Funcionario funcionario, TipoPresenca status) {
         this.dataPresenca = data_presenca;
         this.horario = horario;
-        this.auxiliar_rh = auxiliar_rh;
+        this.auxiliar = auxiliar_rh;
         this.funcionario = funcionario;
         this.status = status;
     }

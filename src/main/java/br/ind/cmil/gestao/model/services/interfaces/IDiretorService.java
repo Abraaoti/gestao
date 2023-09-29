@@ -1,10 +1,8 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
+import br.ind.cmil.gestao.model.dto.DiretorDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
-import java.util.Set;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,29 +11,27 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author abraao
  */
-public interface IAuxiliarAdministrativoService {
+public interface IDiretorService {
 
     @Transactional(readOnly = false)
-    void create(AuxiliarAdministrativoDTO auxiliar);
+    void create(DiretorDTO a);
 
     @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO findById(Long id);
+    DiretorDTO findById(Long id);
 
     @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO form(AuxiliarAdministrativoDTO auxiliar, @AuthenticationPrincipal User user);
+    DiretorDTO form(DiretorDTO diretor, @AuthenticationPrincipal User user);
 
     @Transactional(readOnly = true)
-    Map<String, Object> aux(HttpServletRequest request);
+    Map<String, Object> diretores(HttpServletRequest request);
 
     @Transactional(readOnly = false)
     void delete(Long id);
 
     @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO buscarPorUsuarioId(Long id);
+    DiretorDTO buscarPorUsuarioId(Long id);
 
     @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO buscarPorEmail(String email);
-
-    Set<AuxiliarAdministrativoDTO> list(Pageable pageable);
+    DiretorDTO buscarPorEmail(String email);
 
 }

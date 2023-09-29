@@ -22,7 +22,7 @@ public class PresencaMapper {
         }
 
         AuxiliarAdministrativoMapper am = new AuxiliarAdministrativoMapper();
-        AuxiliarAdministrativoDTO administrador = am.toDTO(p.getAuxiliar_rh());
+        AuxiliarAdministrativoDTO administrador = am.toDTO(p.getAuxiliar());
         FuncionarioMapper fm = new FuncionarioMapper();
         FuncionarioDTO funcionario = fm.toDTO(p.getFuncionario());
 
@@ -39,8 +39,8 @@ public class PresencaMapper {
         p.setDataPresenca(dto.dataPresenca());
 
         AuxiliarAdministrativoMapper am = new AuxiliarAdministrativoMapper();
-        AuxiliarAdministrativo auxiliar = am.toEntity(dto.auxiliar_rh());
-        p.setAuxiliar_rh(auxiliar);
+        AuxiliarAdministrativo auxiliar = am.toEntity(dto.auxiliar());
+        p.setAuxiliar(auxiliar);
         FuncionarioMapper fm = new FuncionarioMapper();
         Funcionario funcionario = fm.toEntity(dto.funcionario());
 

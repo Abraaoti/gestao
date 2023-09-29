@@ -3,10 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
     <head>
-        <title>Add Perfis</title>     
-
-
-
+        <title>Cadastrar Perfil</title> 
     </head>
     <body>
         <div  layout:fragment="corpo">
@@ -17,7 +14,7 @@
                     <div class="col-md-10">
 
                         <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
-
+                        <h2>Cadastrar perfil</h2>
                         <form th:action="${perfil.id == null} ? @{/perfis/salvar} : @{/perfis/editar}"  th:object="${perfil}" method="POST" class="was-validated">
                             <div class="form-group row">
 
@@ -26,19 +23,13 @@
                                     <input type="text" class="form-control"   th:field="*{p}" id="p"  required/>
                                     <div class="invalid-feedback">nome  é requerido.</div>
                                 </div>
-
-
                                 <input type="hidden" name="id" th:field="*{id}">
-
-
                                 <div class="form-group">
 
                                     <input type="submit" class="btn btn-primary mb-3" value="Salvar"/>
                                 </div>
                             </div>
                         </form>
-
-                        <hr />
 
                         <h2>Perfis</h2>
 
@@ -48,7 +39,6 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">nome</th>
-
                                     <th scope="col">editar</th>
                                     <th scope="col">excluir</th>
                                 </tr>

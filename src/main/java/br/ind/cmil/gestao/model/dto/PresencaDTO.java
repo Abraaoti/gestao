@@ -10,14 +10,13 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author abraao
  */
 public record PresencaDTO(
-         @JsonProperty
+        @JsonProperty
         Long id,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate dataPresenca,
         Horario horario,
-        AuxiliarAdministrativoDTO auxiliar_rh,
+        AuxiliarAdministrativoDTO auxiliar,
         FuncionarioDTO funcionario,
-        String status
-        ) {
+        String status) {
 
 }

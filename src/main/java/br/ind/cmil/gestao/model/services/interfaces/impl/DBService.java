@@ -48,25 +48,29 @@ public class DBService {
 
     public void instanciaBaseDeDados() throws MessagingException {
 
-        Set<String> perfis = new HashSet<>();
-        Set<String> perfis2 = new HashSet<>();
-        perfis2.add("auxiliar");
-        Set<String> perfis3 = new HashSet<>();
-        perfis3.add("assistente");
+        Set<String> administrador = new HashSet<>();
+        
+        Set<String> assistente = new HashSet<>();
+        assistente.add("assistente");
+        Set<String> diretor = new HashSet<>();
+        diretor.add("diretor");
 
-        perfis.add("admin");
-        perfis.add("administrador");
-       // perfis.addAll(perfis2);
-        perfis.addAll(perfis3);
+        Set<String> auxiliar = new HashSet<>();
+        auxiliar.add("auxiliar");
+
+        administrador.add("administrador");
+        administrador.add("admin");
+        administrador.addAll(auxiliar);
+        administrador.addAll(assistente);
+        administrador.addAll(diretor);
 
         Set<RegistrarUsuario> usuarios = new HashSet<>();
-        RegistrarUsuario abraao = new RegistrarUsuario(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, perfis);
-        RegistrarUsuario beatriz = new RegistrarUsuario(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, perfis3);
-        RegistrarUsuario angelino = new RegistrarUsuario(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, perfis2);
+        RegistrarUsuario abraao = new RegistrarUsuario(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, administrador);
+        RegistrarUsuario beatriz = new RegistrarUsuario(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, assistente);
+        RegistrarUsuario angelino = new RegistrarUsuario(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, auxiliar);
         usuarios.add(abraao);
-        //usuarios.add(angelino);
-        //usuarios.add(beatriz);
-        String url = "http://localhost:8080";
+        usuarios.add(angelino);
+        usuarios.add(beatriz);
 
         for (RegistrarUsuario usuario : usuarios) {
             us.register(usuario);

@@ -99,7 +99,7 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/administrador/update/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
                 //acessos privados assistente administrativo                
                 .requestMatchers(new AntPathRequestMatcher("/assistente/**","/funcionario/**")).hasAuthority(ASSISTENTE)
-                .requestMatchers(new AntPathRequestMatcher("/funcionario/**")).hasAuthority(ASSISTENTE)
+                .requestMatchers(new AntPathRequestMatcher("/funcionario/add/")).hasAuthority(ASSISTENTE)
                 .requestMatchers(new AntPathRequestMatcher("/assistente/dados/","/assistente/create/")).hasAnyAuthority(ASSISTENTE, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/assistente/update/")).hasAnyAuthority(ASSISTENTE, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/funcionario/create/", "/funcionario/update/")).hasAnyAuthority(ASSISTENTE)

@@ -8,7 +8,9 @@ import br.ind.cmil.gestao.model.services.interfaces.IPresencaService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -38,21 +40,30 @@ public class PresencaControlle {
     private final IFuncionarioService fs;
 
     @GetMapping("/add")
-    public String form(Model model, PresencaDTO presenca,Pageable pageable) {
+    public String form(Model model, PresencaDTO presenca, Pageable pageable) {
         model.addAttribute("presenca", presenca);
-        model.addAttribute("status", TipoPresenca.values());
+        model.addAttribute("status", getStatus());
         model.addAttribute("auxiliar", as.list(pageable));
         model.addAttribute("funcionario", fs.list(pageable));
         return "/presenca/presenca";
     }
-    
-    
-   // @PreAuthorize("hasAnyAuthority('PACIENTE', 'MEDICO')")
-	@GetMapping("/horario/auxiliar/{id}/data/{data}")
-	public ResponseEntity<?> getHorarios(@PathVariable("id") Long id,@PathVariable("data") @DateTimeFormat(iso = ISO.DATE) LocalDate data) {
 
-		return ResponseEntity.ok(ps.buscarHorarios(id, data));
-	}
+    private Set<String> getStatus() {
+        Set<String> generos = new HashSet<>();
+        for (TipoPresenca value : TipoPresenca.values()) {
+            TipoPresenca s = value;
+            // fm.convertGeneroValue(g.getValue());
+            generos.add(s.getValue().toLowerCase());
+        }
+        return generos;
+    }
+    // @PreAuthorize("hasAnyAuthority('PACIENTE', 'MEDICO')")
+
+    @GetMapping("/horario/auxiliar/{id}/data/{data}")
+    public ResponseEntity<?> getHorarios(@PathVariable("id") Long id, @PathVariable("data") @DateTimeFormat(iso = ISO.DATE) LocalDate data) {
+
+        return ResponseEntity.ok(ps.buscarHorarios(id, data));
+    }
 
     @PostMapping("/salvar")
     public ModelAndView save(@ModelAttribute PresencaDTO presenca, RedirectAttributes redir) {

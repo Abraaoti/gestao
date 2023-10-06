@@ -1,7 +1,6 @@
 
 package br.ind.cmil.gestao.model.enums.converters;
-
-import br.ind.cmil.gestao.model.enums.TipoPresenca;
+import br.ind.cmil.gestao.model.enums.EPeriodo;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.util.stream.Stream;
@@ -11,10 +10,10 @@ import java.util.stream.Stream;
  * @author abraao
  */
 @Converter(autoApply = true)
-public class TipoPresencaConvert implements AttributeConverter<TipoPresenca, String> {
+public class EPeridoConvert implements AttributeConverter<EPeriodo, String> {
 
     @Override
-    public String convertToDatabaseColumn(TipoPresenca attribute) {
+    public String convertToDatabaseColumn(EPeriodo attribute) {
         if (attribute == null) {
             return null;
         }
@@ -22,12 +21,12 @@ public class TipoPresencaConvert implements AttributeConverter<TipoPresenca, Str
     }
 
     @Override
-    public TipoPresenca convertToEntityAttribute(String dbData) {
+    public EPeriodo convertToEntityAttribute(String dbData) {
         if (dbData == null) {
             return null;
         }
-        return Stream.of(TipoPresenca.values())
-                .filter((tp) -> tp.getValue().equals(dbData))
+        return Stream.of(EPeriodo.values())
+                .filter((p) -> p.getValue().equals(dbData))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
     }

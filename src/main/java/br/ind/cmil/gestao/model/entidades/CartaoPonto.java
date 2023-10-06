@@ -1,8 +1,9 @@
-
 package br.ind.cmil.gestao.model.entidades;
 
 import br.ind.cmil.gestao.model.base.Entidade;
+import br.ind.cmil.gestao.model.enums.EPeriodo;
 import br.ind.cmil.gestao.model.enums.TipoPresenca;
+import br.ind.cmil.gestao.model.enums.converters.EPeridoConvert;
 import br.ind.cmil.gestao.model.enums.converters.TipoPresencaConvert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -25,39 +26,40 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 @ToString
 @Entity
-@Table(name = "tbl_presencas")
-public class Presenca extends Entidade {
+@Table(name = "tbl_cartao_pontos")
+public class CartaoPonto extends Entidade {
 
-    @Column(name = "data_presenca")
+    @Column(name = "dia")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dataPresenca;
+    private LocalDate dia;
     @ManyToOne
     @JoinColumn(name = "horario_id")
     private Horario horario;
-  
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
     private Funcionario funcionario;
 
+    @Column(name = "periodo", nullable = false)
+    @Convert(converter = EPeridoConvert.class)
+    private EPeriodo periodo;
+
     @Column(name = "presenca", nullable = false)
     @Convert(converter = TipoPresencaConvert.class)
     private TipoPresenca status;
-    
-     @ManyToOne
+
+    @ManyToOne
     @JoinColumn(name = "auxiliar_id")
     private AuxiliarAdministrativo auxiliar;
 
-    public Presenca() {
+    public CartaoPonto() {
     }
 
-    public Presenca(LocalDate data_presenca, Horario horario, AuxiliarAdministrativo auxiliar, Funcionario funcionario, TipoPresenca status) {
-        this.dataPresenca = data_presenca;
+    public CartaoPonto(LocalDate dia, Horario horario, Funcionario funcionario, EPeriodo periodo) {
+        this.dia = dia;
         this.horario = horario;
-        this.auxiliar = auxiliar;
         this.funcionario = funcionario;
-        this.status = status;
+        this.periodo = periodo;
     }
 
-    
 }

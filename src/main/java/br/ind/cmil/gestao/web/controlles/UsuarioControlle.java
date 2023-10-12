@@ -75,7 +75,7 @@ public class UsuarioControlle {
             attr.addFlashAttribute("falha", "Cadastro não realizado, email já existente.");
         }
 
-        return new ModelAndView("redirect:/u/abrir/form");
+        return new ModelAndView("redirect:/u/add");
 
     }
 

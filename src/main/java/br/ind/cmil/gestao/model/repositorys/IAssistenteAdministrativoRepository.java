@@ -29,6 +29,6 @@ public interface IAssistenteAdministrativoRepository extends JpaRepository<Assis
     Page<AssistenteAdministrativo> searchAll(String search, Pageable pageable);
 
     @Query("select obj from AssistenteAdministrativo obj INNER JOIN  obj.usuario u where u.nome =:nome OR u.email =:email")
-    Optional<AssistenteAdministrativo> findByUsuarioEmail(String nome, String email);
+    Optional<AssistenteAdministrativo> findByUsuarioNomeOrEmail(String nome, String email);
 
 }

@@ -93,28 +93,28 @@ public class SecurityConfig {
                 //acessos privados  administrador   
 
                 //.requestMatchers("/departamento/**","/administrador**","/projeto/**").hasAuthority(ADMINISTRADOR)
-                .requestMatchers(new AntPathRequestMatcher("/administrador/**","/projeto/**")).hasRole(ADMINISTRADOR)
-                .requestMatchers(new AntPathRequestMatcher("/departamento/**","/departamento/add")).hasAnyAuthority(ADMINISTRADOR)
-                .requestMatchers(new AntPathRequestMatcher("/administrador/dados/","/administrador/create/")).hasAnyAuthority(ADMINISTRADOR,ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/administrador/**", "/projeto/**")).hasRole(ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/departamento/**", "/departamento/add")).hasAnyAuthority(ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/administrador/dados/", "/administrador/create/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/administrador/update/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/cargo/**")).hasAnyAuthority( ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/cargo/add/")).hasAnyAuthority(ADMIN, ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/cargo/update/","/cargo/create/")).hasAnyAuthority(ADMIN, ADMINISTRADOR)
                 //acessos privados assistente administrativo                
-                .requestMatchers(new AntPathRequestMatcher("/assistente/**","/funcionario/**")).hasAuthority(ASSISTENTE)
+                .requestMatchers(new AntPathRequestMatcher("/assistente/**", "/funcionario/**")).hasAuthority(ASSISTENTE)
                 .requestMatchers(new AntPathRequestMatcher("/funcionario/add/")).hasAuthority(ASSISTENTE)
-                .requestMatchers(new AntPathRequestMatcher("/assistente/dados/","/assistente/create/")).hasAnyAuthority(ASSISTENTE, ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/assistente/dados/", "/assistente/create/")).hasAnyAuthority(ASSISTENTE, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/assistente/update/")).hasAnyAuthority(ASSISTENTE, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/funcionario/create/", "/funcionario/update/")).hasAnyAuthority(ASSISTENTE)
                 //acessos privados auxiliar administrativo                
-                .requestMatchers(new AntPathRequestMatcher("/auxiliar/**","/presenca/**")).hasAuthority(AUXILIAR)
-                .requestMatchers(new AntPathRequestMatcher("/auxiliar/dados/","/auxiliar/create/")).hasAnyAuthority(AUXILIAR, ADMIN)
-               
+                .requestMatchers(new AntPathRequestMatcher("/auxiliar/**", "/presenca/**")).hasAuthority(AUXILIAR)
+                .requestMatchers(new AntPathRequestMatcher("/auxiliar/dados/", "/auxiliar/create/")).hasAnyAuthority(AUXILIAR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/auxiliar/update/")).hasAnyAuthority(AUXILIAR, ADMIN)
-               // .requestMatchers("/auxiliar/dados", "/auxiliar/create", "/auxiliar/update").hasAnyAuthority(AUXILIAR, ADMIN)
+                // .requestMatchers("/auxiliar/dados", "/auxiliar/create", "/auxiliar/update").hasAnyAuthority(AUXILIAR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/diretoria/**")).hasAuthority(DIRETOR)
                 .requestMatchers(new AntPathRequestMatcher("/diretoria/dados/")).hasAnyAuthority(DIRETOR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/diretoria/create/")).hasAnyAuthority(DIRETOR, ADMIN)
-                        
                 .requestMatchers(new AntPathRequestMatcher("/departamento/lista/")).hasAnyAuthority(ASSISTENTE)
-                .requestMatchers(new AntPathRequestMatcher("/cargo/**")).hasAnyAuthority(ADMIN, ADMINISTRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/cargo/lista/")).hasAnyAuthority(ADMINISTRADOR, ASSISTENTE)
                 .requestMatchers(new AntPathRequestMatcher("/perfis/lista/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/funcionario/lista/")).hasAnyAuthority(ADMIN, ASSISTENTE, ADMINISTRADOR)
@@ -127,11 +127,9 @@ public class SecurityConfig {
                 .authenticated()
                 )
                 .csrf((csrf) -> csrf
-                        
                 .ignoringRequestMatchers(toH2Console())
                 .ignoringRequestMatchers("/no-csrf")
                 .disable()
-                        
                 )
                 .formLogin((form) -> form
                 .loginPage("/login")

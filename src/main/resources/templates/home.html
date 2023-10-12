@@ -1,109 +1,75 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
     <head>
-        <meta charset="UTF-8" />
-           <title>Principal</title>
+        <title>Principal</title> 
     </head>
     <body>
+        <div  layout:fragment="corpo">
 
-        <section  layout:fragment="corpo">   
-            <div class="row"> 
+            <div class="album py-5 bg-light">
 
-                <div class="col-md-6">
-                    <div class="card mb-4 box-shadow">
-                        <!--img class="card-img-top" th:src="@{/image/medicina_1.jpg}"-->
-                        <div class="card-body">
-                            <h5 class="card-title">Funcionários</h5>
-                            <div id="chart_div"></div>
+                <div class="d-flex justify-content-center">
+                    <div class="col-md-10">  
+
+                        <div class="row"> 
+
+                            <div class="col-md-6">
+                                <div class="card mb-4 box-shadow">
+                                    <!--img class="card-img-top" th:src="@{/image/medicina_1.jpg}"-->
+                                    <div class="card-body">
+                                        <h5 class="card-title">Funcionários</h5>
+                                        <div id="chart_div"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card mb-4 box-shadow">
+                                    <!--img class="card-img-top" th:src="@{/image/medicina_1.jpg}"-->
+                                    <div class="card-body">
+                                        <h5 class="card-title">DP</h5>
+                                        <div id="piechart" ></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card mb-4 box-shadow">
-                        <!--img class="card-img-top" th:src="@{/image/medicina_1.jpg}"-->
-                        <div class="card-body">
-                            <h5 class="card-title">DP</h5>
-                            <div id="piechart" ></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-4 box-shadow">
+                                    <img class="card-img-top" th:src="@{/image/medicina_3.jpg}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Clínica Médica</h5>
+                                        <p class="card-text">Complexo preparado com uma estrutura
+                                            que engloba todas as áreas não cirúrgicas, sendo subdividida em
+                                            várias outras especialidades...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card mb-4 box-shadow">
+                                    <img class="card-img-top" th:src="@{/image/medicina_4.jpg}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pediatria</h5>
+                                        <p class="card-text">Nossa clínica conta com a parte da
+                                            medicina que estuda e trata crianças. Possuímos quartos
+                                            exclusivos para esta faixa etária com...</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" th:src="@{/image/medicina_3.jpg}">
-                        <div class="card-body">
-                            <h5 class="card-title">Clínica Médica</h5>
-                            <p class="card-text">Complexo preparado com uma estrutura
-                                que engloba todas as áreas não cirúrgicas, sendo subdividida em
-                                várias outras especialidades...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" th:src="@{/image/medicina_4.jpg}">
-                        <div class="card-body">
-                            <h5 class="card-title">Pediatria</h5>
-                            <p class="card-text">Nossa clínica conta com a parte da
-                                medicina que estuda e trata crianças. Possuímos quartos
-                                exclusivos para esta faixa etária com...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </section>
+        </div>
         <script th:src="~{}" th:fragment="js"></script>
-        <script th:inline="javascript" th:fragment="inlinescript">
+        <script th:inline="javascript" th:fragment="inlinescript"></script>
 
-            var real_data = /*[[${chartData}]]*/'noValue';
-            google.charts.load('current', {'packages': ['corechart']});
 
-            // Set a callback to run when the Google Visualization API is loaded.
-            google.charts.setOnLoadCallback(drawPieChart);
-            google.charts.setOnLoadCallback(drawColumnChart);
-            function drawColumnChart() {
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Topping');
-                data.addColumn('number', 'Slices');
-                Object.keys(real_data).forEach(function (key) {
-                    data.addRow(real_data[key]);
-                });
-                var options = {
-                    title: 'Estatísticas do Protal',
-                    hAxis: {
-                        title: 'Meses',
-                    },
-                    vAxis: {
-                        title: 'Ver contagem'
-                    }
-                };
-                var chart = new google.visualization.ColumnChart(document
-                        .getElementById('chart_div'));
-                chart.draw(data, options);
-            }
-            function drawPieChart() {
 
-                // Create the data table.
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Topping');
-                data.addColumn('number', 'Slices');
-                Object.keys(real_data).forEach(function (key) {
-                    data.addRow(real_data[key]);
-                });
 
-                // Set chart options
-                var options = {
-                    title: 'Estatísticas do Protal'
-                };
-                var chart = new google.visualization.PieChart(document
-                        .getElementById('piechart'));
-                chart.draw(data, options);
-            }
-        </script>
     </body>
 </html>

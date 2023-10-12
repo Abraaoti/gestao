@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,7 +32,7 @@ public record RegistrarUsuario(
         String verificador,
         @NotBlank
         @NotNull
-        Set<String> perfis) {
+        List<String> perfis) {
 
 
 }

@@ -39,6 +39,7 @@ public class AssistenteAdministrativoControlle {
 
     @GetMapping("/dados")
     public String form(AssistenteAdministrativoDTO assistente, Model model, @AuthenticationPrincipal User user) {
+      
         model.addAttribute("assistente", as.form(assistente, user));
         return "assistente/assistente";
     }

@@ -1,10 +1,9 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
 import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class UsuarioMapper {
 
     public RegistrarUsuario toDTO(Usuario u) {
-        Set<String> roles = u.getPerfis().stream().map(p -> p.getTp().getValue()).collect(Collectors.toSet());         
+        List<String> roles = u.getPerfis().stream().map(p -> p.getTp().getValue()).collect(Collectors.toList());         
         return new RegistrarUsuario(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.getUpdatedAt(), u.isAtivo(), u.getVerificador(), roles);
     }
 

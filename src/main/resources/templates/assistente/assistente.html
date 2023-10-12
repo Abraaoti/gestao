@@ -10,20 +10,13 @@
 	<section class="layout-content" layout:fragment="corpo">
 		<main role="main">
 		
-		<section class="jumbotron text-center">			
-			<img class="d-block mx-auto" th:src="@{/image/spring-security.png}"
-				width="72" height="72">
-			<div class="container">
-				<h1 class="jumbotron-heading">C</h1>
-				<p class="lead text-muted">F</p>
-			</div>
-		</section>
+		
 
 		<div class="album py-5 bg-light">
 			<div class="container">
 
 				<div class="d-flex justify-content-center">
-					<div class="col-md-8">
+					<div class="col-md-10">
 					
 						<div th:replace="~{fragments/alert  :: alerta-sucesso}"></div>
 						
@@ -45,8 +38,8 @@
 							</div>
 													
 							
-							 <input type="hidden"  th:field="*{usuario}">
-							<input type="hidden" name="id" th:field="*{id}">
+							 <input type="hidden"  th:field="*{usuario}"/>
+							<input type="hidden" name="id" th:field="*{id}"/>
 														
 							<div class="form-group row">
 								<div class="col-sm-10">

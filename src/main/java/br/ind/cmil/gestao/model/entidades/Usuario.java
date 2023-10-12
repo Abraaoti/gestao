@@ -11,7 +11,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -48,7 +50,7 @@ public class Usuario extends Entidade{
     @JoinTable(name = "tbl_usuario_perfis",
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "perfil_id", referencedColumnName = "id"))
-    private Set<Perfil> perfis;
+    private List<Perfil> perfis;
 
     public Usuario() {
     }
@@ -69,7 +71,7 @@ public class Usuario extends Entidade{
 
     public void addPerfis(TipoPerfil perfil) {
         if (this.perfis == null) {
-            this.perfis = new HashSet<>();
+            this.perfis = new ArrayList<>();
         }
         this.perfis.add(new Perfil(perfil.getValue()));
     }
@@ -135,13 +137,15 @@ public class Usuario extends Entidade{
         this.verificador = verificador;
     }
 
-    public Set<Perfil> getPerfis() {
+    public List<Perfil> getPerfis() {
         return perfis;
     }
 
-    public void setPerfis(Set<Perfil> perfis) {
+    public void setPerfis(List<Perfil> perfis) {
         this.perfis = perfis;
     }
+
+  
 
     @Override
     public String toString() {

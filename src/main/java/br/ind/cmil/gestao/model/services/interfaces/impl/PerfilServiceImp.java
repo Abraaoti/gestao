@@ -9,7 +9,10 @@ import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -78,8 +81,6 @@ public class PerfilServiceImp implements IPerfilService {
         return update(p);
     }
 
-   
-
     @Override
     @Transactional(readOnly = false)
     public PerfilDTO update(PerfilDTO p) {
@@ -118,8 +119,8 @@ public class PerfilServiceImp implements IPerfilService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<Perfil> perfis(Set<String> roles) {
-        Set<Perfil> perfis = new HashSet<>();
+    public List<Perfil> perfis(List<String> roles) {
+        List<Perfil> perfis = new ArrayList<>();
 
         if (roles.isEmpty()) {
             perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue("usuário")).get());
@@ -130,6 +131,16 @@ public class PerfilServiceImp implements IPerfilService {
         }
         return perfis;
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Boolean atualizarPerfisEUsuarios(List<String> roles) {
+
+        if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil(pm.convertPerfilValue("admin")), new Perfil(pm.convertPerfilValue("usuário")))) || roles.containsAll(Arrays.asList(new Perfil(pm.convertPerfilValue("administrador")), new Perfil(pm.convertPerfilValue("usuário"))))) {
+            throw new DataIntegrityViolationException("usuário não pode ser Admin e/ou administrador.");
+        }
+        return false;
     }
 
     @Transactional(readOnly = false)

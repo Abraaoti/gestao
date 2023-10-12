@@ -10,8 +10,6 @@ import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,14 +42,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UsuarioControlle {
 
     private final IUsuarioService service;
-    private final IPerfilService perfis;
+    private final IPerfilService perfil;
     private final IAdministradorService ds;
 
-    @GetMapping("/abrir/form")
-    public String abrirFormGeral(Model model, @ModelAttribute RegistrarUsuario usuario) {
+    @GetMapping("/add")
+    public String abrirFormularioCadastro(Model model,RegistrarUsuario usuario) {
 
         model.addAttribute("usuario", usuario);
-        model.addAttribute("perfis", perfis.perfis());
+        model.addAttribute("perfis", perfil.perfis());
         return "usuario/cadastro";
     }
 
@@ -67,39 +65,19 @@ public class UsuarioControlle {
         return ResponseEntity.ok(service.buscarTodos(request));
     }
 
-    @PostMapping("/registrar")
-    public ModelAndView registrarUsuario(@ModelAttribute RegistrarUsuario usuario, RedirectAttributes attr) {
-        
-        Set<Perfil> perfil = this.perfis.perfis(usuario.perfis());
-        Set<String> admin_usuario = new HashSet<>();
-        admin_usuario.add(perfis.tipoPerfil("admin"));
-        admin_usuario.add(perfis.tipoPerfil("usuário"));
+    @PostMapping("/salvar")
+    public ModelAndView salavr(@ModelAttribute RegistrarUsuario usuario, RedirectAttributes attr) {
 
-        Set<String> adm_usuario = new HashSet<>();
-        
-        
-        adm_usuario.add(perfis.tipoPerfil("administrador"));
-        adm_usuario.add(perfis.tipoPerfil("usuário"));
-       
-        if (usuario.perfis().size() > 2 || perfil.containsAll(admin_usuario) || perfil.containsAll(adm_usuario)) {
-
-            attr.addFlashAttribute("falha", "usuário não pode ser Admin e/ou administrador.");
-            attr.addFlashAttribute("usuario", usuario);
-           
-        } else {
-            try {
-                service.register(usuario);
-                attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
-            } catch (DataIntegrityViolationException ex) {
-                attr.addFlashAttribute("falha", "Cadastro não realizado, email já existente.");
-            }
+        try {
+            service.register(usuario);
+            attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
+        } catch (DataIntegrityViolationException ex) {
+            attr.addFlashAttribute("falha", "Cadastro não realizado, email já existente.");
         }
 
         return new ModelAndView("redirect:/u/abrir/form");
 
     }
-
-   
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable(value = "id") Long id) {
@@ -112,7 +90,7 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/usuarios")
-    public String list(Model model, Pageable pageable) {
+    public String listaUsuarios(Model model, Pageable pageable) {
         Set<RegistrarUsuario> lis = service.getUsuarios(pageable);
         model.addAttribute("usuarios", lis);
         return "usuario/usuarios";
@@ -120,16 +98,16 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/novo/cadastro")
-    public String novoCadastro(Model model, @ModelAttribute RegistrarUsuario usuario) {
+    public String abrirFormulario(Model model, @ModelAttribute RegistrarUsuario usuario) {
 
         model.addAttribute("usuario", usuario);
-        model.addAttribute("perfis", perfis.perfis());
+        model.addAttribute("perfis", perfil.perfis());
 
         return "cadastro";
     }
 
     @PostMapping("/cadastrar")
-    public String salvarCadastroAuxiliar(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
+    public String salvarUsuarioExterno(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
         try {
             service.salvarUsuarioGeral(usuario, getSiteURL(request));
         } catch (DataIntegrityViolationException ex) {
@@ -140,13 +118,13 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/cadastro/realizado")
-    public String cadastroRealizado() {
+    public String exibirMensagemDeSucesso() {
 
         return "fragments/mensagem";
     }
 
     @GetMapping("/confirmacao/cadastro")
-    public ModelAndView confirmarCadastro(@RequestParam("codigo") String codigo, RedirectAttributes attr) {
+    public ModelAndView ativarCadastro(@RequestParam("codigo") String codigo, RedirectAttributes attr) {
         service.ativarCadastro(codigo);
         attr.addFlashAttribute("alerta", "sucesso");
         attr.addFlashAttribute("titulo", "Cadastro Ativado!");
@@ -156,30 +134,28 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/editar/credenciais/usuario/{id}")
-    public String preEditarCredenciais(Model model, @PathVariable("id") Long id) {
-
+    public String buscarCredenciaisPorId(Model model, @PathVariable("id") Long id) {
         model.addAttribute("usuario", service.buscarPorId(id));
-        model.addAttribute("perfis", perfis.perfis());
+        model.addAttribute("perfis", perfil.perfis());
         return "usuario/cadastro";
     }
 
     @GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
-    public ModelAndView dadosPessoais(Model model, @PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
+    public ModelAndView buscarDadosPorUsuarioIdEPerfilId(Model model, @PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
         RegistrarUsuario us = service.preEditarCadastroDadosPessoais(usuarioId, perfisId);
-        if (us.perfis().contains(new Perfil(perfis.tipoPerfil("admin"))) && us.perfis().contains(new Perfil(perfis.tipoPerfil("administrador")))) {
+        if (us.perfis().contains(new Perfil(perfil.tipoPerfil("admin"))) && us.perfis().contains(new Perfil(perfil.tipoPerfil("administrador")))) {
             model.addAttribute("usuario", us);
-            model.addAttribute("perfis", perfis.perfis());
+            model.addAttribute("perfis", perfil.perfis());
             return new ModelAndView("usuario/cadastro");
-        } else if (us.perfis().contains(new Perfil(perfis.tipoPerfil("administrador")))) {
+        } else if (us.perfis().contains(new Perfil(perfil.tipoPerfil("administrador")))) {
             AdministradorDTO administrador = ds.buscarPorUsuarioId(usuarioId);
-            
-            
+
             model.addAttribute("usuario", us);
-            model.addAttribute("perfis", perfis.perfis());
-            return (administrador.id() == null ) ? new ModelAndView("administrador/cadastro", "administrador", new Administrador(new Usuario(usuarioId)))
-    				: new ModelAndView("administrador/cadastro", "administrador", administrador);
-       
-        } else if (us.perfis().contains(new Perfil(perfis.tipoPerfil("usuário")))) {
+            model.addAttribute("perfis", perfil.perfis());
+            return (administrador.id() == null) ? new ModelAndView("administrador/cadastro", "administrador", new Administrador(new Usuario(usuarioId)))
+                    : new ModelAndView("administrador/cadastro", "administrador", administrador);
+
+        } else if (us.perfis().contains(new Perfil(perfil.tipoPerfil("usuário")))) {
 
             model.addAttribute("status", 403);
             model.addAttribute("error", "Área Restrita");
@@ -190,7 +166,7 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/editar/senha")
-    public String abrirEditarSenha() {
+    public String abrirFormularioDeEditarSenha() {
 
         return "usuario/editar-senha";
     }

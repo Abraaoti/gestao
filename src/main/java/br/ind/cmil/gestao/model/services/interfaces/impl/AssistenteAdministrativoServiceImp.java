@@ -2,15 +2,11 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
 import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
-import br.ind.cmil.gestao.model.dto.mappers.AdministradorMapper;
 import br.ind.cmil.gestao.model.dto.mappers.AssistenteAdministrativoMapper;
-import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
-import br.ind.cmil.gestao.model.repositorys.IAdministradorRepository;
+import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.repositorys.IAssistenteAdministrativoRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
 import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -80,13 +76,15 @@ public class AssistenteAdministrativoServiceImp implements IAssistenteAdministra
 
     @Override
     public AssistenteAdministrativoDTO buscarPorEmail(String email) {
-        return ar.findByUsuarioEmail(email, email).map(am::toDTO).get();
+        return ar.findByUsuarioNomeOrEmail(email, email).map(am::toDTO).get();
     }
 
     @Override
     public AssistenteAdministrativoDTO form(AssistenteAdministrativoDTO assistente, User user) {
-        if (assistente.id() != null) {
-            return ar.findByUsuarioEmail(user.getUsername(),user.getUsername()).map(am::toDTO).get();
+        if (assistente.id() != null) {           
+              System.out.println("\nO que temos?");
+            return ar.findByUsuarioNomeOrEmail(user.getUsername(),user.getUsername()).map(am::toDTO).get();
+            
         }
         return assistente;
     }

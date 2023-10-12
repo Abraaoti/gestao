@@ -23,8 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author abraao
  */
-@Controller
+
 @RequiredArgsConstructor
+@Controller
 @RequestMapping("cargo")
 public class CargoControlle {
 
@@ -32,13 +33,13 @@ public class CargoControlle {
 
     @GetMapping("/lista")
     public String list() {
-        return "rh/cargos/cargos";
+        return "cargos/cargos";
     }
 
     @GetMapping("/add")
-    public String form(CargoDTO cargo, Model model) {
+    public String form(Model model,CargoDTO cargo) {
         model.addAttribute("cargo", cargo);
-        return "rh/cargos/cargo";
+        return "cargos/cargo";
     }
 
     @PostMapping("/create")
@@ -59,7 +60,7 @@ public class CargoControlle {
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
         model.addAttribute("cargo", cs.findById(id));
-        return "rh/cargos/cargo";
+        return "cargos/cargo";
     }
 
     @GetMapping("/delete/{id}")
@@ -67,7 +68,7 @@ public class CargoControlle {
         Map<String, Object> model = new HashMap<>();
         cs.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("rh/cargos/cargos", model);
+        return new ModelAndView("cargos/cargos", model);
     }
 
     @GetMapping("/datatables/server")

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
     <head>
-        <title>Cadastro Usuário</title>
-        <meta charset="UTF-8" />
+        <title>Cadastrar Usuário</title> 
     </head>
     <body>
-
-        <section  layout:fragment="corpo">
+        <div  layout:fragment="corpo">
 
             <div class="album py-5 bg-light">
 
                 <div class="d-flex justify-content-center">
                     <div class="col-md-10">
 
-                        <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>
+                        <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-                        <form th:action="@{/u/registrar}" th:object="${usuario}" method="POST" class="was-validated">
+                        <form th:action="@{/u/salvar}" th:object="${usuario}" method="POST" class="was-validated">
                             <div class="text-center mb-4">
                                 <!--img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72"/-->
                                 <h1 class="h3 mb-3 font-weight-normal">Gestão de Pessoas</h1>
+
 
                                 <p class="font-weight-lighter">Seja bem-vindo.</p>
                                 <p class="text-muted">cria o seu login e senha aqui</p>					
@@ -94,12 +94,11 @@
                             </div>
                         </form>
 
+
                     </div>
                 </div>
             </div>
-
-
-        </section>
+        </div>
         <script	th:src="~{}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript">
             $('#perfis').ready(function(){

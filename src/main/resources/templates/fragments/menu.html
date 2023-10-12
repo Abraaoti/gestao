@@ -12,7 +12,7 @@
                 <li  sec:authorize="hasAuthority('ADMIN')">
                     <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
                     <ul class="collapse list-unstyled" id="admin">                    							
-                        <li><a  th:href="@{/u/abrir/form}">add de Usuário</a> <li>
+                        <li><a  th:href="@{/u/add}">add de Usuário</a> <li>
                         <li><a  th:href="@{/u/lista}">Lista de Usuários</a> <li>
                         <li><a  th:href="@{/perfis/lista}">Lista de  perfis</a> <li>
                         <li><a  th:href="@{/perfis/add}">add perfil</a> <li>
@@ -25,7 +25,8 @@
                         <li><a  th:href="@{/projeto/add}">add Projeto</a></li>
                         <li><a  th:href="@{/departamento/add}">add Departamento</a></li>
                         <li><a  th:href="@{/departamento/lista}"> Departamentos</a></li>
-                        <li><a   th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+                        <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
+                        <li><a  th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
                             <div class="dropdown-divider"></div>
                         <li><a  th:href="@{/agendamentos/historico/consultas}">Consultas Agendadas</a> <li>
                     </ul>
@@ -36,8 +37,8 @@
                         <li><a  th:href="@{/assistente/dados}">Cadastrar Dados</a></li>
                         <li><a  th:href="@{/u/editar/senha}">Editar Senha</a></li>
                         <li><a  th:href="@{/funcionario/add}">cadastrar funcionário</a></li>
-                        <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
-                          <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+
+                        <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
                             <div class="dropdown-divider"></div>
                         <li> <a  th:href="@{/funcionario/lista}"> Consultar funcionários</a></li>
                         <li> <a  th:href="@{/funcionario/historico/funcionario}">Histórico de funcionário</a></li>
@@ -49,7 +50,7 @@
                         <li><a th:href="@{/auxiliar/dados}">Cadastrar Dados</a></li>
                         <li> <a  th:href="@{/u/editar/senha}">Editar Senha</a></li>
                         <li><a  th:href="@{/presenca/add}">Marcar Presença</a></li>
-                         <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+                        <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
                             <div class="dropdown-divider"></div>
                         <li><a  th:href="@{/presenca/consultar}"> Consultar Presença</a></li>
                         <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico de Presenças</a></li>
@@ -60,9 +61,9 @@
                     <ul class="collapse list-unstyled" id="diretor">
                         <li><a th:href="@{/diretor/dados}">DadosCadastrais </a></li>
                         <li> <a  th:href="@{/u/editar/senha}">Editar Senha</a></li>
-                       
-                         <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
-                            
+
+                        <li><a th:href="@{/u/editar/senha}">Editar Senha</a> <li>                           
+
                         <li><a  th:href="@{/presenca/consultar}"> Consultar Presença</a></li>
                         <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico de Presenças</a></li>
                     </ul>

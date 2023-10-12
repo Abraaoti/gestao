@@ -48,14 +48,14 @@ public class DBService {
 
     public void instanciaBaseDeDados() throws MessagingException {
 
-        Set<String> administrador = new HashSet<>();
+        List<String> administrador = new ArrayList<>();
         
-        Set<String> assistente = new HashSet<>();
+        List<String> assistente = new ArrayList<>();
         assistente.add("assistente");
-        Set<String> diretor = new HashSet<>();
+        List<String> diretor = new ArrayList<>();
         diretor.add("diretor");
 
-        Set<String> auxiliar = new HashSet<>();
+        List<String> auxiliar = new ArrayList<>();
         auxiliar.add("auxiliar");
 
         administrador.add("administrador");
@@ -64,7 +64,7 @@ public class DBService {
         administrador.addAll(assistente);
         administrador.addAll(diretor);
 
-        Set<RegistrarUsuario> usuarios = new HashSet<>();
+        List<RegistrarUsuario> usuarios = new ArrayList<>();
         RegistrarUsuario abraao = new RegistrarUsuario(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, administrador);
         RegistrarUsuario beatriz = new RegistrarUsuario(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, assistente);
         RegistrarUsuario angelino = new RegistrarUsuario(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, auxiliar);

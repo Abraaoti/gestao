@@ -15,6 +15,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,7 +63,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         }
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
-        Set<Perfil> roles = ps.perfis(request.perfis());
+        List<Perfil> roles = ps.perfis(request.perfis());
         // if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil("admin"), new Perfil(ps.tipoPerfil("usuario"))))
         //       || roles.containsAll(Arrays.asList(new Perfil(ps.tipoPerfil("administrativo")), new Perfil(ps.tipoPerfil("usuario"))))) {
         //    throw new RuntimeException("Usuário não pode ser Admin e/ou Administrativo.");
@@ -85,7 +86,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         us.setAtivo(request.ativo());
         us.setPassword(new BCryptPasswordEncoder().encode(request.password()));
         us.setVerificador(request.verificador());
-        Set<Perfil> roles = ps.perfis(request.perfis());
+        List<Perfil> roles = ps.perfis(request.perfis());
         us.setPerfis(roles);
         us.setId(request.id());
         ur.save(us);
@@ -192,7 +193,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         }
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
-        Set<Perfil> roles = ps.perfis(request.perfis());
+        List<Perfil> roles = ps.perfis(request.perfis());
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
         Usuario usuario = ur.save(user);

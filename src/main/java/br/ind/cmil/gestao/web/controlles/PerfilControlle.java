@@ -53,7 +53,7 @@ public class PerfilControlle {
     @GetMapping("/lista")
     public String perfis() {
       
-        return "perfis//lista";
+        return "perfis/lista";
 
     }
 

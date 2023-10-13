@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.web.controlles;
+package br.ind.cmil.gestao.web;
 
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PessoaDTO;

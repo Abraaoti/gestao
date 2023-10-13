@@ -1,7 +1,7 @@
-package br.ind.cmil.gestao.web.controlles;
+package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
-import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
+import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
+import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,44 +25,43 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author abraao
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RequiredArgsConstructor
 @Controller
-@RequestMapping("administrador")
-public class AdministradorControlle {
+@RequiredArgsConstructor
+@RequestMapping("auxiliar")
+public class AuxiliarAdministrativoControlle {
 
-    private final IAdministradorService as;
+    private final IAuxiliarAdministrativoService as;
 
     @GetMapping("/lista")
     public String list() {
-        return "administrador/administradores";
+        return "aux/auxliares";
     }
 
     @GetMapping("/dados")
-    public String form(AdministradorDTO administrador, Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("administrador", as.form(administrador, user));
-        return "administrador/cadastro";
+    public String form(AuxiliarAdministrativoDTO auxiliar, Model model, @AuthenticationPrincipal User user) {        
+        model.addAttribute("auxiliar", as.form(auxiliar, user));
+        return "aux/auxiliar";
     }
 
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute AdministradorDTO c, RedirectAttributes redir) {
+    public ModelAndView save(@ModelAttribute AuxiliarAdministrativoDTO c, RedirectAttributes redir) {
         as.create(c);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/administrador/dados");
+        return new ModelAndView("redirect:/auxiliar/dados");
     }
 
     @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute AdministradorDTO a, RedirectAttributes redir) {
+    public ModelAndView update(@ModelAttribute AuxiliarAdministrativoDTO a, RedirectAttributes redir) {
         as.create(a);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/administrador/dados");
+        return new ModelAndView("redirect:/auxiliar/dados");
     }
 
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
-        model.addAttribute("administrador", as.findById(id));
-        return "administrador/cadastro";
+        model.addAttribute("auxiliar", as.findById(id));
+        return "aux/auxiliar";
     }
 
     @GetMapping("/delete/{id}")
@@ -71,11 +69,11 @@ public class AdministradorControlle {
         Map<String, Object> model = new HashMap<>();
         as.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("administrador/administradores", model);
+        return new ModelAndView("aux/auxiliares", model);
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> administradores(HttpServletRequest request) {       
-        return ResponseEntity.ok(as.administradores(request));
+    public ResponseEntity<?> auxiliares(HttpServletRequest request) {       
+        return ResponseEntity.ok(as.aux(request));
     }
 }

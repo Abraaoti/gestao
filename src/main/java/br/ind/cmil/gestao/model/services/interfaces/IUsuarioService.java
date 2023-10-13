@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import jakarta.mail.MessagingException;
@@ -16,25 +16,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 public interface IUsuarioService {
 
-    void register(RegistrarUsuario request);
+    void register(UsuarioRequest request);
 
-    void salvarUsuarioGeral(RegistrarUsuario request, String siteURL) throws MessagingException;
+    void salvarUsuarioGeral(UsuarioRequest request, String siteURL) throws MessagingException;
 
-    RegistrarUsuario buscarPorId(Long id);
+    UsuarioRequest buscarPorId(Long id);
 
-    Set<RegistrarUsuario> getUsuarios(Pageable pageable);
+    Set<UsuarioRequest> getUsuarios(Pageable pageable);
 
     public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
         return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
     }
 
-    RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
+    UsuarioRequest preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
 
     void alterarSenha(Usuario usuario, String s1);
 
-    RegistrarUsuario buscarEmailAtivo(String email);
+    UsuarioRequest buscarEmailAtivo(String email);
 
-    RegistrarUsuario buscarPorEmail(String email);
+    UsuarioRequest buscarPorEmail(String email);
 
     void redefinirSenha(String email) throws MessagingException;
 

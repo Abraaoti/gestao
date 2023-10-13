@@ -16,7 +16,7 @@ public record DiretorDTO(
         String nome,
         @NotBlank
         @NotNull
-        RegistrarUsuario usuario
+        UsuarioRequest usuario
         ) {
 
 }

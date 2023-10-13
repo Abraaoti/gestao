@@ -1,7 +1,7 @@
-package br.ind.cmil.gestao.web.controlles;
+package br.ind.cmil.gestao.web;
 
 import br.ind.cmil.gestao.model.dto.AdministradorDTO;
-import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
@@ -46,9 +46,9 @@ public class UsuarioControlle {
     private final IAdministradorService ds;
 
     @GetMapping("/add")
-    public String abrirFormularioCadastro(Model model,RegistrarUsuario usuario) {
+    public String add(Model model,UsuarioRequest request) {
 
-        model.addAttribute("usuario", usuario);
+        model.addAttribute("usuario", request);
         model.addAttribute("perfis", perfil.perfis());
         return "usuario/cadastro";
     }
@@ -66,10 +66,10 @@ public class UsuarioControlle {
     }
 
     @PostMapping("/salvar")
-    public ModelAndView salavr(@ModelAttribute RegistrarUsuario usuario, RedirectAttributes attr) {
+    public ModelAndView salvar(@ModelAttribute UsuarioRequest resquest, RedirectAttributes attr) {
 
         try {
-            service.register(usuario);
+            service.register(resquest);
             attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
         } catch (DataIntegrityViolationException ex) {
             attr.addFlashAttribute("falha", "Cadastro não realizado, email já existente.");
@@ -91,14 +91,14 @@ public class UsuarioControlle {
 
     @GetMapping("/usuarios")
     public String listaUsuarios(Model model, Pageable pageable) {
-        Set<RegistrarUsuario> lis = service.getUsuarios(pageable);
+        Set<UsuarioRequest> lis = service.getUsuarios(pageable);
         model.addAttribute("usuarios", lis);
         return "usuario/usuarios";
 
     }
 
     @GetMapping("/novo/cadastro")
-    public String abrirFormulario(Model model, @ModelAttribute RegistrarUsuario usuario) {
+    public String addExterno(Model model, @ModelAttribute UsuarioRequest usuario) {
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("perfis", perfil.perfis());
@@ -107,7 +107,7 @@ public class UsuarioControlle {
     }
 
     @PostMapping("/cadastrar")
-    public String salvarUsuarioExterno(@ModelAttribute RegistrarUsuario usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
+    public String salvarUsuarioExterno(@ModelAttribute UsuarioRequest usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
         try {
             service.salvarUsuarioGeral(usuario, getSiteURL(request));
         } catch (DataIntegrityViolationException ex) {
@@ -124,7 +124,7 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/confirmacao/cadastro")
-    public ModelAndView ativarCadastro(@RequestParam("codigo") String codigo, RedirectAttributes attr) {
+    public ModelAndView AtivarUsuario(@RequestParam("codigo") String codigo, RedirectAttributes attr) {
         service.ativarCadastro(codigo);
         attr.addFlashAttribute("alerta", "sucesso");
         attr.addFlashAttribute("titulo", "Cadastro Ativado!");
@@ -142,7 +142,7 @@ public class UsuarioControlle {
 
     @GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
     public ModelAndView buscarDadosPorUsuarioIdEPerfilId(Model model, @PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
-        RegistrarUsuario us = service.preEditarCadastroDadosPessoais(usuarioId, perfisId);
+        UsuarioRequest us = service.preEditarCadastroDadosPessoais(usuarioId, perfisId);
         if (us.perfis().contains(new Perfil(perfil.tipoPerfil("admin"))) && us.perfis().contains(new Perfil(perfil.tipoPerfil("administrador")))) {
             model.addAttribute("usuario", us);
             model.addAttribute("perfis", perfil.perfis());
@@ -166,7 +166,7 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/editar/senha")
-    public String abrirFormularioDeEditarSenha() {
+    public String editarSenha() {
 
         return "usuario/editar-senha";
     }
@@ -181,7 +181,7 @@ public class UsuarioControlle {
             return "redirect:/u/editar/senha";
         }
 
-        RegistrarUsuario u = service.buscarPorEmail(user.getUsername());
+        UsuarioRequest u = service.buscarPorEmail(user.getUsername());
         if (!IUsuarioService.isSenhaCorreta(s3, u.password())) {
             attr.addFlashAttribute("falha", "Senha atual não confere, tente novamente");
             return "redirect:/u/editar/senha";
@@ -212,7 +212,7 @@ public class UsuarioControlle {
 
     // salvar a nova senha via recuperacao de senha
     @PostMapping("/p/nova/senha")
-    public String confirmacaoDeRedefinicaoDeSenha(RegistrarUsuario usuario, ModelMap model) {
+    public String confirmacaoDeRedefinicaoDeSenha(UsuarioRequest usuario, ModelMap model) {
         /**
          * Usuario u = service.buscarPorEmail(usuario.getEmail()); if
          * (!usuario.getCodigoVerificador().equals(u.getCodigoVerificador())) {

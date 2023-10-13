@@ -3,7 +3,7 @@ package br.ind.cmil.gestao.model.dto.mappers;
 
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
 import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
-import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class AssistenteAdministrativoMapper {
      public AssistenteAdministrativoDTO toDTO(AssistenteAdministrativo a) {
         UsuarioMapper um = new UsuarioMapper();
-        RegistrarUsuario usuario = um.toDTO(a.getUsuario());
+        UsuarioRequest usuario = um.toDTO(a.getUsuario());
         return new AssistenteAdministrativoDTO(a.getId(), a.getNome(), usuario);
     }
 

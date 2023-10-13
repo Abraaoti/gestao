@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
-import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
@@ -64,15 +64,15 @@ public class DBService {
         administrador.addAll(assistente);
         administrador.addAll(diretor);
 
-        List<RegistrarUsuario> usuarios = new ArrayList<>();
-        RegistrarUsuario abraao = new RegistrarUsuario(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, administrador);
-        RegistrarUsuario beatriz = new RegistrarUsuario(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, assistente);
-        RegistrarUsuario angelino = new RegistrarUsuario(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, auxiliar);
+        List<UsuarioRequest> usuarios = new ArrayList<>();
+        UsuarioRequest abraao = new UsuarioRequest(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, administrador);
+        UsuarioRequest beatriz = new UsuarioRequest(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, assistente);
+        UsuarioRequest angelino = new UsuarioRequest(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, auxiliar);
         usuarios.add(abraao);
         usuarios.add(angelino);
         usuarios.add(beatriz);
 
-        for (RegistrarUsuario usuario : usuarios) {
+        for (UsuarioRequest usuario : usuarios) {
             us.register(usuario);
         }
 

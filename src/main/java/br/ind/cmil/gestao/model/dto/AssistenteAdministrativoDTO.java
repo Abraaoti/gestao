@@ -16,6 +16,6 @@ public record AssistenteAdministrativoDTO(
         String nome,
         @NotBlank
         @NotNull
-        RegistrarUsuario usuario) {
+        UsuarioRequest usuario) {
 
 }

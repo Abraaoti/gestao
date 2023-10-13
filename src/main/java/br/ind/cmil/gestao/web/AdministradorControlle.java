@@ -1,7 +1,7 @@
-package br.ind.cmil.gestao.web.controlles;
+package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.CargoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
+import br.ind.cmil.gestao.model.dto.AdministradorDTO;
+import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,56 +26,56 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  *
  * @author abraao
  */
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("cargo")
-public class CargoControlle {
+@RequestMapping("administrador")
+public class AdministradorControlle {
 
-    private final ICargoService cs;
+    private final IAdministradorService as;
 
     @GetMapping("/lista")
     public String list() {
-        return "cargos/cargos";
+        return "administrador/administradores";
     }
 
-    @GetMapping("/add")
-    public String form(Model model,CargoDTO cargo) {
-        model.addAttribute("cargo", cargo);
-        return "cargos/cargo";
+    @GetMapping("/dados")
+    public String form(AdministradorDTO administrador, Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("administrador", as.form(administrador, user));
+        return "administrador/cadastro";
     }
 
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
+    public ModelAndView save(@ModelAttribute AdministradorDTO c, RedirectAttributes redir) {
+        as.create(c);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/cargo/add");
+        return new ModelAndView("redirect:/administrador/dados");
     }
 
     @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
+    public ModelAndView update(@ModelAttribute AdministradorDTO a, RedirectAttributes redir) {
+        as.create(a);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/cargo/add");
+        return new ModelAndView("redirect:/administrador/dados");
     }
 
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
-        model.addAttribute("cargo", cs.findById(id));
-        return "cargos/cargo";
+        model.addAttribute("administrador", as.findById(id));
+        return "administrador/cadastro";
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView excluir(@PathVariable("id") Long id) {
         Map<String, Object> model = new HashMap<>();
-        cs.delete(id);
+        as.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("cargos/cargos", model);
+        return new ModelAndView("administrador/administradores", model);
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> perfis(HttpServletRequest request) {       
-        return ResponseEntity.ok(cs.buscarTodos(request));
+    public ResponseEntity<?> administradores(HttpServletRequest request) {       
+        return ResponseEntity.ok(as.administradores(request));
     }
 }

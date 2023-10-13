@@ -3,7 +3,7 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.exceptions.UsuarioNotFoundException;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.RegistrarUsuario;
+import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
@@ -56,7 +56,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     //}
     @Transactional(readOnly = false)
     @Override
-    public void register(RegistrarUsuario request) {
+    public void register(UsuarioRequest request) {
 
         if (request.id() != null) {
             update(request);
@@ -77,7 +77,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     }
 
-    public void update(RegistrarUsuario request) {
+    public void update(UsuarioRequest request) {
         Usuario us = ur.findById(request.id()).get();
         us.setNome(request.nome());
         us.setDataCadastro(us.getDataCadastro());
@@ -101,7 +101,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public RegistrarUsuario buscarPorId(Long id) {
+    public UsuarioRequest buscarPorId(Long id) {
         return ur.findByUsuarioId(id).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(String.valueOf(id), "Este id: não consta no nosso banco de dados "));
 
     }
@@ -115,7 +115,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public RegistrarUsuario buscarEmailAtivo(String email) {
+    public UsuarioRequest buscarEmailAtivo(String email) {
         return ur.findByEmailAndAtivo(email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
 
     }
@@ -140,7 +140,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuario.setAtivo(true);
     }
 
-    private void validarAtributos(RegistrarUsuario request) {
+    private void validarAtributos(UsuarioRequest request) {
 
         Optional<Usuario> usuario = ur.findByNome(request.nome());
         if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request.id())) {
@@ -169,25 +169,25 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public RegistrarUsuario buscarPorEmail(String email) {
+    public UsuarioRequest buscarPorEmail(String email) {
         return ur.findByNomeOrEmail(email, email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Set<RegistrarUsuario> getUsuarios(Pageable pageable) {
+    public Set<UsuarioRequest> getUsuarios(Pageable pageable) {
 
         return ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toSet());
     }
 
     @Override
-    public RegistrarUsuario preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
+    public UsuarioRequest preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
         return ur.findByIdAndPerfis(usuarioId, perfisId).map(rm::toDTO).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
     }
 
     @Transactional(readOnly = false)
     @Override
-    public void salvarUsuarioGeral(RegistrarUsuario request, String siteURL) throws MessagingException {
+    public void salvarUsuarioGeral(UsuarioRequest request, String siteURL) throws MessagingException {
         if (request.id() != null) {
             update(request);
         }

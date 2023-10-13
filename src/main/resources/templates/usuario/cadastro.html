@@ -8,21 +8,15 @@
     <body>
         <div  layout:fragment="corpo">
 
-            <div class="album py-5 bg-light">
-
                 <div class="d-flex justify-content-center">
                     <div class="col-md-10">
 
-                        <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
+                        <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>                     
 
                         <form th:action="@{/u/salvar}" th:object="${usuario}" method="POST" class="was-validated">
                             <div class="text-center mb-4">
-                                <!--img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72"/-->
-                                <h1 class="h3 mb-3 font-weight-normal">Gestão de Pessoas</h1>
-
-
-                                <p class="font-weight-lighter">Seja bem-vindo.</p>
-                                <p class="text-muted">cria o seu login e senha aqui</p>					
+                              
+                                <h1 class="h3 mb-3 font-weight-normal">Gestão de Pessoas</h1>				
                                 <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
                                      role="alert">
                                     <h4 th:text="${titulo}" class="alert-heading">Credenciais...</h4>
@@ -98,7 +92,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+       
         <script	th:src="~{}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript">
             $('#perfis').ready(function(){

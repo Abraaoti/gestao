@@ -18,7 +18,7 @@ public record RHDTO(
         String nome,
         @NotBlank
         @NotNull
-        RegistrarUsuario usuario
+        UsuarioRequest usuario
         ) {
 
 }

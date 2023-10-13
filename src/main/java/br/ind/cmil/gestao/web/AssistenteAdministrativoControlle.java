@@ -1,7 +1,7 @@
-package br.ind.cmil.gestao.web.controlles;
+package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
+import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
+import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,41 +27,42 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("auxiliar")
-public class AuxiliarAdministrativoControlle {
+@RequestMapping("assistente")
+public class AssistenteAdministrativoControlle {
 
-    private final IAuxiliarAdministrativoService as;
+    private final IAssistenteAdministrativoService as;
 
     @GetMapping("/lista")
     public String list() {
-        return "aux/auxliares";
+        return "assistente/assistentes";
     }
 
     @GetMapping("/dados")
-    public String form(AuxiliarAdministrativoDTO auxiliar, Model model, @AuthenticationPrincipal User user) {        
-        model.addAttribute("auxiliar", as.form(auxiliar, user));
-        return "aux/auxiliar";
+    public String form(AssistenteAdministrativoDTO assistente, Model model, @AuthenticationPrincipal User user) {
+      
+        model.addAttribute("assistente", as.form(assistente, user));
+        return "assistente/assistente";
     }
 
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute AuxiliarAdministrativoDTO c, RedirectAttributes redir) {
-        as.create(c);
+    public ModelAndView save(@ModelAttribute AssistenteAdministrativoDTO assisntente, RedirectAttributes redir) {
+        as.create(assisntente);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/auxiliar/dados");
+        return new ModelAndView("redirect:/assisnte/dados");
     }
 
     @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute AuxiliarAdministrativoDTO a, RedirectAttributes redir) {
+    public ModelAndView update(@ModelAttribute AssistenteAdministrativoDTO a, RedirectAttributes redir) {
         as.create(a);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/auxiliar/dados");
+        return new ModelAndView("redirect:/assistente/dados");
     }
 
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
-        model.addAttribute("auxiliar", as.findById(id));
-        return "aux/auxiliar";
+        model.addAttribute("assistente", as.findById(id));
+        return "assistente/assistente";
     }
 
     @GetMapping("/delete/{id}")
@@ -69,11 +70,11 @@ public class AuxiliarAdministrativoControlle {
         Map<String, Object> model = new HashMap<>();
         as.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("aux/auxiliares", model);
+        return new ModelAndView("assistente/assistentes", model);
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> auxiliares(HttpServletRequest request) {       
-        return ResponseEntity.ok(as.aux(request));
+    public ResponseEntity<?> assisntes(HttpServletRequest request) {       
+        return ResponseEntity.ok(as.assistentes(request));
     }
 }

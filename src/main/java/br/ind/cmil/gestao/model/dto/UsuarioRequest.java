@@ -5,14 +5,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author abraao
  */
-public record RegistrarUsuario(
+public record UsuarioRequest(
         @JsonProperty
         Long id,
         @NotBlank
@@ -25,14 +26,15 @@ public record RegistrarUsuario(
         @NotNull
         String password,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @CreatedDate
         LocalDateTime dataCadastro,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @LastModifiedDate
         LocalDateTime updatedAt,
-        Boolean ativo ,
+        Boolean ativo,
         String verificador,
         @NotBlank
         @NotNull
         List<String> perfis) {
-
 
 }

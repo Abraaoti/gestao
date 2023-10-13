@@ -133,6 +133,20 @@ public class PerfilServiceImp implements IPerfilService {
 
     }
 
+    public List<Perfil> checarPerfilAdminMaiorDois(List<String> roles) {
+        List<Perfil> perfis = new ArrayList<>();
+
+        if (roles.size() > 2
+                || roles.containsAll(Arrays.asList(new Perfil("admin"), new Perfil("usuário")))
+                || roles.containsAll(Arrays.asList(new Perfil("administrador"), new Perfil("usuário")))) {
+           return null;
+        } else {
+           
+        }
+        return perfis;
+
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Boolean atualizarPerfisEUsuarios(List<String> roles) {

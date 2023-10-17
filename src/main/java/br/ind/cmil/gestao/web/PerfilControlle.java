@@ -51,10 +51,8 @@ public class PerfilControlle {
     }
 
     @GetMapping("/lista")
-    public String perfis() {
-      
+    public String perfis() {      
         return "perfis/lista";
-
     }
 
     @PostMapping("/editar")
@@ -81,21 +79,9 @@ public class PerfilControlle {
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> perfis(HttpServletRequest request) {
-        //model.addAttribute("perfis", ps.list(pageable));
-        // return "perfis/perfis";
+     
         return ResponseEntity.ok(ps.buscarTodos(request));
     }
 
-  
-
-   // @GetMapping("/{id}")
-   // public ResponseEntity<PerfilDTO> fetchUserWithId(@PathVariable @NotNull @Positive Long id) {
-    //    return new ResponseEntity<>(ps.findById(id), HttpStatus.OK);
-    //}
-
-    ///@GetMapping("/search/{p}")
-    //public ResponseEntity<PerfilDTO> buscarPorNome(@PathVariable("p") String p) {
-       // return new ResponseEntity<>(ps.buscarPerfilPorNome(p), HttpStatus.OK);
-   // }
 
 }

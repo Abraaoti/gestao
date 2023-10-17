@@ -21,7 +21,8 @@ public class HomeController {
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
     @GetMapping({"/", "/home"})
-    public String home(HttpServletResponse response) {
+    public String home(HttpServletResponse response, Model model) {
+        model.addAttribute("chartData", getChartData());
         return "home";
     }
 
@@ -31,7 +32,6 @@ public class HomeController {
         return "login";
     }
 
-    //@GetMapping({"/login-error"})
     @GetMapping("/login-error")
     public String loginError(ModelMap model, HttpServletRequest resp) {
         HttpSession session = resp.getSession();
@@ -59,7 +59,6 @@ public class HomeController {
         return "login";
     }
 
-    // acesso negado
     @GetMapping("/negado")
     public String acessoNegado(ModelMap model, HttpServletResponse resp) {
         model.addAttribute("status", resp.getStatus());
@@ -68,12 +67,11 @@ public class HomeController {
         return "error";
     }
 
-    @GetMapping("/grafico")
-    public String grafico(Model model) {
-        model.addAttribute("chartData", getChartData());
-        return "grafico";
-    }
-
+    /**
+     * @GetMapping("/grafico") public String grafico(Model model) {
+     * model.addAttribute("chartData", getChartData()); return "grafico";
+    }*
+     */
     private List<List<Object>> getChartData() {
         return List.of(
                 List.of("Janeiro", RANDOM.nextInt(5)),

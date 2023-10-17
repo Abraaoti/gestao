@@ -8,7 +8,7 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
         },
         ajax: {
             url: '/departamento/datatables/server',
@@ -27,7 +27,7 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-danger btn-sm btn-block" href="/departamento/excluir/' +
+                    return '<a class="btn btn-danger btn-sm btn-block" href="/departamento/delete/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             }

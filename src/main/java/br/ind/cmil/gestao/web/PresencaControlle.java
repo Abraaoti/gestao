@@ -57,7 +57,7 @@ public class PresencaControlle {
         }
         return generos;
     }
-    // @PreAuthorize("hasAnyAuthority('PACIENTE', 'MEDICO')")
+  
 
     @GetMapping("/horario/auxiliar/{id}/data/{data}")
     public ResponseEntity<?> getHorarios(@PathVariable("id") Long id, @PathVariable("data") @DateTimeFormat(iso = ISO.DATE) LocalDate data) {
@@ -74,13 +74,11 @@ public class PresencaControlle {
 
     @GetMapping("/lista")
     public String lista() {
-
         return "/presenca/presencas";
-
     }
 
     @PostMapping("/editar")
-    public ModelAndView editarPerfil(@ModelAttribute PresencaDTO presenca, RedirectAttributes redir) {
+    public ModelAndView editarPresenca(@ModelAttribute PresencaDTO presenca, RedirectAttributes redir) {
         ps.create(presenca);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("/presenca/presenca");
@@ -88,7 +86,6 @@ public class PresencaControlle {
 
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
-
         model.addAttribute("presenca", ps.findById(id));
         return "/presenca/presenca";
     }
@@ -102,9 +99,7 @@ public class PresencaControlle {
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> presencas(HttpServletRequest request) {
-        //model.addAttribute("perfis", ps.list(pageable));
-        // return "perfis/perfis";
+    public ResponseEntity<?> presencas(HttpServletRequest request) {       
         return ResponseEntity.ok(ps.presencas(request));
     }
 

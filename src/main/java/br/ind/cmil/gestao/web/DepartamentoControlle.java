@@ -61,15 +61,14 @@ public class DepartamentoControlle {
         return new ModelAndView("redirect:/departamento/add");
     }
 
-    @PutMapping("/update")
-    public ModelAndView update(@RequestBody DepartamentoDTO d, RedirectAttributes redir) {
+    @PostMapping("/update")
+    public ModelAndView update(@ModelAttribute DepartamentoDTO d, RedirectAttributes redir) {
         ds.create(d);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/departamento/add", "departamento", d);
+        return new ModelAndView("redirect:/departamento/add");
     }
 
-    @DeleteMapping("/delete/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @GetMapping("/delete/{id}")
     public void delete(@PathVariable @NotNull @Positive Long id) {
         ds.delete(id);
     }

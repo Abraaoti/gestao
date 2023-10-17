@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.model.repositorys;
 
-import br.ind.cmil.gestao.model.entidades.Cargo;
 import br.ind.cmil.gestao.model.entidades.Departamento;
 import java.util.List;
 import java.util.Optional;

@@ -8,10 +8,17 @@
     <body>
 
         <div layout:fragment="corpo">
+            
+            
+            <div class="album py-5 bg-light">
+
+                <div class="d-flex justify-content-center">
+                    <div class="col-md-10">
+
 
             <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-            <form th:action="${departamento.id == null} ? @{/departamento/create} : @{/departamento/editar}"
+            <form th:action="${departamento.id == null} ? @{/departamento/create} : @{/departamento/update}"
                   th:object="${departamento}"	method="POST" class="was-validated">
                 <div class="form-group row">
 
@@ -45,6 +52,9 @@
                     </tr>
                 </thead>
             </table>
+        </div>
+        </div>
+        </div>
         </div>
 
         <script th:src="@{/js/departamentos.js}" th:fragment="js"></script>

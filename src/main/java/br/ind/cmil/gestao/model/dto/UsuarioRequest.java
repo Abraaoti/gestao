@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public record UsuarioRequest(
         String nome,
         @NotBlank
         @NotNull
+        @Email
         String email,
         @NotBlank
         @NotNull

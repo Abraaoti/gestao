@@ -3,6 +3,8 @@ package br.ind.cmil.gestao.web;
 import br.ind.cmil.gestao.model.dto.CargoDTO;
 import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,7 @@ public class CargoControlle {
         return new ModelAndView("redirect:/cargo/add");
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     public ModelAndView update(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
         cs.create(c);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
@@ -64,7 +65,7 @@ public class CargoControlle {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView excluir(@PathVariable("id") Long id) {
+    public ModelAndView excluir(@PathVariable @NotNull @Positive Long id) {
         Map<String, Object> model = new HashMap<>();
         cs.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
@@ -72,7 +73,7 @@ public class CargoControlle {
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> perfis(HttpServletRequest request) {       
+    public ResponseEntity<?> cargos(HttpServletRequest request) {       
         return ResponseEntity.ok(cs.buscarTodos(request));
     }
 }

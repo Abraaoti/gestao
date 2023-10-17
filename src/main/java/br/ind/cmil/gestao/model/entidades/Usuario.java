@@ -4,7 +4,6 @@ import br.ind.cmil.gestao.model.base.Entidade;
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -12,9 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -32,7 +29,6 @@ public class Usuario extends Entidade{
     private String nome;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-    // @JsonIgnore
     @Column(name = "senha", nullable = false)
     private String password;
     @Column(name = "data_cadastro")

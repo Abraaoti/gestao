@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class CargoMapper {
 
     public CargoDTO toDTO(Cargo c) {
-        if (c == null) {
+        if (c.getId() == null) {
             return null;
         }
         return new CargoDTO(c.getId(), c.getNome());

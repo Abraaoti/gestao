@@ -4,175 +4,173 @@
       layout:decorate="~{fragments/layout}">
     <head>
         <title>Cadastrar Funcionários</title>
-
     </head>
     <body>
-
-        <div layout:fragment="corpo">
-
-            <div class="d-flex justify-content-center">
-                <div class="col-md-10">
+        <div  layout:fragment="corpo">
 
 
-                    <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
+            <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-                    <form th:action="${funcionario.id == null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"  th:object="${funcionario}"	method="POST" class="was-validated ">
-                        <div class="mb-3 row">
-                            <label for="nome" class="col-sm-2 col-form-label">Nome</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="nome" name="nome">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="sobrenome">Sobrenome </label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome" required/>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="nascimento" >Nascimento</label> 
-                            <div class="col-sm-2">
-                                <input type="date" class="form-control " id="nascimento" th:field="*{nascimento}" required />
-                            </div>
-                        </div>
+            <form th:action="${funcionario.id == null} ? @{/funcionario/create} : @{/funcionario/editar}"  th:object="${funcionario}"	method="POST" class="was-validated ">
+                <div class="mb-3 row">
+                    <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{nome}" id="nome"  required/>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="sobrenome">Sobrenome </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome" required/>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="nascimento" >Nascimento</label> 
+                    <div class="col-sm-2">
+                        <input type="date" class="form-control " id="nascimento" th:field="*{nascimento}" required />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="mae"> Mãe </label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{mae}" id="mae"  />
 
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="mae"> Mãe </label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" th:field="*{mae}" id="mae"  />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="pai">Pai</label>  
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control "  th:field="*{pai}" id="pai"   />
 
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="pai">Pai</label>  
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control "  th:field="*{pai}" id="pai"   />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="naturalidade" >Naturalidade</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" th:field="*{naturalidade}" id="naturalidade"  />
 
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="naturalidade" >Naturalidade</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" th:field="*{naturalidade}" id="naturalidade"  />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="passaporte">Passaporte</label> 
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="passaporte"  th:field="*{passaporte}" required />
 
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="passaporte">Passaporte</label> 
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="passaporte"  th:field="*{passaporte}" required />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="cpf" >CPF</label> 
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control "  id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
+                               th:field="*{cpf}"  required maxlength="14" minlength="5" />
 
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="cpf" >CPF</label> 
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control "  id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
-                                       th:field="*{cpf}"  required maxlength="14" minlength="5" />
-
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="rg" >RG</label> 
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
-
-                            </div>
-                        </div>
-
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label"  for="cargos" >Cargo</label> 
-                            <div class="col-sm-3">
-                                <select class="form-select" th:field="*{cargo}" >
-                                    <option th:each="cargo : ${cargos}"   th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
-                                </select>  
-
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="departamento" >Departamento</label> 
-                            <div class="col-sm-3">
-                                <select class="form-select " th:field="*{departamento}">                               
-                                    <option selected th:each="departamento : ${departamentos}"   th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" /> 
-                                </select>
-
-                            </div>
-                        </div>
-
-
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="estado_civil">Estado Civil</label> 
-                            <div class="col-sm-3">
-                                <select class="form-select" th:field="*{estado_civil}" >
-                                    <option th:each="estado_civil : ${estadoCivil}" id="estado_civil"  th:value="${estado_civil}" th:text="${estado_civil}"   />
-                                </select>    
-
-                            </div>
-                        </div>
-
-
-                        <div class="mb-3 row">
-                            <label class="col-sm-2 col-form-label" for="genero">Genero</label> 
-                            <div class="col-sm-3">
-                                <select class="form-select"  th:field="*{genero}">
-                                    <option th:each="genero : ${generos}"  th:value="${genero}"  th:text="${genero}" id="genero" />
-                                </select> 
-
-                            </div>
-                        </div>
-
-
-                        <!--div th:include="fragments/endereco::endereco"></div>
-                                       <div th:include="fragments/contatos::contatos"></div-->
-
-                        <input type="hidden" th:field="*{id}"/>	
-
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary fas fa-save"/>
-                        </div>
-
-                    </form>
-
-                    <hr/>
-
-                    <h2>Lista de Funcionários</h2>
-
-                    <table id="funcionario" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nome </th>
-                                <th scope="col">Sobrenome</th>
-                                <th scope="col">Sobrenome</th>
-                                <th scope="col">Nascimento</th>                        
-                                <th scope="col">Matrícula</th>                      
-                                <th scope="col">CPF</th>
-                                <th scope="col">RG</th>
-                                <th scope="col">MÃE</th>
-                                <th scope="col">PAI</th>
-                                <th scope="col">GENERO</th>
-                                <th scope="col">ES</th>
-                                <th scope="col">NATURALIDADE</th>
-                                <th scope="col">ADMISSÃO</th>                               
-                                <th scope="col">FUNÇÃO</th>
-                                <th scope="col">Departamento</th>
-                                <th scope="col">editar</th>                                        
-                                <th scope="col">add endereço</th>
-                                <th scope="col">add telefone</th>                                      
-                                <th scope="col">Excluir</th>     
-
-
-                            </tr>
-                        </thead>
-                    </table>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="rg" >RG</label> 
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
+                    </div>
 
                 </div>
-            </div>
-        </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label"  for="lotacao" >Lotação</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select" th:field="*{lotacao}" >
+                            <option th:each="lotacao : ${lotacoes}"   th:value="${lotacao.id}" th:text="${lotacao.nome}" id="lotacao"  />
+                        </select>  
+
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label"  for="cargos" >Cargo</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select" th:field="*{cargo}" >
+                            <option th:each="cargo : ${cargos}"   th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
+                        </select>  
+
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="departamento" >Departamento</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select " th:field="*{departamento}">                               
+                            <option selected th:each="departamento : ${departamentos}"   th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" /> 
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label" for="estado_civil">Estado Civil</label> 
+                    <div class="col-sm-3">
+                        <select  th:field="*{estado_civil}" class="form-select">
+                            <option th:each="estado_civil : ${estadoCivil}" id="estado_civil"  th:value="${estado_civil}" th:text="${estado_civil}"   />
+                        </select>    
+
+                    </div>
+
+                </div>
+                <div class="mb-3 row">
+
+                    <label class="col-sm-2 col-form-label" for="genero">Genero</label> 
+                    <div class="col-sm-5">
+                        <select class="form-select "  th:field="*{genero}">
+                            <option th:each="genero : ${generos}"  th:value="${genero}" id="genero" th:text="${genero}"  />
+                        </select> 
+
+                    </div>
+                </div>
+
+
+                <!--div th:include="fragments/endereco::endereco"></div>
+                               <div th:include="fragments/contatos::contatos"></div-->
+
+                <input type="hidden" th:field="*{id}"/>	
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary mb-3">salvar</button>
+                </div>
+
+
+            </form>
+
+            <hr/>
+
+            <h2>Lista de Funcionários</h2>
+
+            <table id="funcionario" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome </th>
+                        <th scope="col">Sobrenome</th>
+                        <th scope="col">Sobrenome</th>
+                        <th scope="col">Nascimento</th>                        
+                        <th scope="col">Matrícula</th>                      
+                        <th scope="col">CPF</th>
+                        <th scope="col">RG</th>
+                        <th scope="col">MÃE</th>
+                        <th scope="col">PAI</th>
+                        <th scope="col">GENERO</th>
+                        <th scope="col">ES</th>
+                        <th scope="col">NATURALIDADE</th>
+                        <th scope="col">ADMISSÃO</th>                               
+                        <th scope="col">FUNÇÃO</th>
+                        <th scope="col">Departamento</th>
+                        <th scope="col">editar</th>                                        
+                        <th scope="col">add endereço</th>
+                        <th scope="col">add telefone</th>                                      
+                        <th scope="col">Excluir</th>     
+
+
+                    </tr>
+                </thead>
+            </table>
+
+
+        </div><!-- fim do conteudo funcionario -->
 
 
         <script  th:src="@{/js/funcionario.js}" th:fragment="js"></script>

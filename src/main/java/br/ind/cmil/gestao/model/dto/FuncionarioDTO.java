@@ -19,16 +19,16 @@ public class FuncionarioDTO extends PessoaFisicaDTO {
     private BigDecimal salario;
     private DepartamentoDTO departamento;
     private CargoDTO cargo;
-    private ProjetoDTO projeto;
+    private LotacaoDTO lotacao;
 
-    public FuncionarioDTO(LocalDate admissao, LocalDate demissao, BigDecimal salario, DepartamentoDTO departamento, CargoDTO cargo, ProjetoDTO projeto, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
+    public FuncionarioDTO(LocalDate admissao, LocalDate demissao, BigDecimal salario, DepartamentoDTO departamento, CargoDTO cargo, LotacaoDTO lotacao, String cpf, String rg, String mae, String pai, String passaporte, String genero, String estado_civil, String naturalidade, Long id, String nome, String sobrenome, Date nascimento) {
         super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, id, nome, sobrenome, nascimento);
         this.admissao = admissao;
         this.demissao = demissao;
         this.salario = salario;
         this.departamento = departamento;
         this.cargo = cargo;
-        this.projeto = projeto;
+        this.lotacao = lotacao;
     }
 
     public LocalDate getAdmissao() {
@@ -71,12 +71,12 @@ public class FuncionarioDTO extends PessoaFisicaDTO {
         this.cargo = cargo;
     }
 
-    public ProjetoDTO getProjeto() {
-        return projeto;
+    public LotacaoDTO getLotacao() {
+        return lotacao;
     }
 
-    public void setProjeto(ProjetoDTO projeto) {
-        this.projeto = projeto;
+    public void setLotacao(LotacaoDTO lotacao) {
+        this.lotacao = lotacao;
     }
 
     @Override
@@ -88,11 +88,12 @@ public class FuncionarioDTO extends PessoaFisicaDTO {
         sb.append(", salario=").append(salario);
         sb.append(", departamento=").append(departamento);
         sb.append(", cargo=").append(cargo);
-        sb.append(", projeto=").append(projeto);
+        sb.append(", lotacao=").append(lotacao);
         sb.append('}');
         return sb.toString();
     }
 
+   
    
 
 }

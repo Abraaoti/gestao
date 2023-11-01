@@ -16,13 +16,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IFuncionarioRepository extends JpaRepository<Funcionario, Long> {
 
-    @Query(value = "SELECT obj FROM Funcionario obj JOIN  obj.departmento  d INNER JOIN obj.projeto p  INNER JOIN obj.cargo c  ")
+    @Query(value = "SELECT obj FROM Funcionario obj JOIN  obj.departmento  d INNER JOIN obj.lotacao p  INNER JOIN obj.cargo c  ")
     List<Funcionario> searchAll();
 
-    @Query(value = "SELECT obj FROM Funcionario obj JOIN  obj.departmento d  INNER JOIN obj.projeto p INNER JOIN obj.cargo c   ",
-            countQuery = "SELECT COUNT(obj) FROM Funcionario obj JOIN obj.departmento d  INNER JOIN obj.projeto p INNER JOIN obj.cargo c  ")
+    @Query(value = "SELECT obj FROM Funcionario obj JOIN  obj.departmento d  INNER JOIN obj.lotacao p INNER JOIN obj.cargo c   ",
+            countQuery = "SELECT COUNT(obj) FROM Funcionario obj JOIN obj.departmento d  INNER JOIN obj.lotacao p INNER JOIN obj.cargo c  ")
     Page<Funcionario> searchAll(Pageable pageable);
-    @Query(value = "SELECT obj FROM Funcionario obj INNER JOIN obj.departmento d INNER JOIN obj.projeto p INNER JOIN obj.cargo c where obj.nome like :search% OR d.nome like :search%")
+    @Query(value = "SELECT obj FROM Funcionario obj INNER JOIN obj.departmento d INNER JOIN obj.lotacao p INNER JOIN obj.cargo c where obj.nome like :search% OR d.nome like :search%")
     Page<Funcionario> searchAll(String search, Pageable pageable);
     
     

@@ -25,42 +25,8 @@ public class PerfilMapper {
             return null;
         }
         Perfil p = new Perfil();
-        p.setTp(convertPerfilValue(dto.p()));
+        p.setTp(TipoPerfil.convertPerfilValue(dto.p()));
         return p;
     }
 
-    public TipoPerfil convertPerfilValue(String value) {
-        if (value == null) {
-            return null;
-        }
-        return switch (value) {
-            case "admin" ->
-                TipoPerfil.ADMIN;
-            case "administrador" ->
-                TipoPerfil.ADMINISTRADOR;
-            case "assistente" ->
-                TipoPerfil.ASSISTENTE;
-            case "auxiliar" ->
-                TipoPerfil.AUXILIAR;
-            case "comprador" ->
-                TipoPerfil.COMPRADOR;
-            case "diretor" ->
-                TipoPerfil.DIRETOR;
-            case "engenheiro" ->
-                TipoPerfil.ENGENHEIRO;
-            case "gerente" ->
-                TipoPerfil.GERENTE;
-            case "funcionário" ->
-                TipoPerfil.FUNCIONARIO;
-            case "líder" ->
-                TipoPerfil.LIDERFINANCEIRO;
-          
-            case "técnico" ->
-                TipoPerfil.TECNICO;
-            case "usuário" ->
-                TipoPerfil.USUARIO;
-            default ->
-                throw new IllegalArgumentException(" Perfil invalido " + value);
-        };
-    }
 }

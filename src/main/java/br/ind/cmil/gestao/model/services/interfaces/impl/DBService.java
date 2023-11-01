@@ -1,15 +1,19 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.model.dto.CargoDTO;
+import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
+import br.ind.cmil.gestao.model.dto.LotacaoDTO;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
+import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
+import br.ind.cmil.gestao.model.services.interfaces.LotacaoService;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +25,13 @@ import org.springframework.stereotype.Service;
 public class DBService {
 
     @Autowired
+    private LotacaoService ls;
+    @Autowired
+    private ICargoService cs;
+    @Autowired
+    private IDepartamentoService ds;
+    @Autowired
     private IPerfilService ps;
-
     @Autowired
     private IUsuarioService us;
 
@@ -46,10 +55,10 @@ public class DBService {
 
     }
 
-    public void instanciaBaseDeDados() throws MessagingException {
+    public void instanciaBaseDeUsuarios() throws MessagingException {
 
         List<String> administrador = new ArrayList<>();
-        
+
         List<String> assistente = new ArrayList<>();
         assistente.add("assistente");
         List<String> diretor = new ArrayList<>();
@@ -74,6 +83,45 @@ public class DBService {
 
         for (UsuarioRequest usuario : usuarios) {
             us.register(usuario);
+        }
+
+    }
+
+    public void instanciaBaseDepartamento() {
+        List<String> departamentos = new ArrayList<>();
+        departamentos.add("administrativo");
+        departamentos.add("compras");
+        departamentos.add("diretoria");
+        departamentos.add("financeiro");
+        departamentos.add("engenharia");
+        departamentos.add("rh");
+        for (int i = 0; i < departamentos.size(); i++) {
+            ds.create(new DepartamentoDTO(null, departamentos.get(i)));
+        }
+    }
+
+    public void instanciaBaseLotacao() {
+        List<String> lotacoes = new ArrayList<>();
+        lotacoes.add("amt");
+        lotacoes.add("continuado");
+        lotacoes.add("sede");
+        lotacoes.add("unigal");
+        for (int i = 0; i < lotacoes.size(); i++) {
+            ls.save(new LotacaoDTO(null, lotacoes.get(i)));
+        }
+
+    }
+
+    public void instanciaBaseCargos() {
+        List<String> cargos = new ArrayList<>();
+        cargos.add("administrador");
+        cargos.add("analista de pessoas");
+        cargos.add("comprador");
+        cargos.add("diretor");
+        cargos.add("engenheiro");
+        cargos.add("tst");
+        for (int i = 0; i < cargos.size(); i++) {
+            cs.create(new CargoDTO(null, cargos.get(i)));
         }
 
     }

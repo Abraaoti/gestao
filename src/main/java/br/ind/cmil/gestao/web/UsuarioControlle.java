@@ -1,12 +1,12 @@
 package br.ind.cmil.gestao.web;
 
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
-import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
 import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
+import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
 import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
 import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
@@ -47,7 +47,6 @@ public class UsuarioControlle {
 
     private final IUsuarioService service;
     private final IPerfilService perfil;
-    private final PerfilMapper perfilMapper;
     private final IAdministradorService ds;
     private final IAssistenteAdministrativoService assistenteService;
     private final IAuxiliarAdministrativoService auxiliarService;
@@ -150,11 +149,11 @@ public class UsuarioControlle {
     @GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
     public ModelAndView buscarDadosPorUsuarioIdEPerfilId(Model model, @PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
         UsuarioRequest us = service.preEditarCadastroDadosPessoais(usuarioId, perfisId);
-        if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("admin"))) && us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("administrador")))) {
+        if (us.perfis().contains(new Perfil(TipoPerfil.convertPerfilValue("admin"))) && us.perfis().contains(new Perfil(TipoPerfil.convertPerfilValue("administrador")))) {
             model.addAttribute("usuario", us);
             model.addAttribute("perfis", perfil.perfis());
             return new ModelAndView("usuario/cadastro");
-        } else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("administrador")))) {
+        } else if (us.perfis().contains(new Perfil(TipoPerfil.convertPerfilValue("administrador")))) {
             Administrador administrador = ds.buscarPorUsuarioId(usuarioId);
 
             model.addAttribute("usuario", us);
@@ -163,7 +162,7 @@ public class UsuarioControlle {
                     : new ModelAndView("administrador/cadastro", "administrador", administrador);
 
         }
-        else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("assistente")))) {
+        else if (us.perfis().contains(new Perfil(TipoPerfil.convertPerfilValue("assistente")))) {
             AssistenteAdministrativo administrador = assistenteService.buscarPorUsuarioId(usuarioId);
 
             model.addAttribute("usuario", us);
@@ -172,7 +171,7 @@ public class UsuarioControlle {
                     : new ModelAndView("assistente/assistente", "assistente", administrador);
 
         }
-        else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("auxiliar")))) {
+        else if (us.perfis().contains(new Perfil(TipoPerfil.convertPerfilValue("auxiliar")))) {
             AuxiliarAdministrativo auxiliar = auxiliarService.buscarPorUsuarioId(usuarioId);
 
             model.addAttribute("usuario", us);
@@ -181,7 +180,7 @@ public class UsuarioControlle {
                     : new ModelAndView("assistente/assistente", "assistente", auxiliar);
 
         }
-        else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("usuário")))) {
+        else if (us.perfis().contains(new Perfil(TipoPerfil.convertPerfilValue("usuário")))) {
 
             model.addAttribute("status", 403);
             model.addAttribute("error", "Área Restrita");

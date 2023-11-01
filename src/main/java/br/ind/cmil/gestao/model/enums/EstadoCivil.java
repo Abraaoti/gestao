@@ -21,4 +21,22 @@ public enum EstadoCivil {
     public String toString() {
         return "EC{" + "value=" + value + '}';
     }
+    
+      public static EstadoCivil findTipo(String value) {
+        if (value == null) {
+            return null;
+        }
+        return switch (value) {
+            case "solteiro(a)" ->
+                EstadoCivil.SOLTEIRO;
+            case "casado(a)" ->
+                EstadoCivil.CASADO;
+            case "divorciado(a)" ->
+                EstadoCivil.DIVORCIADO;
+            case "viúva(o)" ->
+                EstadoCivil.VIUVA;
+            default ->
+                throw new IllegalArgumentException(" Estado civil invalido " + value);
+        };
+    }
 }

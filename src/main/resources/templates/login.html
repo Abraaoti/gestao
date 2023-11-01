@@ -11,12 +11,12 @@
         <section  layout:fragment="corpo">
 
             <form class="form-signin was-validated" method="post" th:action="@{/login}">
-                <div class="text-center mb-4">
+                <div class="text-center mb-5">
                     <!--img class="mb-4" th:src="@{/image/registration.jpg}" alt="" width="72" height="72"/-->
-                    <h1 class="h3 mb-3 font-weight-normal">Logar no sistema</h1>
+                    <!--h1 class="h3 mb-3 font-weight-normal">gestão de pessoais</h1-->
 
-                    <p class="font-weight-lighter">Seja bem-vindo.</p>
-                    <p class="text-muted">Realize seu login para continuar</p>					
+                    <!--p class="font-weight-lighter">Seja bem-vindo.</p-->
+                    <!--p class="text-muted">Realize seu login para continuar</p-->					
                     <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
                          role="alert">
                         <h4 th:text="${titulo}" class="alert-heading">Credenciais...</h4>
@@ -40,18 +40,18 @@
                     <div class="invalid-feedback">Digite sua senha.</div>	
                 </div>
 
-                <div class="checkbox mb-3">
+                <!--div class="checkbox mb-3">
                     <label> <input type="checkbox" value="remember-me">
                         Remember me
                     </label>
-                </div>
+                </div-->
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
                 <hr>
-                <nav class="nav nav-pills flex-column flex-sm-row">
+                <!--nav class="nav nav-pills flex-column flex-sm-row">
                     <a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/u/novo/cadastro}"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;Novo cadastro</a>
                     <a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/u/p/redefinir/senha}"><i class="fas fa-key"></i>&nbsp;Recuperar senha</a>
 
-                </nav>
+                </nav-->
 
             </form>
 

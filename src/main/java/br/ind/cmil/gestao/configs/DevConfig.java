@@ -33,7 +33,7 @@ public class DevConfig {
 
     @Bean
     public void instaciaBaseDeDados() throws MessagingException {
-        this.dbService.instanciaBaseDeDados();
+        this.dbService.instanciaBaseDeUsuarios();
 
     }
 

@@ -21,4 +21,19 @@ public enum Genero {
     public String toString() {
         return "GeneroEnum{" + "value=" + value + '}';
     }
+     public static Genero convertGeneroValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        return switch (value) {
+            case "feminino" ->
+                Genero.FEMININO;
+            case "masculino" ->
+                Genero.MASCULINO;
+            case "outros" ->
+                Genero.OUTROS;
+            default ->
+                throw new IllegalArgumentException(" Genero invalido " + value);
+        };
+    }
 }

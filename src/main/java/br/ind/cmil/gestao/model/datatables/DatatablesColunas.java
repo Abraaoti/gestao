@@ -48,5 +48,6 @@ public class DatatablesColunas {
     //public static final String[] IMOBILIZADO;
     public static String[] AUXILIARADMINISTRATIVO;
     public static String[] ASSISTENTEADMINISTRATIVO;
+    public static String[] LOTACAO = {"id", "nome"};
 
 }

@@ -23,10 +23,25 @@ public class TestConfig {
         this.dbService.instanciaBaseDePerfis();
 
     }
+    @Bean
+    public void instaciaBaseDepartamento() {
+        this.dbService.instanciaBaseDepartamento();
+
+    }
+    @Bean
+    public void instaciaBaseDeCargos() {
+        this.dbService.instanciaBaseCargos();
+
+    }
+    @Bean
+    public void instaciaBaseDeLotacao() {
+        this.dbService.instanciaBaseLotacao();
+
+    }
 
     @Bean
-    public void instaciaBaseDeDados() throws MessagingException {
-        this.dbService.instanciaBaseDeDados();
+    public void instaciaBaseDeUsuarios() throws MessagingException {
+        this.dbService.instanciaBaseDeUsuarios();
 
     }
 }

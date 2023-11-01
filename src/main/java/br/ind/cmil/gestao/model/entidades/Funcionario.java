@@ -41,23 +41,23 @@ public class Funcionario extends PessoaFisica {
     @JoinColumn(name = "rh_id")
     private RH rh;
     @ManyToOne
-    @JoinColumn(name = "projeto_id")
-    private Projeto projeto;
+    @JoinColumn(name = "lotacao_id")
+    private Lotacao lotacao;
 
     public Funcionario() {
     }
 
-    public Funcionario(LocalDate admissao, Departamento departmento, Cargo cargo, LocalDate demissao, BigDecimal salario, RH rh, Projeto projeto) {
+    public Funcionario(LocalDate admissao, Departamento departmento, Cargo cargo, LocalDate demissao, BigDecimal salario, RH rh, Lotacao lotacao) {
         this.admissao = admissao;
         this.departmento = departmento;
         this.cargo = cargo;
         this.demissao = demissao;
         this.salario = salario;
         this.rh = rh;
-        this.projeto = projeto;
+        this.lotacao = lotacao;
     }
 
-    public Funcionario(LocalDate admissao, Departamento departmento, Cargo cargo, LocalDate demissao, BigDecimal salario, RH rh, Projeto projeto, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade) {
+    public Funcionario(LocalDate admissao, Departamento departmento, Cargo cargo, LocalDate demissao, BigDecimal salario, RH rh, Lotacao lotacao, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade) {
         super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade);
         this.admissao = admissao;
         this.departmento = departmento;
@@ -65,10 +65,10 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
         this.salario = salario;
         this.rh = rh;
-        this.projeto = projeto;
+        this.lotacao = lotacao;
     }
 
-    public Funcionario(LocalDate admissao, Departamento departmento, Cargo cargo, LocalDate demissao, BigDecimal salario, RH rh, Projeto projeto, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento, Endereco endereco) {
+    public Funcionario(LocalDate admissao, Departamento departmento, Cargo cargo, LocalDate demissao, BigDecimal salario, RH rh, Lotacao lotacao, String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento, Endereco endereco) {
         super(cpf, rg, mae, pai, passaporte, genero, estado_civil, naturalidade, nome, sobrenome, nascimento, endereco);
         this.admissao = admissao;
         this.departmento = departmento;
@@ -76,7 +76,7 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
         this.salario = salario;
         this.rh = rh;
-        this.projeto = projeto;
+        this.lotacao = lotacao;
     }
 
     public LocalDate getAdmissao() {
@@ -127,12 +127,12 @@ public class Funcionario extends PessoaFisica {
         this.rh = rh;
     }
 
-    public Projeto getProjeto() {
-        return projeto;
+    public Lotacao getLotacao() {
+        return lotacao;
     }
 
-    public void setProjeto(Projeto projeto) {
-        this.projeto = projeto;
+    public void setLotacao(Lotacao lotacao) {
+        this.lotacao = lotacao;
     }
 
     @Override
@@ -145,13 +145,12 @@ public class Funcionario extends PessoaFisica {
         sb.append(", demissao=").append(demissao);
         sb.append(", salario=").append(salario);
         sb.append(", rh=").append(rh);
-        sb.append(", projeto=").append(projeto);
+        sb.append(", lotacao=").append(lotacao);
         sb.append('}');
         return sb.toString();
     }
 
-   
-
+    
    
 
 }

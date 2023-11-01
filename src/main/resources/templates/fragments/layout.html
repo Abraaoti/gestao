@@ -82,9 +82,10 @@
 
 
                 <div layout:fragment="corpo">
-                </div>
-            </div>
-        </div>
+                </div><!-- fim do conteúdo principal -->
+            </div><!-- fim do contet -->
+        </div><!-- fim da wrapper -->
+        
         <div th:replace="~{fragments/footer :: rodape}" sec:authorize="!isAuthenticated()">
             <div>footer</div>
         </div>

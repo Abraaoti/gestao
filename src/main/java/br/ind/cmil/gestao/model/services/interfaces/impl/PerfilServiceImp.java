@@ -6,6 +6,7 @@ import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.entidades.Perfil;
+import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,7 +50,7 @@ public class PerfilServiceImp implements IPerfilService {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.PERFIL);
         Page<Perfil> page = datatables.getSearch().isEmpty() ? pr.findAll(datatables.getPageable())
-                : pr.findAllByPerfil(pm.convertPerfilValue(datatables.getSearch()), datatables.getPageable());
+                : pr.findAllByPerfil(TipoPerfil.convertPerfilValue(datatables.getSearch()), datatables.getPageable());
         return datatables.getResponse(page);
     }
 
@@ -86,7 +87,7 @@ public class PerfilServiceImp implements IPerfilService {
     public PerfilDTO update(PerfilDTO p) {
         return pr.findById(p.id())
                 .map(recordFound -> {
-                    recordFound.setTp(pm.convertPerfilValue(p.p()));
+                    recordFound.setTp(TipoPerfil.convertPerfilValue(p.p()));
                     return pm.toDTO(pr.save(recordFound));
                 }).orElseThrow(() -> new PerfilExistenteException(String.valueOf(p.id()), "Este id não consta no bd! "));
     }
@@ -100,17 +101,17 @@ public class PerfilServiceImp implements IPerfilService {
     @Override
     @Transactional(readOnly = true)
     public PerfilDTO buscarPerfilPorNome(String name) {
-        return pr.findByTipoPerfil(pm.convertPerfilValue(name)).map(pm::toDTO).get();
+        return pr.findByTipoPerfil(TipoPerfil.convertPerfilValue(name)).map(pm::toDTO).get();
     }
 
     @Override
     @Transactional(readOnly = false)
     public boolean checkIfPerfilExist(String name) {
-        return pr.findByTipoPerfil(pm.convertPerfilValue(name)) != null;
+        return pr.findByTipoPerfil(TipoPerfil.convertPerfilValue(name)) != null;
     }
 
     private void validarPerfil(PerfilDTO p) {
-        Optional<Perfil> perfil = pr.findByTipoPerfil(pm.convertPerfilValue(p.p()));
+        Optional<Perfil> perfil = pr.findByTipoPerfil(TipoPerfil.convertPerfilValue(p.p()));
         if (perfil.isPresent() && !Objects.equals(perfil.get().getId(), p.id())) {
             throw new DataIntegrityViolationException("Perfil já cadastro no sistema!");
         }
@@ -123,10 +124,10 @@ public class PerfilServiceImp implements IPerfilService {
         List<Perfil> perfis = new ArrayList<>();
 
         if (roles.isEmpty()) {
-            perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue("usuário")).get());
+            perfis.add(pr.findByTipoPerfil(TipoPerfil.convertPerfilValue("usuário")).get());
         } else {
             for (String string : roles) {
-                perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue(string)).get());
+                perfis.add(pr.findByTipoPerfil(TipoPerfil.convertPerfilValue(string)).get());
             }
         }
         return perfis;
@@ -151,7 +152,7 @@ public class PerfilServiceImp implements IPerfilService {
     @Transactional(readOnly = true)
     public Boolean atualizarPerfisEUsuarios(List<String> roles) {
 
-        if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil(pm.convertPerfilValue("admin")), new Perfil(pm.convertPerfilValue("usuário")))) || roles.containsAll(Arrays.asList(new Perfil(pm.convertPerfilValue("administrador")), new Perfil(pm.convertPerfilValue("usuário"))))) {
+        if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil(TipoPerfil.convertPerfilValue("admin")), new Perfil(TipoPerfil.convertPerfilValue("usuário")))) || roles.containsAll(Arrays.asList(new Perfil(TipoPerfil.convertPerfilValue("administrador")), new Perfil(TipoPerfil.convertPerfilValue("usuário"))))) {
             throw new DataIntegrityViolationException("usuário não pode ser Admin e/ou administrador.");
         }
         return false;
@@ -161,7 +162,7 @@ public class PerfilServiceImp implements IPerfilService {
     public Set<Perfil> perfisVazio(Set<String> strings) {
         Set<Perfil> perfis = new HashSet<>();
         if (strings == null) {
-            perfis.add(pr.findByTipoPerfil(pm.convertPerfilValue("usuário")).get());
+            perfis.add(pr.findByTipoPerfil(TipoPerfil.convertPerfilValue("usuário")).get());
         }
 
         return perfis;
@@ -172,16 +173,16 @@ public class PerfilServiceImp implements IPerfilService {
         Perfil t = pr.findByTipoPerfil(tipo.getTp()).get();
         Perfil p = new Perfil();
         if (t.getTp().getValue() == null) {
-            p.setTp(pm.convertPerfilValue("usuário"));
+            p.setTp(TipoPerfil.convertPerfilValue("usuário"));
         } else {
-            p.setTp(pm.convertPerfilValue(t.getTp().getValue()));
+            p.setTp(TipoPerfil.convertPerfilValue(t.getTp().getValue()));
         }
     }
 
     @Override
     @Transactional(readOnly = true)
     public String tipoPerfil(String tipo) {
-        Perfil perfil = pr.findByTipoPerfil(pm.convertPerfilValue(tipo)).get();
+        Perfil perfil = pr.findByTipoPerfil(TipoPerfil.convertPerfilValue(tipo)).get();
         return perfil.getTp().getValue();
 
     }

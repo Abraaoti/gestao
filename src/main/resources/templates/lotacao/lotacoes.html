@@ -3,7 +3,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
     <head>
-        <title>Cadastrar Perfil</title> 
+        <title>Lista de Perfis</title>    
+
+
+
     </head>
     <body>
         <div  layout:fragment="corpo">
@@ -11,26 +14,11 @@
             <div class="album py-5 bg-light">
 
                 <div class="d-flex justify-content-center">
-                    <div class="col-md-12">
+                    <div class="col-md-10">
 
-                        <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
-                        <h2>Cadastrar perfil</h2>
-                        <form th:action="${perfil.id == null} ? @{/perfis/salvar} : @{/perfis/editar}"  th:object="${perfil}" method="POST" class="was-validated row g-3">
-                            <div class="col-auto">
-                                <label for="p" class="staticEmail2">nome </label>                               
-                                <input type="text" class="form-control"   th:field="*{p}" id="p"  required/>
-                                <div class="invalid-feedback">nome  é requerido.</div>
-
-                            </div>
-                            <input type="hidden" name="id" th:field="*{id}">
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-primary mb-3">Salvar</button>
-                            </div>
-                        </form>
+                        <h2>Lista de Perfil</h2>
 
                         <h2>Perfis</h2>
-
-
                         <table id="table-perfil"  class="table table-sm table-striped table-bordered nowrap" style="width: 100%">
                             <thead class="thead-dark">
                                 <tr>

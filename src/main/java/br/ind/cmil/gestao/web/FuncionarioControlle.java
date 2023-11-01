@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
+import br.ind.cmil.gestao.model.services.interfaces.LotacaoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,14 +43,16 @@ public class FuncionarioControlle {
     private final IFuncionarioService fs;
     private final IDepartamentoService ds;
     private final ICargoService cs;
+    private final LotacaoService ls;
 
     @GetMapping("/add")
-    public String form(Model model,FuncionarioDTO funcionario) {
+    public String form(Model model, FuncionarioDTO funcionario) {
         model.addAttribute("funcionario", funcionario);
         model.addAttribute("departamentos", ds.lista());
-        model.addAttribute("cargos",cs.lista());
+        model.addAttribute("cargos", cs.lista());
         model.addAttribute("estadoCivil", getEstadoCivil());
         model.addAttribute("generos", getGeneros());
+        model.addAttribute("lotacoes", ls.lista());
         return "rh/funcionarios/funcionario";
     }
 
@@ -117,13 +120,13 @@ public class FuncionarioControlle {
         return ec;
     }
 
-
     @GetMapping("/editar/{id}")
     public String editar(Model model, @PathVariable("id") Long id) {
         model.addAttribute("funcionario", fs.findById(id));
         model.addAttribute("departamentos", ds.lista());
         model.addAttribute("estadoCivil", getEstadoCivil());
         model.addAttribute("generos", getGeneros());
+        model.addAttribute("lotacoes", ls.lista());
         return "rh/funcinarios/funcionario";
     }
 

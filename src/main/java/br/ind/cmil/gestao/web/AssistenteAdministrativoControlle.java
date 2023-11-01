@@ -1,7 +1,11 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
+import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
+import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
+import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
+import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AssistenteAdministrativoControlle {
 
     private final IAssistenteAdministrativoService as;
+    private final IUsuarioService usuarioService;
 
     @GetMapping("/lista")
     public String list() {
@@ -38,21 +43,28 @@ public class AssistenteAdministrativoControlle {
     }
 
     @GetMapping("/dados")
-    public String form(AssistenteAdministrativoDTO assistente, Model model, @AuthenticationPrincipal User user) {
-      
-        model.addAttribute("assistente", as.form(assistente, user));
+    public String form(AssistenteAdministrativo assistente, Model model, @AuthenticationPrincipal User user) {
+        if (assistente.getId() == null) {
+            assistente = as.buscarPorEmail(user.getUsername());
+            model.addAttribute("assistente", assistente);
+        }
         return "assistente/assistente";
     }
 
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute AssistenteAdministrativoDTO assisntente, RedirectAttributes redir) {
-        as.create(assisntente);
+    public ModelAndView save(@ModelAttribute AssistenteAdministrativo assistente, RedirectAttributes redir, @AuthenticationPrincipal User user) {
+        UsuarioMapper um = new UsuarioMapper();
+        if (assistente.getId() == null && assistente.getUsuario().getId() == null) {
+            Usuario usuario = um.toEntity(usuarioService.buscarPorEmail(user.getUsername()));
+            assistente.setUsuario(usuario);
+        }
+        as.create(assistente);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/assisnte/dados");
+        return new ModelAndView("redirect:/assistente/dados");
     }
 
     @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute AssistenteAdministrativoDTO a, RedirectAttributes redir) {
+    public ModelAndView update(@ModelAttribute AssistenteAdministrativo a, RedirectAttributes redir) {
         as.create(a);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/assistente/dados");
@@ -61,7 +73,7 @@ public class AssistenteAdministrativoControlle {
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
-        model.addAttribute("assistente", as.findById(id));
+        model.addAttribute("assistente", as.buscarPorUsuarioId(id));
         return "assistente/assistente";
     }
 
@@ -74,7 +86,7 @@ public class AssistenteAdministrativoControlle {
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> assisntes(HttpServletRequest request) {       
+    public ResponseEntity<?> assisntes(HttpServletRequest request) {
         return ResponseEntity.ok(as.assistentes(request));
     }
 }

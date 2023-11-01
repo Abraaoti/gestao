@@ -31,4 +31,7 @@ public interface IAssistenteAdministrativoRepository extends JpaRepository<Assis
     @Query("select obj from AssistenteAdministrativo obj INNER JOIN  obj.usuario u where u.nome =:nome OR u.email =:email")
     Optional<AssistenteAdministrativo> findByUsuarioNomeOrEmail(String nome, String email);
 
+    @Query("select m from AssistenteAdministrativo m where m.usuario.email like :email")
+    Optional<AssistenteAdministrativo> findByUsuarioEmail(String email);
+
 }

@@ -2,17 +2,14 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
 import br.ind.cmil.gestao.model.dto.mappers.AssistenteAdministrativoMapper;
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
-import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.repositorys.IAssistenteAdministrativoRepository;
 import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,23 +30,21 @@ public class AssistenteAdministrativoServiceImp implements IAssistenteAdministra
         this.datatables = datatables;
     }
 
-    
-
     @Override
-    public AssistenteAdministrativoDTO findById(Long id) {
-        return ar.findById(id).map(am::toDTO).get();
+    public AssistenteAdministrativo buscarPorUsuarioId(Long id) {
+        return ar.findById(id).get();
     }
 
     @Override
-    public void create(AssistenteAdministrativoDTO a) {
-        if (a.id() == null) {
-            ar.save(am.toEntity(a));
+    public void create(AssistenteAdministrativo a) {
+        if (a.getId() == null) {
+            ar.save(a);
         }
         update(a);
     }
 
-    private AssistenteAdministrativoDTO update(AssistenteAdministrativoDTO a) {
-        return ar.findById(a.id()).map(am::toDTO).get();
+    private AssistenteAdministrativo update(AssistenteAdministrativo a) {
+        return ar.findById(a.getId()).get();
     }
 
     @Override
@@ -70,23 +65,8 @@ public class AssistenteAdministrativoServiceImp implements IAssistenteAdministra
     }
 
     @Override
-    public AssistenteAdministrativoDTO buscarPorUsuarioId(Long id) {
-        return ar.findById(id).map(am::toDTO).get();
-    }
-
-    @Override
-    public AssistenteAdministrativoDTO buscarPorEmail(String email) {
-        return ar.findByUsuarioNomeOrEmail(email, email).map(am::toDTO).get();
-    }
-
-    @Override
-    public AssistenteAdministrativoDTO form(AssistenteAdministrativoDTO assistente, User user) {
-        if (assistente.id() != null) {           
-              System.out.println("\nO que temos?");
-            return ar.findByUsuarioNomeOrEmail(user.getUsername(),user.getUsername()).map(am::toDTO).get();
-            
-        }
-        return assistente;
+    public AssistenteAdministrativo buscarPorEmail(String email) {
+        return ar.findByUsuarioNomeOrEmail(email, email).orElse(new AssistenteAdministrativo());
     }
 
 }

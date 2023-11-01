@@ -1,11 +1,15 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.entidades.Administrador;
+import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
+import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
+import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
+import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
 import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
@@ -43,10 +47,13 @@ public class UsuarioControlle {
 
     private final IUsuarioService service;
     private final IPerfilService perfil;
+    private final PerfilMapper perfilMapper;
     private final IAdministradorService ds;
+    private final IAssistenteAdministrativoService assistenteService;
+    private final IAuxiliarAdministrativoService auxiliarService;
 
     @GetMapping("/add")
-    public String add(Model model,UsuarioRequest request) {
+    public String add(Model model, UsuarioRequest request) {
 
         model.addAttribute("usuario", request);
         model.addAttribute("perfis", perfil.perfis());
@@ -143,19 +150,38 @@ public class UsuarioControlle {
     @GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
     public ModelAndView buscarDadosPorUsuarioIdEPerfilId(Model model, @PathVariable("id") Long usuarioId, @PathVariable("perfis") Long[] perfisId) {
         UsuarioRequest us = service.preEditarCadastroDadosPessoais(usuarioId, perfisId);
-        if (us.perfis().contains(new Perfil(perfil.tipoPerfil("admin"))) && us.perfis().contains(new Perfil(perfil.tipoPerfil("administrador")))) {
+        if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("admin"))) && us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("administrador")))) {
             model.addAttribute("usuario", us);
             model.addAttribute("perfis", perfil.perfis());
             return new ModelAndView("usuario/cadastro");
-        } else if (us.perfis().contains(new Perfil(perfil.tipoPerfil("administrador")))) {
-            AdministradorDTO administrador = ds.buscarPorUsuarioId(usuarioId);
+        } else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("administrador")))) {
+            Administrador administrador = ds.buscarPorUsuarioId(usuarioId);
 
             model.addAttribute("usuario", us);
             model.addAttribute("perfis", perfil.perfis());
-            return (administrador.id() == null) ? new ModelAndView("administrador/cadastro", "administrador", new Administrador(new Usuario(usuarioId)))
+            return (administrador.getId() == null) ? new ModelAndView("administrador/cadastro", "administrador", new Administrador(new Usuario(usuarioId)))
                     : new ModelAndView("administrador/cadastro", "administrador", administrador);
 
-        } else if (us.perfis().contains(new Perfil(perfil.tipoPerfil("usuário")))) {
+        }
+        else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("assistente")))) {
+            AssistenteAdministrativo administrador = assistenteService.buscarPorUsuarioId(usuarioId);
+
+            model.addAttribute("usuario", us);
+            model.addAttribute("perfis", perfil.perfis());
+            return (administrador.getId() == null) ? new ModelAndView("assistente/assistente", "assistente", new AssistenteAdministrativo(new Usuario(usuarioId)))
+                    : new ModelAndView("assistente/assistente", "assistente", administrador);
+
+        }
+        else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("auxiliar")))) {
+            AuxiliarAdministrativo auxiliar = auxiliarService.buscarPorUsuarioId(usuarioId);
+
+            model.addAttribute("usuario", us);
+            model.addAttribute("perfis", perfil.perfis());
+            return (auxiliar.getId() == null) ? new ModelAndView("assistente/assistente", "assistente", new AssistenteAdministrativo(new Usuario(usuarioId)))
+                    : new ModelAndView("assistente/assistente", "assistente", auxiliar);
+
+        }
+        else if (us.perfis().contains(new Perfil(perfilMapper.convertPerfilValue("usuário")))) {
 
             model.addAttribute("status", 403);
             model.addAttribute("error", "Área Restrita");

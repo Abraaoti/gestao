@@ -2,7 +2,6 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
 import br.ind.cmil.gestao.model.dto.mappers.AdministradorMapper;
 import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.repositorys.IAdministradorRepository;
@@ -11,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,21 +32,15 @@ public class AdministradorServiceImp implements IAdministradorService {
 
     @Override
     @Transactional(readOnly = false)
-    public AdministradorDTO findById(Long id) {
-        return ar.findById(id).map(am::toDTO).get();
-    }
-
-    @Override
-    @Transactional(readOnly = false)
-    public void create(AdministradorDTO a) {
-        if (a.id() == null) {
-            ar.save(am.toEntity(a));
+    public void salvar(Administrador administrador) {
+        if (administrador.getId() == null) {
+            ar.save(administrador);
         }
-        update(a);
+        update(administrador);
     }
 
-    private AdministradorDTO update(AdministradorDTO a) {
-        return ar.findById(a.id()).map(am::toDTO).get();
+    private Administrador update(Administrador a) {
+        return ar.findById(a.getId()).get();
     }
 
     @Override
@@ -71,23 +63,14 @@ public class AdministradorServiceImp implements IAdministradorService {
 
     @Override
     @Transactional(readOnly = true)
-    public AdministradorDTO buscarPorUsuarioId(Long id) {
-        return ar.findById(id).map(am::toDTO).get();
+    public Administrador buscarPorUsuarioId(Long id) {
+        return ar.findById(id).orElse(new Administrador());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public AdministradorDTO buscarPorEmail(String email) {
-        return ar.findByUsuarioEmail(email, email).map(am::toDTO).get();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public AdministradorDTO form(AdministradorDTO administrador, User user) {
-        if (administrador.id() != null) {
-            return ar.findByUsuarioEmail(user.getUsername(), user.getUsername()).map(am::toDTO).get();
-        }
-        return administrador;
+    public Administrador buscarPorEmail(String email) {
+        return ar.findByUsuarioEmail(email, email).orElse(new Administrador());
     }
 
 }

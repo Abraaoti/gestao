@@ -4,6 +4,7 @@
       layout:decorate="~{fragments/layout}">
     <head>
         <meta charset="UTF-8" />
+        <title>Dados Cadastrais</title>
     </head>
     <body>
 
@@ -37,7 +38,7 @@
                                 </div>
                             </div>
 
-                            <input type="hidden"  th:field="*{usuario}">
+                            <input type="hidden"  th:field="*{usuario.id}">
 
                             <input type="hidden" name="id" th:field="*{id}">
 

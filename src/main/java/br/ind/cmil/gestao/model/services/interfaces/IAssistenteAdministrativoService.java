@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
-import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
+import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,13 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IAssistenteAdministrativoService {
 
     @Transactional(readOnly = false)
-    void create(AssistenteAdministrativoDTO a);
+    void create(AssistenteAdministrativo a);
 
-    @Transactional(readOnly = true)
-    AssistenteAdministrativoDTO findById(Long id);
-
-    @Transactional(readOnly = true)
-    AssistenteAdministrativoDTO form(AssistenteAdministrativoDTO assistente, @AuthenticationPrincipal User user);
+   
 
     @Transactional(readOnly = true)
     Map<String, Object> assistentes(HttpServletRequest request);
@@ -30,9 +25,9 @@ public interface IAssistenteAdministrativoService {
     void delete(Long id);
 
     @Transactional(readOnly = true)
-    AssistenteAdministrativoDTO buscarPorUsuarioId(Long id);
+    AssistenteAdministrativo buscarPorUsuarioId(Long id);
 
     @Transactional(readOnly = true)
-    AssistenteAdministrativoDTO buscarPorEmail(String email);
+    AssistenteAdministrativo buscarPorEmail(String email);
 
 }

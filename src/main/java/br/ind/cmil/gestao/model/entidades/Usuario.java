@@ -55,6 +55,10 @@ public class Usuario extends Entidade{
         super.setId(id);
     }
 
+    public Usuario(String nome) {
+        this.nome = nome;
+    }
+
     public Usuario(String nome, String email, String password, LocalDateTime dataCadastro, LocalDateTime updatedAt, boolean ativo, String verificador) {
         this.nome = nome;
         this.email = email;

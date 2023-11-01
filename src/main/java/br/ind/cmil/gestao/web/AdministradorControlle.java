@@ -1,7 +1,10 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
+import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
+import br.ind.cmil.gestao.model.entidades.Administrador;
+import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
+import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +35,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("administrador")
 public class AdministradorControlle {
 
-    private final IAdministradorService as;
+    private final IAdministradorService administradorService;
+    private final IUsuarioService usuarioService;
 
     @GetMapping("/lista")
     public String list() {
@@ -40,21 +44,31 @@ public class AdministradorControlle {
     }
 
     @GetMapping("/dados")
-    public String form(AdministradorDTO administrador, Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("administrador", as.form(administrador, user));
+    public String form(Administrador administrador, Model model, @AuthenticationPrincipal User user) {
+        if (administrador.getId() == null) {
+            administrador = administradorService.buscarPorEmail(user.getUsername());
+            model.addAttribute("administrador", administrador);
+        }
+
         return "administrador/cadastro";
     }
 
-    @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute AdministradorDTO c, RedirectAttributes redir) {
-        as.create(c);
+    @PostMapping("/salvar")
+    public ModelAndView save(@ModelAttribute Administrador administrador, @AuthenticationPrincipal User user, RedirectAttributes redir) {
+        UsuarioMapper usuarioMapper = new UsuarioMapper();
+        if (administrador.getId() == null && administrador.getUsuario().getId() == null) {
+            Usuario usuario = usuarioMapper.toEntity(usuarioService.buscarPorEmail(user.getUsername()));
+            administrador.setUsuario(usuario);
+        }
+        administradorService.salvar(administrador);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
+        redir.addFlashAttribute("administrador", administrador);
         return new ModelAndView("redirect:/administrador/dados");
     }
 
-    @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute AdministradorDTO a, RedirectAttributes redir) {
-        as.create(a);
+    @PutMapping("/editar")
+    public ModelAndView update(@ModelAttribute Administrador a, RedirectAttributes redir) {
+        administradorService.salvar(a);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/administrador/dados");
     }
@@ -62,20 +76,20 @@ public class AdministradorControlle {
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
-        model.addAttribute("administrador", as.findById(id));
+        model.addAttribute("administrador", administradorService.buscarPorUsuarioId(id));
         return "administrador/cadastro";
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView excluir(@PathVariable("id") Long id) {
         Map<String, Object> model = new HashMap<>();
-        as.delete(id);
+        administradorService.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
         return new ModelAndView("administrador/administradores", model);
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> administradores(HttpServletRequest request) {       
-        return ResponseEntity.ok(as.administradores(request));
+    public ResponseEntity<?> administradores(HttpServletRequest request) {
+        return ResponseEntity.ok(administradorService.administradores(request));
     }
 }

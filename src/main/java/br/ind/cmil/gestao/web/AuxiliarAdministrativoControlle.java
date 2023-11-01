@@ -1,7 +1,11 @@
 package br.ind.cmil.gestao.web;
 
 import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
+import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
+import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
+import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
+import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,28 +35,35 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuxiliarAdministrativoControlle {
 
     private final IAuxiliarAdministrativoService as;
+    private final IUsuarioService usuarioService;
 
     @GetMapping("/lista")
     public String list() {
-        return "aux/auxliares";
+        return "auxiliar/auxliares";
     }
 
     @GetMapping("/dados")
-    public String form(AuxiliarAdministrativoDTO auxiliar, Model model, @AuthenticationPrincipal User user) {        
-        model.addAttribute("auxiliar", as.form(auxiliar, user));
-        return "aux/auxiliar";
+    public String form(AuxiliarAdministrativo auxiliar, Model model, @AuthenticationPrincipal User user) {        
+        model.addAttribute("auxiliar", as.form(auxiliar,user));
+        return "auxiliar/formulario";
     }
 
-    @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute AuxiliarAdministrativoDTO c, RedirectAttributes redir) {
-        as.create(c);
+    @PostMapping("/salvar")
+    public ModelAndView save(@ModelAttribute AuxiliarAdministrativo auxiliar, @AuthenticationPrincipal User user, RedirectAttributes redir) {
+        UsuarioMapper usuarioMapper = new UsuarioMapper();
+        if (auxiliar.getId()==null && auxiliar.getUsuario().getId() == null) {
+            Usuario usuario = usuarioMapper.toEntity(usuarioService.buscarPorEmail(user.getUsername()));
+            auxiliar.setUsuario(usuario);
+        }
+        as.create(auxiliar);
+         System.out.println("O que temos aqui: "+ auxiliar.getUsuario().getNome());
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/auxiliar/dados");
     }
 
-    @PutMapping("/update")
-    public ModelAndView update(@ModelAttribute AuxiliarAdministrativoDTO a, RedirectAttributes redir) {
-        as.create(a);
+    @PutMapping("/editar")
+    public ModelAndView update(@ModelAttribute AuxiliarAdministrativo auxiliar, RedirectAttributes redir) {
+        as.create(auxiliar);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/auxiliar/dados");
     }
@@ -60,8 +71,8 @@ public class AuxiliarAdministrativoControlle {
     @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id, Pageable pageable) {
 
-        model.addAttribute("auxiliar", as.findById(id));
-        return "aux/auxiliar";
+        model.addAttribute("auxiliar", as.buscarPorUsuarioId(id));
+        return "auxiliar/formulario";
     }
 
     @GetMapping("/delete/{id}")
@@ -69,7 +80,7 @@ public class AuxiliarAdministrativoControlle {
         Map<String, Object> model = new HashMap<>();
         as.delete(id);
         model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("aux/auxiliares", model);
+        return new ModelAndView("auxiliar/auxiliares", model);
     }
 
     @GetMapping("/datatables/server")

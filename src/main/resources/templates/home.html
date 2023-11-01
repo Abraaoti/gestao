@@ -6,7 +6,7 @@
         <title>Principal</title> 
     </head>
     <body>
-               <div  layout:fragment="corpo">
+        <div  layout:fragment="corpo">
 
             <div class="album py-5 bg-light">
 
@@ -16,23 +16,25 @@
                         <div class="row" sec:authorize="isAuthenticated()"> 
 
                             <div class="col-md-6">
-                                 <h5 class="card-title">DP</h5>
-                                        <div id="chart_div"></div>
-                                  
+                                <h5 class="card-title">DP</h5>
+                                <div id="chart_div"></div>
+
                             </div>
                             <div class="col-md-6">
-                               
-                                        <h5 class="card-title">DP</h5>
-                                        <div id="piechart" ></div>
-                                 
+
+                                <h5 class="card-title">DP</h5>
+                                <div id="piechart" ></div>
+
                             </div>
                         </div>
+
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="card mb-4 box-shadow">
                                     <img class="card-img-top" th:src="@{/image/medicina_3.jpg}">
                                     <div class="card-body">
-                                        <h5 class="card-title">Clínica Médica</h5>
+                                        <h5 class="card-title">cmil - amt</h5>
                                         <p class="card-text">Complexo preparado com uma estrutura
                                             que engloba todas as áreas não cirúrgicas, sendo subdividida em
                                             várias outras especialidades...</p>
@@ -44,7 +46,7 @@
                                 <div class="card mb-4 box-shadow">
                                     <img class="card-img-top" th:src="@{/image/medicina_4.jpg}">
                                     <div class="card-body">
-                                        <h5 class="card-title">Pediatria</h5>
+                                        <h5 class="card-title">cmil - ipatinga</h5>
                                         <p class="card-text">Nossa clínica conta com a parte da
                                             medicina que estuda e trata crianças. Possuímos quartos
                                             exclusivos para esta faixa etária com...</p>
@@ -60,9 +62,8 @@
         </div>
         <script th:src="~{}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript">
-            
-            
-            
+
+
             var real_data = /*[[${chartData}]]*/'noValue';
             google.charts.load('current', {'packages': ['corechart']});
 
@@ -107,8 +108,9 @@
                         .getElementById('piechart'));
                 chart.draw(data, options);
             }
-            
-            
+
+
+
         </script>
 
 

@@ -35,19 +35,16 @@ public class AuxiliarAdministrativoServiceImp implements IAuxiliarAdministrativo
         this.datatables = datatables;
     }
 
+    @Transactional(readOnly = false)
     @Override
-    public AuxiliarAdministrativoDTO findById(Long id) {
-        return ar.findById(id).map(am::toDTO).get();
-    }
-
-    @Override
-    public void create(AuxiliarAdministrativoDTO a) {
-        if (a.id() == null) {
-            ar.save(am.toEntity(a));
+    public void create(AuxiliarAdministrativo a) {
+        if (a.getId() == null) {
+            ar.save(a);
         }
-        update(a);
+        update(null);
     }
 
+    @Transactional(readOnly = false)
     private AuxiliarAdministrativoDTO update(AuxiliarAdministrativoDTO a) {
         return ar.findById(a.id()).map(am::toDTO).get();
     }
@@ -64,33 +61,38 @@ public class AuxiliarAdministrativoServiceImp implements IAuxiliarAdministrativo
     }
 
     @Override
+     @Transactional(readOnly = false)
     public void delete(Long id) {
         Optional<AuxiliarAdministrativo> auxiliar = ar.findById(id);
         ar.delete(auxiliar.get());
     }
 
     @Override
-    public AuxiliarAdministrativoDTO buscarPorUsuarioId(Long id) {
-        return ar.findById(id).map(am::toDTO).get();
+     @Transactional(readOnly = true)
+    public AuxiliarAdministrativo buscarPorUsuarioId(Long id) {
+        return ar.findById(id).orElse(new AuxiliarAdministrativo());
     }
 
     @Override
-    public AuxiliarAdministrativoDTO buscarPorEmail(String email) {
-        return ar.findByUsuarioEmail(email, email).map(am::toDTO).get();
+     @Transactional(readOnly = true)
+    public AuxiliarAdministrativo buscarPorEmail(String email) {
+        return ar.findByUsuarioEmail(email, email).orElse(new AuxiliarAdministrativo());
     }
 
     @Override
-    public AuxiliarAdministrativoDTO form(AuxiliarAdministrativoDTO auxiliar, User user) {
-        if (auxiliar.id() != null) {
-            return ar.findByUsuarioEmail(user.getUsername(), user.getUsername()).map(am::toDTO).get();
+     @Transactional(readOnly = true)
+    public AuxiliarAdministrativo form(AuxiliarAdministrativo auxiliar, User user) {
+        if (auxiliar.getId() == null) {
+            auxiliar = ar.findByUsuarioEmail(user.getUsername(), user.getUsername()).orElse(new AuxiliarAdministrativo());
         }
         return auxiliar;
+
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Set<AuxiliarAdministrativoDTO> list(Pageable pageable) {
-        return ar.searchAll(pageable).stream().map(am::toDTO).collect(Collectors.toSet());
+    public Set<AuxiliarAdministrativo> list(Pageable pageable) {
+        return ar.searchAll(pageable).stream().map((auxilair)-> auxilair).collect(Collectors.toSet());
 
     }
 

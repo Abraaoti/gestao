@@ -16,8 +16,6 @@ public record CargoDTO(
         @NotNull
         @NotEmpty(message = "Um nome precisa ser inserido")
         String nome) {
-
-  
     
     
 

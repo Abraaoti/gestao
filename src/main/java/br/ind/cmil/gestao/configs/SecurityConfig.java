@@ -95,8 +95,8 @@ public class SecurityConfig {
                 //.requestMatchers("/departamento/**","/administrador**","/projeto/**").hasAuthority(ADMINISTRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/administrador/**", "/projeto/**")).hasRole(ADMINISTRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/departamento/**", "/departamento/add")).hasAnyAuthority(ADMINISTRADOR)
-                .requestMatchers(new AntPathRequestMatcher("/administrador/dados/", "/administrador/create/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
-                .requestMatchers(new AntPathRequestMatcher("/administrador/update/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/administrador/dados/", "/administrador/salvar/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
+                .requestMatchers(new AntPathRequestMatcher("/administrador/editar/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/cargo/**","/cargo/add/")).hasAnyAuthority( ADMINISTRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/cargo/update/","/cargo/create/")).hasAnyAuthority(ADMIN, ADMINISTRADOR)
                 //acessos privados assistente administrativo                

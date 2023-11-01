@@ -16,7 +16,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FuncionarioMapper {
-    
+
+    private DepartamentoMapper departamentoMapper;
+    private CargoMapper cargoMapper;
+    private ProjetoMapper projetoMapper;
+
     public FuncionarioDTO toDTO(Funcionario f) {
         if (f == null) {
             return null;
@@ -27,19 +31,14 @@ public class FuncionarioMapper {
         //telefone.getTipo().getValue(), telefone.getPessoa()))
         //.collect(Collectors.toList());
 
-        DepartamentoMapper dm = new DepartamentoMapper();
-        DepartamentoDTO departamento = dm.toDTO(f.getDepartmento());
-        
-        CargoMapper cm = new CargoMapper();
-        CargoDTO cargo = cm.toDTO(f.getCargo());
-        
-        ProjetoMapper pm = new ProjetoMapper();
-        ProjetoDTO projeto = pm.toDTO(f.getProjeto());
-        
+        DepartamentoDTO departamento = this.departamentoMapper.toDTO(f.getDepartmento());
+        CargoDTO cargo = this.cargoMapper.toDTO(f.getCargo());
+        ProjetoDTO projeto = this.projetoMapper.toDTO(f.getProjeto());
+
         return new FuncionarioDTO(f.getAdmissao(), f.getDemissao(), f.getSalario(), departamento, cargo, projeto, f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento());
-        // return new FuncionarioDTO(f.getId, f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(), departamento, endereco, telefones, f.getSalario());
+        
     }
-    
+
     public Funcionario toEntity(FuncionarioDTO dto) {
         if (dto == null) {
             return null;
@@ -54,7 +53,6 @@ public class FuncionarioMapper {
         f.setMae(dto.getMae());
         f.setPai(dto.getPai());
         f.setPassaporte(dto.getPassaporte());
-//f.setDepartmento(dto.);
         f.setGenero(convertGeneroValue(dto.getGenero()));
         f.setEstado_civil(convertECValue(dto.getEstado_civil()));
         f.setNaturalidade(dto.getNaturalidade());
@@ -62,15 +60,9 @@ public class FuncionarioMapper {
         f.setAdmissao(data);
         f.setDemissao(dto.getDemissao());
         f.setSalario(dto.getSalario());
-        
-        DepartamentoMapper dm = new DepartamentoMapper();
-        f.setDepartmento(dm.toEntity(dto.getDepartamento()));
-        
-        CargoMapper cm = new CargoMapper();
-        f.setCargo(cm.toEntity(dto.getCargo()));
-        
-        ProjetoMapper pm = new ProjetoMapper();
-        f.setProjeto(pm.toEntity(dto.getProjeto()));
+        f.setDepartmento(this.departamentoMapper.toEntity(dto.getDepartamento()));
+        f.setCargo(this.cargoMapper.toEntity(dto.getCargo()));
+        f.setProjeto(this.projetoMapper.toEntity(dto.getProjeto()));
         //TelefoneMapper tm = new TelefoneMapper();
         //List<Telefone> telefones = dto.getTelefones().stream().map(telefoneDTO -> {
         // var telefone = new Telefone();
@@ -83,7 +75,7 @@ public class FuncionarioMapper {
         //f.setTelefones(telefones);
         return f;
     }
-    
+
     public Genero convertGeneroValue(String value) {
         if (value == null) {
             return null;
@@ -99,7 +91,7 @@ public class FuncionarioMapper {
                 throw new IllegalArgumentException(" Genero invalido " + value);
         };
     }
-    
+
     public EstadoCivil convertECValue(String value) {
         if (value == null) {
             return null;

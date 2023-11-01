@@ -3,7 +3,7 @@
       layout:decorate="~{fragments/layout}">
     <head>
         <meta charset="UTF-8" />
-        <title>Cadastrar Administrador</title>
+        <title>Dados Cadastrais</title>
     </head>
     <body>
 
@@ -19,7 +19,7 @@
 
                        
 
-                        <form th:action="${administrador.id == null} ? @{/administrador/create} : @{/administrador/update}" th:object="${administrador}"	method="POST" class="was-validated">
+                        <form th:action="${administrador.id == null} ? @{/administrador/salvar} : @{/administrador/editar}" th:object="${administrador}"	method="POST" class="was-validated">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="nome" class="form-group">Nome Completo</label>
@@ -29,7 +29,7 @@
                             </div>
 
 
-                            <input type="hidden"  th:field="*{usuario}">
+                            <input type="hidden"  th:field="*{usuario.id}">
                             <input type="hidden" name="id" th:field="*{id}">
 
                             <div class="form-group row">

@@ -15,25 +15,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuxiliarAdministrativoMapper {
 
-    public AuxiliarAdministrativoDTO toDTO(AuxiliarAdministrativo a) {
+    public AuxiliarAdministrativoDTO toDTO(AuxiliarAdministrativo auxiliar) {
         UsuarioMapper um = new UsuarioMapper();
-        UsuarioRequest usuario = um.toDTO(a.getUsuario());
-        return new AuxiliarAdministrativoDTO(a.getId(), a.getNome(), usuario);
+        UsuarioRequest usuario = um.toDTO(auxiliar.getUsuario());
+        return new AuxiliarAdministrativoDTO(auxiliar.getId(), auxiliar.getNome(), usuario);
     }
 
     public AuxiliarAdministrativo toEntity(AuxiliarAdministrativoDTO dto) {
 
-        AuxiliarAdministrativo a = new AuxiliarAdministrativo();
-        a.setId(dto.id());
-        if (a.getId() != null) {
-            throw new ObjectNotFoundException("Usuário já consta no nosso banco de dados!");
-        }
-        a.setNome(dto.nome());
+        AuxiliarAdministrativo auxiliar = new AuxiliarAdministrativo();
+        auxiliar.setId(dto.id());       
+        auxiliar.setNome(dto.nome());
         UsuarioMapper um = new UsuarioMapper();
         Usuario usuario = um.toEntity(dto.usuario());
-        a.setUsuario(usuario);
+        auxiliar.setUsuario(usuario);
         // u.setPerfis(perfis(dto.perfis()));
-        return a;
+        return auxiliar;
     }
     
 }

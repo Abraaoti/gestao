@@ -3,6 +3,7 @@ package br.ind.cmil.gestao.web;
 import br.ind.cmil.gestao.model.dto.ProjetoDTO;
 import br.ind.cmil.gestao.model.services.interfaces.IProjetoService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,8 @@ public class ProjetoControlle {
         return "projetos/projeto";
     }
 
-    @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute ProjetoDTO projeto, RedirectAttributes redir) {
+    @PostMapping("/salvar")
+    public ModelAndView save(@ModelAttribute @Valid ProjetoDTO projeto, RedirectAttributes redir) {
         ps.create(projeto);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/projeto/add");

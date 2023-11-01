@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.services.interfaces;
 
-import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
+import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
@@ -16,13 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IAuxiliarAdministrativoService {
 
     @Transactional(readOnly = false)
-    void create(AuxiliarAdministrativoDTO auxiliar);
+    void create(AuxiliarAdministrativo auxiliar);
+
+  
 
     @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO findById(Long id);
-
-    @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO form(AuxiliarAdministrativoDTO auxiliar, @AuthenticationPrincipal User user);
+    AuxiliarAdministrativo form(AuxiliarAdministrativo auxiliar, @AuthenticationPrincipal User user);
 
     @Transactional(readOnly = true)
     Map<String, Object> aux(HttpServletRequest request);
@@ -31,11 +30,11 @@ public interface IAuxiliarAdministrativoService {
     void delete(Long id);
 
     @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO buscarPorUsuarioId(Long id);
+    AuxiliarAdministrativo buscarPorUsuarioId(Long id);
 
     @Transactional(readOnly = true)
-    AuxiliarAdministrativoDTO buscarPorEmail(String email);
+    AuxiliarAdministrativo buscarPorEmail(String email);
 
-    Set<AuxiliarAdministrativoDTO> list(Pageable pageable);
+    Set<AuxiliarAdministrativo> list(Pageable pageable);
 
 }

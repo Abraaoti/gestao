@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
-import br.ind.cmil.gestao.model.dto.UtenteDTO;
+import br.ind.cmil.gestao.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;

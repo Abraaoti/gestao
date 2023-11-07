@@ -1,9 +1,9 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.LotacaoDTO;
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.LotacaoDTO;
 import br.ind.cmil.gestao.model.dto.mappers.LotacaoMapper;
 import br.ind.cmil.gestao.model.entidades.Lotacao;
 import br.ind.cmil.gestao.model.repositorys.LotacaoRepository;
@@ -25,41 +25,44 @@ import org.springframework.transaction.annotation.Transactional;
 public class LotacaoServiceImp implements LotacaoService {
 
     private final LotacaoRepository lotacaoRepository;
-    private final LotacaoMapper lotacaoMapper;
     private final Datatables datatables;
 
-    public LotacaoServiceImp(LotacaoRepository lotacaoRepository, LotacaoMapper lotacaoMapper, Datatables datatables) {
+    public LotacaoServiceImp(LotacaoRepository lotacaoRepository, Datatables datatables) {
         this.lotacaoRepository = lotacaoRepository;
-        this.lotacaoMapper = lotacaoMapper;
         this.datatables = datatables;
     }
 
+  
+
     @Transactional(readOnly = false)
     @Override
-    public void save(LotacaoDTO lotacao) {
-        lotacaoRepository.save(lotacaoMapper.toEntity(lotacao));
+    public void salvar(Lotacao lotacao) {
+        if (lotacao.getId() == null) {            
+        lotacaoRepository.save(lotacao);
+        }
+        update(lotacao);
     }
 
     @Transactional(readOnly = false)
-    public LotacaoDTO update(LotacaoDTO lotacao) {
-        return lotacaoRepository.findById(lotacao.id())
+    public Lotacao update(Lotacao lotacao) {
+        return lotacaoRepository.findById(lotacao.getId())
                 .map(recordFound -> {
-                    recordFound.setNome(lotacao.nome());
+                    recordFound.setNome(lotacao.getNome());
                     //recordFound.setAdministrador(lotacao.administrador());
-                    return lotacaoMapper.toDTO(lotacaoRepository.save(recordFound));
-                }).orElseThrow(() -> new ObjectNotFoundException(String.valueOf(lotacao.id()) + "Este id não consta no bd! "));
+                    return lotacaoRepository.save(recordFound);
+                }).orElseThrow(() -> new ObjectNotFoundException(String.valueOf(lotacao.getId()) + "Este id não consta no bd! "));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<LotacaoDTO> lista() {
-        return lotacaoRepository.findAllByOrderByNomeAscIdDesc().stream().map(lotacaoMapper::toDTO).collect(Collectors.toList());
+    public List<Lotacao> lista() {
+        return lotacaoRepository.findAllByOrderByNomeAscIdDesc().stream().collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     @Override
-    public LotacaoDTO findById(Long id) {
-        return lotacaoRepository.findById(id).map(lotacaoMapper::toDTO).orElseThrow(() -> new ObjectNotFoundException(String.valueOf(id) + "Este id não consta no bd! "));
+    public Lotacao findById(Long id) {
+        return lotacaoRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(String.valueOf(id) + "Este id não consta no bd! "));
     }
 
     @Override
@@ -76,5 +79,11 @@ public class LotacaoServiceImp implements LotacaoService {
                 : lotacaoRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
+
+    @Override
+    public Lotacao findByNome(String nome) {
+       return lotacaoRepository.findByNome(nome).orElseThrow(() -> new ObjectNotFoundException(nome + "Este id não consta no bd! "));
+    }
+
 
 }

@@ -5,20 +5,20 @@ import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.mappers.AssistenteAdministrativoMapper;
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
 import br.ind.cmil.gestao.model.repositorys.IAssistenteAdministrativoRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.AssistenteAdministrativoService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class AssistenteAdministrativoServiceImp implements IAssistenteAdministrativoService {
+public class AssistenteAdministrativoServiceImp implements AssistenteAdministrativoService {
 
     private final IAssistenteAdministrativoRepository ar;
     private final AssistenteAdministrativoMapper am;

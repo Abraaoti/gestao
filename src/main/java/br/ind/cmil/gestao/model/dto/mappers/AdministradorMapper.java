@@ -1,8 +1,7 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
-import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.dto.AdministradorDTO;
+import br.ind.cmil.gestao.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;

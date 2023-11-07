@@ -1,8 +1,8 @@
 
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.model.dto.DiretorDTO;
-import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.dto.DiretorDTO;
+import br.ind.cmil.gestao.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.entidades.Diretor;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import org.springframework.stereotype.Component;

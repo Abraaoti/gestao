@@ -10,7 +10,6 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import java.util.Date;
 
 /**
  *
@@ -36,9 +35,6 @@ public class PessoaFisica extends Pessoa {
     @Column(name = "pai", nullable = false)
     protected String pai;
 
-    @Column(name = "passaporte", length = 15, unique = true, nullable = false)
-    protected String passaporte;
-
     @Column(name = "genero", nullable = false)
     @Convert(converter = GeneroConvert.class)
     protected Genero genero;
@@ -53,28 +49,7 @@ public class PessoaFisica extends Pessoa {
     public PessoaFisica() {
     }
 
-    public PessoaFisica(String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade) {
-        this.cpf = cpf;
-        this.rg = rg;
-        this.mae = mae;
-        this.pai = pai;
-        this.passaporte = passaporte;
-        this.genero = genero;
-        this.estado_civil = estado_civil;
-        this.naturalidade = naturalidade;
-    }
-
-    public PessoaFisica(String cpf, String rg, String mae, String pai, String passaporte, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome, String sobrenome, Date nascimento, Endereco endereco) {
-        super(nome, sobrenome, nascimento, endereco);
-        this.cpf = cpf;
-        this.rg = rg;
-        this.mae = mae;
-        this.pai = pai;
-        this.passaporte = passaporte;
-        this.genero = genero;
-        this.estado_civil = estado_civil;
-        this.naturalidade = naturalidade;
-    }
+   
 
    
 
@@ -110,13 +85,7 @@ public class PessoaFisica extends Pessoa {
         this.pai = pai;
     }
 
-    public String getPassaporte() {
-        return passaporte;
-    }
-
-    public void setPassaporte(String passaporte) {
-        this.passaporte = passaporte;
-    }
+  
 
     public Genero getGenero() {
         return genero;
@@ -144,7 +113,7 @@ public class PessoaFisica extends Pessoa {
 
     @Override
     public String toString() {
-        return "PessoaFisica{" + "cpf=" + cpf + ", rg=" + rg + ", mae=" + mae + ", pai=" + pai + ", passaporte=" + passaporte + ", genero=" + genero + ", estado_civil=" + estado_civil + ", naturalidade=" + naturalidade + '}';
+        return "PessoaFisica{" + "cpf=" + cpf + ", rg=" + rg + ", mae=" + mae + ", pai=" + pai  + ", genero=" + genero + ", estado_civil=" + estado_civil + ", naturalidade=" + naturalidade + '}';
     }
 
 }

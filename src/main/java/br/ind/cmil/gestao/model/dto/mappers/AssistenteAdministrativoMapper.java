@@ -1,9 +1,8 @@
 
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
-import br.ind.cmil.gestao.model.dto.AssistenteAdministrativoDTO;
-import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.dto.AssistenteAdministrativoDTO;
+import br.ind.cmil.gestao.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import org.springframework.stereotype.Component;

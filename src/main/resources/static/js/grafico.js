@@ -1,5 +1,5 @@
 $.ajax({
-	url: "/grafico",	
+	url: "/funcionarios/graficos",	
 	success: function(result){
 		var formatteddata = [];
 		for(var key in result){

@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.TelefoneDTO;
-import br.ind.cmil.gestao.model.services.interfaces.ITelefoneService;
+import br.ind.cmil.gestao.dto.TelefoneDTO;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.TelefoneService;
 
 /**
  *
@@ -24,9 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("api/t")
 public class TelefoneController {
 
-    private final ITelefoneService telService;
+    private final TelefoneService telService;
 
-    public TelefoneController(ITelefoneService telefoneService) {
+    public TelefoneController(TelefoneService telefoneService) {
         this.telService = telefoneService;
     }
 

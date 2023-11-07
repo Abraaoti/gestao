@@ -1,11 +1,8 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
 import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
-import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.AuxiliarAdministrativoService;
+import br.ind.cmil.gestao.model.services.interfaces.UsuarioService;
 
 /**
  *
@@ -34,8 +33,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("auxiliar")
 public class AuxiliarAdministrativoControlle {
 
-    private final IAuxiliarAdministrativoService as;
-    private final IUsuarioService usuarioService;
+    private final AuxiliarAdministrativoService as;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/lista")
     public String list() {

@@ -20,14 +20,16 @@ import lombok.ToString;
 @Table(name = "tbl_departamentos")
 public class Departamento extends Entidade {
 
-    @Column(length = 80, unique = true)
+    @Column(length = 80, unique = true, nullable = false)
     private String nome;
-  
+
     public Departamento() {
     }
 
-    public Departamento(String nome, String sobrenome) {
+    public Departamento(String nome) {
         this.nome = nome;
     }
+
+    
 
 }

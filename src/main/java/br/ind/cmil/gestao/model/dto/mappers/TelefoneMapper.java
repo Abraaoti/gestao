@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.model.dto.PessoaDTO;
-import br.ind.cmil.gestao.model.dto.TelefoneDTO;
+import br.ind.cmil.gestao.dto.FuncionarioDTO;
+import br.ind.cmil.gestao.dto.TelefoneDTO;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.entidades.Telefone;
 import br.ind.cmil.gestao.model.enums.TipoTelefone;
@@ -19,7 +19,7 @@ public class TelefoneMapper {
             return null;
         }
         FuncionarioMapper dm = new FuncionarioMapper();
-       PessoaDTO pessoa = dm.toDTO((Funcionario) t.getPessoa());
+        FuncionarioDTO pessoa = dm.toDTO((Funcionario)t.getPessoa());
         // List<FuncionarioDTO> funcionarios = d.getFuncionarios().stream()
         //     .map(f ->  new FuncionarioDTO(f.getId(), f.getNome(), f.getSobrenome(), f.getNascimento(), f.getCpf(), f.getRg(), f.getMae(), f.getPai(), f.getPassaporte(), f.getGenero().getValue(), f.getEstado_civil().getValue(), f.getNaturalidade(), f.getAdmissao(), f.getMatricula(), f.getDemissao(),null,f.getTelefones(), f.getSalario() ))
         // .collect(Collectors.toList());

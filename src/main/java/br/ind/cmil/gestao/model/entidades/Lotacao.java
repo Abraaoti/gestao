@@ -4,8 +4,6 @@ package br.ind.cmil.gestao.model.entidades;
 import br.ind.cmil.gestao.model.base.Entidade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,5 +26,10 @@ public class Lotacao extends Entidade {
 
     public Lotacao() {
     }
+
+    public Lotacao(String nome) {
+        this.nome = nome;
+    }
+    
     
 }

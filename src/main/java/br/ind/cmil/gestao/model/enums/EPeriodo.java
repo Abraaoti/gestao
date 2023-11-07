@@ -22,5 +22,20 @@ public enum EPeriodo {
     public String toString() {
         return "EPeriodo{" + "value=" + value + '}';
     }
+     public static EPeriodo convertPeriodoValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        return switch (value) {
+            case "manhã" ->
+                EPeriodo.MANHA;
+            case "tarde" ->
+                EPeriodo.TARDE;
+            case "noite" ->
+                EPeriodo.NOITE;
+            default ->
+                throw new IllegalArgumentException(" Telefone invalido " + value);
+        };
+    }
 
 }

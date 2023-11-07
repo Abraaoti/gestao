@@ -7,9 +7,7 @@ package br.ind.cmil.gestao.model.dto.mappers;
  */
 
 
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
-import br.ind.cmil.gestao.model.dto.LotacaoDTO;
-import br.ind.cmil.gestao.model.entidades.Administrador;
+import br.ind.cmil.gestao.dto.LotacaoDTO;
 import br.ind.cmil.gestao.model.entidades.Lotacao;
 import org.springframework.stereotype.Component;
 @Component

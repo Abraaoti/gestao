@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.LotacaoDTO;
+import br.ind.cmil.gestao.dto.LotacaoDTO;
+import br.ind.cmil.gestao.model.entidades.Lotacao;
 import br.ind.cmil.gestao.model.services.interfaces.LotacaoService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -41,14 +42,14 @@ public class LotacaoControlle {
     }
 
     @PostMapping("/salvar")
-    public ModelAndView save(@ModelAttribute @Valid LotacaoDTO lotacao, RedirectAttributes redir) {
-        ls.save(lotacao);
+    public ModelAndView save(@ModelAttribute @Valid Lotacao lotacao, RedirectAttributes redir) {
+        ls.salvar(lotacao);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/lotacao/add");
     }
     @PostMapping("/editar")
-    public ModelAndView update(@ModelAttribute LotacaoDTO lotacao, RedirectAttributes redir) {
-        ls.save(lotacao);
+    public ModelAndView update(@ModelAttribute Lotacao lotacao, RedirectAttributes redir) {
+        ls.salvar(lotacao);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/lotacao/add");
     }

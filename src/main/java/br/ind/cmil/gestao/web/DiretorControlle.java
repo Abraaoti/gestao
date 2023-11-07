@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.DiretorDTO;
-import br.ind.cmil.gestao.model.services.interfaces.IDiretorService;
+import br.ind.cmil.gestao.dto.DiretorDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.DiretorService;
 
 /**
  *
@@ -31,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("diretor")
 public class DiretorControlle {
 
-    private final IDiretorService ds;
+    private final DiretorService ds;
 
     @GetMapping("/lista")
     public String list() {

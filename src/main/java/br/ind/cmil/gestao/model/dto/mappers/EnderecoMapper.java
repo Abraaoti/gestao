@@ -1,10 +1,9 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
+import br.ind.cmil.gestao.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.EnderecoDTO;
-import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.entidades.Endereco;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
-import br.ind.cmil.gestao.model.entidades.Pessoa;
 import org.springframework.stereotype.Component;
 
 /**

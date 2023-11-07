@@ -1,17 +1,12 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.dto.UsuarioRequest;
 import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.entidades.AssistenteAdministrativo;
 import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
-import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
-import br.ind.cmil.gestao.model.services.interfaces.IAssistenteAdministrativoService;
-import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
-import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
-import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Set;
@@ -34,6 +29,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.AdministradorService;
+import br.ind.cmil.gestao.model.services.interfaces.AssistenteAdministrativoService;
+import br.ind.cmil.gestao.model.services.interfaces.AuxiliarAdministrativoService;
+import br.ind.cmil.gestao.model.services.interfaces.PerfilService;
+import br.ind.cmil.gestao.model.services.interfaces.UsuarioService;
 
 /**
  *
@@ -45,11 +45,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/u")
 public class UsuarioControlle {
 
-    private final IUsuarioService service;
-    private final IPerfilService perfil;
-    private final IAdministradorService ds;
-    private final IAssistenteAdministrativoService assistenteService;
-    private final IAuxiliarAdministrativoService auxiliarService;
+    private final UsuarioService service;
+    private final PerfilService perfil;
+    private final AdministradorService ds;
+    private final AssistenteAdministrativoService assistenteService;
+    private final AuxiliarAdministrativoService auxiliarService;
 
     @GetMapping("/add")
     public String add(Model model, UsuarioRequest request) {
@@ -207,7 +207,7 @@ public class UsuarioControlle {
         }
 
         UsuarioRequest u = service.buscarPorEmail(user.getUsername());
-        if (!IUsuarioService.isSenhaCorreta(s3, u.password())) {
+        if (!UsuarioService.isSenhaCorreta(s3, u.password())) {
             attr.addFlashAttribute("falha", "Senha atual não confere, tente novamente");
             return "redirect:/u/editar/senha";
         }

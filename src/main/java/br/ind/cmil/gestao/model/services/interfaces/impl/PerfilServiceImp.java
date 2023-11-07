@@ -1,14 +1,13 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.PerfilDTO;
 import br.ind.cmil.gestao.exceptions.PerfilExistenteException;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import br.ind.cmil.gestao.model.repositorys.IPerfilRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +24,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.PerfilService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class PerfilServiceImp implements IPerfilService {
+public class PerfilServiceImp implements PerfilService {
 
     private final IPerfilRepository pr;
     private final PerfilMapper pm;

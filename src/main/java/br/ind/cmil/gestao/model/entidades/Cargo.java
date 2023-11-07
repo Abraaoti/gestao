@@ -3,8 +3,6 @@ package br.ind.cmil.gestao.model.entidades;
 import br.ind.cmil.gestao.model.base.Entidade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +20,7 @@ import lombok.ToString;
 @Table(name = "tbl_cargos")
 public class Cargo extends Entidade {
 
-    @Column(length = 80)
+    @Column(length = 80, unique = true, nullable = false)
     private String nome;
 
     public Cargo() {
@@ -31,7 +29,8 @@ public class Cargo extends Entidade {
 
     public Cargo(String nome) {
         this.nome = nome;
-
     }
+
+   
 
 }

@@ -100,11 +100,11 @@ public class SecurityConfig {
                 .requestMatchers(new AntPathRequestMatcher("/cargo/**","/cargo/add/")).hasAnyAuthority( ADMINISTRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/cargo/update/","/cargo/create/")).hasAnyAuthority(ADMIN, ADMINISTRADOR)
                 //acessos privados assistente administrativo                
-                .requestMatchers(new AntPathRequestMatcher("/assistente/**", "/funcionario/**")).hasAuthority(ASSISTENTE)
-                .requestMatchers(new AntPathRequestMatcher("/funcionario/add/")).hasAuthority(ASSISTENTE)
+                .requestMatchers(new AntPathRequestMatcher("/assistente/**", "/funcionarios/**")).hasAuthority(ASSISTENTE)
+                .requestMatchers(new AntPathRequestMatcher("/funcionarios/add/")).hasAuthority(ASSISTENTE)
                 .requestMatchers(new AntPathRequestMatcher("/assistente/dados/", "/assistente/create/")).hasAnyAuthority(ASSISTENTE, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/assistente/update/")).hasAnyAuthority(ASSISTENTE, ADMIN)
-                .requestMatchers(new AntPathRequestMatcher("/funcionario/create/", "/funcionario/update/")).hasAnyAuthority(ASSISTENTE)
+                .requestMatchers(new AntPathRequestMatcher("/funcionarios/salvar/", "/funcionarios/editar/")).hasAnyAuthority(ASSISTENTE)
                 //acessos privados auxiliar administrativo                
                 .requestMatchers(new AntPathRequestMatcher("/auxiliar/**", "/presenca/**")).hasAuthority(AUXILIAR)
                 .requestMatchers(new AntPathRequestMatcher("/auxiliar/dados/", "/auxiliar/create/")).hasAnyAuthority(AUXILIAR, ADMIN)

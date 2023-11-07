@@ -1,14 +1,16 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
-import br.ind.cmil.gestao.model.dto.CargoDTO;
-import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
-import br.ind.cmil.gestao.model.dto.LotacaoDTO;
-import br.ind.cmil.gestao.model.dto.PerfilDTO;
-import br.ind.cmil.gestao.model.dto.UsuarioRequest;
-import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
-import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
-import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
-import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
+import br.ind.cmil.gestao.dto.CargoDTO;
+import br.ind.cmil.gestao.dto.DepartamentoDTO;
+import br.ind.cmil.gestao.dto.LotacaoDTO;
+import br.ind.cmil.gestao.dto.PerfilDTO;
+import br.ind.cmil.gestao.dto.UsuarioRequest;
+import br.ind.cmil.gestao.model.entidades.Cargo;
+import br.ind.cmil.gestao.model.entidades.Departamento;
+import br.ind.cmil.gestao.model.entidades.Funcionario;
+import br.ind.cmil.gestao.model.entidades.Lotacao;
+import br.ind.cmil.gestao.model.enums.EstadoCivil;
+import br.ind.cmil.gestao.model.enums.Genero;
 import br.ind.cmil.gestao.model.services.interfaces.LotacaoService;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
@@ -16,6 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.ind.cmil.gestao.model.services.interfaces.DepartamentoService;
+import br.ind.cmil.gestao.model.services.interfaces.CargoService;
+import br.ind.cmil.gestao.model.services.interfaces.FuncionarioService;
+import br.ind.cmil.gestao.model.services.interfaces.PerfilService;
+import br.ind.cmil.gestao.model.services.interfaces.UsuarioService;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Month;
 
 /**
  *
@@ -27,13 +37,15 @@ public class DBService {
     @Autowired
     private LotacaoService ls;
     @Autowired
-    private ICargoService cs;
+    private CargoService cs;
     @Autowired
-    private IDepartamentoService ds;
+    private DepartamentoService ds;
     @Autowired
-    private IPerfilService ps;
+    private FuncionarioService funcionarioService;
     @Autowired
-    private IUsuarioService us;
+    private PerfilService ps;
+    @Autowired
+    private UsuarioService us;
 
     public void instanciaBaseDePerfis() {
         List<String> perfis = new ArrayList<>();
@@ -94,9 +106,10 @@ public class DBService {
         departamentos.add("diretoria");
         departamentos.add("financeiro");
         departamentos.add("engenharia");
+        departamentos.add("ti");
         departamentos.add("rh");
         for (int i = 0; i < departamentos.size(); i++) {
-            ds.create(new DepartamentoDTO(null, departamentos.get(i)));
+            ds.salvar(new Departamento(departamentos.get(i)));
         }
     }
 
@@ -107,7 +120,7 @@ public class DBService {
         lotacoes.add("sede");
         lotacoes.add("unigal");
         for (int i = 0; i < lotacoes.size(); i++) {
-            ls.save(new LotacaoDTO(null, lotacoes.get(i)));
+            ls.salvar(new Lotacao(lotacoes.get(i)));
         }
 
     }
@@ -116,13 +129,45 @@ public class DBService {
         List<String> cargos = new ArrayList<>();
         cargos.add("administrador");
         cargos.add("analista de pessoas");
+        cargos.add("analista de suporte");
         cargos.add("comprador");
         cargos.add("diretor");
         cargos.add("engenheiro");
         cargos.add("tst");
         for (int i = 0; i < cargos.size(); i++) {
-            cs.create(new CargoDTO(null, cargos.get(i)));
+            cs.salvar(new Cargo(cargos.get(i)));
         }
+
+    }
+
+    public void instanciaBaseFuncionarios() {
+
+        Funcionario funcionario = new Funcionario();
+        funcionario.setId(null);
+        funcionario.setNome("Abraão Calelesso");
+        funcionario.setSobrenome("Cassinda");
+        funcionario.setNascimento(LocalDate.of(1920, Month.NOVEMBER, 27));
+        funcionario.setCpf("01250284902");
+        funcionario.setRg("v565656");
+        funcionario.setMae("adriana chipondia");
+        funcionario.setPai("agostinha cassinda");
+        funcionario.setClt("n76787878");
+        funcionario.setGenero(Genero.convertGeneroValue("masculino"));
+        funcionario.setEstado_civil(EstadoCivil.findTipo("solteiro(a)"));
+        funcionario.setNaturalidade("lubango");
+        funcionario.setAdmissao(LocalDate.now());
+        funcionario.setDemissao(null);
+        funcionario.setSalario(BigDecimal.valueOf(1800, 0));
+        funcionario.setDepartamento(ds.findByNome("ti"));
+        funcionario.setCargo(cs.findByNome("analista de suporte"));
+        funcionario.setLotacao(ls.findByNome("unigal"));
+         
+        List<Funcionario> funcionarios = new ArrayList<>();
+        funcionarios.add(funcionario);
+        for (Funcionario funcionario1 : funcionarios) {
+             funcionarioService.salvar(funcionario1);
+        }
+        
 
     }
 

@@ -4,9 +4,9 @@ package br.ind.cmil.gestao.model.dto.mappers;
  *
  * @author abraao
  */
-import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
-import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
-import br.ind.cmil.gestao.model.dto.PresencaDTO;
+import br.ind.cmil.gestao.dto.AuxiliarAdministrativoDTO;
+import br.ind.cmil.gestao.dto.FuncionarioDTO;
+import br.ind.cmil.gestao.dto.PresencaDTO;
 import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
 import br.ind.cmil.gestao.model.entidades.Presenca;

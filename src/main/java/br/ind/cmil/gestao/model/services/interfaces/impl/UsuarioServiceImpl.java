@@ -1,15 +1,13 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.UsuarioRequest;
+import br.ind.cmil.gestao.dto.UtenteDTO;
 import br.ind.cmil.gestao.exceptions.UsuarioNotFoundException;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.UsuarioRequest;
-import br.ind.cmil.gestao.model.dto.UtenteDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.entidades.Usuario;
 import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
-import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +29,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.PerfilService;
+import br.ind.cmil.gestao.model.services.interfaces.UsuarioService;
 
 /**
  *
@@ -38,13 +38,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class UsuarioServiceImpl implements IUsuarioService {
+public class UsuarioServiceImpl implements UsuarioService {
 
     private final IUsuarioRepository ur;
     private final PasswordEncoder encoder;
     private final EmailServiceImp email;
     private final UsuarioMapper rm;
-    private final IPerfilService ps;
+    private final PerfilService ps;
     private final Datatables datatables;
 
     //public void increaseFailedAttempts(Usuario user) {

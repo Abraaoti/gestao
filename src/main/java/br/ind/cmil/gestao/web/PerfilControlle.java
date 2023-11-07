@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.PerfilDTO;
-import br.ind.cmil.gestao.model.services.interfaces.IPerfilService;
+import br.ind.cmil.gestao.dto.PerfilDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.PerfilService;
 
 /**
  *
@@ -30,7 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/perfis")
 public class PerfilControlle {
 
-    private final IPerfilService ps;
+    private final PerfilService ps;
 
     @GetMapping("/add")
     public String form(Model model, PerfilDTO perfilDTO) {

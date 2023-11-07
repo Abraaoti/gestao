@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.ProjetoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.IProjetoService;
+import br.ind.cmil.gestao.dto.ProjetoDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.HashMap;
@@ -17,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.ProjetoService;
 
 /**
  *
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("projeto")
 public class ProjetoControlle {
 
-    private final IProjetoService ps;
+    private final ProjetoService ps;
 
     @GetMapping("/lista")
     public String list() {

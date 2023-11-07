@@ -4,7 +4,6 @@ import br.ind.cmil.gestao.model.entidades.Lotacao;
 import br.ind.cmil.gestao.model.entidades.Projeto;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

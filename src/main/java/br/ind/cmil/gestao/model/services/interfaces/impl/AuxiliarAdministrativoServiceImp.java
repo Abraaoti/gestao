@@ -1,12 +1,11 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.AuxiliarAdministrativoDTO;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.AuxiliarAdministrativoDTO;
 import br.ind.cmil.gestao.model.dto.mappers.AuxiliarAdministrativoMapper;
 import br.ind.cmil.gestao.model.entidades.AuxiliarAdministrativo;
 import br.ind.cmil.gestao.model.repositorys.IAuxiliarAdministrativoRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IAuxiliarAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
@@ -17,13 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.AuxiliarAdministrativoService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class AuxiliarAdministrativoServiceImp implements IAuxiliarAdministrativoService {
+public class AuxiliarAdministrativoServiceImp implements AuxiliarAdministrativoService {
 
     private final IAuxiliarAdministrativoRepository ar;
     private final AuxiliarAdministrativoMapper am;

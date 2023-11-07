@@ -22,6 +22,23 @@ public enum TipoTelefone {
     public String toString() {
         return "TipoTelefone{" + "value=" + value + '}';
     }
+    
+    
+    public static TipoTelefone convertTelefoneValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        return switch (value) {
+            case "pessoal" ->
+                TipoTelefone.PESSOAL;
+            case "comercial" ->
+                TipoTelefone.COMERCIAL;
+            case "residencial" ->
+                TipoTelefone.RESIDENCIAL;
+            default ->
+                throw new IllegalArgumentException(" Telefone invalido " + value);
+        };
+    }
 
     
 

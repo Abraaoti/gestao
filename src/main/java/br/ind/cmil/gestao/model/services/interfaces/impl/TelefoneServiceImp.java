@@ -1,15 +1,12 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.FuncionarioDTO;
+import br.ind.cmil.gestao.dto.TelefoneDTO;
 import br.ind.cmil.gestao.exceptions.TelefoneException;
-import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
-import br.ind.cmil.gestao.model.dto.TelefoneDTO;
-import br.ind.cmil.gestao.model.dto.mappers.PessoaMapper;
+import br.ind.cmil.gestao.model.dto.mappers.FuncionarioMapper;
 import br.ind.cmil.gestao.model.dto.mappers.TelefoneMapper;
-import br.ind.cmil.gestao.model.entidades.Pessoa;
 import br.ind.cmil.gestao.model.entidades.Telefone;
 import br.ind.cmil.gestao.model.repositorys.ITelefoneRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IPessoaService;
-import br.ind.cmil.gestao.model.services.interfaces.ITelefoneService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,26 +15,23 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.TelefoneService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class TelefoneServiceImp implements ITelefoneService {
+public class TelefoneServiceImp implements TelefoneService {
 
     private final ITelefoneRepository tr;
     private final TelefoneMapper tm;    
-    private final PessoaMapper pm;
-    private final IPessoaService ps;
 
-    public TelefoneServiceImp(ITelefoneRepository tr, TelefoneMapper tm, PessoaMapper pm, IPessoaService ps) {
+    public TelefoneServiceImp(ITelefoneRepository tr, TelefoneMapper tm) {
         this.tr = tr;
         this.tm = tm;
-        this.pm = pm;
-        this.ps = ps;
     }
-
+  
     
 
     @Override
@@ -49,8 +43,8 @@ public class TelefoneServiceImp implements ITelefoneService {
         Telefone t = tm.toEntity(telefone);
         // Telefone addTelefone = new Telefone();
         if (t.getId() == null) {
-            Pessoa pessoa = ps.getPessoaById(pessoa_id);
-            t.setPessoa(pessoa);
+            //Pessoa pessoa = ps.getPessoaById(pessoa_id);
+            //t.setPessoa(pessoa);
             return tm.toDTO(tr.save(t));
 
         }
@@ -81,7 +75,7 @@ public class TelefoneServiceImp implements ITelefoneService {
         Telefone upTelefone = dbTelefone.get();
         upTelefone.setNumero(telefone.numero());
         upTelefone.setTipo(tm.convertTipoTelefoneValue(telefone.tipo()));
-        upTelefone.setPessoa(pm.toEntity((FuncionarioDTO) telefone.pessoa()));
+        //upTelefone.setPessoa(pm.toEntity((FuncionarioDTO) telefone.pessoa()));
         upTelefone.setId(telefone.id());
         return tm.toDTO(tr.save(upTelefone));
     }

@@ -1,29 +1,24 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
+import br.ind.cmil.gestao.model.entidades.Departamento;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.DepartamentoService;
 
 /**
  *
@@ -35,11 +30,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/departamento")
 public class DepartamentoControlle {
 
-    private final IDepartamentoService ds;
+    private final DepartamentoService ds;
 
 
     @GetMapping("/add")
-    public String form(Model model,DepartamentoDTO departamento) {
+    public String form(Model model,Departamento departamento) {
         model.addAttribute("departamento", departamento);
         return "departamentos/departamento";
     }
@@ -50,20 +45,20 @@ public class DepartamentoControlle {
     }
 
     @GetMapping("/{id}")
-    public DepartamentoDTO findById(@PathVariable @NotNull @Positive Long id) {
+    public Departamento findById(@PathVariable @NotNull @Positive Long id) {
         return ds.findById(id);
     }
 
     @PostMapping("/create")
-    public ModelAndView create(@ModelAttribute DepartamentoDTO d, RedirectAttributes redir) {
-        ds.create(d);
+    public ModelAndView create(@ModelAttribute Departamento departamento, RedirectAttributes redir) {
+        ds.salvar(departamento);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/departamento/add");
     }
 
     @PostMapping("/update")
-    public ModelAndView update(@ModelAttribute DepartamentoDTO d, RedirectAttributes redir) {
-        ds.create(d);
+    public ModelAndView update(@ModelAttribute Departamento departamento, RedirectAttributes redir) {
+        ds.salvar(departamento);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/departamento/add");
     }
@@ -90,7 +85,7 @@ public class DepartamentoControlle {
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> departamentos(HttpServletRequest request) {
-        //model.addAttribute("perfis", ps.list(pageable));
+        //model.addAttribute("perfis", ps.lista(pageable));
         // return "perfis/perfis";
         return ResponseEntity.ok(ds.buscarTodos(request));
     }

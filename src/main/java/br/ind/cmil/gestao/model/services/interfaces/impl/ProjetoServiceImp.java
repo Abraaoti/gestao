@@ -1,13 +1,12 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.ProjetoDTO;
 import br.ind.cmil.gestao.exceptions.PerfilExistenteException;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.ProjetoDTO;
 import br.ind.cmil.gestao.model.dto.mappers.ProjetoMapper;
 import br.ind.cmil.gestao.model.entidades.Projeto;
 import br.ind.cmil.gestao.model.repositorys.IProjetoRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IProjetoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Objects;
@@ -18,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.ProjetoService;
 
 /**
  *
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class ProjetoServiceImp implements IProjetoService {
+public class ProjetoServiceImp implements ProjetoService {
 
     private final IProjetoRepository pr;
     private final ProjetoMapper pm;

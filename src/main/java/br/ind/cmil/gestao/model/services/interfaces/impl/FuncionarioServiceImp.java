@@ -3,27 +3,24 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.exceptions.FuncionarioException;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
-import br.ind.cmil.gestao.model.dto.PessoaDTO;
-import br.ind.cmil.gestao.model.dto.mappers.CargoMapper;
-import br.ind.cmil.gestao.model.dto.mappers.DepartamentoMapper;
-import br.ind.cmil.gestao.model.dto.mappers.PessoaMapper;
-import br.ind.cmil.gestao.model.entidades.Cargo;
-import br.ind.cmil.gestao.model.entidades.Departamento;
 import br.ind.cmil.gestao.model.entidades.Funcionario;
+import br.ind.cmil.gestao.model.enums.EstadoCivil;
+import br.ind.cmil.gestao.model.enums.Genero;
 import br.ind.cmil.gestao.model.repositorys.IFuncionarioRepository;
-import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
-import br.ind.cmil.gestao.model.services.interfaces.IDepartamentoService;
+import br.ind.cmil.gestao.model.services.interfaces.CargoService;
+import br.ind.cmil.gestao.model.services.interfaces.DepartamentoService;
+import br.ind.cmil.gestao.model.services.interfaces.FuncionarioService;
+import br.ind.cmil.gestao.model.services.interfaces.LotacaoService;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import br.ind.cmil.gestao.model.services.interfaces.IFuncionarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,66 +30,62 @@ import org.springframework.transaction.annotation.Transactional;
  * @author abraao
  */
 @Service
-public class FuncionarioServiceImp implements IFuncionarioService {
+public class FuncionarioServiceImp implements FuncionarioService {
 
-    private final IFuncionarioRepository fr;
-    private final PessoaMapper fm;
-    private final IDepartamentoService d;
-    private final ICargoService c;
-    private final DepartamentoMapper dm;
-    private final CargoMapper cm;
-    private final Datatables datatables;
+    @Autowired
+    private LotacaoService lotacaoService;
+    @Autowired
+    private CargoService cargoService;
+    @Autowired
+    private DepartamentoService departamentoService;
+    @Autowired
+    private IFuncionarioRepository funcionarioRepository;
+    @Autowired
+    private Datatables datatables;
 
-    public FuncionarioServiceImp(IFuncionarioRepository fr, PessoaMapper fm, IDepartamentoService d, ICargoService c, DepartamentoMapper dm, CargoMapper cm, Datatables datatables) {
-        this.fr = fr;
-        this.fm = fm;
-        this.d = d;
-        this.c = c;
-        this.dm = dm;
-        this.cm = cm;
-        this.datatables = datatables;
+    @Override
+    @Transactional(readOnly = true)
+    public List<Funcionario> list(Pageable pageable) {
+
+        return funcionarioRepository.searchAll(pageable).stream().map((funcionario) -> new Funcionario()).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PessoaDTO> list(Pageable pageable) {
-        return fr.searchAll(pageable).stream().map(fm::toDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public PessoaDTO findById(Long id) {
-        return fr.findById(id).map(fm::toDTO).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! "));
+    public Funcionario findById(Long id) {
+        return funcionarioRepository.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! "));
     }
 
     @Transactional(readOnly = false)
     public void demitirFuncionario(Long id) {
-        Funcionario fu = fr.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! "));
+        Funcionario fu = funcionarioRepository.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! "));
         fu.setDemissao(LocalDate.now());
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public PessoaDTO create(FuncionarioDTO f) {
-        Funcionario funcionario = (Funcionario) fm.toEntity(f);
-        f.getId();
+    public void salvar(Funcionario funcionario) {
+        funcionario.getId();
         validarAtributos(funcionario);
 
         if (funcionario.getId() == null) {
-            Departamento departamento = d.findByNome(f.getDepartamento().nome());
-            funcionario.setDepartmento(departamento);
-            Cargo cargo = c.findByNome(f.getCargo().nome());
-            funcionario.setCargo(cargo);
+            funcionario.setAdmissao(data(funcionario.getAdmissao()));
+            funcionario.setGenero(Genero.convertGeneroValue(funcionario.getGenero().getValue()));
+            funcionario.setEstado_civil(EstadoCivil.findTipo(funcionario.getEstado_civil().getValue()));
+            funcionario.setCargo(cargoService.findByNome(funcionario.getCargo().getNome()));
+            funcionario.setDepartamento(departamentoService.findByNome(funcionario.getDepartamento().getNome()));
+            funcionario.setLotacao(lotacaoService.findByNome(funcionario.getLotacao().getNome()));
 
-            return fm.toDTO(fr.save(funcionario));
+            funcionarioRepository.save(funcionario);
         }
 
-        return update(f);
+        update(funcionario);
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    protected PessoaDTO update(FuncionarioDTO f) {
-        Optional<Funcionario> funcionarioId = fr.findById(f.getId());
+    protected Funcionario update(Funcionario f) {
+
+        Optional<Funcionario> funcionarioId = funcionarioRepository.findById(f.getId());
         if (funcionarioId.isEmpty()) {
             return null;
         }
@@ -106,41 +99,42 @@ public class FuncionarioServiceImp implements IFuncionarioService {
         funcionario.setRg(f.getRg());
         funcionario.setMae(f.getMae());
         funcionario.setPai(f.getPai());
-        funcionario.setPassaporte(f.getPassaporte());
-        funcionario.setGenero(fm.convertGeneroValue(f.getGenero()));
-        funcionario.setEstado_civil(fm.convertECValue(f.getEstado_civil()));
+        funcionario.setClt(f.getClt());
+        funcionario.setGenero(Genero.convertGeneroValue(f.getGenero().getValue()));
+        funcionario.setEstado_civil(EstadoCivil.findTipo(f.getEstado_civil().getValue()));
         funcionario.setNaturalidade(f.getNaturalidade());
-        funcionario.setAdmissao(f.getAdmissao());
+        funcionario.setAdmissao(data(f.getAdmissao()));
         funcionario.setDemissao(f.getDemissao());
         funcionario.setSalario(f.getSalario());
-        funcionario.setDepartmento(dm.toEntity(f.getDepartamento()));
-        funcionario.setCargo(cm.toEntity(f.getCargo()));
+        funcionario.setCargo(f.getCargo());
+        funcionario.setDepartamento(f.getDepartamento());
+        funcionario.setLotacao(f.getLotacao());
 
         funcionario.setId(f.getId());
 
-        return fm.toDTO(fr.save(funcionario));
+        return funcionarioRepository.save(funcionario);
 
     }
 
     @Override
     public void delete(Long id) {
-        fr.delete(fr.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! ")));
+        funcionarioRepository.delete(funcionarioRepository.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! ")));
     }
 
     private void validarAtributos(Funcionario f) {
-        Optional<Funcionario> funcionario = fr.findByNome(f.getNome());
+        Optional<Funcionario> funcionario = funcionarioRepository.findByNome(f.getNome());
         if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
             throw new DataIntegrityViolationException("nome já cadastro no sistema!");
         }
-        funcionario = fr.findBySobrenome(f.getSobrenome());
+        funcionario = funcionarioRepository.findBySobrenome(f.getSobrenome());
         if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
             throw new DataIntegrityViolationException("sobrenome já cadastro no sistema!");
         }
-        funcionario = fr.findByCpf(f.getCpf());
+        funcionario = funcionarioRepository.findByCpf(f.getCpf());
         if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
             throw new DataIntegrityViolationException("cep já cadastro no sistema!");
         }
-        funcionario = fr.findByRg(f.getRg());
+        funcionario = funcionarioRepository.findByRg(f.getRg());
         if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
             throw new DataIntegrityViolationException("rg já cadastro no sistema!");
         }
@@ -151,9 +145,18 @@ public class FuncionarioServiceImp implements IFuncionarioService {
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
-        Page<Funcionario> page = datatables.getSearch().isEmpty() ? fr.findAll(datatables.getPageable())
-                : fr.searchAll(datatables.getSearch(), datatables.getPageable());
+        Page<Funcionario> page = datatables.getSearch().isEmpty() ? funcionarioRepository.findAll(datatables.getPageable())
+                : funcionarioRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
+    }
+
+    @Override
+    public long countById() {
+        return funcionarioRepository.count();
+    }
+
+    protected LocalDate data(LocalDate dto) {
+        return (dto == null ? LocalDate.now() : dto);
     }
 
 }

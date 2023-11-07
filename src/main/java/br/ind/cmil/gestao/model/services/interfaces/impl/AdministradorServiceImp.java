@@ -5,20 +5,20 @@ import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.mappers.AdministradorMapper;
 import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.repositorys.IAdministradorRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.AdministradorService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class AdministradorServiceImp implements IAdministradorService {
+public class AdministradorServiceImp implements AdministradorService {
 
     private final IAdministradorRepository ar;
     private final AdministradorMapper am;

@@ -1,13 +1,12 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.PresencaDTO;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.PresencaDTO;
 import br.ind.cmil.gestao.model.dto.mappers.PresencaMapper;
 import br.ind.cmil.gestao.model.entidades.Horario;
 import br.ind.cmil.gestao.model.entidades.Presenca;
 import br.ind.cmil.gestao.model.repositorys.IPresencaRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IPresencaService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
@@ -16,13 +15,14 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.PresencaService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class PresencaServiceImp implements IPresencaService {
+public class PresencaServiceImp implements PresencaService {
 
     private final IPresencaRepository pr;
     private final PresencaMapper pm;

@@ -10,7 +10,7 @@
 
 
     </head>
-    <body>
+    <body style="max-width:1200px">
 
 
 
@@ -18,7 +18,7 @@
         <div class="wrapper">
             <!-- Sidebar Holder -->
             <nav id="sidebar" sec:authorize="isAuthenticated()">
-              
+
                 <div class="sidebar-header">
                     <h3>
                         <a class="navbar-brand" th:href="@{/}">
@@ -30,62 +30,67 @@
             </nav>
 
 
-            <div id="content">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-                        <div  sec:authorize="isAuthenticated()">
+            <div id="header_content">
+               
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid">
+                            <div  sec:authorize="isAuthenticated()">
 
 
-                            <button type="button" id="sidebarCollapse" class="navbar-btn">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </button>
-                            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <i class="fas fa-align-justify"></i>
-                            </button>
-                        </div>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <div class="nav navbar-nav ml-auto">
+                                <button type="button" id="sidebarCollapse" class="navbar-btn">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <i class="fas fa-align-justify"></i>
+                                </button>
+                            </div>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <div class="nav navbar-nav ml-auto">
 
 
-                                <form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
-                                    <div class="form-check mb-2 mr-sm-2">
-                                        <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                           th:href="@{/login}">Login</a>
+                                    <form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
+                                        <div class="form-check mb-2 mr-sm-2">
+                                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                                               th:href="@{/login}">Login</a>
+                                        </div>
+
+                                        <div class="form-check mb-2 mr-sm-2">
+                                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                                               th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
+                                        </div>
+                                    </form>
+
+                                    <div  sec:authorize="isAuthenticated()"   class="dropdown form-inline mt-2 mt-md-0">
+
+                                        <button type="button"  class="btn btn-primary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i  class="fas fa-user" aria-hidden="true"></i> 
+                                            <span class=""  sec:authentication="name">Bob</span>
+                                        </button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item " th:href="@{/logout}">sair</a></li>
+                                        </ul>
+
+
                                     </div>
-
-                                    <div class="form-check mb-2 mr-sm-2">
-                                        <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                           th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
-                                    </div>
-                                </form>
-
-                                <div  sec:authorize="isAuthenticated()"   class="dropdown form-inline mt-2 mt-md-0">
-
-                                    <button type="button"  class="btn btn-primary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i  class="fas fa-user" aria-hidden="true"></i> 
-                                        <span class=""  sec:authentication="name">Bob</span>
-                                    </button>
-
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item " th:href="@{/logout}">sair</a></li>
-                                    </ul>
-
 
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                </nav>
+                    </nav>
 
 
-                <div layout:fragment="corpo">
-                </div><!-- fim do conteúdo principal -->
+
+              
+                <div layout:fragment="corpo" class="content">
+                    </div><!-- fim do conteúdo principal -->
+                
+
             </div><!-- fim do contet -->
         </div><!-- fim da wrapper -->
-        
+
         <div th:replace="~{fragments/footer :: rodape}" sec:authorize="!isAuthenticated()">
             <div>footer</div>
         </div>

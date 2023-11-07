@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.model.dto.CargoDTO;
+import br.ind.cmil.gestao.dto.CargoDTO;
 import br.ind.cmil.gestao.model.entidades.Cargo;
 import org.springframework.stereotype.Component;
 

@@ -1,87 +1,76 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.CargoDTO;
 import br.ind.cmil.gestao.exceptions.CargoException;
 import br.ind.cmil.gestao.model.datatables.Datatables;
 import br.ind.cmil.gestao.model.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.model.dto.CargoDTO;
-import br.ind.cmil.gestao.model.dto.mappers.CargoMapper;
 import br.ind.cmil.gestao.model.entidades.Cargo;
 import br.ind.cmil.gestao.model.repositorys.ICargoRepository;
-import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.CargoService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class CargoServiceImp implements ICargoService {
+public class CargoServiceImp implements CargoService {
 
     private final ICargoRepository cr;
-    private final CargoMapper cm;
     private final Datatables datatables;
 
-    public CargoServiceImp(ICargoRepository cr, CargoMapper cm, Datatables datatables) {
+    public CargoServiceImp(ICargoRepository cr, Datatables datatables) {
         this.cr = cr;
-        this.cm = cm;
         this.datatables = datatables;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CargoDTO> list(Pageable pageable) {
-        return cr.searchAll(pageable).stream().map(cm::toDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public Set<CargoDTO> lista() {
-        return cr.searchAll().stream().map(cm::toDTO).collect(Collectors.toSet());
+    public List<Cargo> lista() {
+        return cr.searchAll().stream().collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CargoDTO findById(Long id) {
-        return cr.findById(id).map(cm::toDTO).orElseThrow(() -> new CargoException(String.valueOf(id), "Este id não consta no bd! "));
+    public Cargo findById(Long id) {
+        return cr.findById(id).orElseThrow(() -> new CargoException(String.valueOf(id), "Este id não consta no bd! "));
     }
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public CargoDTO create(CargoDTO c) {
-        Cargo cargo = cm.toEntity(c);
-        c.id();
+    public void salvar(Cargo cargo) {
+        cargo.getId();
         validarAtributos(cargo);
 
         if (cargo.getId() == null) {
 
-            return cm.toDTO(cr.save(cargo));
+             cr.save(cargo);
         }
 
-        return update(c);
+         update(cargo);
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    protected CargoDTO update(CargoDTO c) {
-        Optional<Cargo> cargo = cr.findById(c.id());
+    protected Cargo update(Cargo c) {
+        Optional<Cargo> cargo = cr.findById(c.getId());
         if (cargo.isEmpty()) {
             return null;
         }
 
         var ca = cargo.get();
-        ca.setNome(c.nome());
-        ca.setId(c.id());
+        ca.setNome(c.getNome());
+        ca.setId(c.getId());
 
-        return cm.toDTO(cr.save(ca));
+        return cr.save(ca);
 
     }
 
@@ -107,7 +96,7 @@ public class CargoServiceImp implements ICargoService {
     @Override
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
-        datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
+        datatables.setColunas(DatatablesColunas.CARGO);
         Page<Cargo> page = datatables.getSearch().isEmpty() ? cr.findAll(datatables.getPageable())
                 : cr.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);

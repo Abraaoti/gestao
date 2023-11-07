@@ -19,13 +19,13 @@ public enum Genero {
 
     @Override
     public String toString() {
-        return "GeneroEnum{" + "value=" + value + '}';
+        return "Genero{" + "value=" + value + '}';
     }
      public static Genero convertGeneroValue(String value) {
         if (value == null) {
             return null;
         }
-        return switch (value) {
+        return switch (value.toLowerCase()) {
             case "feminino" ->
                 Genero.FEMININO;
             case "masculino" ->

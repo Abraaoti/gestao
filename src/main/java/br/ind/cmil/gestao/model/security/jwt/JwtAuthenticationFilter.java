@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.model.security.jwt;
 
 import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IJwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +16,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import br.ind.cmil.gestao.model.services.interfaces.JwtService;
 
 /**
  *
@@ -26,7 +26,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    IJwtService jwtService;
+    JwtService jwtService;
     @Autowired
     IUsuarioRepository ur;
 

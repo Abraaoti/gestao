@@ -6,7 +6,6 @@ package br.ind.cmil.gestao.model.enums;
  */
 public enum EstadoCivil {
     SOLTEIRO("solteiro(a)"), CASADO("casado(a)"), DIVORCIADO("divorciado(a)"), VIUVA("viúva(o)");
-
     private final String value;
 
     private EstadoCivil(String value) {
@@ -26,7 +25,7 @@ public enum EstadoCivil {
         if (value == null) {
             return null;
         }
-        return switch (value) {
+        return switch (value.toLowerCase()) {
             case "solteiro(a)" ->
                 EstadoCivil.SOLTEIRO;
             case "casado(a)" ->

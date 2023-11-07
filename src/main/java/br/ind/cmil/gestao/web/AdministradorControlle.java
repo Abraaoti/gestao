@@ -3,8 +3,6 @@ package br.ind.cmil.gestao.web;
 import br.ind.cmil.gestao.model.dto.mappers.UsuarioMapper;
 import br.ind.cmil.gestao.model.entidades.Administrador;
 import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.services.interfaces.IAdministradorService;
-import br.ind.cmil.gestao.model.services.interfaces.IUsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +22,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.AdministradorService;
+import br.ind.cmil.gestao.model.services.interfaces.UsuarioService;
 
 /**
  *
@@ -35,8 +35,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("administrador")
 public class AdministradorControlle {
 
-    private final IAdministradorService administradorService;
-    private final IUsuarioService usuarioService;
+    private final AdministradorService administradorService;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/lista")
     public String list() {

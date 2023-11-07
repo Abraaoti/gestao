@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.CargoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.ICargoService;
+import br.ind.cmil.gestao.dto.CargoDTO;
+import br.ind.cmil.gestao.model.entidades.Cargo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.model.services.interfaces.CargoService;
 
 /**
  *
@@ -30,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("cargo")
 public class CargoControlle {
 
-    private final ICargoService cs;
+    private final CargoService cs;
 
     @GetMapping("/lista")
     public String list() {
@@ -38,21 +39,21 @@ public class CargoControlle {
     }
 
     @GetMapping("/add")
-    public String form(Model model,CargoDTO cargo) {
+    public String form(Model model,Cargo cargo) {
         model.addAttribute("cargo", cargo);
         return "cargos/cargo";
     }
 
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
+    public ModelAndView save(@ModelAttribute Cargo cargo, RedirectAttributes redir) {
+        cs.salvar(cargo);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/cargo/add");
     }
 
     @PostMapping("/update")
-    public ModelAndView update(@ModelAttribute CargoDTO c, RedirectAttributes redir) {
-        cs.create(c);
+    public ModelAndView update(@ModelAttribute Cargo cargo, RedirectAttributes redir) {
+        cs.salvar(cargo);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/cargo/add");
     }

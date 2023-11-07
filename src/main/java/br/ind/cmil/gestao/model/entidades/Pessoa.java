@@ -10,7 +10,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.Date;
+import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -29,7 +29,7 @@ public class Pessoa extends Entidade {
     @Column(name = "nasc")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected Date nascimento;
+    protected LocalDate nascimento;
 
     @OneToOne(mappedBy = "pessoa",cascade = CascadeType.ALL, orphanRemoval = true)
     protected Endereco endereco;
@@ -39,12 +39,7 @@ public class Pessoa extends Entidade {
 
     }
 
-    public Pessoa(String nome, String sobrenome, Date nascimento, Endereco endereco) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.nascimento = nascimento;
-        this.endereco = endereco;
-    }
+  
 
     public void addEndereco(Endereco endereco) {
         this.endereco = endereco;
@@ -76,11 +71,11 @@ public class Pessoa extends Entidade {
         this.sobrenome = sobrenome;
     }
 
-    public Date getNascimento() {
+    public LocalDate getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(Date nascimento) {
+    public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
     }
 

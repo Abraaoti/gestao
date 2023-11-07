@@ -23,16 +23,19 @@ public class TestConfig {
         this.dbService.instanciaBaseDePerfis();
 
     }
+
     @Bean
     public void instaciaBaseDepartamento() {
         this.dbService.instanciaBaseDepartamento();
 
     }
+
     @Bean
     public void instaciaBaseDeCargos() {
         this.dbService.instanciaBaseCargos();
 
     }
+
     @Bean
     public void instaciaBaseDeLotacao() {
         this.dbService.instanciaBaseLotacao();
@@ -42,6 +45,12 @@ public class TestConfig {
     @Bean
     public void instaciaBaseDeUsuarios() throws MessagingException {
         this.dbService.instanciaBaseDeUsuarios();
+
+    }
+
+    @Bean
+    public void instaciaBaseDeFuncionarios() {
+        this.dbService.instanciaBaseFuncionarios();
 
     }
 }

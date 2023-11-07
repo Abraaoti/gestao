@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.model.dto.mappers;
 
-import br.ind.cmil.gestao.model.dto.PerfilDTO;
+import br.ind.cmil.gestao.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.entidades.Perfil;
 import br.ind.cmil.gestao.model.enums.TipoPerfil;
 import org.springframework.stereotype.Component;

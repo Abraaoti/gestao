@@ -32,19 +32,6 @@ public class PessoaJuridica extends Pessoa {
     public PessoaJuridica() {
     }
 
-    public PessoaJuridica(String cnpj, String ie, String im) {
-        this.cnpj = cnpj;
-        this.ie = ie;
-        this.im = im;
-    }
-
-    public PessoaJuridica(String cnpj, String ie, String im, String nome, String sobrenome, Date nascimento, Endereco endereco) {
-        super(nome, sobrenome, nascimento, endereco);
-        this.cnpj = cnpj;
-        this.ie = ie;
-        this.im = im;
-    }
-
   
 
     public String getCnpj() {

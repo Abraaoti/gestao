@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.web;
 
-import br.ind.cmil.gestao.model.dto.Credentials;
+import br.ind.cmil.gestao.dto.Credentials;
 import br.ind.cmil.gestao.model.dto.response.Response;
 import br.ind.cmil.gestao.model.services.interfaces.impl.AuthenticationServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *

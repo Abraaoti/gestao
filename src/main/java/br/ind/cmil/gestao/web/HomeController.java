@@ -1,15 +1,25 @@
 package br.ind.cmil.gestao.web;
 
+import br.ind.cmil.gestao.model.entidades.Funcionario;
+import br.ind.cmil.gestao.model.services.interfaces.FuncionarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
@@ -17,6 +27,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class HomeController {
+
+    @Autowired
+    private FuncionarioService funcionarioService;
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
@@ -30,6 +43,16 @@ public class HomeController {
     public String login() {
 
         return "login";
+    }
+    
+     @RequestMapping("/estatistica")
+    public ResponseEntity<?> estatistica() {
+        Map<String, Object> map = new HashMap();
+        map.put("iFuncionarioCount", funcionarioService.countById());
+        //map.put("iProcessoFinanceiroCount", iProcessoFinanceiroService.countId());
+        //map.put("iContaPagarCount", iContaPagarService.countId());
+       // map.put("iUsuarioCount", iUsuarioService.countId());
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @GetMapping("/login-error")
@@ -48,6 +71,25 @@ public class HomeController {
         model.addAttribute("texto", "Login ou senha incorretos, tente novamente.");
         model.addAttribute("subtexto", "Acesso permitido apenas para cadastros já ativados.");
         return "login";
+    }
+
+    @GetMapping("/graficos")
+    public ResponseEntity<?> funcionarios(Pageable pageable) {
+        Map<String, List<Funcionario>> mappedData = new HashMap<>();
+        List<Funcionario> dataList = funcionarioService.list(pageable);
+
+        for (Funcionario data : dataList) {
+
+            if (mappedData.containsKey(data.getNome())) {
+                mappedData.get(data.getNome()).add(data);
+            } else {
+                List<Funcionario> tempList = new ArrayList<>();
+                tempList.add(data);
+                mappedData.put(data.getNome(), tempList);
+            }
+
+        }
+        return new ResponseEntity<>(mappedData, HttpStatus.OK);
     }
 
     @GetMapping("/expired")
@@ -69,8 +111,7 @@ public class HomeController {
 
     /**
      * @GetMapping("/grafico") public String grafico(Model model) {
-     * model.addAttribute("chartData", getChartData()); return "grafico";
-    }*
+     * model.addAttribute("chartData", getChartData()); return "grafico"; }*
      */
     private List<List<Object>> getChartData() {
         return List.of(

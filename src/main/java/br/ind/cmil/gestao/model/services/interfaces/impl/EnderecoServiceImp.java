@@ -1,15 +1,13 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.exceptions.ObjectNotFoundException;
 import br.ind.cmil.gestao.model.dto.EnderecoDTO;
-import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.mappers.EnderecoMapper;
-import br.ind.cmil.gestao.model.dto.mappers.PessoaMapper;
+import br.ind.cmil.gestao.model.dto.mappers.FuncionarioMapper;
 import br.ind.cmil.gestao.model.entidades.Endereco;
 import br.ind.cmil.gestao.model.entidades.Pessoa;
 import br.ind.cmil.gestao.model.repositorys.IEnderecoRepository;
-import br.ind.cmil.gestao.model.services.interfaces.IEnderecoService;
-import br.ind.cmil.gestao.model.services.interfaces.IPessoaService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,25 +16,26 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.EnderecoService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class EnderecoServiceImp implements IEnderecoService {
+public class EnderecoServiceImp implements EnderecoService {
 
     private final IEnderecoRepository er;
     private final EnderecoMapper em;
-    private final PessoaMapper pm;
-    private final IPessoaService ps;
+    private final FuncionarioServiceImp ps;
 
-    public EnderecoServiceImp(IEnderecoRepository er, EnderecoMapper em, PessoaMapper pm, IPessoaService ps) {
+    public EnderecoServiceImp(IEnderecoRepository er, EnderecoMapper em, FuncionarioServiceImp ps) {
         this.er = er;
         this.em = em;
-        this.pm = pm;
         this.ps = ps;
     }
+
+   
 
    
 
@@ -54,7 +53,7 @@ public class EnderecoServiceImp implements IEnderecoService {
         Endereco endereco = em.toEntity(e);
 
         if (endereco.getId() == null) {
-            Pessoa pessoa = ps.getPessoaById(pessoa_id);
+            Pessoa pessoa = null;
             endereco.setPessoa(pessoa);
             return em.toDTO(er.save(endereco));
 
@@ -65,11 +64,11 @@ public class EnderecoServiceImp implements IEnderecoService {
 
     private void validarAtributos(EnderecoDTO request) {
         Optional<Endereco> endereco = er.findByCep(request.cep());
-        if (endereco.isPresent() && !Objects.equals(endereco.get().getId(), request.id()) && !Objects.equals(endereco.get().getPessoa().getId(), request.pessoa().getId())) {
+        if (endereco.isPresent() && !Objects.equals(endereco.get().getId(), request.id()) && !Objects.equals(endereco.get().getPessoa().getId(), request.pessoa().id())) {
             throw new DataIntegrityViolationException("cep já cadastro no sistema!");
         }
-        endereco = er.findByPessoa(request.pessoa().getId());
-        if (endereco.isPresent() && !Objects.equals(endereco.get().getPessoa().getId(), request.pessoa().getId())) {
+        endereco = er.findByPessoa(request.pessoa().id());
+        if (endereco.isPresent() && !Objects.equals(endereco.get().getPessoa().getId(), request.pessoa().id())) {
             throw new DataIntegrityViolationException("pessoa já cadastro no sistema!");
         }
     }
@@ -99,7 +98,7 @@ public class EnderecoServiceImp implements IEnderecoService {
                     upEndereco.setCep(endereco.cep());
                     upEndereco.setNumero(endereco.numero());
                     upEndereco.setComplemento(endereco.complemento());
-                    upEndereco.setPessoa(pm.toEntity((FuncionarioDTO) endereco.pessoa()));
+                    //upEndereco.setPessoa(pm.toEntity((FuncionarioDTO) endereco.pessoa()));
                     upEndereco.setId(endereco.id());
                     return em.toDTO(er.save(upEndereco));
                 }).orElseThrow(() -> new ObjectNotFoundException("Este id não consta no bd! "));

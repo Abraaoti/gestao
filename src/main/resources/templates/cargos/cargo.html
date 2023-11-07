@@ -15,7 +15,7 @@
 
                         <div th:replace="~{fragments/alert :: alerta-sucesso}"></div>	
 
-                        <form th:action="${cargo.id == null} ? @{/cargo/create} : @{/cargo/update}" th:object="${cargo}" 	method="POST" class="was-validated">
+                        <form th:action="${cargo.id == null} ? @{/cargo/create} : @{/cargo/update}" th:object="${cargo}" method="POST" class="was-validated">
                             <div class="form-group row">
 
                                 <label for="nome" class="col-sm-2 col-form-label">Cargo </label>

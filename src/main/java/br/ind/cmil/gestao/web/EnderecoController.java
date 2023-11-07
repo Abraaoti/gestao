@@ -1,7 +1,6 @@
 package br.ind.cmil.gestao.web;
 
 import br.ind.cmil.gestao.model.dto.EnderecoDTO;
-import br.ind.cmil.gestao.model.services.interfaces.IEnderecoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import br.ind.cmil.gestao.model.services.interfaces.EnderecoService;
 
 /**
  *
@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/e")
 public class EnderecoController {
 
-    private final IEnderecoService es;
+    private final EnderecoService es;
 
-    public EnderecoController(IEnderecoService enderecoService) {
+    public EnderecoController(EnderecoService enderecoService) {
         this.es = enderecoService;
     }
 
@@ -51,7 +51,7 @@ public class EnderecoController {
 
     @PutMapping("/endereco/{id}")
     public ResponseEntity<?> update(@PathVariable  Long id,@RequestBody @Valid @NotNull EnderecoDTO e) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(es.create(e.pessoa().getId(), e));
+        return ResponseEntity.status(HttpStatus.CREATED).body(es.create(e.pessoa().id(), e));
     }
 
     @DeleteMapping("/delete/{id}")

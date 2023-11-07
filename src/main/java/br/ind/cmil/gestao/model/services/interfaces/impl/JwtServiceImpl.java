@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.model.services.interfaces.impl;
 import br.ind.cmil.gestao.exceptions.JwtTokenMalformedException;
 import br.ind.cmil.gestao.exceptions.JwtTokenMissingException;
 import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.services.interfaces.IJwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -18,13 +17,14 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import br.ind.cmil.gestao.model.services.interfaces.JwtService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class JwtServiceImpl implements IJwtService {
+public class JwtServiceImpl implements JwtService {
 
     @Value("${jwt.secret}")
     private String jwtSigningKey;

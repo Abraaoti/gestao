@@ -1,14 +1,9 @@
 package br.ind.cmil.gestao.model.services.interfaces.impl;
 
+import br.ind.cmil.gestao.dto.Credentials;
 import br.ind.cmil.gestao.exceptions.DisabledUserException;
 import br.ind.cmil.gestao.exceptions.InvalidUserCredentialsException;
-import br.ind.cmil.gestao.model.dto.mappers.PerfilMapper;
-import br.ind.cmil.gestao.model.dto.Credentials;
 import br.ind.cmil.gestao.model.dto.response.Response;
-import br.ind.cmil.gestao.model.entidades.Perfil;
-import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.services.interfaces.IAuthenticationService;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,17 +11,17 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.model.services.interfaces.AuthenticationService;
 
 /**
  *
  * @author abraao
  */
 @Service
-public class AuthenticationServiceImpl implements IAuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     //private final IUserService userAuthService;
     private final JwtServiceImpl jwtService;

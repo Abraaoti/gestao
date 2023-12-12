@@ -1,64 +1,53 @@
-$('#especialidade').autocomplete({
-    source: function (request, response) {
-        $.ajax({
-            method: 'GET',
-            url: '/especialidades/titulo',
-            data: {
-            	termo: request.term
-			},
-            success: function (data) {
-            	response(data);
+$(document).ready(function () {
+    moment.locale('pt-BR');
+    var table = $('#table-presenca').DataTable({
+        searching: true,
+        order: [[1, "asc"]],
+        lengthMenu: [5, 10],
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+        },
+        ajax: {
+            url: '/presenca/datatables/server',
+            data: 'data'
+        },
+        columns: [
+            {data: 'id'},
+            {data: 'frequencias',
+             render: function (frequencias) {
+                    var aux = new Array();
+                    $.each(frequencias, function (index, value) {
+                        aux.push(value.data);
+                    });
+                    return aux;
+                },
+                orderable: false
+            },
+           
+          
+            {data: 'data', render:
+                        function (nascimento) {
+                            return moment(nascimento).format('L');
+                        }
+            },
+             {data: 'status'},
+               {orderable: false,
+                data: 'id',
+                "render": function (id) {
+                    return '<a class="btn btn-success btn-sm btn-block" href="/presenca/editar/' +
+                            id + '" role="button"><i class="fas fa-edit"></i></a>';
+                }
+            },
+            {orderable: false,
+                data: 'id',
+                "render": function (id) {
+                    return '<a class="btn btn-danger btn-sm btn-block" href="/presenca/excluir/' +
+                            id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
+                }
             }
-        });
-    }
-});
-
-
-$('#funcionario').on('blur', function() {
-    $('div').remove(".custom-radio");
-	var titulo = $(this).val();
-	if ( titulo !== '' ) {			
-		$.get( '/medicos/especialidade/titulo/' + titulo , function( result ) {
-				
-			var ultimo = result.length - 1; 
-			
-			$.each(result, function (k, v) {
-				
-				if ( k === ultimo ) {
-	    			$('#funcionario').append( 
-	    				 '<div class="custom-control custom-radio">'	
-	    				+  '<input class="custom-control-input" type="radio" id="customRadio'+ k +'" name="funcionario.id" value="'+ v.id +'" required>'
-						+  '<label class="custom-control-label" for="customRadio'+ k +'">'+ v.nome +'</label>'
-						+  '<div class="invalid-feedback">Médico é obrigatório</div>'
-						+'</div>'
-	    			);
-				} else {
-	    			$('#funcionario').append( 
-	    				 '<div class="custom-control custom-radio">'	
-	    				+  '<input class="custom-control-input" type="radio" id="customRadio'+ k +'" name="funcionario.id" value="'+ v.id +'" required>'
-						+  '<label class="custom-control-label" for="customRadio'+ k +'">'+ v.nome +'</label>'
-						+'</div>'
-	        		);	            				
-				}
-		    });
-		});
-	}
-});
-
-
-$('#data').on('blur', function () {
-	$("#horarios").empty();
-    var data = $(this).val();
-    var medico = $('input[name="funcionario.id"]:checked').val();
-    if (!Date.parse(data)) {
-        console.log('data nao selecionada')
-    } else {
-    	$.get('/presenca/horario/funcionario/'+ medico + '/data/' + data , function( result ) {
-    		$.each(result, function (k, v) {
-    			$("#horarios").append( 
-    				'<option class="op" value="'+ v.id +'">'+ v.horaMinuto + '</option>'
-    			);	            			
-    	    });
-    	});
-    }
+        ]
+    });
 });

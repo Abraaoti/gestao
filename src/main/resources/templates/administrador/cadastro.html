@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{fragments/layout}">
+      layout:decorate="~{layout}">
     <head>
         <meta charset="UTF-8" />
         <title>Dados Cadastrais</title>
@@ -29,7 +29,7 @@
                             </div>
 
 
-                            <input type="hidden"  th:field="*{usuario.id}">
+                            <input type="hidden"  th:field="*{usuario.nome}">
                             <input type="hidden" name="id" th:field="*{id}">
 
                             <div class="form-group row">

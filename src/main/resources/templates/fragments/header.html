@@ -5,9 +5,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:with="version=${#strings.randomAlphanumeric(3)}">
     <head th:fragment="header">
-        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Home</title>
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">[[#{app.title}]]</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />        
         <meta name="description" content="gestão de pessoas" />
         <meta name="author" content="kalele" />

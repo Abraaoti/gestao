@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.configs;
 
-import br.ind.cmil.gestao.model.services.interfaces.impl.DBService;
+import br.ind.cmil.gestao.services.impl.DBService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +38,7 @@ public class TestConfig {
 
     @Bean
     public void instaciaBaseDeLotacao() {
-        this.dbService.instanciaBaseLotacao();
+        this.dbService.instanciaBaseCentroCusto();
 
     }
 
@@ -51,6 +51,16 @@ public class TestConfig {
     @Bean
     public void instaciaBaseDeFuncionarios() {
         this.dbService.instanciaBaseFuncionarios();
+
+    }
+    @Bean
+    public void instaciaBaseDeCartoess() {
+        this.dbService.instanciaBaseCartoes();
+
+    }
+    @Bean
+    public void instanciaBaseFrequenciais() {
+        this.dbService.instanciaBasePresenca();
 
     }
 }

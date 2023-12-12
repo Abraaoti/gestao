@@ -40,8 +40,32 @@ $(document).ready(function () {
             {data: 'salario' , render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')},
             {data: 'cargo.nome'},
             {data: 'departamento.nome'},
-            {data: 'lotacao.nome'},
+            {data: 'centroCusto.nome'},
 
+            {orderable: false,
+                data: 'id',
+                "render": function (id) { 
+                    return '<a class="btn btn btn-outline-info btn-sm btn-block" href="/frequencia/funcionario/' +
+                            id + '" role="button"><i class="fa-solid fa-check"></i></a>';
+                }
+            },
+            {orderable: false,
+                data: 'id',
+                "render": function (id) { 
+                    return '<a class="btn btn btn-outline-info btn-sm btn-block" href="/endereco/pessoa/' +
+                            id + '" role="button"><i class="fas fa-solid fa-location-arrow"></i></a>';
+                }
+            },
+            
+            {orderable: false,
+                data: 'id',
+                "render": function (id) {                 
+                    
+                    
+                    return '<a class="btn btn-info btn-sm btn-block" href="/telefone/pessoa/' +
+                            id + '" role="button"><i class="fas fa-solid fa-phone"></i></a>';
+                }
+            },
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
@@ -52,7 +76,7 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-danger btn-sm btn-block" href="/funcionarios/excluir/' +
+                    return '<a class="btn btn-danger btn-sm btn-block" href="/funcionarios/delete/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             }

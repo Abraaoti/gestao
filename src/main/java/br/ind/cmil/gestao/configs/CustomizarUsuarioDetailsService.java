@@ -1,8 +1,7 @@
 package br.ind.cmil.gestao.configs;
 
-import br.ind.cmil.gestao.model.entidades.Perfil;
-import br.ind.cmil.gestao.model.entidades.Usuario;
-import br.ind.cmil.gestao.model.repositorys.IUsuarioRepository;
+import br.ind.cmil.gestao.domain.Perfil;
+import br.ind.cmil.gestao.domain.Usuario;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import br.ind.cmil.gestao.repositorys.UsuarioRepository;
 
 /**
  *
@@ -20,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CustomizarUsuarioDetailsService implements UserDetailsService {
 
-    private final IUsuarioRepository ur;
+    private final UsuarioRepository ur;
 
-    public CustomizarUsuarioDetailsService(IUsuarioRepository ur) {
+    public CustomizarUsuarioDetailsService(UsuarioRepository ur) {
         this.ur = ur;
     }
 
@@ -32,7 +32,7 @@ public class CustomizarUsuarioDetailsService implements UserDetailsService {
         Usuario usuario = ur.findByNomeOrEmail(username, username).get();     
 
         if (usuario != null) {
-            return new org.springframework.security.core.userdetails.User(usuario.getEmail(),
+            return new org.springframework.security.core.userdetails.User(usuario.getNome(),
                     usuario.getPassword(),
                     mapRolesToAuthorities(usuario.getPerfis()));
         } else {

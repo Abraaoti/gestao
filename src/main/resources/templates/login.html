@@ -1,28 +1,70 @@
 <!DOCTYPE html>
-<html layout:decorate="~{fragments/layout}"
-      xmlns:layout="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Acesso</title>
+<html lang="pt" xmlns:th="www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:with="version=${#strings.randomAlphanumeric(3)}">
+    <head >
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />        
+        <meta name="description" content="gestão de pessoas" />
+        <meta name="author" content="kalele" />
+        <link rel="shortcut icon"  th:href="@{/image/favicon.ico}" />
+        <title >Login</title>
 
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+
+
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css(v=${version}) }" rel="stylesheet" />
+
+        <!-- jQueryUI (autocomplete) -->
+        <link href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+        <!-- Icons fontawesome -->
+        <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
+        <!-- Custom styles for this template -->
+
+
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" defer></script>
+        <!-- Font datatables -->
+        <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="@{https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css(v=${version})}" />
+        <link rel="stylesheet" type="text/css" href="@{https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css(v=${version})}" />
+        <link rel="stylesheet" type="text/css" href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css(v=${version})}" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css(v=${version})"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css"/>
+        <!-- Font Awesome JS -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+
+        <!-- script graficos -->
+        <script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{https://www.gstatic.com/charts/loader.js}"></script>
+
+        <link th:href="@{/css/footer.css(v=${version}) }" rel="stylesheet" />
+
+        <link th:href="@{/css/login.css(v=${version})}" rel="stylesheet" />
+       
 
     </head>
     <body>
-        <section  layout:fragment="corpo">
+       
 
-            <form class="form-signin was-validated" method="post" th:action="@{/login}">
+
+
+            <form class="form-signin was-validated" method="post" th:action="@{/login}" >
                 <div class="text-center mb-5">
                     <!--img class="mb-4" th:src="@{/image/registration.jpg}" alt="" width="72" height="72"/-->
                     <!--h1 class="h3 mb-3 font-weight-normal">gestão de pessoais</h1-->
 
                     <!--p class="font-weight-lighter">Seja bem-vindo.</p-->
                     <!--p class="text-muted">Realize seu login para continuar</p-->					
-                    <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
-                         role="alert">
+                    <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"  role="alert">
                         <h4 th:text="${titulo}" class="alert-heading">Credenciais...</h4>
                         <p th:text="${texto}">Login ou senha incorretos...</p>
                         <hr>
-                        <p class="mb-0"><small th:text="${subtexto}">Acesso permitido...</small></p>
+                            <p class="mb-0"><small th:text="${subtexto}">Acesso permitido...</small></p>
                     </div>
                 </div>
 
@@ -46,16 +88,13 @@
                     </label>
                 </div-->
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-                <hr>
-                <!--nav class="nav nav-pills flex-column flex-sm-row">
-                    <a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/u/novo/cadastro}"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;Novo cadastro</a>
-                    <a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/u/p/redefinir/senha}"><i class="fas fa-key"></i>&nbsp;Recuperar senha</a>
 
-                </nav-->
+            </form>  
+            <div th:replace="~{fragments/footer :: rodape}" sec:authorize="!isAuthenticated()">
+                <div>footer</div>
+            </div>
+        
 
-            </form>
-
-        </section>
         <script th:src="~{}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript"></script>
     </body>

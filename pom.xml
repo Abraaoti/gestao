@@ -168,7 +168,12 @@
             <artifactId>spring-web</artifactId>
             <type>jar</type>
         </dependency>
-       
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.13.Final</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>

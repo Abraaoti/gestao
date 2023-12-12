@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+        <title>[[#{cargo.add.headline}]]</title>
+    </head>
+
+    <body>
+        <div  layout:fragment="corpo">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{cargo.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/cargos}" class="btn btn-secondary">[[#{cargo.add.back}]]</a>
+                </div>
+            </div>	
+
+            <form th:action="${cargo.id == null} ? @{/cargo/create} : @{/cargo/update}" th:object="${cargo}" method="POST" class="was-validated">
+                <div class="form-group row">
+
+                    <label for="nome" class="col-sm-2 col-form-label">Cargo </label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control"  th:field="*{nome}" id="nome"  required/>
+                        <div class="invalid-feedback">cargo  é requerido.</div>
+                    </div>
+
+                    <input type="hidden" id="id" th:field="*{id}"/>	
+
+
+                    <div class="col-sm-2">
+                        <input type="submit" class="btn btn-primary mb-3" value="Salvar"/>
+                    </div>
+                </div>
+            </form>
+
+            <hr/>
+
+            <h2>Lista de Cargos</h2>
+
+
+            <table id="table-cargo" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Cargos</th>
+
+                        <th scope="col">Editar</th>
+                        <th scope="col">Excluir</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+
+
+        <script th:src="@{/js/cargo.js}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript"></script>
+    </body>
+</html>

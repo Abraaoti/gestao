@@ -9,104 +9,106 @@
         <div  layout:fragment="corpo">
 
             <div th:replace="fragments/alert :: alerta-sucesso"></div>	
-            
+
             <div class="card">
-  <div class="card-header">Dados Cadastrados</div>
-  <div class="card-body">
-       <div th:each="p :${pessoa}">
-      <p>Name: <strong th:text="${p.id}"></strong></p>
-      <p>Name: <strong th:text="${p.nome}"></strong></p>
-        <p>Sobrenome <strong th:text="${p.sobrenome}"></strong></p>
-        
-        
-  </div>
-  </div>
-  <div class="card-footer">
-       
-      <div class="d-grid gap-2 d-md-flex  justify-content-md-center">
-  <a th:href="@{/enderecos/pessoaid/{pessoaid}(pessoaid=${pessoa.id})}" class="btn btn-primary " tabindex="-1" role="button" aria-disabled="false">adicionar Endereço</a>
-<a th:href="@{/telefones/pessoaid/{pessoaid}(pessoaid=${pessoa.id})}" class="btn btn-secondary " tabindex="-1" role="button" aria-disabled="false">adicionar telefone</a>
-</div>
-  </div>
-</div>
+                <div class="card-header">Dados Cadastrados</div>
+                <div class="card-body">
+                    <div th:each="p :${pessoa}">
+                        <p>Name: <strong th:text="${p.id}"></strong></p>
+                        <p>Name: <strong th:text="${p.nome}"></strong></p>
+                        <p>Sobrenome: <strong th:text="${p.sobrenome}"></strong></p>
 
 
-             
+                    </div>
+                </div>
+                <div class="card-footer">
+
+                    <div class="d-grid gap-3 d-md-flex  justify-content-md-center">
+                        <a th:href="@{/endereco/pessoa/{pessoa_id}(pessoa_id=${pessoa.id})}" class="btn btn-primary " tabindex="-1" role="button" aria-disabled="false">add endereço</a>
+                        <a th:href="@{/telefone/pessoa/{pessoa_id}(pessoa_id=${pessoa.id})}" class="btn btn-secondary " tabindex="-1" role="button" aria-disabled="false">add telefone</a>
+                        <a th:href="@{/dependente/pessoa/{pessoa_id}(pessoa_id=${pessoa.id})}" class="btn btn-secondary " tabindex="-1" role="button" aria-disabled="false">add dependente</a>
+                    </div>
+                </div>
+            </div>
+
+
+
 
             <hr />
             <h2 style="text-align: center; text-transform: uppercase;">Fornecedores Cadastrados</h2>
             <hr />
 
-                <table id="historico_pessoa"  class="table table-sm table-striped table-bordered nowrap"
-                       >
-                    <thead class="thead-dark">
-                    <th scope="col">#</th>
-                    <th scope="col">nome</th>
-                    <th scope="col">uf</th>
-                    <th scope="col">cidade</th>
-                    <th scope="col">bairro</th>                                   
-                    <th scope="col">rua</th>
-                    <th scope="col">numero</th>
-                    <th scope="col">cep</th>
-                    <th scope="col">complemento</th>
-                    <th scope="col">telefone</th>                  
-                    </thead>
+            <table id="historico_pessoa"  class="table table-sm table-striped table-bordered nowrap"
+                   >
+                <thead class="thead-dark">
+                <th scope="col">#</th>
+                <th scope="col">nome</th>
+                <th scope="col">uf</th>
+                <th scope="col">cidade</th>
+                <th scope="col">bairro</th>                                   
+                <th scope="col">rua</th>
+                <th scope="col">numero</th>
+                <th scope="col">cep</th>
+                <th scope="col">complemento</th>
+                <th scope="col">telefone</th>                  
+                </thead>
 
-                </table>
-            </div>
-       
+            </table>
+        </div>
+
 
 
         <script	th:src="@{/js/historic_pessoa.js(v=${version})}" th:fragment="js"></script>
-<script	th:src="@{/js/appiEndereco.js(v=${version})}" th:fragment="js"></script>       
-   
+        <script	th:src="@{/js/appiEndereco.js(v=${version})}" th:fragment="js"></script>       
+
         <script	th:src="@{/js/apiCnpj.js(v=${version})}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript">
             $('#cnpj').val().replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-        
-          $(document).ready(function () {
-		moment.locale('pt-BR');
-		var pessoaid = [[${pessoa.id != null ? pessoa.id : 0}]];
-		if (pessoaid != 0) {
-         var table = $('#historico_pessoa').DataTable({
-        "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
-        },
-        searching: true,
-        order: [[1, "asc"]],
-        lengthMenu: [5, 10],
-        processing: true,
-        serverSide: true,
-        responsive: true,
-        ajax: {
-            url: '/pessoa/datatables/server/'+pessoaid,
-            data: 'data'
-        },
-        columns: [
-            {data: 'id'},
-            {data: 'nome'},
-            {data: 'endereco.uf'},
-            {data: 'endereco.cidade'},
-            {data: 'endereco.bairro'},
-            {data: 'endereco.rua'},
-            {data: 'endereco.numero'},
-            {data: 'endereco.cep'},
-            {data: 'endereco.complemento'},
-            {data: 'telefone', render: function (telefones) {
-                            var telefone = new Array();
-                    $.each(telefones, function (index, value) {
-                        telefone.push(value.numero);
+
+            $(document).ready(function () {
+                moment.locale('pt-BR');
+                        var pessoaid = [[${pessoa.id != null ? pessoa.id : 0}
+                        ]];
+                if (pessoaid != 0) {
+                    var table = $('#historico_pessoa').DataTable({
+                        "language": {
+                            "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                        },
+                        searching: true,
+                        order: [[1, "asc"]],
+                        lengthMenu: [5, 10],
+                        processing: true,
+                        serverSide: true,
+                        responsive: true,
+                        ajax: {
+                            url: '/pessoa/datatables/server/' + pessoaid,
+                            data: 'data'
+                        },
+                        columns: [
+                            {data: 'id'},
+                            {data: 'nome'},
+                            {data: 'endereco.uf'},
+                            {data: 'endereco.cidade'},
+                            {data: 'endereco.bairro'},
+                            {data: 'endereco.rua'},
+                            {data: 'endereco.numero'},
+                            {data: 'endereco.cep'},
+                            {data: 'endereco.complemento'},
+                            {data: 'telefone', render: function (telefones) {
+                                    var telefone = new Array();
+                                    $.each(telefones, function (index, value) {
+                                        telefone.push(value.numero);
+                                    });
+                                    return telefone;
+                                }
+
+                            }
+
+
+                        ]
                     });
-                    return telefone;
-                        }
-
-            }            
- 
-
-        ]
-   });
-		}
-	});   
+                }
+            });
         </script>
     </body>
 </html>

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.w3.org/1999/xhtml" 
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{fragments/layout}">
+      layout:decorate="~{layout}">
     <head>
         <meta charset="UTF-8" />
         <title>Dados Cadastrais</title>
     </head>
     <body>
 
-        <section class="layout-content" layout:fragment="corpo">
-
-
-
+        <div  layout:fragment="corpo">
 
             <div class="album py-5 bg-light">
 
 
-                <div class="d-flex justify-content-center">
-                    <div class="col-md-10">
 
-                        <div th:replace="~{fragments/alert  :: alerta-sucesso}"></div>
+
+
+                <div class="d-flex justify-content-center">
+                    <div class="col-md-12">
+
+                        <div th:replace="fragments/alert :: alerta-sucesso"></div>
 
                         <div class="add-toast position-absolute" aria-live="polite" 
                              aria-atomic="true" style="top:0px; right:20px;">
@@ -125,10 +125,8 @@
                 </div>
             </div>
         </div>
+    </div>
 
-
-
-    </section>
     <script	th:src="@{/js/auxiliar.js(v=${version})}"	th:fragment="js"></script>
     <script th:inline="javascript" th:fragment="inlinescript">
 

@@ -10,12 +10,12 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         ajax: {
-            url: '/enderecos/datatables/server/endereco',
+            url: '/endereco/datatables/server',
             data: 'data'
         },
         columns: [
             {data: 'id'},
-            {data: 'pessoaEndereco.nome'},
+            {data: 'pessoa.nome'},
             {data: 'uf'},
             {data: 'cidade'},
             {data: 'bairro'},
@@ -26,14 +26,14 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-success btn-sm btn-block" href="/enderecos/editar/' +
+                    return '<a class="btn btn-success btn-sm btn-block" href="/endereco/editar/' +
                             id + '" role="button"><i class="fas fa-edit"></i></a>';
                 }
             },
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-danger btn-sm btn-block" href="/enderecos/excluir/' +
+                    return '<a class="btn btn-danger btn-sm btn-block" href="/endereco/excluir/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             }

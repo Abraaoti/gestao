@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>[[#{frequencia.add.headline}]]</title>
+    </head>
+    <body>
+
+        <div  layout:fragment="corpo">
+
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{frequencia.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/frequencia}" class="btn btn-primary ms-2">[[#{frequencia.add.back}]]</a>
+                </div>
+            </div>
+
+
+
+            <form th:action="${frequencia.id == null} ? @{/frequencia/salvar} : @{/frequencia/editar}" th:object="${frequencia}"  method="POST" class="was-validated">
+
+                <div class="form-group row">  
+                    <div class="form-group col-md-3">
+                        <label class="col-form-label" for="data" >DATA</label> 
+
+                        <input type="date" class="form-control " id="nascimento" th:field="*{data}" required />
+                        <span th:if="${#fields.hasErrors('data')}" th:errors="*{data}" class="text-danger"></span>
+                    </div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input"   th:field="*{status}" id="status"  th:if="${status == true ? 'checked=checked' : ''}" />
+                        <label class="custom-control-label" for="status">STATUS</label>
+                    </div>
+
+
+
+                </div>
+
+                <input type="hidden" name="funcionario" th:field="*{funcionario}"/>
+                <input type="hidden" name="cartao" th:field="*{cartao}"/>
+                <input type="hidden" th:field="*{id}"/>
+
+                <input type="submit" th:value="#{frequencia.add.headline}" class="btn btn-primary mt-4 fas fa-save" />
+
+
+
+
+            </form>
+
+        </div>
+
+
+
+        <script	th:src="~{}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

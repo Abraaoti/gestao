@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.configs;
 
-import br.ind.cmil.gestao.model.enums.TipoPerfil;
+import br.ind.cmil.gestao.enums.TipoPerfil;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -93,7 +93,7 @@ public class SecurityConfig {
                 //acessos privados  administrador   
 
                 //.requestMatchers("/departamento/**","/administrador**","/projeto/**").hasAuthority(ADMINISTRADOR)
-                .requestMatchers(new AntPathRequestMatcher("/administrador/**", "/lotacao/**")).hasRole(ADMINISTRADOR)
+                .requestMatchers(new AntPathRequestMatcher("/administrador/**", "/centroCusto/**")).hasRole(ADMINISTRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/departamento/**", "/departamento/add")).hasAnyAuthority(ADMINISTRADOR)
                 .requestMatchers(new AntPathRequestMatcher("/administrador/dados/", "/administrador/salvar/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)
                 .requestMatchers(new AntPathRequestMatcher("/administrador/editar/")).hasAnyAuthority(ADMINISTRADOR, ADMIN)

@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+
+        <title>[[#{funcionario.add.headline}]]</title>
+    </head>
+    <body>
+
+        <div  layout:fragment="corpo">
+            
+            <div class="card">
+                
+                <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{funcionario.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/funcionarios}" class="btn btn-secondary">[[#{funcionario.add.back}]]</a>
+                </div>
+            </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+
+
+
+                        <form th:action="${funcionario.id== null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"   th:object="${funcionario}"	method="POST" class="was-validated">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="nome" class="col-form-label">nome</label>                                   
+                                    <input type="text" class="form-control" th:field="*{nome}" id="nome"  required/>
+                                    <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger"></span>
+                                </div>
+
+
+
+                                <div class="form-group col-md-5">
+                                    <label class="col-form-label" for="sobrenome">sobrenome </label>
+
+                                    <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome" required/>
+                                    <span th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label class="col-form-label" for="nascimento" >Nascimento</label> 
+
+                                    <input type="date" class="form-control " id="nascimento" th:field="*{nascimento}" required />
+                                    <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="col-form-label" for="mae"> mãe </label>
+
+                                    <input type="text" class="form-control" th:field="*{mae}" id="mae"  />
+                                    <span th:if="${#fields.hasErrors('mae')}" th:errors="*{mae}" class="text-danger"></span>
+
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label class=" col-form-label" for="pai">pai</label> 
+
+                                    <input type="text" class="form-control "  th:field="*{pai}" id="pai"   />
+
+                                    <span th:if="${#fields.hasErrors('pai')}" th:errors="*{pai}" class="text-danger"></span>                                   
+                                </div>
+
+
+
+                                <div class="form-group col-md-4">
+                                    <label class="col-form-label" for="naturalidade" >naturalidade</label>
+
+                                    <input type="text" class="form-control" th:field="*{naturalidade}" id="naturalidade"  />
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class=" col-form-label" for="clt">clt</label> 
+
+                                    <input type="text" class="form-control" id="clt"  th:field="*{clt}" required />
+
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label class="col-form-label" for="cpf" >cpf</label> 
+
+                                    <input type="text" class="form-control "  id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
+                                           th:field="*{cpf}"  required maxlength="14" minlength="5" />
+
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label class=" col-form-label" for="rg" >rg</label>                                   
+                                    <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="col-form-label"  for="centroCusto" >centro de custo</label> 
+
+                                    <select class="form-control" th:field="*{centroCusto}" >
+                                        <option class="form-check-input" th:each="centroCusto : ${centros}"   th:value="${centroCusto.id}" th:text="${centroCusto.nome}" id="centroCusto" />
+                                    </select> 
+
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label class=" col-form-label" for="departamento" >departamento</label> 
+
+                                    <select class="form-control " th:field="*{departamento}"  >                               
+                                        <option  th:each="departamento : ${departamentos}"  class="form-check-input" th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" />
+                                    </select>  
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label class="col-form-label"  for="cargo" >cargo</label>                                   
+                                    <select class="form-control"  th:field="*{cargo}" >
+                                        <option th:each="cargo : ${cargos}"  class="form-check-input" th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
+                                    </select>                 
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="col-form-label" for="salario" >salário</label> 
+
+                                    <input type="text" class="form-control " id="salario"  th:field="*{salario}"  />
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label class="col-form-label" for="estado_civil">estado civil</label> 
+
+                                    <th:block th:each="estado_civil : ${estadoCivil}" >
+                                        <div class="form-check">
+                                            <input type="radio"  class="form-check-input"  id="estado_civil"  th:field="*{estado_civil}" th:value="${estado_civil}" th:text="${estado_civil}" checked />
+
+                                        </div>
+
+                                    </th:block>
+                                </div>
+
+                                <div class="form-group col-md-4">
+
+
+                                    <label class="col-form-label" for="genero">genero</label>
+                                    <th:block th:each="genero : ${generos}" >
+                                        <div class="form-check">
+                                            <input type="radio"  class="form-check-input"  th:field="*{genero}" id="genero" th:value="${genero}" th:text="${genero}" checked />
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+
+                            <input type="hidden" th:field="*{id}"/>	
+
+                            <div class="col-md-6">
+                                <input type="submit" class="btn btn-primary" value="enviar">
+                            </div>
+
+
+                        </form>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script th:src="@{/js/mascaras.js(v=${version})}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

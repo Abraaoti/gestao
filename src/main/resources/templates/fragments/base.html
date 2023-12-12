@@ -3,65 +3,56 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:with="version=${#strings.randomAlphanumeric(3)}">
-    <head th:fragment="baseHead(title,links)">
+    <head >
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />        
+        <meta name="description" content="gestão de pessoas" />
+        <meta name="author" content="kalele" />
+        <link rel="shortcut icon"  th:href="@{/image/favicon.ico}" />
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">sistema de gestão de pessoas</title>
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
 
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport"  content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="clínica médica com agendamento de consultas online" />
-        <meta name="author" content="Kalele" />
-        <title th:replace="${title}">cmil</title>
 
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css(v=${version}) }" rel="stylesheet" />
 
-           <link rel="shortcut icon"  th:href="@{/image/favicon.ico}" />
-    
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
-
-
-        <!-- script -->
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-
-       
-        <!-- Bootstrap core CSS -->
-        <link th:rel="stylesheet" type="text/css" media="all"  th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css} "/>
-
-        <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet"/>
         <!-- jQueryUI (autocomplete) -->
-        <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+        <link href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" rel="stylesheet"/>
         <!-- Icons fontawesome -->
         <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
+        <!-- Custom styles for this template -->
 
 
-        <!-- placeholder for additional links -->
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" defer></script>
+        <!-- Font datatables -->
+        <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" type="text/css" href="@{https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css(v=${version})}" />
+        <link rel="stylesheet" type="text/css" href="@{https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css(v=${version})}" />
+        <link rel="stylesheet" type="text/css" href="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css(v=${version})}" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css(v=${version})"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css"/>
+        <!-- Font Awesome JS -->
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
+
+        <!-- script graficos -->
+        <script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{https://www.gstatic.com/charts/loader.js}"></script>
+
+
+
+        <link th:href="@{/css/footer.css(v=${version}) }" rel="stylesheet" />
+
+        <link th:href="@{/css/login.css(v=${version})}" rel="stylesheet" />
+
         <th:block th:replace="${links}" />
-
     </head>
     <body>
 
-        <script src="https://your-site-or-cdn.com/fontawesome/v6.0.0/js/all.js" data-auto-replace-svg="nest"></script>
 
-        <!-- Bootstrap core JavaScript
-     ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script th:src="@{/webjars/jquery/jquery.min.js(v=${version}) }"></script>
-        <script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js(v=${version}) }"></script>
-        <!-- jQueryUI (autocomplete) -->
-        <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js'></script>
-        <!-- 	Datatables JS -->
-        <script	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
-        <script	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script	src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-        <script	src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
-        <!-- 	MEUS JS -->
-        <script th:replace=":: js"></script>	
-        <script th:replace=":: inlinescript" th:inline="javascript"></script>
 
     </body>
 </html>

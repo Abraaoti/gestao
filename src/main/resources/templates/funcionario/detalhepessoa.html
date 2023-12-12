@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+        <title>Detalhe</title>
+    </head>
+    <body>
+        <div  layout:fragment="corpo">
+
+            <div class="card">
+                <!--div th:replace="~{fragments/alert :: alerta-sucesso}"/-->
+                <div class="card-header text-center text-uppercase my-5">
+                    Detalhe funcionário add
+                </div>
+
+
+                <div class="card-body">
+                  
+                    <ul class="card-text">
+                        <ol>código: <strong th:text="${pessoa.id}"></strong></ol>
+                        <ol>Name: <strong th:text="${pessoa.nome}"></strong></ol>
+                        <ol>Sobrenome: <strong th:text="${pessoa.sobrenome}"></strong></ol>
+
+                    </ul>
+
+
+
+                </div>
+                <div class="card-footer">
+                    <div class="d-grid gap-3 d-md-flex  justify-content-md-center">
+                        <a href="/funcionarios/add" class="card-link btn btn-primary">
+                            <i class="fas fa-user-plus ml-2"> novo Funcionário</i>
+                        </a>
+
+                        <a th:href="@{/endereco/pessoa/{pessoa_id}(pessoa_id=${pessoa.id})}" class="card-link btn btn-info" tabindex="-1" role="button" aria-disabled="false"><i class="fa-regular fa-address-card">
+                                endereço
+                            </i>
+                        </a>
+                        <a th:href="@{/telefone/pessoa/{pessoa_id}(pessoa_id=${pessoa.id})}" class="card-link btn btn-secondary " tabindex="-1" role="button" aria-disabled="false">
+
+                            <i class="fa-solid fa-phone-volume">telefone</i>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+        <script	th:src="@{/js/historic_pessoa.js(v=${version})}" th:fragment="js"></script> 
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

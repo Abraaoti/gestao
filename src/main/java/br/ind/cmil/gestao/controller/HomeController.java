@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private FuncionarioService funcionarioService;
+   // @Autowired
+   // private FuncionarioService funcionarioService;
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
@@ -55,7 +55,7 @@ public class HomeController {
         return "redirect:/login";
     }
 
-    @RequestMapping("/estatistica")
+  /**  @RequestMapping("/estatistica")
     public ResponseEntity<?> estatistica() {
         Map<String, Object> map = new HashMap();
         map.put("iFuncionarioCount", funcionarioService.countById());
@@ -64,7 +64,7 @@ public class HomeController {
         // map.put("iUsuarioCount", iUsuarioService.countId());
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-
+*/
     @GetMapping("/login-error")
     public String loginError(ModelMap model, HttpServletRequest resp) {
         HttpSession session = resp.getSession();
@@ -83,7 +83,7 @@ public class HomeController {
         return "login";
     }
 
-    @GetMapping("/graficos")
+  /**  @GetMapping("/graficos")
     public ResponseEntity<?> funcionarios() {
         Map<String, List<Funcionario>> mappedData = new HashMap<>();
         List<FuncionarioDTO> dataList = funcionarioService.list();
@@ -101,7 +101,7 @@ public class HomeController {
         }
         return new ResponseEntity<>(mappedData, HttpStatus.OK);
     }
-
+*/
     @GetMapping("/expired")
     public String sessaoExpirada(ModelMap model) {
         model.addAttribute("alerta", "erro");

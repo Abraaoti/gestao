@@ -99,12 +99,12 @@ a, a:hover, a:focus {
 ----------------------------------------------------- */
 
 .wrapper {
+    display: table-cell;
     position: fixed;
     top: 0;
-    margin: 0 auto;
-    display: flex;
-    width: 100%;
-    align-items: stretch;
+    margin: 0;
+    width: 1349px;
+    justify-content: center;
     perspective: 1500px;
     overflow: hidden;
     z-index:1;
@@ -116,7 +116,7 @@ header{
     align-items: center;
     top: 0;
     position: fixed;
-    height: 95px;
+    height: 70px;
     z-index: 2;
     background: #fff;
 }
@@ -129,28 +129,28 @@ header{
 
 
 }
-#content {
-    display: grid;
-    grid-template: auto / 1fr 4fr;
-    min-height: 100vh;
-}
 
 .main_content{
-    margin: 0 auto;
-    min-height: 100vh;
-    width: 960px;
+    display: grid;
+    grid-template: auto / 1fr 4fr;
+    width: 100vw;
+    height: 100vh;
     top: 95px;
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
     z-index: 3;
     border-radius: 2px;
+    align-content: center;
+    padding: 15px;
+    
 }
-main{
-    width: 750px;
-    height: 100%;
+.conteudo {
+    width: 1100px;
+    height: 100vh;
     margin-left: 210px;
-    padding: 5px;
     position: relative;
+    padding: 20px;
+     overflow: hidden;
     z-index: 6;
 }
 .content {

@@ -23,121 +23,130 @@
 
 
                         <form th:action="${funcionario.id== null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"   th:object="${funcionario}"	method="POST" class="was-validated">
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="nome" class="col-form-label">nome</label>                                   
+                            <div class="mb-3 row">
+                                    <label for="nome" class="col-sm-2 col-form-label">nome</label>                                   
+                               <div class="col-sm-6">
                                     <input type="text" class="form-control" th:field="*{nome}" id="nome"  required/>
                                     <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger"></span>
-                                </div>
+                               
 
+ </div>
+ </div>
 
-
-                                <div class="form-group col-md-5">
-                                    <label class="col-form-label" for="sobrenome">sobrenome </label>
-
+                                <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="sobrenome">sobrenome </label>
+ <div class="col-sm-6">
                                     <input type="text" class="form-control" th:field="*{sobrenome}" id="sobrenome" required/>
                                     <span th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" class="text-danger"></span>
                                 </div>
+                                </div>
 
-                                <div class="form-group col-md-3">
-                                    <label class="col-form-label" for="nascimento" >Nascimento</label> 
-
+                                 <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="nascimento" >Nascimento</label> 
+ <div class="col-sm-3">
                                     <input type="date" class="form-control " id="nascimento" th:field="*{nascimento}" required />
                                     <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}" class="text-danger"></span>
                                 </div>
-                            </div>
+                                </div>
+                        
 
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="col-form-label" for="mae"> mãe </label>
-
+                            <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="mae"> mãe </label>
+ <div class="col-sm-5">
                                     <input type="text" class="form-control" th:field="*{mae}" id="mae"  />
                                     <span th:if="${#fields.hasErrors('mae')}" th:errors="*{mae}" class="text-danger"></span>
 
                                 </div>
+                                </div>
 
 
-                                <div class="form-group col-md-4">
-                                    <label class=" col-form-label" for="pai">pai</label> 
-
+                              <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="pai">pai</label> 
+ <div class="col-sm-5">
                                     <input type="text" class="form-control "  th:field="*{pai}" id="pai"   />
 
                                     <span th:if="${#fields.hasErrors('pai')}" th:errors="*{pai}" class="text-danger"></span>                                   
                                 </div>
+                                </div>
 
 
 
-                                <div class="form-group col-md-4">
-                                    <label class="col-form-label" for="naturalidade" >naturalidade</label>
-
+                             <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="naturalidade" >naturalidade</label>
+ <div class="col-sm-4">
                                     <input type="text" class="form-control" th:field="*{naturalidade}" id="naturalidade"  />
 
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class=" col-form-label" for="clt">clt</label> 
-
+                           <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="clt">clt</label> 
+ <div class="col-sm-4">
                                     <input type="text" class="form-control" id="clt"  th:field="*{clt}" required />
 
                                 </div>
+                                </div>
 
 
-                                <div class="form-group col-md-4">
-                                    <label class="col-form-label" for="cpf" >cpf</label> 
-
+                               <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="cpf" >cpf</label> 
+ <div class="col-sm-4">
                                     <input type="text" class="form-control "  id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
                                            th:field="*{cpf}"  required maxlength="14" minlength="5" />
 
                                 </div>
-
-
-                                <div class="form-group col-md-4">
-                                    <label class=" col-form-label" for="rg" >rg</label>                                   
-                                    <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
                                 </div>
 
-                            </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="rg" >rg</label>  
+                                     <div class="col-sm-4">
+                                    <input type="text" class="form-control " id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
+                                </div>
+                                </div>
+
+                         
 
 
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="col-form-label"  for="centroCusto" >centro de custo</label> 
-
+                           <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label"  for="centroCusto" >centro de custo</label> 
+ <div class="col-sm-5">
                                     <select class="form-control" th:field="*{centroCusto}" >
                                         <option class="form-check-input" th:each="centroCusto : ${centros}"   th:value="${centroCusto.id}" th:text="${centroCusto.nome}" id="centroCusto" />
                                     </select> 
 
                                 </div>
+                                </div>
 
 
-                                <div class="form-group col-md-4">
-                                    <label class=" col-form-label" for="departamento" >departamento</label> 
-
+                               <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="departamento" >departamento</label> 
+ <div class="col-sm-5">
                                     <select class="form-control " th:field="*{departamento}"  >                               
                                         <option  th:each="departamento : ${departamentos}"  class="form-check-input" th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" />
                                     </select>  
                                 </div>
+                                </div>
 
-                                <div class="form-group col-md-4">
-                                    <label class="col-form-label"  for="cargo" >cargo</label>                                   
+                                <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label"  for="cargo" >cargo</label>                                   
+                                    <div class="col-sm-4">
                                     <select class="form-control"  th:field="*{cargo}" >
                                         <option th:each="cargo : ${cargos}"  class="form-check-input" th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
                                     </select>                 
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label class="col-form-label" for="salario" >salário</label> 
-
+                            <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="salario" >salário</label> 
+ <div class="col-sm-4">
                                     <input type="text" class="form-control " id="salario"  th:field="*{salario}"  />
+                                </div>
                                 </div>
 
 
-                                <div class="form-group col-md-4">
-                                    <label class="col-form-label" for="estado_civil">estado civil</label> 
-
+                               <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="estado_civil">estado civil</label> 
+ <div class="col-sm-5">
                                     <th:block th:each="estado_civil : ${estadoCivil}" >
                                         <div class="form-check">
                                             <input type="radio"  class="form-check-input"  id="estado_civil"  th:field="*{estado_civil}" th:value="${estado_civil}" th:text="${estado_civil}" checked />
@@ -146,19 +155,19 @@
 
                                     </th:block>
                                 </div>
+                                </div>
 
-                                <div class="form-group col-md-4">
-
-
-                                    <label class="col-form-label" for="genero">genero</label>
+                                <div class="mb-3 row">
+                                    <label class="col-sm-2 col-form-label" for="genero">genero</label>
+                                    <div class="col-sm-4">
                                     <th:block th:each="genero : ${generos}" >
                                         <div class="form-check">
                                             <input type="radio"  class="form-check-input"  th:field="*{genero}" id="genero" th:value="${genero}" th:text="${genero}" checked />
                                         </div>
                                     </th:block>
                                 </div>
-                            </div>
-
+                                </div>
+                          
                             <input type="hidden" th:field="*{id}"/>	
 
                             <div class="col-md-6">

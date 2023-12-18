@@ -134,14 +134,15 @@ header{
     display: grid;
     grid-template: auto / 1fr 4fr;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     top: 95px;
     position: relative;
     overflow: hidden;
     z-index: 3;
     border-radius: 2px;
     align-content: center;
-    padding: 15px;
+    justify-content: center;
+    padding: 5px;
     
 }
 .conteudo {
@@ -149,14 +150,15 @@ header{
     height: 100vh;
     margin-left: 210px;
     position: relative;
-    padding: 20px;
-     overflow: hidden;
+    padding: 5px;
+    overflow-x: hidden;
     z-index: 6;
 }
 .content {
     align-content: normal;
     width: 100%;
-    padding: 15px;
+    height: 100vh;
+    padding: 5px;
     position: absolute;
     z-index: 5;
 }

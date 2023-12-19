@@ -1,3 +1,4 @@
+
 package br.ind.cmil.gestao.enums;
 
 import java.util.HashSet;
@@ -7,7 +8,9 @@ import java.util.Set;
  *
  * @author abraao
  */
-public enum TipoControle {
+public enum TipoFrequencia {
+    
+    
     ATESTADO("atestado"),
     FALTA("falta"),
     INSS("inss"),
@@ -15,7 +18,7 @@ public enum TipoControle {
     TREINAMENTO("treinamento");
     private final String value;
 
-    private TipoControle(String value) {
+    private TipoFrequencia(String value) {
         this.value = value;
     }
 
@@ -23,7 +26,7 @@ public enum TipoControle {
         return value;
     }
 
-    public static TipoControle convertTipoControle(String value) {
+    public static TipoFrequencia convertTipoTipoFrequencia(String value) {
 
         if (value == null) {
             return null;
@@ -31,27 +34,27 @@ public enum TipoControle {
         return switch (value) {
 
             case "atestado" ->
-                TipoControle.ATESTADO;
+                TipoFrequencia.ATESTADO;
             case "falta" ->
-                TipoControle.FALTA;
+                TipoFrequencia.FALTA;
             case "inss" ->
-                TipoControle.INSS;
+                TipoFrequencia.INSS;
             case "presente" ->
-                TipoControle.PRESENTE;
+                TipoFrequencia.PRESENTE;
             case "treinamento" ->
-                TipoControle.TREINAMENTO;
+                TipoFrequencia.TREINAMENTO;
             default ->
                 throw new IllegalArgumentException(" opção  inválido " + value);
         };
 
     }
 
-    public static Set<String> tipoAusencia() {
-        Set<String> ausencias = new HashSet<>();
-        for (TipoControle ausencia : TipoControle.values()) {
-            ausencias.add(ausencia.getValue());
+    public static Set<String> tipoFrequencias() {
+        Set<String> frequencias = new HashSet<>();
+        for (TipoFrequencia ausencia : TipoFrequencia.values()) {
+            frequencias.add(ausencia.getValue());
         }
-        return ausencias;
+        return frequencias;
     }
-
+    
 }

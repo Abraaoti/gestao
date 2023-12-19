@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.mappers;
 
-import br.ind.cmil.gestao.domain.Perfil;
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.domain.Usuario;
 import java.time.LocalDateTime;

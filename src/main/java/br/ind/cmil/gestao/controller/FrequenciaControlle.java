@@ -1,15 +1,17 @@
 package br.ind.cmil.gestao.controller;
 
 import br.ind.cmil.gestao.domain.Frequencia;
-import br.ind.cmil.gestao.domain.Presenca;
+import br.ind.cmil.gestao.domain.Funcionario;
+import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import br.ind.cmil.gestao.services.FrequenciaService;
 import br.ind.cmil.gestao.services.FuncionarioService;
-import br.ind.cmil.gestao.services.PresencaService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import java.util.List;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -37,23 +39,22 @@ public class FrequenciaControlle {
         this.frequenciaService = presencaService;
         this.funcionarioService = funcionarioService;
     }
-  
 
     @ModelAttribute
     public void prepareContext(Model model) {
         model.addAttribute("funcionarios", funcionarioService.list());
+        model.addAttribute("tipos", TipoFrequencia.values());
     }
 
-    @GetMapping("/funcionario/{funcionario_id}")
-    public String form(@ModelAttribute("frequencia") FrequenciaDTO presenca, Model model) {
-        
-       
+    @GetMapping("/funcionario/{funcionarioIds}")
+    public String form(@PathVariable("funcionarioIds") List<Long> funcionarioIds, FrequenciaDTO frequencia, Model model) {
+        model.addAttribute("frequencia", frequenciaService.criar(funcionarioIds, frequencia));
+
         return "frequencia/frequencia";
     }
 
     @GetMapping
-    public String getFrequencia() {
-        
+    public String getFrequencia() {       
         return "frequencia/frequencias";
     }
 

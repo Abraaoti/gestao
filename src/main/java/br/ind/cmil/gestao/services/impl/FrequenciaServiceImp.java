@@ -4,6 +4,7 @@ import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.domain.Frequencia;
 import br.ind.cmil.gestao.domain.Funcionario;
+import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.mappers.FrequenciaMapper;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import br.ind.cmil.gestao.repositorys.FrequenciaRepository;
@@ -15,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 /**
@@ -42,15 +45,8 @@ public class FrequenciaServiceImp implements FrequenciaService {
     public List<Frequencia> getFrequencias() {
 
         List<Frequencia> funcionarios = frequenciaRepository.findAll(Sort.by("id"));
-        // return funcionarios.stream().map(presenca -> new Presenca()).collect(Collectors.toList());
         return funcionarios;
 
-    }
-
-    @Override
-    public FrequenciaDTO criar(Long pessoa_id, FrequenciaDTO frequencia) {
-        Funcionario funcionario = funcionarioRepository.findById(pessoa_id).get();
-        return new FrequenciaDTO(frequencia.id(), frequencia.data(), frequencia.status(), funcionario.getId());
     }
 
     @Override
@@ -60,12 +56,16 @@ public class FrequenciaServiceImp implements FrequenciaService {
         Frequencia frequencia = frequenciaMapper.toEntity(frequenciaDTO);
 
         if (frequenciaDTO.id() == null) {
-            Funcionario funcionario = funcionarioRepository.findById(frequenciaDTO.funcionario()).get();
-            frequencia.setFuncionario(funcionario);
+            List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionario());
+
+            funcionarios.forEach(funcionario -> {
+                funcionario.addFrequencia(frequencia);
+            });
+
             return frequenciaRepository.save(frequencia).getId();
         }
 
-        return update(frequenciaDTO).funcionario();
+        return update(frequenciaDTO).id();
 
     }
 
@@ -77,9 +77,15 @@ public class FrequenciaServiceImp implements FrequenciaService {
         }
         Frequencia frequencia = upFrequencia.get();
         frequencia.setData(frequenciaDTO.data());
-        frequencia.setStatus(frequenciaDTO.status());
-        Funcionario funcionario = funcionarioRepository.findById(frequenciaDTO.funcionario()).get();
-        frequencia.setFuncionario(funcionario);
+        frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia(frequenciaDTO.status()));
+
+        List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionario());
+
+        funcionarios.forEach(funcionario -> {
+            funcionario.addFrequencia(frequencia);
+        });
+        //Funcionario funcionario = funcionarioRepository.findById(frequenciaDTO.funcionario()).get();
+        // frequencia.setFuncionario(funcionario);
         frequencia.setId(frequenciaDTO.id());
         return frequenciaMapper.toDTO(frequenciaRepository.save(frequencia));
     }
@@ -94,13 +100,28 @@ public class FrequenciaServiceImp implements FrequenciaService {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.FREQUENCIA);
         Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
-                : frequenciaRepository.searchAll(datatables.getSearch(), datatables.getPageable());
+                : frequenciaRepository.searchAll(TipoFrequencia.convertTipoTipoFrequencia(datatables.getSearch()), datatables.getPageable());
+        
         return datatables.getResponse(page);
+    }
+
+    @Override
+    public List<Frequencia> f() {
+        Page<Frequencia> page = frequenciaRepository.findAll(PageRequest.of(0, 5));
+        List<Frequencia> frequencias = frequenciaRepository.findAllFrequencias(page.stream().collect(Collectors.toList()));
+        return frequencias;
     }
 
     @Override
     public void delete(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public FrequenciaDTO criar(List<Long> funcionario_ids, FrequenciaDTO frequencia) {
+        //List<Funcionario> funcionarios = funcionarioRepository.findAllById(funcionario_ids);
+        List<Long> funcionarioIds = funcionarioRepository.findAllById(funcionario_ids).stream().map(funcionarios_id -> funcionarios_id.getId()).collect(Collectors.toList());
+        return new FrequenciaDTO(frequencia.id(), frequencia.data(), frequencia.status(), funcionarioIds);
     }
 
 }

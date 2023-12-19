@@ -57,15 +57,14 @@
                 </nav>
 
             </header>
-            <div class=" main_content">
-
+            <div class=" content_menu">
 
                 <div id="sidebar" sec:authorize="isAuthenticated()" >
-                    <div th:replace="~{fragments/menu :: menu}"/>
+                    <div th:replace="~{fragments/menu :: menu}" class="menu"/>
                 </div>
 
 
-                    <main class="conteudo">
+                    <main >
 
                     <div th:if="${MSG_SUCCESS != null}" >
 
@@ -104,7 +103,7 @@
                     </div>	
 
 
-                    <div layout:fragment="corpo" />
+                    <div layout:fragment="corpo" class="conteudo" />
             </main>
             </div>
 

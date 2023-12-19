@@ -1,12 +1,17 @@
 package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
+import br.ind.cmil.gestao.convert.TipoAusenciaConvert;
+import br.ind.cmil.gestao.enums.TipoFrequencia;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -19,14 +24,19 @@ public class Frequencia extends Entidade {
 
     @Column(name = "data")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate data;  
-    @JoinColumn(name = "status")
-    private String status ; 
-    @ManyToOne
-    @JoinColumn(name = "funcionario_id")
-    private Funcionario funcionario;
+    private LocalDate data;
+    @Column(name = "status", nullable = false)
+    @Convert(converter = TipoAusenciaConvert.class)
+    protected TipoFrequencia status;
+    @ManyToMany(mappedBy = "frequencias")
+    @JsonIgnoreProperties("frequencias")
+    private List<Funcionario> funcionarios = new ArrayList<>();
 
     public Frequencia() {
+    }
+
+    public Frequencia(Long id) {
+        super.setId(id);
     }
 
     public LocalDate getData() {
@@ -37,22 +47,21 @@ public class Frequencia extends Entidade {
         this.data = data;
     }
 
-    public String getStatus() {
+    public TipoFrequencia getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TipoFrequencia status) {
         this.status = status;
     }
 
-    public Funcionario getFuncionario() {
-        return funcionario;
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
     }
 
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
 
    
-  
 }

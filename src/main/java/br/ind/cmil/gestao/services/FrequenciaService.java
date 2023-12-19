@@ -12,13 +12,15 @@ import java.util.Map;
  */
 public interface FrequenciaService {
 
-    FrequenciaDTO criar(Long pessoa_id, FrequenciaDTO frequencia);
+    FrequenciaDTO criar(List<Long> funcionario_ids, FrequenciaDTO frequencia);
 
     Long salvar(FrequenciaDTO frequenciaDTO);
 
     FrequenciaDTO findById(Long id);
 
     List<Frequencia> getFrequencias();
+
+    List<Frequencia> f();
 
     Map<String, Object> frequencias(HttpServletRequest request);
 

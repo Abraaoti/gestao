@@ -8,7 +8,7 @@
     <body>
 
         <div th:fragment="menu">
-            <ul class="list-unstyled components"  >             
+            <ul class="list-unstyled components nav nav-pills nav-stacked"  >             
 
                 <li  sec:authorize="hasAuthority('ADMIN')">
                     <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>

@@ -3,10 +3,13 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -45,8 +48,13 @@ public class Funcionario extends PessoaFisica {
     @ManyToOne
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id")
     private CentroCusto centroCusto;
-    @JsonIgnore
-    @OneToMany(mappedBy = "funcionario")
+
+    @ManyToMany
+    @JoinTable(name = "tbl_funcionarios_frequencias",
+            joinColumns = @JoinColumn(name = "funcionario_id"),
+            inverseJoinColumns = @JoinColumn(name = "frequencia_id")
+    )
+    @JsonIgnoreProperties("funcionarios")
     private List<Frequencia> frequencias = new ArrayList<>();
 
     public Funcionario() {
@@ -79,6 +87,10 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
         this.salario = salario;
         this.centroCusto = centroCusto;
+    }
+
+    public void addFrequencia(Frequencia frequencia) {
+        this.frequencias.add(frequencia);
     }
 
     public String getClt() {
@@ -144,8 +156,6 @@ public class Funcionario extends PessoaFisica {
     public void setFrequencias(List<Frequencia> frequencias) {
         this.frequencias = frequencias;
     }
-    
-    
 
     @Override
     public String toString() {

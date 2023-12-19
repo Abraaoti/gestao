@@ -8,11 +8,11 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author abraao
  */
-public record FrequenciaDTO(
+public record FrequenciaResponseDTO(
         Long id,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate data,
         String status,
-        List<Long> funcionario) {
+        List<FuncionarioDTO> funcionario) {
 
 }

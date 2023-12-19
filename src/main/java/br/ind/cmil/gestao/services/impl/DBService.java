@@ -7,6 +7,7 @@ import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.domain.Cargo;
 import br.ind.cmil.gestao.domain.Cartao;
+import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ import br.ind.cmil.gestao.services.UsuarioService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -165,11 +167,8 @@ public class DBService {
     public void instanciaBaseFuncionarios() {
 
         FuncionarioDTO analista = new FuncionarioDTO(null, "Abraão Calelesso", "Cassinda", LocalDate.of(1920, Month.NOVEMBER, 27), "01250284902", "v565786876", "adriana chipondia", "agostinha cassinda", "09987878", "masculino", "solteiro(a)", "lubango", LocalDate.now(), null, BigDecimal.valueOf(1800, 0), 6L, 5L, 3L);
-
+        FuncionarioDTO tecnico = new FuncionarioDTO(null, "angelino", "manuel", LocalDate.of(1992, Month.JULY, 06), "01250284904", "998756547", "ana", "vicente", "76765765756", "masculino", "solteiro(a)", "vitória", LocalDate.now(), null, BigDecimal.valueOf(8000, 0), 4L, 5L, 3L);
         FuncionarioDTO rh = new FuncionarioDTO(null, "beatriz", "da silva campos", LocalDate.of(1995, Month.JULY, 06), "01250284903", "998756546", "marli bentos", "silva", "7678700", "feminino", "solteiro(a)", "gv", LocalDate.now(), null, BigDecimal.valueOf(1400, 0), 3L, 4L, 3L);
-
-        FuncionarioDTO tecnico = new FuncionarioDTO(null, "januário", "manuel", LocalDate.of(1992, Month.JULY, 06), "01250284904", "998756547", "ana", "vicente", "76765765756", "masculino", "solteiro(a)", "vitória", LocalDate.now(), null, BigDecimal.valueOf(8000, 0), 4L, 5L, 3L);
-
         FuncionarioDTO engenheiro = new FuncionarioDTO(null, "joão", "victor", LocalDate.of(1997, Month.JULY, 06), "01250284905", "998756548", "victorina", "victor", "6567565675", "masculino", "solteiro(a)", "serra-es", LocalDate.now(), null, BigDecimal.valueOf(8000, 00), 7L, 6L, 3L);
         List<FuncionarioDTO> funcionarios = new ArrayList<>();
         funcionarios.add(analista);
@@ -185,30 +184,25 @@ public class DBService {
     public void instanciaBasePresenca() {
 
         List<FrequenciaDTO> frequencias = new ArrayList<>();
-        FrequenciaDTO abraao = new FrequenciaDTO(null,LocalDate.now(),"presença",1L);
+        FrequenciaDTO frequencia_1 = new FrequenciaDTO(null, LocalDate.now(), "presente", Arrays.asList(1L, 2L));
+        FrequenciaDTO frequencia_falta = new FrequenciaDTO(null, LocalDate.now(), "falta", Arrays.asList(3L));
+        FrequenciaDTO frequencia_treinamento = new FrequenciaDTO(null, LocalDate.now(), "treinamento", Arrays.asList(4L));
 
-        FrequenciaDTO beatriz = new FrequenciaDTO(null,LocalDate.now(),"presença",2L);
+        FrequenciaDTO frequencia_2 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 17), "presente", Arrays.asList(1L, 2L, 3L, 4L));
 
-        FrequenciaDTO angelico = new FrequenciaDTO(null,LocalDate.now(),"treinamento",3L);
+        FrequenciaDTO frequencia_3 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 14), "presente", Arrays.asList(1L, 2L, 3L, 4L));
 
-        FrequenciaDTO januario = new FrequenciaDTO(null,LocalDate.now(),"presença",4L);
+        FrequenciaDTO frequencia_4 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 15), "falta", Arrays.asList(1L, 2L, 3L, 4L));
 
-        FrequenciaDTO abraao2 = new FrequenciaDTO(null,LocalDate.of(2023, Month.DECEMBER, 13),"presença",1L);
+        FrequenciaDTO frequencia_5 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 16), "presente", Arrays.asList(1L, 2L, 3L, 4L));
 
-        FrequenciaDTO beatriz2 = new FrequenciaDTO(null,LocalDate.of(2023, Month.DECEMBER, 13),"presença",2L);
-
-        FrequenciaDTO angelico2 = new FrequenciaDTO(null,LocalDate.of(2023, Month.DECEMBER, 13),"falta",3L);
-
-        FrequenciaDTO januario2 = new FrequenciaDTO(null,LocalDate.of(2023, Month.DECEMBER, 13),"presença",4L);
-
-        frequencias.add(abraao);
-        frequencias.add(beatriz);
-        frequencias.add(angelico);
-        frequencias.add(januario);
-        frequencias.add(abraao2);
-        frequencias.add(beatriz2);
-        frequencias.add(angelico2);
-        frequencias.add(januario2);
+        frequencias.add(frequencia_1);
+        frequencias.add(frequencia_falta);
+        frequencias.add(frequencia_treinamento);
+        frequencias.add(frequencia_2);
+        frequencias.add(frequencia_3);
+        frequencias.add(frequencia_4);
+        frequencias.add(frequencia_5);
 
         for (FrequenciaDTO frequencia1 : frequencias) {
             frequenciaService.salvar(frequencia1);

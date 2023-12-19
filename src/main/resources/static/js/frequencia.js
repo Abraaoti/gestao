@@ -8,7 +8,7 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
         },
         ajax: {
             url: '/frequencia/datatables/server',
@@ -16,8 +16,9 @@ $(document).ready(function () {
         },
         columns: [
             {data: 'id'},
-            {data: 'funcionario.nome'},
-            {data: 'funcionario.cargo.nome'},
+            {data: 'funcionarios[,].nome'},
+            {data: 'funcionarios[,].cargo.nome'},         
+          
           
             {data: 'data', render:
                         function (nascimento) {
@@ -41,6 +42,9 @@ $(document).ready(function () {
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             }
+
         ]
+       
+    
     });
 });

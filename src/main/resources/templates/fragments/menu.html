@@ -1,14 +1,6 @@
-<html xmlns:th="http://www.thymeleaf.org">
-
-    <head>
-        <title>Menu</title>
-          <link th:href="@{/css/menu.css(v=${version})}" rel="stylesheet" />
-    </head>
-
-    <body>
 
         <div th:fragment="menu">
-            <ul class="list-unstyled components nav nav-pills nav-stacked"  >             
+            <ul id="sidenav-left" class="sidenav sidenav-fixed" >         
 
                 <li  sec:authorize="hasAuthority('ADMIN')">
                     <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
@@ -56,14 +48,10 @@
                        
                     </ul>
                 </li>					
-
-
-
+               
 
             </ul>
 
 
         </div>
-    </body>
-
-</html>
+  

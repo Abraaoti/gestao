@@ -33,7 +33,7 @@ public class CargoControlle {
 
     private final CargoService cs;
 
-    @GetMapping("/lista")
+    @GetMapping
     public String list() {
         return "cargo/cargos";
     }

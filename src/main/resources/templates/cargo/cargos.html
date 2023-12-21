@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-   <head>
-    <title>Lista de Cargos</title>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{cargo.list.headline}]]</title>
     </head>
     <body>
-
-        <div  layout:fragment="corpo">
-             <h2>Lista de Cargos</h2>
-            <hr/>
-
-
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{cargo.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/cargo/add}" class="btn btn-primary ms-2">[[#{cargo.list.createNew}]]</a>
+                </div>
+            </div>
             <table id="table-cargo"  class="table table-sm table-striped table-bordered nowrap" style="width:100%">
                 <thead class="thead-dark">
                     <tr>
@@ -24,10 +24,7 @@
                 </thead>
             </table>
         </div>
-
-
-    </div>
-    <script src="../../static/js/cargos.js" th:src="@{/js/cargos.js}" th:fragment="js"></script>
+    <script src="../../static/js/cargo.js" th:src="@{/js/cargo.js}" th:fragment="js"></script>
     <script th:inline="javascript" th:fragment="inlinescript"></script>
 </body>
 </html>

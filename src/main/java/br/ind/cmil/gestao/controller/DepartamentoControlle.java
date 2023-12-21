@@ -38,7 +38,7 @@ public class DepartamentoControlle {
         return "departamentos/departamento";
     }
 
-    @GetMapping("/lista")
+    @GetMapping
     public String lista() {
         return "departamentos/departamentos";
     }

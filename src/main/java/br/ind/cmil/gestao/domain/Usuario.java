@@ -42,10 +42,11 @@ public class Usuario extends Entidade{
     private String verificador;
     // @OneToMany(mappedBy = "user")
     //private Set<Token> tokens;
-   @ManyToMany
+  @ManyToMany
     @JoinTable(name = "tbl_usuario_perfis",
             joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "perfil_id", referencedColumnName = "id"))
+            inverseJoinColumns =@JoinColumn(name = "perfil_id", referencedColumnName = "id")
+    )
     private List<Perfil> perfis;
 
     public Usuario() {

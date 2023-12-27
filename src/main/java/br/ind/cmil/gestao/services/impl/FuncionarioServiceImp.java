@@ -144,7 +144,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
 
         Long departamento = funcionario.getDepartamento() == null ? null : funcionario.getDepartamento().getId();
         Long cargo = funcionario.getCargo() == null ? null : funcionario.getCargo().getId();
-        Long centro = funcionario.getCentroCusto() == null ? null : funcionario.getCentroCusto().getId();
+        Long centro = funcionario.getCentro() == null ? null : funcionario.getCentro().getId();
         return new FuncionarioDTO(funcionario.getId(), funcionario.getNome(), funcionario.getSobrenome(), funcionario.getNascimento(), funcionario.getCpf(), funcionario.getRg(), funcionario.getMae(), funcionario.getPai(), funcionario.getClt(), funcionario.getGenero().getValue(), funcionario.getEstado_civil().getValue(), funcionario.getNaturalidade(), funcionario.getAdmissao(), funcionario.getDemissao(), funcionario.getSalario(), cargo, departamento, centro);
     }
 
@@ -169,9 +169,9 @@ public class FuncionarioServiceImp implements FuncionarioService {
         funcionario.setDepartamento(departamento);
         Cargo cargo = funcionarioDTO.cargo() == null ? null : cargoRepository.findById(funcionarioDTO.cargo()).get();
         funcionario.setCargo(cargo);
-        CentroCusto centroCusto = funcionarioDTO.centroCusto() == null ? null : centroCustoRepository.findById(funcionarioDTO.centroCusto())
+        CentroCusto centro = funcionarioDTO.centro() == null ? null : centroCustoRepository.findById(funcionarioDTO.centro())
                 .get();
-        funcionario.setCentroCusto(centroCusto);
+        funcionario.setCentro(centro);
         return funcionario;
     }
 

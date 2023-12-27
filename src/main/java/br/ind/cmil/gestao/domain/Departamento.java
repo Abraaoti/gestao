@@ -3,7 +3,9 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.base.Entidade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,9 +24,12 @@ public class Departamento extends Entidade {
 
     @Column(length = 80, unique = true, nullable = false)
     private String nome;
+    //@OneToMany(mappedBy = "departamento")
+    //private List<Funcionario> funcionarios;
 
     public Departamento() {
     }
+
     public Departamento(Long id) {
         super.setId(id);
     }
@@ -32,7 +37,5 @@ public class Departamento extends Entidade {
     public Departamento(String nome) {
         this.nome = nome;
     }
-
-    
 
 }

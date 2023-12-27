@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -15,12 +16,12 @@ import org.springframework.stereotype.Repository;
  * @author abraao
  */
 @Repository
-public interface CentroCustoRepository extends JpaRepository<CentroCusto, Long> {
+public interface CentroCustoRepository extends JpaRepository<CentroCusto, Long>, JpaSpecificationExecutor<CentroCusto> {
 
-    @Query(value = "SELECT obj FROM CentroCusto obj ")
+    @Query(value = "SELECT c FROM CentroCusto c ")
     List<CentroCusto> searchAll();
 
-    @Query("select l from CentroCusto l where l.nome like :search%")
+    @Query(value = "from CentroCusto c  where c.nome like :search%")
     Page<CentroCusto> searchAll(String search, Pageable pageable);
 
     Optional<CentroCusto> findByNome(String contrato);

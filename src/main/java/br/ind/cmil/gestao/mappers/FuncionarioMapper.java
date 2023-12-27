@@ -21,7 +21,7 @@ public class FuncionarioMapper {
 
         Long cargo = (funcionario.getCargo().getId() == null) ? null : funcionario.getCargo().getId();
         Long departamento = (funcionario.getDepartamento().getId() == null) ? null : funcionario.getDepartamento().getId();
-        Long centroCusto = (funcionario.getCentroCusto().getId() == null) ? null : funcionario.getCentroCusto().getId();
+        Long centroCusto = (funcionario.getCentro().getId() == null) ? null : funcionario.getCentro().getId();
 
         return new FuncionarioDTO(funcionario.getId(), funcionario.getNome(), funcionario.getSobrenome(), funcionario.getNascimento(), funcionario.getCpf(), funcionario.getRg(), funcionario.getMae(), funcionario.getPai(), funcionario.getClt(), funcionario.getGenero().getValue(), funcionario.getEstado_civil().getValue(), funcionario.getNaturalidade(), funcionario.getAdmissao(), funcionario.getDemissao(), funcionario.getSalario(), cargo, departamento, centroCusto);
 
@@ -47,7 +47,7 @@ public class FuncionarioMapper {
         funcionario.setSalario(dto.salario());
         funcionario.setCargo(new Cargo(dto.cargo()));
         funcionario.setDepartamento(new Departamento(dto.departamento()));
-        funcionario.setCentroCusto(new CentroCusto(dto.centroCusto()));
+        funcionario.setCentro(new CentroCusto(dto.centro()));
 
         return funcionario;
     }

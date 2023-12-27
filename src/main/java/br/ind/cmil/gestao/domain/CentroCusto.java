@@ -3,7 +3,9 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.base.Entidade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,9 +25,13 @@ public class CentroCusto extends Entidade {
     @Column(length = 80)
     private String nome;
 
+    //@OneToMany(mappedBy = "centro")
+    //private List<Funcionario> funcionarios;
+
     public CentroCusto() {
 
     }
+
     public CentroCusto(Long id) {
         super.setId(id);
 

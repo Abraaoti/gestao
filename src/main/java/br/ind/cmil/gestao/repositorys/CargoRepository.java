@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -14,15 +15,15 @@ import org.springframework.stereotype.Repository;
  * @author abraao
  */
 @Repository
-public interface CargoRepository extends JpaRepository<Cargo, Long> {
+public interface CargoRepository extends JpaRepository<Cargo, Long>, JpaSpecificationExecutor<Cargo>{
 
-    @Query(value = "SELECT obj FROM Cargo obj ")
+    @Query(value = "SELECT c FROM Cargo c ")
     List<Cargo> searchAll();
 
-    @Query(value = "SELECT obj FROM Cargo obj ",
-            countQuery = "SELECT COUNT(obj) FROM Cargo obj ")
+    @Query(value = "FROM Cargo c  ")
     Page<Cargo> searchAll(Pageable pageable);
-    @Query("SELECT obj FROM Cargo obj  where obj.nome like :search%")
+    
+    @Query("FROM Cargo c  where c.nome like :search%")
     Page<Cargo> searchAll(String search, Pageable pageable);
 
     Optional<Cargo> findByNome(String nome);

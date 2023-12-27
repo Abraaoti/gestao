@@ -25,7 +25,8 @@
   
 
         
-      
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css(v=${version}) }" rel="stylesheet" />
+
         <!-- jQueryUI (autocomplete) -->
         <link href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" rel="stylesheet"/>
         <!-- Icons fontawesome -->
@@ -33,6 +34,7 @@
         <!-- Custom styles for this template -->
 
 
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}" defer></script>
         <!-- Font datatables -->
         <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet"/>
         <link rel="stylesheet" type="text/css" href="@{https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css(v=${version})}" />
@@ -59,35 +61,36 @@
     </head>
     <body>
         <div  th:fragment="header">
-            
-           
-            
-            
-          <div class="navbar-fixed">
-                <nav class="navbar navbar-light navbar-expand-md nav  ml-auto">
-                     <div class="nav-wrapper">
-                    <a th:href="@{/}" class="brand-logo">
-                        <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block">
-                        
+             <div class="container">
+                <nav class="navbar navbar-light navbar-expand-md">
+                    <a th:href="@{/}" class="navbar-brand">
+                        <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block align-top">
+                        <span class="ps-1">[[#{app.title}]]</span>
                     </a>
-                         
-                         
-                   
-                  
-                        
-                               
-                                <ul class="right hide-on-med-and-down" aria-labelledby="navbarEntitiesLink">
-                                    
-                                    
-                                    
+                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
+                            th:aria-label="#{navigation.toggle}" aria-controls="navbarToggle" aria-expanded="false">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarToggle">
+                        <ul class="navbar-nav ms-auto ">
+                           
+                            <li class="navbar-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarEntitiesLink" role="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">[[#{navigation.entities}]]</a>
+                                <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarEntitiesLink">
                                     <li><a th:href="@{/funcionarios}" class="dropdown-item">[[#{funcionario.list.headline}]]</a></li>
                                     <li><a th:href="@{/departamento}" class="dropdown-item">[[#{departamento.list.headline}]]</a></li>
                                     <li><a th:href="@{/cargo}" class="dropdown-item">[[#{cargo.list.headline}]]</a></li>
                                     <li><a th:href="@{/frequencia}" class="dropdown-item">[[#{frequencia.list.headline}]]</a></li>
                                     <li><a th:href="@{/endereco}" class="dropdown-item">[[#{endereco.list.headline}]]</a></li>
                                     <li><a th:href="@{/telefone}" class="dropdown-item">[[#{telefone.list.headline}]]</a></li>
-                                    <li><a class="dropdown-trigger" href="#!" data-target="menu">[[#{navigation.entities}]]</a></li>
-                                <li class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav navbar-nav ml-auto">
+
+                            <form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
                                 <div class="form-check mb-2 mr-sm-2">
                                     <a class="btn btn-outline-success my-2 my-sm-0" role="button"
                                        th:href="@{/login}">Login</a>
@@ -97,9 +100,9 @@
                                     <a class="btn btn-outline-success my-2 my-sm-0" role="button"
                                        th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
                                 </div>
-                            </li>
+                            </form>
 
-                            <li  sec:authorize="isAuthenticated()"   class="dropdown form-inline mt-2 mt-md-0">
+                            <div  sec:authorize="isAuthenticated()"   class="dropdown form-inline mt-2 mt-md-0">
 
                                 <button type="button"  class="btn btn-primary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
                                     <i  class="fas fa-user" aria-hidden="true"></i> 
@@ -111,15 +114,10 @@
                                 </ul>
 
 
-                            </li>
-                                </ul>
-                           
-                  
-                   
+                            </div>
                         </div>
                 </nav>
             
-       
         </div>
         </div>
 

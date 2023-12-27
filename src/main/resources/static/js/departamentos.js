@@ -17,6 +17,15 @@ $(document).ready(function () {
         columns: [
             {data: 'id'},
             {data: 'nome'},
+            {data: 'funcionarios', render: function (funcionarios) {
+                    var funcionario = new Array();
+                    $.each(funcionarios, function (index, value) {
+                        funcionario.push(value.nome);
+                    });
+                    return funcionario;
+                },
+                orderable: false
+            },
             {orderable: false,
                 data: 'id',
                 "render": function (id) {

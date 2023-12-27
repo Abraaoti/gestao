@@ -40,7 +40,7 @@ $(document).ready(function () {
             {data: 'salario' , render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')},
             {data: 'cargo.nome'},
             {data: 'departamento.nome'},
-            {data: 'centroCusto.nome'},
+            {data: 'centro.nome'},
 
             {orderable: false,
                 data: 'id',

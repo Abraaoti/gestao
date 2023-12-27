@@ -36,18 +36,18 @@ public class Funcionario extends PessoaFisica {
     private LocalDate admissao;
 
     @ManyToOne
-    @JoinColumn(name = "departamento_id", referencedColumnName = "id")
+    @JoinColumn(name = "departamento_id", referencedColumnName = "id",nullable = false)
     private Departamento departamento;
     @ManyToOne
-    @JoinColumn(name = "cargo_id", referencedColumnName = "id")
+    @JoinColumn(name = "cargo_id", referencedColumnName = "id",nullable = false)
     private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate demissao;
     @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
     private BigDecimal salario;
     @ManyToOne
-    @JoinColumn(name = "centro_custo_id", referencedColumnName = "id")
-    private CentroCusto centroCusto;
+    @JoinColumn(name = "centro_custo_id", referencedColumnName = "id",nullable = false)
+    private CentroCusto centro;
 
     @ManyToMany
     @JoinTable(name = "tbl_funcionarios_frequencias",
@@ -75,7 +75,7 @@ public class Funcionario extends PessoaFisica {
         this.cargo = cargo;
         this.demissao = demissao;
         this.salario = salario;
-        this.centroCusto = centroCusto;
+        this.centro = centroCusto;
     }
 
     public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, BigDecimal salario, CentroCusto centroCusto, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id, String nome, String sobrenome, LocalDate nascimento) {
@@ -86,7 +86,7 @@ public class Funcionario extends PessoaFisica {
         this.cargo = cargo;
         this.demissao = demissao;
         this.salario = salario;
-        this.centroCusto = centroCusto;
+        this.centro = centroCusto;
     }
 
     public void addFrequencia(Frequencia frequencia) {
@@ -141,12 +141,12 @@ public class Funcionario extends PessoaFisica {
         this.salario = salario;
     }
 
-    public CentroCusto getCentroCusto() {
-        return centroCusto;
+    public CentroCusto getCentro() {
+        return centro;
     }
 
-    public void setCentroCusto(CentroCusto centroCusto) {
-        this.centroCusto = centroCusto;
+    public void setCentro(CentroCusto centro) {
+        this.centro = centro;
     }
 
     public List<Frequencia> getFrequencias() {
@@ -167,7 +167,7 @@ public class Funcionario extends PessoaFisica {
         sb.append(", cargo=").append(cargo);
         sb.append(", demissao=").append(demissao);
         sb.append(", salario=").append(salario);
-        sb.append(", centro_custo=").append(centroCusto);
+        sb.append(", centro_custo=").append(centro);
         sb.append('}');
         return sb.toString();
     }

@@ -41,6 +41,6 @@ public record FuncionarioDTO(
         @NotNull
         Long departamento,
         @NotNull
-        Long centroCusto) {
+        Long centro) {
 
 }

@@ -3,13 +3,14 @@
       layout:decorate="~{layout}">
     <head>
         <title>[[#{app.title}]]</title>
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+
     </head>
     <body>
         <div layout:fragment="content">
            
                 
             <h1 class="mb-4 text-center">[[#{home.index.headline}]]</h1>
-            <p class="mb-5 text-center ">[(#{home.index.text})]</p>
            
 
             <div class="album py-5 bg-light">
@@ -70,7 +71,7 @@
 
 
             var real_data = /*[[${chartData}]]*/'noValue';
-            google.charts.load('current', {'packages': ['corechart']});
+            google.charts.load('current', {'packages':['corechart']});
 
             // Set a callback to run when the Google Visualization API is loaded.
             google.charts.setOnLoadCallback(drawPieChart);

@@ -1,6 +1,13 @@
 
         <div th:fragment="menu">
-            <ul id="sidenav-left" class="sidenav sidenav-fixed" >         
+            <ul id="sidenav-left" class="sidenav sidenav-fixed" > 
+                 <li><a th:href="@{/funcionarios}" class="dropdown-item">[[#{funcionario.list.headline}]]</a></li>
+                                    <li><a th:href="@{/departamento}" class="dropdown-item">[[#{departamento.list.headline}]]</a></li>
+                                    <li><a th:href="@{/cargo}" class="dropdown-item">[[#{cargo.list.headline}]]</a></li>
+                                    <li><a th:href="@{/frequencia}" class="dropdown-item">[[#{frequencia.list.headline}]]</a></li>
+                                    <li><a th:href="@{/endereco}" class="dropdown-item">[[#{endereco.list.headline}]]</a></li>
+                                    <li><a th:href="@{/telefone}" class="dropdown-item">[[#{telefone.list.headline}]]</a></li>
+                    
 
                 <li  sec:authorize="hasAuthority('ADMIN')">
                     <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>

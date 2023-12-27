@@ -25,7 +25,23 @@ $(document).ready(function () {
                             return moment(nascimento).format('L');
                         }
             },
-             {data: 'status'
+             {data: 'status', render: function (data, type) {
+
+                    var st = $.fn.dataTable.render.text().display(data);
+                    if (type === 'display') {
+                        let color = 'gray';
+                        if (data === 'PRESENTE') {
+                            color = 'green';
+                        } else if (data === 'FALTA') {
+                            color = 'red';
+                        }
+
+                        return '<span style="color:' + color + '; font-weight: bold;">' + st + '</span>';
+                    }
+
+                    return status;
+                }
+
              
             },
                {orderable: false,

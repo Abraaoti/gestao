@@ -92,7 +92,7 @@ public class CentroCustoServiceImp implements CentroCustoService {
     @Override
     public String getReferencedWarning(Long id) {
         CentroCusto centroCusto = centroCustoRepository.findById(id).get();
-        Funcionario centroCustoFuncionario = funcionarioRepository.findFirstByCentroCusto(centroCusto);
+        Funcionario centroCustoFuncionario = funcionarioRepository.findFirstByCentro(centroCusto);
         if (centroCustoFuncionario != null) {
             return WebUtils.getMessage("centroCusto.funcionario.centroCusto.referenced", centroCustoFuncionario.getId());
         }

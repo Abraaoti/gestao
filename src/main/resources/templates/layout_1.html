@@ -4,185 +4,38 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       th:with="version=${#strings.randomAlphanumeric(3)}">
-    <head th:replace="~{fragments/header :: header}">
+    <head th:replace="~{fragments/header :: hea}">
         <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE"></title>
+
+
+
     </head>
-    <body style="max-width:1200px">
+    <body >
+
+        <header class="bg-light">
+            <div th:replace="~{fragments/header :: header}"/>
+        </header>    
 
 
-<header class="bg-light">
-            <div class="container">
-                <nav class="navbar navbar-light navbar-expand-md">
-                    <a th:href="@{/}" class="navbar-brand">
-                        <img th:src="@{/images/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block align-top">
-                        <span th:text="#{app.title}" class="ps-1" />
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
-                            th:aria-label="#{navigation.toggle}" aria-controls="navbarToggle" aria-expanded="false">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarToggle">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="navbar-item">
-                                <a th:href="@{/}" th:text="#{navigation.home}" class="nav-link" />
-                            </li>
-                            <li class="navbar-item dropdown">
-                                <a th:text="#{navigation.menu}" class="nav-link dropdown-toggle" href="#" id="navbarEntitiesLink" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false" />
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarEntitiesLink">
-                                    <li><a th:href="@{/perfils}" th:text="#{perfil.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/usuarios}" th:text="#{usuario.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/enderecos}" th:text="#{endereco.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/telefones}" th:text="#{telefone.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/funcionarios}" th:text="#{funcionario.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/lotacaos}" th:text="#{lotacao.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/departamentos}" th:text="#{departamento.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/cargos}" th:text="#{cargo.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/dependentes}" th:text="#{dependente.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/pessoas}" th:text="#{pessoa.list.headline}" class="dropdown-item" /></li>
-                                    <li><a th:href="@{/pessoaFisicas}" th:text="#{pessoaFisica.list.headline}" class="dropdown-item" /></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="container-fluid">
-                            <div  sec:authorize="isAuthenticated()">
+        <div id="sidebar" sec:authorize="isAuthenticated()" >
+            <div th:replace="~{fragments/menu :: menu}" class="menu"/>
+        </div>
 
 
-                                <button type="button" id="sidebarCollapse" class="navbar-btn">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </button>
-                                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                    <i class="fas fa-align-justify"></i>
-                                </button>
-                            </div>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <div class="nav navbar-nav ml-auto">
+        <main class="my-5">
+            <div class="container">                 
 
-
-                                    <form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
-                                        <div class="form-check mb-2 mr-sm-2">
-                                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                               th:href="@{/login}">Login</a>
-                                        </div>
-
-                                        <div class="form-check mb-2 mr-sm-2">
-                                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                               th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
-                                        </div>
-                                    </form>
-
-                                    <div  sec:authorize="isAuthenticated()"   class="dropdown form-inline mt-2 mt-md-0">
-
-                                        <button type="button"  class="btn btn-primary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i  class="fas fa-user" aria-hidden="true"></i> 
-                                            <span class=""  sec:authentication="name">Bob</span>
-                                        </button>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item " th:href="@{/logout}">sair</a></li>
-                                        </ul>
-
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    
-                </nav>
+                <div layout:fragment="content"  />
             </div>
-        </header>
-
-        <section class="wrapper">
-            <!-- Sidebar Holder -->
-            <nav id="sidebar" sec:authorize="isAuthenticated()">
-
-                <div class="sidebar-header">
-                    <h3>
-                        <a class="navbar-brand" th:href="@{/}">
-                            <!--img  th:src="@{/image/logo.png}" height="72" width="72" /-->
-                            CMIL</a> 
-                    </h3>
-                </div>
-                <div class="menu">
-                    <div th:replace="~{fragments/menu :: menu}"/>
-                </div>
-            </nav>
-
-            <main class="my-5" id="header_content"> 
-
-                    <nav class="navbar navbar-expand-lg navbar-light bg-light " id="header">
-                        <div class="container-fluid">
-                            <div  sec:authorize="isAuthenticated()">
+            <span th:replace="~{fragments/modal-confirm :: modal-confirm}"></span>
+        </main>
 
 
-                                <button type="button" id="sidebarCollapse" class="navbar-btn">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </button>
-                                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                    <i class="fas fa-align-justify"></i>
-                                </button>
-                            </div>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <div class="nav navbar-nav ml-auto">
-
-
-                                    <form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
-                                        <div class="form-check mb-2 mr-sm-2">
-                                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                               th:href="@{/login}">Login</a>
-                                        </div>
-
-                                        <div class="form-check mb-2 mr-sm-2">
-                                            <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                               th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
-                                        </div>
-                                    </form>
-
-                                    <div  sec:authorize="isAuthenticated()"   class="dropdown form-inline mt-2 mt-md-0">
-
-                                        <button type="button"  class="btn btn-primary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i  class="fas fa-user" aria-hidden="true"></i> 
-                                            <span class=""  sec:authentication="name">Bob</span>
-                                        </button>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item " th:href="@{/logout}">sair</a></li>
-                                        </ul>
-
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
-
-
-
-                    <div class="content">
-
-                        <div layout:fragment="corpo" >
-
-                        </div><!-- fim do conteúdo principal -->
-                    </div>
-
-
-
-           
-            </main>   <!-- fim do contet -->
-        </section><!-- fim da wrapper -->
 
         <div th:replace="~{fragments/footer :: rodape}" sec:authorize="!isAuthenticated()">
             <div>footer</div>
         </div>
-        <span th:replace="~{fragments/modal-confirm :: modal-confirm}"></span>
+
 
 
 
@@ -201,6 +54,9 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
 
+        <!-- 	materialize JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+   
         <!-- 	Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <!-- 	MEUS JS -->

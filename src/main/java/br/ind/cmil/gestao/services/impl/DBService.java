@@ -7,7 +7,6 @@ import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.domain.Cargo;
 import br.ind.cmil.gestao.domain.Cartao;
-import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
@@ -37,7 +36,7 @@ import java.util.Random;
 public class DBService {
 
     @Autowired
-    private CentroCustoService ls;
+    private CentroCustoService centroService;
     @Autowired
     private CargoService cs;
     @Autowired
@@ -130,7 +129,7 @@ public class DBService {
         centroCustos.add("unigal");
 
         for (int i = 0; i < centroCustos.size(); i++) {
-            ls.create(new CentroCustoDTO(null, centroCustos.get(i)));
+            centroService.create(new CentroCustoDTO(null, centroCustos.get(i)));
         }
 
     }

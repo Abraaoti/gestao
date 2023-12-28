@@ -18,7 +18,7 @@
                <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
         <!-- materialize core CSS -->
          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <!-- Bootstrap core CSS -->
         
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
@@ -64,19 +64,14 @@
             
             
           <div class="navbar-fixed">
-                <nav class="navbar navbar-light navbar-expand-md nav  ml-auto">
+                <nav class=" navbar-light">
                      <div class="nav-wrapper">
                     <a th:href="@{/}" class="brand-logo">
                         <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block">
                         
                     </a>
-                         
-                         
-                   
-                  
-                        
-                               
-                                <ul class="right hide-on-med-and-down" aria-labelledby="navbarEntitiesLink">
+                                 
+                                <ul class="right hide-on-med-and-down" >
                                     
                                     
                                     
@@ -86,28 +81,32 @@
                                     <li><a th:href="@{/frequencia}" class="dropdown-item">[[#{frequencia.list.headline}]]</a></li>
                                     <li><a th:href="@{/endereco}" class="dropdown-item">[[#{endereco.list.headline}]]</a></li>
                                     <li><a th:href="@{/telefone}" class="dropdown-item">[[#{telefone.list.headline}]]</a></li>
-                                    <li><a class="dropdown-trigger" href="#!" data-target="menu">[[#{navigation.entities}]]</a></li>
-                                <li class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
-                                <div class="form-check mb-2 mr-sm-2">
+                                    <li>
+                                 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">[[#{navigation.entities}]]</i></a>
+                                    </li>
+                                    <li  sec:authorize="!isAuthenticated()">
+                              
                                     <a class="btn btn-outline-success my-2 my-sm-0" role="button"
                                        th:href="@{/login}">Login</a>
-                                </div>
+                               
 
-                                <div class="form-check mb-2 mr-sm-2">
+                               
                                     <a class="btn btn-outline-success my-2 my-sm-0" role="button"
                                        th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
-                                </div>
+                              
                             </li>
 
-                            <li  sec:authorize="isAuthenticated()"   class="dropdown form-inline mt-2 mt-md-0">
+                            <li  sec:authorize="isAuthenticated()">
 
-                                <button type="button"  class="btn btn-primary dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i  class="fas fa-user" aria-hidden="true"></i> 
+                                <a class=" btn btn-primary dropdown-toggle my-2 my-sm-0 fas fa-user" data-bs-toggle="dropdown" aria-expanded="false" >
+                                  
                                     <span  sec:authentication="name">Bob</span>
-                                </button>
+                                </a>
+                               
+                              
 
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item " th:href="@{/logout}">sair</a></li>
+                                    <li><a  th:href="@{/logout}"><i class="small material-icons">logout</i></a></li>
                                 </ul>
 
 
@@ -123,6 +122,6 @@
         </div>
         </div>
 
-
+       
     </body>
 </html>

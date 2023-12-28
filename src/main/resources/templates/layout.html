@@ -16,14 +16,15 @@
             <div th:replace="~{fragments/header :: header}"/>
         </header>    
 
-
-        <div id="sidebar" sec:authorize="isAuthenticated()" >
-            <div th:replace="~{fragments/menu :: menu}" class="menu"/>
+ <div id="menu_left" sec:authorize="isAuthenticated()" >
+            <div th:replace="~{fragments/menu :: menu}" />
         </div>
 
 
         <main class="my-5">
-            <div class="container">                 
+            
+       
+            <div class="container">             
 
                 <div layout:fragment="content"  />
             </div>
@@ -73,6 +74,23 @@
         <script th:replace="~{:: inlinescript}" th:inline="javascript"></script>
 
         <script type="text/javascript">
+            $(".dropdown-trigger").dropdown();
+            document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems, {
+      // specify options here
+    });
+  });
+  
+  
+  
+   document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, {
+      // specify options here
+    });
+  });
+            
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             });

@@ -1,14 +1,6 @@
 
         <div th:fragment="menu">
-            <ul id="sidenav-left" class="sidenav sidenav-fixed" > 
-                 <li><a th:href="@{/funcionarios}" class="dropdown-item">[[#{funcionario.list.headline}]]</a></li>
-                                    <li><a th:href="@{/departamento}" class="dropdown-item">[[#{departamento.list.headline}]]</a></li>
-                                    <li><a th:href="@{/cargo}" class="dropdown-item">[[#{cargo.list.headline}]]</a></li>
-                                    <li><a th:href="@{/frequencia}" class="dropdown-item">[[#{frequencia.list.headline}]]</a></li>
-                                    <li><a th:href="@{/endereco}" class="dropdown-item">[[#{endereco.list.headline}]]</a></li>
-                                    <li><a th:href="@{/telefone}" class="dropdown-item">[[#{telefone.list.headline}]]</a></li>
-                    
-
+            <ul  id="slide-out" class="sidenav">
                 <li  sec:authorize="hasAuthority('ADMIN')">
                     <a href="#admin" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Admin</a>
                     <ul class="collapse list-unstyled" id="admin">                    							
@@ -25,8 +17,9 @@
                         <li><a  th:href="@{/centroCusto/add}">add centro de custo</a></li>
                         <li><a  th:href="@{/centroCusto}"> centros de custos</a></li>
                         <li><a  th:href="@{/departamento/add}">add departamento</a></li>
-                        <li><a  th:href="@{/departamento}">departamentos</a></li>
+                        <li><a  th:href="@{/departamento}">[[#{departamento.list.headline}]]</a></li>
                         <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
+                        <li><a  th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
                     </ul>
                 </li>
                 <li  sec:authorize="hasAuthority('ASSISTENTE')">
@@ -34,7 +27,7 @@
                     <ul class="collapse list-unstyled" id="assistente">
                         <li><a  th:href="@{/assistente/dados}">dados</a></li>
                         <li><a  th:href="@{/funcionarios/add}">add funcionário</a></li>                      
-                        <li> <a  th:href="@{/funcionarios}"> Funcionários</a></li>
+                        <li> <a  th:href="@{/funcionarios}"> [[#{funcionario.list.headline}]]</a></li>
                         <li> <a  th:href="@{/funcionario/historico/funcionario}">Histórico</a></li>
                     </ul>
                 </li>					
@@ -44,7 +37,7 @@
                         <li><a th:href="@{/auxiliar/dados}">dados</a></li>
                         <li><a  th:href="@{/presenca/add}">Presença</a></li>
                         <li><a  th:href="@{/presenca}"> Presença</a></li>
-                        <li><a  th:href="@{/frequencia}"> Frequência</a></li>
+                        <li><a  th:href="@{/frequencia}">[[#{frequencia.list.headline}]]</a></li>
                         <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
                     </ul>
                 </li>					

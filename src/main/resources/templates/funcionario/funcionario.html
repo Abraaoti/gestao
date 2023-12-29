@@ -22,14 +22,15 @@
 
                         <form  th:action="${funcionario.id== null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"   th:object="${funcionario}"	method="POST" class="was-validated col s12">
                            <div class="row">
-        <div class="input-field col s6">
+       
+                               <div class="input-field col s6">
                               
                                     <input type="text"   placeholder="Nome" th:field="*{nome}" id="nome"  required/>
                                     <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger"></span>
                                
                                     <label for="nome">nome</label>                                   
 
- </div>
+                               </div>
 
 
                                 <div class="input-field col s6">
@@ -41,7 +42,8 @@
                                 </div>
 
                                 <div class="row">
-        <div class="input-field col s6">
+        
+                                    <div class="input-field  s6 offset-s6">
 
                                     <input type="date"  id="nascimento" th:field="*{nascimento}" required />
                                     <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}" class="text-danger"></span>
@@ -51,7 +53,8 @@
                         
 
                           <div class="row">
-        <div class="input-field col s6">
+       
+                              <div class="input-field col s6">
  
                                     <input type="text"  th:field="*{mae}" id="mae" placeholder="Maria"  />
                                     <span th:if="${#fields.hasErrors('mae')}" th:errors="*{mae}" class="text-danger"></span>
@@ -69,15 +72,18 @@
                                 </div>
 
 
- <div class="row">
-        <div class="input-field col s6">
+ 
+                            <div class="row">
+        
+                                <div class="input-field col s6">
 
                                     <input type="text"  th:field="*{naturalidade}" id="naturalidade"  />
                                     <label  for="naturalidade" >naturalidade</label>
 
                                 </div>
                            
- <div class="input-field col s6">
+
+                                <div class="input-field col s6">
                                     <input type="text"  id="clt"  th:field="*{clt}" required />
                                     <label  for="clt">clt</label> 
 
@@ -86,27 +92,25 @@
 
 
                              <div class="row">
-        <div class="input-field col s6">
+        
+                                 <div class="input-field col s6">
 
                                     <input type="text"   id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
                                            th:field="*{cpf}"  required maxlength="14" minlength="5" />
                                     <label  for="cpf" >cpf</label> 
 
                                 </div>
-                              
-
-
-        <div class="input-field col s6">
+                         <div class="input-field col s6">
                                      
                                     <input type="text"  id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
                                     <label  for="rg" >rg</label>  
                                 </div>
                                 </div>
 
-                         
 
-<div class="row">
-        <div class="input-field col s6">
+                            <div class="row">
+       
+                                <div class="input-field col s6">
                    
 
                                     <select  th:field="*{centro}" >
@@ -115,11 +119,10 @@
                                     <label   for="centro" >centro de custo</label> 
 
                                 </div>
-                               
-
-
-                            
-        <div class="input-field col s6">
+      
+    
+   
+                                <div class="input-field col s6">
 
                                     <select  th:field="*{departamento}"  >                               
                                         <option  th:each="departamento : ${departamentos}"  th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" />
@@ -129,7 +132,8 @@
                                 </div>
 
                                <div class="row">
-        <div class="input-field col s6">
+       
+                                   <div class="input-field col s6">
                                    
                                     <select  th:field="*{cargo}" >
                                         <option th:each="cargo : ${cargos}"  class="form-check-input" th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
@@ -137,7 +141,8 @@
                                     <label  for="cargo" >cargo</label>                                   
                                 </div>
                            
-        <div class="input-field col s6">
+       
+                                   <div class="input-field col s6">
 
                                     <input type="text"  id="salario"  th:field="*{salario}"  />
                                     <label  for="salario" >salário</label> 
@@ -147,29 +152,26 @@
 
                            <div class="row">
       
-<label class="input-field col s6" >
-                                    <th:block th:each="estado_civil : ${estadoCivil}" >
-                                       
+
+                               <div class="input-field col s6" >
+                                    <p th:each="estado_civil : ${estadoCivil}" >
+                                        <label >                                       
                                             <input type="radio"    id="estado_civil"  th:field="*{estado_civil}" th:value="${estado_civil}" th:text="${estado_civil}" checked />
 
 
-                                    </th:block>
                                     </label> 
-                             
-                              
-                             
-
-                          
-        
-                                   
-                                    <label class="input-field col s6">
-                                    <th:block th:each="genero : ${generos}" >
+                                    </p>
+                                    </div>
+                                    <div class="input-field col s6">
+                                    <p th:each="genero : ${generos}"  >
                                        
+                                    <label>
                                             <input type="radio"    th:field="*{genero}" id="genero" th:value="${genero}" th:text="${genero}" checked />
                                       
-                                    </th:block>
                                         </label>
+                                    </p>
                                
+                                </div>
                                 </div>
                           
                             <input type="hidden" th:field="*{id}"/>	
@@ -181,13 +183,9 @@
 
                         </form>
 
-
-
-
                     </div>
                 </div>
-            </div>
-        </div>
+       
 
 
         <script th:src="@{/js/mascaras.js(v=${version})}" th:fragment="js"></script>

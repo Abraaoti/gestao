@@ -11,7 +11,7 @@ $(document).ready(function () {
             url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
         },
         ajax: {
-            url: '/departamento/datatables/server',
+            url: '/departamentos/datatables/server',
             data: 'data'
         },
         columns: [
@@ -21,14 +21,14 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-success btn-sm btn-block" href="/departamento/editar/' +
+                    return '<a class="btn btn-success btn-sm btn-block" href="/departamentos/editar/' +
                             id + '" role="button"><i class="fas fa-edit"></i></a>';
                 }
             },
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-danger btn-sm btn-block" href="/departamento/delete/' +
+                    return '<a class="btn btn-danger btn-sm btn-block" href="/departamentos/delete/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             }

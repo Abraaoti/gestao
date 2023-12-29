@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.ind.cmil.gestao.services.DepartamentoService;
+import br.ind.cmil.gestao.util.WebUtils;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 /**
  *
@@ -27,10 +30,10 @@ import br.ind.cmil.gestao.services.DepartamentoService;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/departamento")
+@RequestMapping("/departamentos")
 public class DepartamentoControlle {
 
-    private final DepartamentoService ds;
+    private final DepartamentoService departamentoService;
 
 
     @GetMapping("/add")
@@ -45,47 +48,58 @@ public class DepartamentoControlle {
 
     @GetMapping("/{id}")
     public DepartamentoDTO findById(@PathVariable @NotNull @Positive Long id) {
-        return ds.findById(id);
+        return departamentoService.findById(id);
     }
 
-    @PostMapping("/create")
-    public ModelAndView create(@ModelAttribute("departamento") DepartamentoDTO departamento, RedirectAttributes redir) {
-        ds.salvar(departamento);
-        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/departamento/add");
+    @PostMapping("/add")
+    public String create(@ModelAttribute("departamento") DepartamentoDTO departamentoDTO,
+            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "departamento/add";
+        }
+        departamentoService.salvar(departamentoDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("departamento.create.success"));
+        return "redirect:/departamentos";
     }
-
-    @PostMapping("/update")
-    public ModelAndView update(@ModelAttribute("departamento") DepartamentoDTO departamento, RedirectAttributes redir) {
-        ds.salvar(departamento);
-        redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("redirect:/departamento/add");
-    }
-
-    @GetMapping("/delete/{id}")
-    public void delete(@PathVariable @NotNull @Positive Long id) {
-        ds.delete(id);
-    }
-    
-     @GetMapping("/editar/{id}")
+      @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id) {
        
-        model.addAttribute("departamento", ds.findById(id));
+        model.addAttribute("departamento", departamentoService.findById(id));
         return "departamentos/departamento";
     }
 
-    @GetMapping("/excluir/{id}")
-    public ModelAndView excluir(@PathVariable("id") Long id) {
-        Map<String, Object> model = new HashMap<>();
-        ds.delete(id);
-        model.put("sucesso", "Operação realizada com sucesso.");
-        return new ModelAndView("departamentos/departamentos", model);
+
+    @PostMapping("/update")
+    public String editar(@ModelAttribute("departamento") @Valid final DepartamentoDTO departamentoDTO,
+            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "departamento/edit";
+        }
+        departamentoService.salvar(departamentoDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("departamento.update.success"));
+        return "redirect:/departamentos";
     }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") final Long id,
+            final RedirectAttributes redirectAttributes) {
+        final String referencedWarning = departamentoService.getReferencedWarning(id);
+        if (referencedWarning != null) {
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR, referencedWarning);
+        } else {
+            departamentoService.delete(id);
+            redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("departamento.delete.success"));
+        }
+        return "redirect:/departamentos";
+    }
+    
+   
+   
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> departamentos(HttpServletRequest request) {
         //model.addAttribute("perfis", ps.lista(pageable));
         // return "perfis/perfis";
-        return ResponseEntity.ok(ds.buscarTodos(request));
+        return ResponseEntity.ok(departamentoService.buscarTodos(request));
     }
 }

@@ -6,60 +6,55 @@
         <title th:text="#{telefone.add.headline}" />
     </head>
     <body>
+     
         <div  layout:fragment="content">
+            
+            
+              <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{telefone.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/telefone}" class="btn btn-primary ms-2">[[#{telefone.add.back}]]</a>
+                </div>
+            </div>
 
-            <div class="album py-5 bg-light">
-                <div class="container">
+           
+                             <div class="row">
+                                    <form th:action="${telefone.id == null} ? @{/telefone/salvar} : @{/telefone/editar}"  th:object="${telefone}" method="POST" class="was-validated col s12">
 
-                    <div class="d-flex justify-content-center">
-                        <div class="col-md ">
-                            <div class="card ">
-                                <div class="card-header text-center" th:text="#{telefone.add.headline}">
-                                    telefone
-                                </div>
-                                <div class="card-body">
-                                    <form th:action="${telefone.id == null} ? @{/telefone/salvar} : @{/telefone/editar}"  th:object="${telefone}" method="POST" class="was-validated">
+                                        <div class="row">                                  
+                                           <div class="input-field col s6">
+                                               <i class="material-icons prefix">phone</i>
+                                                <input type="text"  id="numero" th:field="*{numero}"  required />
+                                            <label for="numero">Número</label>  
+                                           </div>
+                                      
 
-                                        <div class="form-group row">                                  
-                                            <label for="telefone" class="col-sm-2 col-form-label">Número</label> 
-                                            <div class="col-md-3">   
-                                                <input type="text"  class="form-control" id="numero" th:field="*{numero}"  required />
+                                          <div class="col s6">
 
-                                            </div>
+                                            <p th:each="tipo : ${tipos}" >
+                                              
+                                                    <label>
+                                                    <input type="radio" class="with-gap"  id="tipo"  th:field="*{tipo}" th:value="${tipo}" th:text="${tipo}" checked />
+  </label>                                                  
+                                                 
+
+                                            </p>
+                                         
                                         </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label class="col-form-label" for="tipo">Tipo</label> 
-
-                                            <th:block th:each="tipo : ${tipos}" >
-                                                <div class="form-check">
-                                                    <input type="radio"  class="form-check-input"  id="tipo"  th:field="*{tipo}" th:value="${tipo}" th:text="${tipo}" checked />
-
-                                                </div>
-
-                                            </th:block>
                                         </div>
 
                                         <input type="hidden" th:field="*{id}"/>	
                                         <input type="hidden" name="pessoa" th:field="*{pessoa}"/>
 
-                                        <input type="submit" class="btn btn-primary"   value="salvar telefone"/>
+                                        <input type="submit" class="btn btn-primary"   value="salvar"/>
 
 
                                     </form>
                                 </div>
-                                <div class="card-footer text-center">
-                                    <div class="card-link">
-                                        <a href="/funcionarios/add" class="card-link btn btn-primary">
-                                            <i class="fas fa-user-plus ml-2"> Funcionário</i>
-                                        </a>
-
-                                    </div>
-                                </div>
-                            </div>
+                               
 
 
-                            <hr />
+                       
                             <h2>Telefone Cadastrado</h2>
 
                             <table id="table-telefone" class="table table-sm table-striped table-bordered nowrap"  style="width: 100%">
@@ -76,13 +71,10 @@
                                 </thead>
                             </table>
 
-                        </div>
-                    </div>
                 </div>
-            </div>
-
-
-        </div>
+                </div>
+                </div>
+       
         <script	th:src="@{/js/telefone.js(v=${version})}"  th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript"></script>
     </body>

@@ -5,6 +5,7 @@ import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
 import br.ind.cmil.gestao.domain.Departamento;
+import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.mappers.DepartamentoMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -15,7 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.ind.cmil.gestao.services.DepartamentoService;
 import br.ind.cmil.gestao.repositorys.DepartamentoRepository;
+import br.ind.cmil.gestao.repositorys.FuncionarioRepository;
 import br.ind.cmil.gestao.util.CustomCollectors;
+import br.ind.cmil.gestao.util.NotFoundException;
+import br.ind.cmil.gestao.util.WebUtils;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,34 +33,29 @@ import org.springframework.data.domain.Sort;
 public class DepartamentoServiceImp implements DepartamentoService {
 
     private final DepartamentoRepository departamentoRepository;
+    private final FuncionarioRepository funcionarioRepository;
     private final DepartamentoMapper departamentoMapper;
     private final Datatables datatables;
 
-    public DepartamentoServiceImp(DepartamentoRepository departamentoRepository, DepartamentoMapper departamentoMapper, Datatables datatables) {
+    public DepartamentoServiceImp(DepartamentoRepository departamentoRepository, FuncionarioRepository funcionarioRepository, DepartamentoMapper departamentoMapper, Datatables datatables) {
         this.departamentoRepository = departamentoRepository;
+        this.funcionarioRepository = funcionarioRepository;
         this.departamentoMapper = departamentoMapper;
         this.datatables = datatables;
     }
 
-    
-    
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Long salvar(DepartamentoDTO dto) {
-        
-        if (dto.id()==null) {
+
+        if (dto.id() == null) {
             validar(dto);
-          return departamentoRepository.save(departamentoMapper.toEntity(dto)).getId();
-            
+            return departamentoRepository.save(departamentoMapper.toEntity(dto)).getId();
+
         }
-       
-       
-      return update(dto).getId();
+
+        return update(dto).getId();
     }
-    
-    
-    
-    
 
     @Transactional(readOnly = false)
     private Departamento update(DepartamentoDTO departamentoDTO) {
@@ -115,13 +114,24 @@ public class DepartamentoServiceImp implements DepartamentoService {
                 : departamentoRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
-    
-     private void validar(DepartamentoDTO departamento) {
+
+    private void validar(DepartamentoDTO departamento) {
         Optional<Departamento> administrador = departamentoRepository.findByNome(departamento.nome());
         if (administrador.isPresent() && !Objects.equals(administrador.get().getId(), departamento.id())) {
             throw new DataIntegrityViolationException("Departamento já cadastro no sistema!");
         }
-        
+
+    }
+
+    @Override
+    public String getReferencedWarning(Long id) {
+        final Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        final Funcionario departamentoFuncionario = funcionarioRepository.findFirstByDepartamento(departamento);
+        if (departamentoFuncionario != null) {
+            return WebUtils.getMessage("departamento.funcionario.departamento.referenced", departamentoFuncionario.getId());
+        }
+        return null;
     }
 
 }

@@ -41,7 +41,7 @@ public class TelefoneController {
     }
   
 
-    @GetMapping("/lista")
+    @GetMapping
     public String list(Pageable pageable) {
         return "telefone/telefones";
     }

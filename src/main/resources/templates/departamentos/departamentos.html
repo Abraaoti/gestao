@@ -9,15 +9,14 @@
             <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{departamento.list.headline}]]</h1>
                 <div>
-                    <a th:href="@{/departamento/add}" class="btn btn-primary ms-2">[[#{departamento.list.createNew}]]</a>
+                    <a th:href="@{/departamentos/add}" class="btn btn-primary ms-2">[[#{departamento.list.createNew}]]</a>
                 </div>
             </div>
                 <table id="table-departamentos" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Departamento</th>                              
-                            <th scope="col">Funcionários</th>                              
+                            <th scope="col">Departamento</th>                             
                             <th scope="col">Editar</th>
                             <th scope="col">Excluir</th>
                         </tr>

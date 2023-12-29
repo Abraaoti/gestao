@@ -71,19 +71,63 @@
                         
                     </a>
                                  
-                                <ul class="right hide-on-med-and-down" >
+           <ul class="right hide-on-med-and-down" >
                                     
+                 <li  sec:authorize="hasAuthority('ADMIN')">
+                    <a href="#admin" data-target="admin"   class="dropdown-trigger dropdown-item">Admin</a>
+                    <ul class="dropdown-content" id="admin">                    							
+                        <li><a  th:href="@{/u/add}">Usuário</a> <li>
+                        <li><a  th:href="@{/u}">Usuários</a> <li>
+                        <li><a  th:href="@{/perfis}">perfis</a> <li>
+                        <li><a  th:href="@{/perfis/add}">add perfil</a> <li>
+                    </ul>
+                </li>
+  
+                <li  sec:authorize="hasAuthority('ADMINISTRADOR')">
+                    <a href="#administrador"  data-target="administrador"  class="dropdown-trigger dropdown-item">Administrador</a>
+                    <ul class="dropdown-content" id="administrador">
+                        <li><a  th:href="@{/administrador/dados}">dados</a> <li>
+                        <li><a  th:href="@{/centroCusto/add}">add centro de custo</a></li>
+                        <li><a  th:href="@{/centroCusto}"> centros de custos</a></li>
+                        <li><a  th:href="@{/departamento/add}">add departamento</a></li>
+                        <li><a  th:href="@{/departamento}">[[#{departamento.list.headline}]]</a></li>
+                        <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
+                        <li><a  th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
+                    </ul>
+                </li>
+                            
+                            
+                             <li  sec:authorize="hasAuthority('ASSISTENTE')">
+                    <a  href="#assistente"   data-target="assistente" aria-expanded="false" class="dropdown-trigger dropdown-item">ASSISTENTE </a>
+                    <ul class="dropdown-content" id="assistente">
+                        <li><a  th:href="@{/assistente/dados}">dados</a></li>
+                        <li><a  th:href="@{/funcionarios/add}">add funcionário</a></li>                      
+                        <li> <a  th:href="@{/funcionarios}"> [[#{funcionario.list.headline}]]</a></li>
+                        <li> <a  th:href="@{/funcionario/historico/funcionario}">Histórico</a></li>
+                    </ul>
+                </li>					
+                <li  sec:authorize="hasAuthority('AUXILIAR')">
+                    <a  href="#aux"  data-target="aux" aria-expanded="false" class="dropdown-trigger dropdown-item">AUXILIAR  </a>
+                    <ul class="dropdown-content" id="aux">
+                        <li><a th:href="@{/auxiliar/dados}">dados</a></li>
+                        <li><a  th:href="@{/presenca/add}">Presença</a></li>
+                        <li><a  th:href="@{/presenca}"> Presença</a></li>
+                        <li><a  th:href="@{/frequencia}">[[#{frequencia.list.headline}]]</a></li>
+                        <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
+                    </ul>
+                </li>					
+                <li  sec:authorize="hasAuthority('DIRETOR')">
+                    <a  href="#diretor"  data-target="diretor" aria-expanded="false" class="dropdown-trigger dropdown-item">DIRETORIA  </a>
+                    <ul class="dropdown-content" id="diretor">
+                        <li><a th:href="@{/diretor/dados}">dados </a></li>
+                       
+                    </ul>
+                </li>		
+                            
+
+                           
                                     
-                                    
-                                    <li><a th:href="@{/funcionarios}" class="dropdown-item">[[#{funcionario.list.headline}]]</a></li>
-                                    <li><a th:href="@{/departamento}" class="dropdown-item">[[#{departamento.list.headline}]]</a></li>
-                                    <li><a th:href="@{/cargo}" class="dropdown-item">[[#{cargo.list.headline}]]</a></li>
-                                    <li><a th:href="@{/frequencia}" class="dropdown-item">[[#{frequencia.list.headline}]]</a></li>
-                                    <li><a th:href="@{/endereco}" class="dropdown-item">[[#{endereco.list.headline}]]</a></li>
-                                    <li><a th:href="@{/telefone}" class="dropdown-item">[[#{telefone.list.headline}]]</a></li>
-                                    <li>
-                                 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">[[#{navigation.entities}]]</i></a>
-                                    </li>
+                                   
                                     <li  sec:authorize="!isAuthenticated()">
                               
                                     <a class="btn btn-outline-success my-2 my-sm-0" role="button"

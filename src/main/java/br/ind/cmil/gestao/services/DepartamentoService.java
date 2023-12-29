@@ -18,6 +18,8 @@ public interface DepartamentoService {
 
     DepartamentoDTO findById(Long id);
 
+    String  getReferencedWarning(Long id);
+
     Map<Long, String> departamentos();
 
     Map<String, Object> buscarTodos(HttpServletRequest request);

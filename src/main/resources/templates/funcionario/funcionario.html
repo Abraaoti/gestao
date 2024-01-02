@@ -1,195 +1,84 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
-    <head>
-
-        <title>[[#{funcionario.add.headline}]]</title>
-    </head>
-    <body>
-
-        <div  layout:fragment="content">
-            
-           <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">[[#{funcionario.add.headline}]]</h1>
-                <div>
-                    <a th:href="@{/funcionarios}" class="btn btn-primary ms-2">[[#{funcionario.add.back}]]</a>
-                </div>
-            </div>
-                
-              
-              
-                <div class="row">
-
-                        <form  th:action="${funcionario.id== null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}"   th:object="${funcionario}"	method="POST" class="was-validated col s12">
-                           <div class="row">
-       
-                               <div class="input-field col s6">
-                              
-                                    <input type="text"   placeholder="Nome" th:field="*{nome}" id="nome"  required/>
-                                    <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger"></span>
-                               
-                                    <label for="nome">nome</label>                                   
-
-                               </div>
-
-
-                                <div class="input-field col s6">
-
-                                    <input type="text"   placeholder="sobrenome" th:field="*{sobrenome}" id="sobrenome" required/>
-                                    <span th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" class="text-danger"></span>
-                                    <label  for="sobrenome">sobrenome </label>
-                                </div>
-                                </div>
-
-                                <div class="row">
-        
-                                    <div class="input-field  s6 offset-s6">
-
-                                    <input type="date"  id="nascimento" th:field="*{nascimento}" required />
-                                    <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}" class="text-danger"></span>
-                                    <label  for="nascimento" >Nascimento</label> 
-                                </div>
-                                </div>
-                        
-
-                          <div class="row">
-       
-                              <div class="input-field col s6">
- 
-                                    <input type="text"  th:field="*{mae}" id="mae" placeholder="Maria"  />
-                                    <span th:if="${#fields.hasErrors('mae')}" th:errors="*{mae}" class="text-danger"></span>
-                                    <label for="mae"> mãe </label>
-
-                                </div>
-                                <div class="input-field col s6">
-                                  
- 
-                                    <input type="text"   th:field="*{pai}" id="pai" placeholder="António"   />
-
-                                    <span th:if="${#fields.hasErrors('pai')}" th:errors="*{pai}" class="text-danger"></span>                                   
-                                 <label  for="pai">pai</label> 
-                                </div>
-                                </div>
-
-
- 
-                            <div class="row">
-        
-                                <div class="input-field col s6">
-
-                                    <input type="text"  th:field="*{naturalidade}" id="naturalidade"  />
-                                    <label  for="naturalidade" >naturalidade</label>
-
-                                </div>
-                           
-
-                                <div class="input-field col s6">
-                                    <input type="text"  id="clt"  th:field="*{clt}" required />
-                                    <label  for="clt">clt</label> 
-
-                                </div>
-                                </div>
-
-
-                             <div class="row">
-        
-                                 <div class="input-field col s6">
-
-                                    <input type="text"   id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" 
-                                           th:field="*{cpf}"  required maxlength="14" minlength="5" />
-                                    <label  for="cpf" >cpf</label> 
-
-                                </div>
-                         <div class="input-field col s6">
-                                     
-                                    <input type="text"  id="rg" maxlength="14" minlength="5"  th:field="*{rg}" required />
-                                    <label  for="rg" >rg</label>  
-                                </div>
-                                </div>
-
-
-                            <div class="row">
-       
-                                <div class="input-field col s6">
-                   
-
-                                    <select  th:field="*{centro}" >
-                                        <option  th:each="centro : ${centros}"   th:value="${centro.id}" th:text="${centro.nome}" id="centro" />
-                                    </select> 
-                                    <label   for="centro" >centro de custo</label> 
-
-                                </div>
-      
-    
-   
-                                <div class="input-field col s6">
-
-                                    <select  th:field="*{departamento}"  >                               
-                                        <option  th:each="departamento : ${departamentos}"  th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento" />
-                                    </select>  
-                                    <label for="departamento" >departamento</label> 
-                                </div>
-                                </div>
-
-                               <div class="row">
-       
-                                   <div class="input-field col s6">
-                                   
-                                    <select  th:field="*{cargo}" >
-                                        <option th:each="cargo : ${cargos}"  class="form-check-input" th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"  />
-                                    </select>                 
-                                    <label  for="cargo" >cargo</label>                                   
-                                </div>
-                           
-       
-                                   <div class="input-field col s6">
-
-                                    <input type="text"  id="salario"  th:field="*{salario}"  />
-                                    <label  for="salario" >salário</label> 
-                                </div>
-                                </div>
-
-
-                           <div class="row">
-      
-
-                               <div class="input-field col s6" >
-                                    <p th:each="estado_civil : ${estadoCivil}" >
-                                        <label >                                       
-                                            <input type="radio"    id="estado_civil"  th:field="*{estado_civil}" th:value="${estado_civil}" th:text="${estado_civil}" checked />
-
-
-                                    </label> 
-                                    </p>
-                                    </div>
-                                    <div class="input-field col s6">
-                                    <p th:each="genero : ${generos}"  >
-                                       
-                                    <label>
-                                            <input type="radio"    th:field="*{genero}" id="genero" th:value="${genero}" th:text="${genero}" checked />
-                                      
-                                        </label>
-                                    </p>
-                               
-                                </div>
-                                </div>
-                          
-                            <input type="hidden" th:field="*{id}"/>	
-
-                           
-                                <input type="submit" class="btn waves-effect waves-light" value="enviar">
-                          
-
-
-                        </form>
-
-                    </div>
-                </div>
-       
-
-
-        <script th:src="@{/js/mascaras.js(v=${version})}" th:fragment="js"></script>
-        <script th:inline="javascript" th:fragment="inlinescript">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+ <head>
+  <title>[[#{funcionario.add.headline}]]</title>
+ </head>
+ <body>
+  <div layout:fragment="content">
+   <div class="d-flex flex-wrap mb-4">
+    <h1 class="flex-grow-1">[[#{funcionario.add.headline}]]</h1>
+    <div>
+     <a th:href="@{/funcionarios}" class="btn btn-primary ms-2">[[#{funcionario.add.back}]]</a>
+    </div>
+   </div>
+   <div class="row">
+    <form th:action="${funcionario.id== null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}" th:object="${funcionario}" method="POST" class="was-validated col s12">
+     <div class="row">
+      <div class="input-field col s6">
+       <input type="text" placeholder="Nome" th:field="*{nome}" id="nome" required> <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger"></span> <label for="nome">nome</label>
+      </div>
+      <div class="input-field col s6">
+       <input type="text" placeholder="sobrenome" th:field="*{sobrenome}" id="sobrenome" required> <span th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" class="text-danger"></span> <label for="sobrenome">sobrenome </label>
+      </div>
+     </div>
+     <div class="row">
+      <div class="input-field  s6 offset-s6">
+       <input type="date" id="nascimento" th:field="*{nascimento}" required> <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}" class="text-danger"></span> <label for="nascimento">Nascimento</label>
+      </div>
+     </div>
+     <div class="row">
+      <div class="input-field col s6">
+       <input type="text" th:field="*{mae}" id="mae" placeholder="Maria"> <span th:if="${#fields.hasErrors('mae')}" th:errors="*{mae}" class="text-danger"></span> <label for="mae"> mãe </label>
+      </div>
+      <div class="input-field col s6">
+       <input type="text" th:field="*{pai}" id="pai" placeholder="António"> <span th:if="${#fields.hasErrors('pai')}" th:errors="*{pai}" class="text-danger"></span> <label for="pai">pai</label>
+      </div>
+     </div>
+     <div class="row">
+      <div class="input-field col s6">
+       <input type="text" th:field="*{naturalidade}" id="naturalidade"> <label for="naturalidade">naturalidade</label>
+      </div>
+      <div class="input-field col s6">
+       <input type="text" id="clt" th:field="*{clt}" required> <label for="clt">clt</label>
+      </div>
+     </div>
+     <div class="row">
+      <div class="input-field col s6">
+       <input type="text" id="cpf" data-mask="000.000.000-00" data-mask-selectonfocus="true" th:field="*{cpf}" required maxlength="14" minlength="5"> <label for="cpf">cpf</label>
+      </div>
+      <div class="input-field col s6">
+       <input type="text" id="rg" maxlength="14" minlength="5" th:field="*{rg}" required> <label for="rg">rg</label>
+      </div>
+     </div>
+     <div class="row">
+      <div class="input-field col s6">
+       <select th:field="*{centro}"> <option th:each="centro : ${centros}" th:value="${centro.id}" th:text="${centro.nome}" id="centro"></option> </select> <label for="centro">centro de custo</label>
+      </div>
+      <div class="input-field col s6">
+       <select th:field="*{departamento}"> <option th:each="departamento : ${departamentos}" th:value="${departamento.id}" th:text="${departamento.nome}" id="departamento"></option> </select> <label for="departamento">departamento</label>
+      </div>
+     </div>
+     <div class="row">
+      <div class="input-field col s6">
+       <select th:field="*{cargo}"> <option th:each="cargo : ${cargos}" class="form-check-input" th:value="${cargo.id}" th:text="${cargo.nome}" id="cargo"></option> </select> <label for="cargo">cargo</label>
+      </div>
+      <div class="input-field col s6">
+       <input type="text" id="salario" th:field="*{salario}"> <label for="salario">salário</label>
+      </div>
+     </div>
+     <div class="row">
+      <div class="input-field col s6">
+       <p th:each="estado_civil : ${estadoCivil}"><label> <input type="radio" id="estado_civil" th:field="*{estado_civil}" th:value="${estado_civil}" th:text="${estado_civil}" checked> </label></p>
+      </div>
+      <div class="input-field col s6">
+       <p th:each="genero : ${generos}"><label> <input type="radio" th:field="*{genero}" id="genero" th:value="${genero}" th:text="${genero}" checked> </label></p>
+      </div>
+     </div> <input type="hidden" th:field="*{id}"> <input type="submit" class="btn waves-effect waves-light" value="enviar">
+    </form>
+   </div>
+  </div>
+  <script th:src="@{/js/mascaras.js(v=${version})}" th:fragment="js"></script>
+  <script th:inline="javascript" th:fragment="inlinescript">
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems, options);
@@ -201,25 +90,5 @@ document.addEventListener('DOMContentLoaded', function() {
     $('select').formSelect();
   });
         </script>
-    </body>
+ </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

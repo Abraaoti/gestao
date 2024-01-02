@@ -5,6 +5,7 @@ import br.ind.cmil.gestao.enums.Genero;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.JoinTable;
@@ -39,14 +40,14 @@ public class Funcionario extends PessoaFisica {
     @JoinColumn(name = "departamento_id", referencedColumnName = "id",nullable = false)
     private Departamento departamento;
     @ManyToOne
-    @JoinColumn(name = "cargo_id", referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "cargo_id", referencedColumnName = "id", nullable = false)
     private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate demissao;
     @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
     private BigDecimal salario;
     @ManyToOne
-    @JoinColumn(name = "centro_custo_id", referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
     private CentroCusto centro;
 
     @ManyToMany

@@ -30,7 +30,7 @@ public class FrequenciaMapper {
         LocalDate data = (dto.data() == null) ? LocalDate.now() : dto.data();
         frequencia.setData(data);
         frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia(dto.status()));
-        List<Funcionario> funcionarios = dto.funcionario().stream().map(funcionaro -> new Funcionario(funcionaro)).toList();
+        List<Funcionario> funcionarios = dto.funcionarios().stream().map(funcionaro -> new Funcionario(funcionaro)).toList();
         frequencia.setFuncionarios(funcionarios);
         return frequencia;
     }

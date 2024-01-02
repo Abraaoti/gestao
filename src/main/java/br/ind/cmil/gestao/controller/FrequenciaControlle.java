@@ -1,7 +1,5 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.domain.Frequencia;
-import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import br.ind.cmil.gestao.services.FrequenciaService;
@@ -11,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,8 +44,8 @@ public class FrequenciaControlle {
     }
 
     @GetMapping("/funcionario/{funcionarioIds}")
-    public String form(@PathVariable("funcionarioIds") List<Long> funcionarioIds, FrequenciaDTO frequencia, Model model) {
-        model.addAttribute("frequencia", frequenciaService.criar(funcionarioIds, frequencia));
+    public String form(@PathVariable("funcionarioIds") List<Long> funcionarioIds, FrequenciaDTO frequenciaDTO, Model model) {
+        model.addAttribute("frequencia", frequenciaService.criar(funcionarioIds, frequenciaDTO));
 
         return "frequencia/frequencia";
     }
@@ -59,16 +56,16 @@ public class FrequenciaControlle {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequencia, RedirectAttributes redir) {
-        frequenciaService.salvar(frequencia);
+    public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
+        frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
         return null;//"redirect:/frequencia/funcionario/" + frequencia.funcionario();
 
     }
 
     @PostMapping("/editar")
-    public String editar(@ModelAttribute("frequencia") FrequenciaDTO frequencia, RedirectAttributes redir) {
-        frequenciaService.salvar(frequencia);
+    public String editar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
+        frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
         return null;// "redirect:/frequencia/funcionario/" + frequencia.funcionario();
     }

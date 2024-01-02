@@ -44,8 +44,8 @@ public class FrequenciaServiceImp implements FrequenciaService {
     @Transactional(readOnly = true)
     public List<Frequencia> getFrequencias() {
 
-        List<Frequencia> funcionarios = frequenciaRepository.findAll(Sort.by("id"));
-        return funcionarios;
+        List<Frequencia> frequencias = frequenciaRepository.findAll(Sort.by("id"));       
+        return frequencias;
 
     }
 
@@ -56,7 +56,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
         Frequencia frequencia = frequenciaMapper.toEntity(frequenciaDTO);
 
         if (frequenciaDTO.id() == null) {
-            List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionario());
+            List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionarios());
 
             funcionarios.forEach(funcionario -> {
                 funcionario.addFrequencia(frequencia);
@@ -79,7 +79,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
         frequencia.setData(frequenciaDTO.data());
         frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia(frequenciaDTO.status()));
 
-        List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionario());
+        List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionarios());
 
         funcionarios.forEach(funcionario -> {
             funcionario.addFrequencia(frequencia);

@@ -5,7 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,9 +23,9 @@ import lombok.ToString;
 public class Departamento extends Entidade {
 
     @Column(length = 80, unique = true, nullable = false)
-    private String nome;
-    //@OneToMany(mappedBy = "departamento")
-    //private List<Funcionario> funcionarios;
+    private String nome;   
+   // @OneToMany(mappedBy = "departamento")
+   // private Set<Funcionario> funcionarios;
 
     public Departamento() {
     }
@@ -37,5 +37,7 @@ public class Departamento extends Entidade {
     public Departamento(String nome) {
         this.nome = nome;
     }
+    
+    
 
 }

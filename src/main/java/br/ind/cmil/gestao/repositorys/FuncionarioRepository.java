@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -29,6 +30,7 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>,
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj ")
     Page<Funcionario> searchAll(Pageable pageable);
 
+    @Transactional(readOnly = true)
     @Query(value = " FROM Funcionario f join  f.departamento as d join  f.centro as ce join  f.cargo as c join fetch f.frequencias as fr",
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj  where obj.nome like :search%")
     Page<Funcionario> searchAll(String search, Pageable pageable);

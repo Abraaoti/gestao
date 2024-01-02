@@ -15,7 +15,7 @@ public class DatatablesColunas {
     public static final String[] PESSOAJURIDICA = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im",};
     public static final String[] FORNECEDORES = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im"};
     public static final String[] PESSOAFISICA = {"id", "nome", "sobrenome", "nascimento", "salario", "cpf", "rg", "passaporte", "mae", "pai", "ec.desc", "genero.desc", "admissao", "naturalidade"};
-    public static final String[] FUNCIONARIOS = {"id", "nome", "sobrenome", "nascimento", "cpf", "rg", "clt", "mae", "pai", "estado_civil", "genero", "admissao", "naturalidade","salario","cargo.nome", "departamento.nome","centro.nome"};
+    public static final String[] FUNCIONARIO = {"id", "nome", "sobrenome", "nascimento", "cpf", "rg", "clt", "mae", "pai", "estado_civil", "genero", "admissao", "naturalidade","salario","cargo.nome", "departamento","centro.nome"};
     public static final String[] EFETIVO = {"id", "nome", "sobrenome", "cargo.nome"};
     public static final String[] FUNCIONARIO_CONTATOS = {"id", "nome"};
     public static final String[] FUNCIONARIO_ENDERECO = {"id", "nome"};

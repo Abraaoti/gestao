@@ -17,17 +17,19 @@
         <!--<meta name="_csrf" th:content="${_csrf.token}"/>
                <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
         <!-- materialize core CSS -->
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>       
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
         <!-- Bootstrap core CSS -->
         
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-  
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+     
 
         
       
         <!-- jQueryUI (autocomplete) -->
-        <link href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+      
         <!-- Icons fontawesome -->
         <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
         <!-- Custom styles for this template -->
@@ -42,7 +44,6 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css"/>
         <!-- Font Awesome JS -->
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
         <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet"/>
 
         <!-- script graficos -->
@@ -66,10 +67,11 @@
           <div class="navbar-fixed">
                 <nav class=" navbar-light">
                      <div class="nav-wrapper">
-                    <a th:href="@{/}" class="brand-logo">
+                         <a th:href="@{/}" class="brand-logo" style="padding-left: 8px;">
                         <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block">
                         
                     </a>
+                      
                                  
            <ul class="right hide-on-med-and-down" >
                                     
@@ -89,8 +91,8 @@
                         <li><a  th:href="@{/administrador/dados}">dados</a> <li>
                         <li><a  th:href="@{/centroCusto/add}">add centro de custo</a></li>
                         <li><a  th:href="@{/centroCusto}"> centros de custos</a></li>
-                        <li><a  th:href="@{/departamento/add}">add departamento</a></li>
-                        <li><a  th:href="@{/departamento}">[[#{departamento.list.headline}]]</a></li>
+                        <li><a  th:href="@{/departamentos/add}">add departamento</a></li>
+                        <li><a  th:href="@{/departamentos}">[[#{departamento.list.headline}]]</a></li>
                         <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
                         <li><a  th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
                     </ul>
@@ -115,7 +117,8 @@
                         <li><a  th:href="@{/frequencia}">[[#{frequencia.list.headline}]]</a></li>
                         <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
                     </ul>
-                </li>					
+                </li>	
+                           
                 <li  sec:authorize="hasAuthority('DIRETOR')">
                     <a  href="#diretor"  data-target="diretor" aria-expanded="false" class="dropdown-trigger dropdown-item">DIRETORIA  </a>
                     <ul class="dropdown-content" id="diretor">
@@ -142,14 +145,12 @@
 
                             <li  sec:authorize="isAuthenticated()">
 
-                                <a class=" btn btn-primary dropdown-toggle my-2 my-sm-0 fas fa-user" data-bs-toggle="dropdown" aria-expanded="false" >
+                                <a class="dropdown-trigger btn btn-primary my-2 my-sm-0 fas fa-user"  data-target="sair" aria-expanded="false" href="#sair">
                                   
                                     <span  sec:authentication="name">Bob</span>
                                 </a>
                                
-                              
-
-                                <ul class="dropdown-menu">
+                                 <ul class="dropdown-content" id="sair">
                                     <li><a  th:href="@{/logout}"><i class="small material-icons">logout</i></a></li>
                                 </ul>
 
@@ -160,6 +161,7 @@
                   
                    
                         </div>
+                          
                 </nav>
             
        

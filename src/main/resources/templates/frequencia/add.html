@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+   <head>
+        <title>[[#{frequencia.add.headline}]]</title>
+    </head>
+    <body>
+
+        <div  layout:fragment="content">
+
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{frequencia.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/frequencia}" class="btn btn-secondary">[[#{frequencia.add.back}]]</a>
+                </div>
+            </div>
+            <div th:replace="~{fragments/forms::globalErrors('frequencia')}" />
+            <form th:action="${frequencia.id == null} ? @{/frequencia/salvar} : @{/frequencia/editar}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='status')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='data', inputClass='js-datepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='funcionarios', type='multiselect')}" />
+                <input type="submit" th:value="#{frequencia.add.headline}" class="btn btn-primary mt-4" />
+            </form>
+
+        </div>
+
+
+
+        <script	th:src="~{}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript">
+
+        </script>
+    </body>
+</html>

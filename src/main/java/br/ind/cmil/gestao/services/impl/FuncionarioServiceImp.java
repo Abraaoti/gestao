@@ -125,7 +125,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
     @Override
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
-        datatables.setColunas(DatatablesColunas.DEPARTAMENTO);
+        datatables.setColunas(DatatablesColunas.FUNCIONARIO);
         Page<Funcionario> page = datatables.getSearch().isEmpty() ? funcionarioRepository.findAll(datatables.getPageable())
                 : funcionarioRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);

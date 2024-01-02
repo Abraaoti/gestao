@@ -13,6 +13,6 @@ public record FrequenciaDTO(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate data,
         String status,
-        List<Long> funcionario) {
+        List<Long> funcionarios) {
 
 }

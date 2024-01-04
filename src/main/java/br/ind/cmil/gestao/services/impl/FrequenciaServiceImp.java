@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -120,7 +121,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
     @Override
     public FrequenciaDTO criar(List<Long> funcionario_ids, FrequenciaDTO frequencia) {
         //List<Funcionario> funcionarios = funcionarioRepository.findAllById(funcionario_ids);
-        List<Long> funcionarioIds = funcionarioRepository.findAllById(funcionario_ids).stream().map(funcionarios_id -> funcionarios_id.getId()).collect(Collectors.toList());
+        Set<Long> funcionarioIds = funcionarioRepository.findAllById(funcionario_ids).stream().map(funcionarios_id -> funcionarios_id.getId()).collect(Collectors.toSet());
         return new FrequenciaDTO(frequencia.id(), frequencia.data(), frequencia.status(), funcionarioIds);
     }
 

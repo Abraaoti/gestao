@@ -8,7 +8,6 @@ import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -40,26 +39,28 @@ public class FrequenciaControlle {
     @ModelAttribute
     public void prepareContext(Model model) {
         model.addAttribute("funcionarios", funcionarioService.list());
+        model.addAttribute("frequencias", frequenciaService.f());
         model.addAttribute("tipos", TipoFrequencia.values());
     }
 
-    @GetMapping("/funcionario/{funcionarioIds}")
-    public String form(@PathVariable("funcionarioIds") List<Long> funcionarioIds, FrequenciaDTO frequenciaDTO, Model model) {
-        model.addAttribute("frequencia", frequenciaService.criar(funcionarioIds, frequenciaDTO));
+    @GetMapping("/funcionario/{funcionario_id}")
+    public String add(@PathVariable("funcionario_id") Long funcionario_id, @ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, Model model) {
+        //model.addAttribute("frequencia", frequenciaService.criar(funcionarioIds, frequenciaDTO));
+        model.addAttribute("funcionario", funcionarioService.buscarFuncionarioPorId(funcionario_id));
 
         return "frequencia/frequencia";
     }
 
     @GetMapping
-    public String getFrequencia() {       
+    public String getFrequencia() {
         return "frequencia/frequencias";
     }
 
-    @PostMapping("/salvar")
-    public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
+    @PostMapping("/addFrequenciaFuncionario")
+    public String salvar( @ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
-        return null;//"redirect:/frequencia/funcionario/" + frequencia.funcionario();
+        return "redirect:/frequencia/funcionario/" + frequenciaDTO.funcionarios();
 
     }
 

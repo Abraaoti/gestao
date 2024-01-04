@@ -26,7 +26,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  *
@@ -182,18 +184,40 @@ public class DBService {
 
     public void instanciaBasePresenca() {
 
-        List<FrequenciaDTO> frequencias = new ArrayList<>();
-        FrequenciaDTO frequencia_1 = new FrequenciaDTO(null, LocalDate.now(), "presente", Arrays.asList(1L, 2L));
-        FrequenciaDTO frequencia_falta = new FrequenciaDTO(null, LocalDate.now(), "falta", Arrays.asList(3L));
-        FrequenciaDTO frequencia_treinamento = new FrequenciaDTO(null, LocalDate.now(), "treinamento", Arrays.asList(4L));
+        Set<FrequenciaDTO> frequencias = new HashSet<>();
+        Set<Long> funcionarios1 = new HashSet<>();
+        funcionarios1.add(1L);
+        funcionarios1.add(2L);
 
-        FrequenciaDTO frequencia_2 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 17), "presente", Arrays.asList(1L, 2L, 3L, 4L));
+        Set<Long> funcionarios2 = new HashSet<>();
+        funcionarios2.add(3L);
+        funcionarios2.add(4L);
 
-        FrequenciaDTO frequencia_3 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 14), "presente", Arrays.asList(1L, 2L, 3L, 4L));
+        Set<Long> funcionarios3 = new HashSet<>();
+        funcionarios3.add(1L);
+        funcionarios3.add(2L);
+        funcionarios3.add(3L);
+        funcionarios3.add(4L);
 
-        FrequenciaDTO frequencia_4 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 15), "falta", Arrays.asList(1L, 2L, 3L, 4L));
+        Set<Long> funcionarios4 = new HashSet<>();
+        funcionarios4.add(1L);
+        funcionarios4.add(2L);
+        funcionarios4.add(3L);
+        funcionarios4.add(4L);
 
-        FrequenciaDTO frequencia_5 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 16), "presente", Arrays.asList(1L, 2L, 3L, 4L));
+       
+
+        FrequenciaDTO frequencia_1 = new FrequenciaDTO(null, LocalDate.now(), "presente", funcionarios1);
+        FrequenciaDTO frequencia_falta = new FrequenciaDTO(null, LocalDate.now(), "falta", funcionarios2);
+        FrequenciaDTO frequencia_treinamento = new FrequenciaDTO(null, LocalDate.now(), "treinamento", funcionarios3);
+
+        FrequenciaDTO frequencia_2 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 17), "presente", funcionarios4);
+
+        FrequenciaDTO frequencia_3 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 14), "presente", funcionarios4);
+
+        FrequenciaDTO frequencia_4 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 15), "falta", funcionarios1);
+
+        FrequenciaDTO frequencia_5 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 16), "presente", funcionarios3);
 
         frequencias.add(frequencia_1);
         frequencias.add(frequencia_falta);

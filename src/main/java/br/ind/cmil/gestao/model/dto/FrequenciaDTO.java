@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.model.dto;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -13,6 +13,6 @@ public record FrequenciaDTO(
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         LocalDate data,
         String status,
-        List<Long> funcionarios) {
+        Set<Long> funcionarios) {
 
 }

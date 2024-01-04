@@ -59,21 +59,22 @@
 
     </head>
     <body>
-        <div  th:fragment="header">
-            
+	    <div  th:fragment="header">          
            
             
             
-          <div class="navbar-fixed">
-                <nav class=" navbar-light">
-                     <div class="nav-wrapper">
-                         <a th:href="@{/}" class="brand-logo" style="padding-left: 8px;">
-                        <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block">
+          <div class="navbar-fixed" >
+                <nav style="margin: 0 auto; height: 100px; background-color: #ffffff;">
+                     <div class="nav-wrapper container">
+                         <a th:href="@{/}" class="brand-logo" style="width: 268px;">
+                        <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="140" height="70" >
                         
                     </a>
                       
-                                 
-           <ul class="right hide-on-med-and-down" >
+			   
+				     
+			    
+			     <ul class="right hide-on-med-and-down"  >
                                     
                  <li  sec:authorize="hasAuthority('ADMIN')">
                     <a href="#admin" data-target="admin"   class="dropdown-trigger dropdown-item">Admin</a>
@@ -161,6 +162,7 @@
                   
                    
                         </div>
+                      
                           
                 </nav>
             

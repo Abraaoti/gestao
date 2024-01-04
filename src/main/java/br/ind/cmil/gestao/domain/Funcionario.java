@@ -2,12 +2,10 @@ package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -15,8 +13,8 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -37,7 +35,7 @@ public class Funcionario extends PessoaFisica {
     private LocalDate admissao;
 
     @ManyToOne
-    @JoinColumn(name = "departamento_id", referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "departamento_id", referencedColumnName = "id", nullable = false)
     private Departamento departamento;
     @ManyToOne
     @JoinColumn(name = "cargo_id", referencedColumnName = "id", nullable = false)
@@ -50,13 +48,13 @@ public class Funcionario extends PessoaFisica {
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
     private CentroCusto centro;
 
-    @ManyToMany
-    @JoinTable(name = "tbl_funcionarios_frequencias",
-            joinColumns = @JoinColumn(name = "funcionario_id"),
-            inverseJoinColumns = @JoinColumn(name = "frequencia_id")
+    @ManyToMany(fetch = FetchType.LAZY)
+     @JoinTable(name = "tbl_funcionarios_frequencias",
+            joinColumns = {@JoinColumn(name = "funcionario_id")},
+            inverseJoinColumns ={ @JoinColumn(name = "frequencia_id")}
     )
     @JsonIgnoreProperties("funcionarios")
-    private List<Frequencia> frequencias = new ArrayList<>();
+    private Set<Frequencia> frequencias = new HashSet<>();
 
     public Funcionario() {
     }
@@ -92,6 +90,12 @@ public class Funcionario extends PessoaFisica {
 
     public void addFrequencia(Frequencia frequencia) {
         this.frequencias.add(frequencia);
+        frequencia.getFuncionarios().add(this);
+    }
+
+    public void removeFrequencia(Frequencia frequencia) {
+        this.frequencias.remove(frequencia);
+        frequencia.getFuncionarios().remove(this);
     }
 
     public String getClt() {
@@ -150,11 +154,11 @@ public class Funcionario extends PessoaFisica {
         this.centro = centro;
     }
 
-    public List<Frequencia> getFrequencias() {
+    public Set<Frequencia> getFrequencias() {
         return frequencias;
     }
 
-    public void setFrequencias(List<Frequencia> frequencias) {
+    public void setFrequencias(Set<Frequencia> frequencias) {
         this.frequencias = frequencias;
     }
 

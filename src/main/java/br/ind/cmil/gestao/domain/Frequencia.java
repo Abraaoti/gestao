@@ -7,17 +7,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author abraao
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_frequencias")
 public class Frequencia extends Entidade {
@@ -28,11 +32,20 @@ public class Frequencia extends Entidade {
     @Column(name = "status", nullable = false)
     @Convert(converter = TipoAusenciaConvert.class)
     protected TipoFrequencia status;
-    @ManyToMany(mappedBy = "frequencias")
-    @JsonIgnoreProperties("frequencias")
-    private List<Funcionario> funcionarios = new ArrayList<>();
+    @ManyToMany(mappedBy ="frequencias", fetch = FetchType.LAZY)    
+   @JsonIgnoreProperties("frequencias")
+    private Set<Funcionario> funcionarios = new HashSet<>();
 
     public Frequencia() {
+    }
+      public void addFuncionario(Funcionario funcionario) {
+        this.funcionarios.add(funcionario);
+        funcionario.getFrequencias().add(this);
+    }
+
+    public void removeFuncionario(Funcionario funcionario) {
+        this.funcionarios.remove(funcionario);
+        funcionario.getFrequencias().remove(this);
     }
 
     public Frequencia(Long id) {
@@ -55,13 +68,15 @@ public class Frequencia extends Entidade {
         this.status = status;
     }
 
-    public List<Funcionario> getFuncionarios() {
+    public Set<Funcionario> getFuncionarios() {
         return funcionarios;
     }
 
-    public void setFuncionarios(List<Funcionario> funcionarios) {
+    public void setFuncionarios(Set<Funcionario> funcionarios) {
         this.funcionarios = funcionarios;
     }
+
+  
 
    
 }

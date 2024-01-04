@@ -18,9 +18,9 @@
      <ul id="slide-out" class="sidenav">
     <li><div class="user-view">
       <div class="background">
-        <img src="images/office.jpg">
+        <img src="images/office.jpg"/>
       </div>
-      <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
+      <a href="#user"><img class="circle" src="images/yuna.jpg"/></a>
       <a href="#name"><span class="white-text name">John Doe</span></a>
       <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
     </div></li>
@@ -41,11 +41,11 @@
         <main class="my-5">
             
        
-            <div class="container">             
- <p th:if="${MSG_SUCCESS}" class="alert alert-success mb-4" role="alert">[[${MSG_SUCCESS}]]</p>
+            <div class="container" >
+		<p th:if="${MSG_SUCCESS}" class="alert alert-success mb-4" role="alert">[[${MSG_SUCCESS}]]</p>
                 <p th:if="${MSG_INFO}" class="alert alert-info mb-4" role="alert">[[${MSG_INFO}]]</p>
                 <p th:if="${MSG_ERROR}" class="alert alert-danger mb-4" role="alert">[[${MSG_ERROR}]]</p>
-                <div layout:fragment="content"  />
+                <div layout:fragment="content" style="background-color: #ffffff;"  />
             </div>
             <span th:replace="~{fragments/modal-confirm :: modal-confirm}"></span>
         </main>

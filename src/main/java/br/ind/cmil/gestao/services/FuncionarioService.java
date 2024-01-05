@@ -21,6 +21,8 @@ public interface FuncionarioService {
 
     Map<String, Object> buscarTodos(HttpServletRequest request);
 
+    Map<String, Object> buscarFuncionarioPorCargo(HttpServletRequest request);
+
     void delete(Long id);
 
     long countById();

@@ -56,6 +56,11 @@ public class FrequenciaControlle {
         return "frequencia/frequencias";
     }
 
+    @GetMapping("marcar-presenca")
+    public String marcarPresenca() {
+        return "funcionario/marcar-presenca";
+    }
+
     @GetMapping("/funcionariosFrequencias")
     public String getFuncionariosFrequencias() {
         return "frequencia/funcionario_frequencias";
@@ -73,7 +78,7 @@ public class FrequenciaControlle {
     public String editar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
-        return null;// "redirect:/frequencia/funcionario/" + frequencia.funcionario();
+        return "redirect:/frequencia/funcionario/" + frequenciaDTO.funcionarios();
     }
 
     @GetMapping("/editar/{id}")

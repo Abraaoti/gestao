@@ -2,11 +2,10 @@ package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -49,7 +48,8 @@ public class Funcionario extends PessoaFisica {
     private CentroCusto centro;
 
     @ManyToMany(mappedBy = "funcionarios",fetch = FetchType.LAZY)    
-    @JsonIgnoreProperties("funcionarios")
+   // @JsonIgnoreProperties("funcionarios")
+     @JsonBackReference
     private Set<Frequencia> frequencias = new HashSet<>();
 
     public Funcionario() {

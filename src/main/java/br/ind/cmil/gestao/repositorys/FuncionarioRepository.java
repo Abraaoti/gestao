@@ -35,6 +35,10 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>,
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj  where obj.nome like :search%")
     Page<Funcionario> searchAll(String search, Pageable pageable);
 
+    @Transactional(readOnly = true)
+    @Query("SELECT obj FROM Funcionario obj  where obj.nome like :search%")
+    Page<Funcionario> findByCargo(String search, Pageable pageable);
+
     Optional<Funcionario> findByNome(String nome);
 
     Optional<Funcionario> findBySobrenome(String sobronome);

@@ -130,6 +130,14 @@ public class FuncionarioServiceImp implements FuncionarioService {
                 : funcionarioRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
+    @Override
+    public Map<String, Object> buscarFuncionarioPorCargo(HttpServletRequest request) {
+        datatables.setRequest(request);
+        datatables.setColunas(DatatablesColunas.MARCAR_PRESENCA);
+        Page<Funcionario> page = datatables.getSearch().isEmpty() ? funcionarioRepository.findAll(datatables.getPageable())
+                : funcionarioRepository.findByCargo(datatables.getSearch(), datatables.getPageable());
+        return datatables.getResponse(page);
+    }
 
     @Override
     public long countById() {

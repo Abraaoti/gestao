@@ -78,7 +78,7 @@ public class FuncionarioControlle {
     @GetMapping("/editar/{id}")
     public String editar(Model model, @PathVariable("id") Long id) {
         model.addAttribute("funcionario", funcionarioService.buscarFuncionarioPorId(id));
-        return "funcionario/funcionario";
+          return "funcionario/funcionario";
     }
 
     @GetMapping("/delete/{id}")
@@ -92,6 +92,10 @@ public class FuncionarioControlle {
     @GetMapping("/datatables/server")
     public ResponseEntity<?> funcionarios(HttpServletRequest request) {
         return ResponseEntity.ok(funcionarioService.buscarTodos(request));
+    }
+    @GetMapping("/marcar")
+    public ResponseEntity<?> buscarFuncionarioPorCargos(HttpServletRequest request) {
+        return ResponseEntity.ok(funcionarioService.buscarFuncionarioPorCargo(request));
     }
 
 }

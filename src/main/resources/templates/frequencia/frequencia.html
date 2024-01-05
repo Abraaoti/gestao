@@ -12,7 +12,7 @@
      <a th:href="@{/frequencia}" class="btn btn-primary ms-2">[[#{frequencia.add.back}]]</a>
     </div>
    </div>
-   <form th:action="${frequencia.id == null} ? @{/frequencia/addFuncionarioFrequencia} : @{/frequencia/editar}" th:object="${frequencia}" method="POST" class="was-validated">
+   <form th:action="${frequencia.id == null} ? @{/frequencia/addFrequenciaFuncionario} : @{/frequencia/editar}" th:object="${frequencia}" method="POST" class="was-validated">
    
 	  <div class="col-md-4">
                     <div class="panel panel-default">

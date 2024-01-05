@@ -1,6 +1,6 @@
 $(document).ready(function () {
     moment.locale('pt-BR');
-    var table = $('#table-funcionarios').DataTable({
+    var table = $('#funcionarios-frequencias').DataTable({
         searching: true,
         order: [[1, "asc"]],
         lengthMenu: [5, 10],
@@ -11,61 +11,31 @@ $(document).ready(function () {
             url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
         },
         ajax: {
-            url: '/funcionarios/datatables/server',
+            url: '/frequencia/frequencias/datatables/server',
             data: 'data'
         },
         columns: [
             {data: 'id'},
-            {data: 'nome'},
-            {data: 'sobrenome'},
-            {data: 'nascimento', render:
-                        function (nascimento) {
-                            return moment(nascimento).format('L');
+            {data: 'funcionarios[,].nome'},
+            {data: 'funcionarios[,].sobrenome'},
+            {data: 'data', render:
+                        function (data) {
+                            return moment(data).format('L');
                         }
             },
-            {data: 'cpf'},
-            {data: 'rg'},
-            {data: 'clt'},
-            {data: 'mae'},
-            {data: 'pai'},
-            {data: 'genero'},
 
-            {data: 'estado_civil'},
-            {data: 'naturalidade'},
-            {data: 'admissao', render:
-                        function (admissao) {
-                            return moment(admissao).format('L');
-                        }
+            {data: 'frequencias',
+                render: function (frequencias) {
+                    var aux = new Array();
+                    $.each(frequencias, function (index, value) {
+                        aux.push(value.status);
+                    });
+                    return aux;
+                },
+                orderable: false
             },
-            {data: 'salario' , render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')},
-            {data: 'cargo.nome'},
-            {data: 'departamento.nome'},
-            {data: 'centro.nome'},
+            {data: 'funcionarios[,].cargo.nome'},
 
-            {orderable: false,
-                data: 'id',
-                "render": function (id) { 
-                    return '<a class="btn btn btn-outline-info btn-sm btn-block" href="/frequencia/funcionario/' +
-                            id + '" role="button"><i class="fa-solid fa-check"></i></a>';
-                }
-            },
-            {orderable: false,
-                data: 'id',
-                "render": function (id) { 
-                    return '<a class="btn btn btn-outline-info btn-sm btn-block" href="/endereco/pessoa/' +
-                            id + '" role="button"><i class="fas fa-solid fa-location-arrow"></i></a>';
-                }
-            },
-            
-            {orderable: false,
-                data: 'id',
-                "render": function (id) {                 
-                    
-                    
-                    return '<a class="btn btn-info btn-sm btn-block" href="/telefone/pessoa/' +
-                            id + '" role="button"><i class="fas fa-solid fa-phone"></i></a>';
-                }
-            },
             {orderable: false,
                 data: 'id',
                 "render": function (id) {

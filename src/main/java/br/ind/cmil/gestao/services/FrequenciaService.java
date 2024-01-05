@@ -24,6 +24,8 @@ public interface FrequenciaService {
 
     Map<String, Object> frequencias(HttpServletRequest request);
 
+    Map<String, Object> funcionariosFrequencias(HttpServletRequest request);
+
     void delete(Long id);
 
 }

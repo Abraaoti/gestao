@@ -167,15 +167,15 @@ public class DBService {
 
     public void instanciaBaseFuncionarios() {
 
-        FuncionarioDTO analista = new FuncionarioDTO(null, "Abraão Calelesso", "Cassinda", LocalDate.of(1920, Month.NOVEMBER, 27), "01250284902", "v565786876", "adriana chipondia", "agostinha cassinda", "09987878", "masculino", "solteiro(a)", "lubango", LocalDate.now(), null, BigDecimal.valueOf(1800, 0), 6L, 5L, 3L);
-        FuncionarioDTO tecnico = new FuncionarioDTO(null, "angelino", "manuel", LocalDate.of(1992, Month.JULY, 06), "01250284904", "998756547", "ana", "vicente", "76765765756", "masculino", "solteiro(a)", "vitória", LocalDate.now(), null, BigDecimal.valueOf(8000, 0), 4L, 5L, 3L);
-        FuncionarioDTO rh = new FuncionarioDTO(null, "beatriz", "da silva campos", LocalDate.of(1995, Month.JULY, 06), "01250284903", "998756546", "marli bentos", "silva", "7678700", "feminino", "solteiro(a)", "gv", LocalDate.now(), null, BigDecimal.valueOf(1400, 0), 3L, 4L, 3L);
-        FuncionarioDTO engenheiro = new FuncionarioDTO(null, "joão", "victor", LocalDate.of(1997, Month.JULY, 06), "01250284905", "998756548", "victorina", "victor", "6567565675", "masculino", "solteiro(a)", "serra-es", LocalDate.now(), null, BigDecimal.valueOf(8000, 00), 7L, 6L, 3L);
+        FuncionarioDTO abraao = new FuncionarioDTO(null, "Abraão Calelesso", "Cassinda", LocalDate.of(1920, Month.NOVEMBER, 27), "01250284902", "v565786876", "adriana chipondia", "agostinha cassinda", "09987878", "masculino", "solteiro(a)", "lubango", LocalDate.now(), null, BigDecimal.valueOf(1800, 0), 6L, 5L, 3L);
+        FuncionarioDTO angelino = new FuncionarioDTO(null, "angelino", "manuel", LocalDate.of(1992, Month.JULY, 06), "01250284904", "998756547", "ana", "vicente", "76765765756", "masculino", "solteiro(a)", "vitória", LocalDate.now(), null, BigDecimal.valueOf(8000, 0), 4L, 5L, 3L);
+        FuncionarioDTO beatriz = new FuncionarioDTO(null, "beatriz", "da silva campos", LocalDate.of(1995, Month.JULY, 06), "01250284903", "998756546", "marli bentos", "silva", "7678700", "feminino", "solteiro(a)", "gv", LocalDate.now(), null, BigDecimal.valueOf(1400, 0), 3L, 4L, 3L);
+        FuncionarioDTO joao = new FuncionarioDTO(null, "joão", "victor", LocalDate.of(1997, Month.JULY, 06), "01250284905", "998756548", "victorina", "victor", "6567565675", "masculino", "solteiro(a)", "serra-es", LocalDate.now(), null, BigDecimal.valueOf(8000, 00), 7L, 6L, 3L);
         List<FuncionarioDTO> funcionarios = new ArrayList<>();
-        funcionarios.add(analista);
-        funcionarios.add(rh);
-        funcionarios.add(tecnico);
-        funcionarios.add(engenheiro);
+        funcionarios.add(abraao);
+        funcionarios.add(beatriz);
+        funcionarios.add(angelino);
+        funcionarios.add(joao);
         for (FuncionarioDTO funcionario : funcionarios) {
             funcionarioService.salvar(funcionario);
         }
@@ -185,13 +185,15 @@ public class DBService {
     public void instanciaBasePresenca() {
 
         Set<FrequenciaDTO> frequencias = new HashSet<>();
-        Set<Long> funcionarios1 = new HashSet<>();
-        funcionarios1.add(1L);
-        funcionarios1.add(2L);
+        Set<Long> funcionarios_presenca = new HashSet<>();
+        
+        funcionarios_presenca.add(2L);
+        Set<Long> funcionarios_treinamento = new HashSet<>();
+        funcionarios_treinamento.add(1L);
 
-        Set<Long> funcionarios2 = new HashSet<>();
-        funcionarios2.add(3L);
-        funcionarios2.add(4L);
+        Set<Long> funcionarios_falta = new HashSet<>();
+        funcionarios_falta.add(3L);
+        funcionarios_falta.add(4L);
 
         Set<Long> funcionarios3 = new HashSet<>();
         funcionarios3.add(1L);
@@ -199,33 +201,25 @@ public class DBService {
         funcionarios3.add(3L);
         funcionarios3.add(4L);
 
-        Set<Long> funcionarios4 = new HashSet<>();
-        funcionarios4.add(1L);
-        funcionarios4.add(2L);
-        funcionarios4.add(3L);
-        funcionarios4.add(4L);
+     
 
        
 
-        FrequenciaDTO frequencia_1 = new FrequenciaDTO(null, LocalDate.now(), "presente", funcionarios1);
-        FrequenciaDTO frequencia_falta = new FrequenciaDTO(null, LocalDate.now(), "falta", funcionarios2);
-        FrequenciaDTO frequencia_treinamento = new FrequenciaDTO(null, LocalDate.now(), "treinamento", funcionarios3);
+        FrequenciaDTO falta = new FrequenciaDTO(null, LocalDate.now(), "falta", funcionarios_falta);
+        FrequenciaDTO frequencia_2 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 14), "presente", funcionarios3);
+        FrequenciaDTO frequencia_3 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 15), "presente", funcionarios3);
+        FrequenciaDTO frequencia_4 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 16), "presente", funcionarios3);
+        FrequenciaDTO frequencia_5 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 17), "presente", funcionarios3);
+        FrequenciaDTO presenca = new FrequenciaDTO(null, LocalDate.now(), "presente", funcionarios_presenca);
+        FrequenciaDTO treinamento = new FrequenciaDTO(null, LocalDate.now(), "treinamento", funcionarios_treinamento);
 
-        FrequenciaDTO frequencia_2 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 17), "presente", funcionarios4);
-
-        FrequenciaDTO frequencia_3 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 14), "presente", funcionarios4);
-
-        FrequenciaDTO frequencia_4 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 15), "falta", funcionarios1);
-
-        FrequenciaDTO frequencia_5 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 16), "presente", funcionarios3);
-
-        frequencias.add(frequencia_1);
-        frequencias.add(frequencia_falta);
-        frequencias.add(frequencia_treinamento);
+        frequencias.add(falta);
+        frequencias.add(treinamento);
         frequencias.add(frequencia_2);
         frequencias.add(frequencia_3);
         frequencias.add(frequencia_4);
         frequencias.add(frequencia_5);
+        frequencias.add(presenca);
 
         for (FrequenciaDTO frequencia1 : frequencias) {
             frequenciaService.salvar(frequencia1);

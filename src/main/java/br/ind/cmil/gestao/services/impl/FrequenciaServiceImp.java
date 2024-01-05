@@ -125,4 +125,14 @@ public class FrequenciaServiceImp implements FrequenciaService {
         return new FrequenciaDTO(frequencia.id(), frequencia.data(), frequencia.status(), funcionarioIds);
     }
 
+    @Override
+    public Map<String, Object> funcionariosFrequencias(HttpServletRequest request) {
+   datatables.setRequest(request);
+        datatables.setColunas(DatatablesColunas.FUNCIONARIO_FREQUENCIA);
+        Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
+                : frequenciaRepository.searchAll(TipoFrequencia.convertTipoTipoFrequencia(datatables.getSearch()), datatables.getPageable());
+        
+        return datatables.getResponse(page);
+    }
+
 }

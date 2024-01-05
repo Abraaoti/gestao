@@ -15,16 +15,17 @@ $(document).ready(function () {
             data: 'data'
         },
         columns: [
-            {data: 'id'},
-            {data: 'funcionarios[,].nome'},
-            {data: 'funcionarios[,].cargo.nome'},         
+            {data: 'id'},               
           
           
             {data: 'data', render:
-                        function (nascimento) {
-                            return moment(nascimento).format('L');
+                        function (data) {
+                            return moment(data).format('L');
                         }
             },
+            {data: 'funcionarios[ | ].nome'},
+            {data: 'funcionarios[ | ].cargo.nome'},  
+          
              {data: 'status', render: function (data, type) {
 
                     var st = $.fn.dataTable.render.text().display(data);

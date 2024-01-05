@@ -56,8 +56,13 @@ public class FrequenciaControlle {
         return "frequencia/frequencias";
     }
 
+    @GetMapping("/funcionariosFrequencias")
+    public String getFuncionariosFrequencias() {
+        return "frequencia/funcionario_frequencias";
+    }
+
     @PostMapping("/addFrequenciaFuncionario")
-    public String salvar( @ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
+    public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
         return "redirect:/frequencia/funcionario/" + frequenciaDTO.funcionarios();
@@ -86,6 +91,11 @@ public class FrequenciaControlle {
     @GetMapping("/datatables/server")
     public ResponseEntity<?> frequencia(HttpServletRequest request) {
         return ResponseEntity.ok(frequenciaService.frequencias(request));
+    }
+
+    @GetMapping("/frequencias/datatables/server")
+    public ResponseEntity<?> funcionariofrequencia(HttpServletRequest request) {
+        return ResponseEntity.ok(frequenciaService.funcionariosFrequencias(request));
     }
 
 }

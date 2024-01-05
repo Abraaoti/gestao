@@ -32,20 +32,17 @@ public class Frequencia extends Entidade {
     @Column(name = "status", nullable = false)
     @Convert(converter = TipoAusenciaConvert.class)
     protected TipoFrequencia status;
-    @ManyToMany(mappedBy ="frequencias", fetch = FetchType.LAZY)    
-   @JsonIgnoreProperties("frequencias")
+    @JsonIgnoreProperties("frequencias")
+    @ManyToMany( fetch = FetchType.LAZY)
+    @JoinTable(name = "tbl_frequencias_funcionarios",
+            joinColumns = {
+                @JoinColumn(name = "frequencia_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "funcionario_id")}
+    )
     private Set<Funcionario> funcionarios = new HashSet<>();
 
     public Frequencia() {
-    }
-      public void addFuncionario(Funcionario funcionario) {
-        this.funcionarios.add(funcionario);
-        funcionario.getFrequencias().add(this);
-    }
-
-    public void removeFuncionario(Funcionario funcionario) {
-        this.funcionarios.remove(funcionario);
-        funcionario.getFrequencias().remove(this);
     }
 
     public Frequencia(Long id) {
@@ -76,7 +73,4 @@ public class Frequencia extends Entidade {
         this.funcionarios = funcionarios;
     }
 
-  
-
-   
 }

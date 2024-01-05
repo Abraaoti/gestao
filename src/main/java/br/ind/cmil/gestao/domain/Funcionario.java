@@ -48,11 +48,7 @@ public class Funcionario extends PessoaFisica {
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
     private CentroCusto centro;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-     @JoinTable(name = "tbl_funcionarios_frequencias",
-            joinColumns = {@JoinColumn(name = "funcionario_id")},
-            inverseJoinColumns ={ @JoinColumn(name = "frequencia_id")}
-    )
+    @ManyToMany(mappedBy = "funcionarios",fetch = FetchType.LAZY)    
     @JsonIgnoreProperties("funcionarios")
     private Set<Frequencia> frequencias = new HashSet<>();
 

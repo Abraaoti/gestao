@@ -12,11 +12,12 @@
                     <a th:href="@{/frequencias}" class="btn btn-primary ms-2">[[#{frequencia.add.back}]]</a>
                 </div>
             </div>
-            <form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated">
+            <div class="row">
+            <form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="col s12 was-validated">
                 <div class="row">
 
 
-                    <div class="col-md-6">
+                    <div class="input-field col s12 m6">
 
                         <select class="form-control" th:field="*{funcionarios}"  id="funcionarios"  multiple="multiple">
                             <option th:each="funcionarios : ${allFuncionarios}"
@@ -24,7 +25,7 @@
                                     th:text="${funcionarios.nome}"  selected="selected"></option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="input-field col s12 m6">
                         <select class="form-control" th:field="*{status}">
                             <option th:each="status : ${allTipos}"
                                     th:value="${status}"
@@ -39,17 +40,17 @@
                     Add Frequência
                 </button>  
 
-
-
-
-
-
-
             </form>
+        </div>
         </div>
         <script th:src="~{}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript">
-
+            $('#funcionarios').ready(function(){
+            var funcionarios = [[${frequencia.funcionarios}]];
+            $.each(funcionarios, function(k, v) {
+            $('#funcionarios option[value="' + v.id + '"]').attr('selected', 'selected');
+            })
+            });
         </script>
     </body>
 </html>

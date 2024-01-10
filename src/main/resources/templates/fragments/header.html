@@ -78,11 +78,9 @@
                                     
                  <li  sec:authorize="hasAuthority('ADMIN')">
                     <a href="#admin" data-target="admin"   class="dropdown-trigger dropdown-item">Admin</a>
-                    <ul class="dropdown-content" id="admin">                    							
-                        <li><a  th:href="@{/u/add}">Usuário</a> <li>
+                    <ul class="dropdown-content" id="admin">       
                         <li><a  th:href="@{/u}">Usuários</a> <li>
                         <li><a  th:href="@{/perfis}">perfis</a> <li>
-                        <li><a  th:href="@{/perfis/add}">add perfil</a> <li>
                     </ul>
                 </li>
   
@@ -90,11 +88,8 @@
                     <a href="#administrador"  data-target="administrador"  class="dropdown-trigger dropdown-item">Administrador</a>
                     <ul class="dropdown-content" id="administrador">
                         <li><a  th:href="@{/administrador/dados}">dados</a> <li>
-                        <li><a  th:href="@{/centroCusto/add}">add centro de custo</a></li>
                         <li><a  th:href="@{/centroCusto}"> centros de custos</a></li>
-                        <li><a  th:href="@{/departamentos/add}">add departamento</a></li>
                         <li><a  th:href="@{/departamentos}">[[#{departamento.list.headline}]]</a></li>
-                        <li><a  th:href="@{/cargo/add}">cadastrar cargo</a></li>
                         <li><a  th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
                     </ul>
                 </li>
@@ -104,7 +99,7 @@
                     <a  href="#assistente"   data-target="assistente" aria-expanded="false" class="dropdown-trigger dropdown-item">ASSISTENTE </a>
                     <ul class="dropdown-content" id="assistente">
                         <li><a  th:href="@{/assistente/dados}">dados</a></li>
-                        <li><a  th:href="@{/funcionarios/add}">add funcionário</a></li>                      
+                                       
                         <li> <a  th:href="@{/funcionarios}"> [[#{funcionario.list.headline}]]</a></li>
                         <li> <a  th:href="@{/funcionario/historico/funcionario}">Histórico</a></li>
                     </ul>
@@ -113,8 +108,6 @@
                     <a  href="#aux"  data-target="aux" aria-expanded="false" class="dropdown-trigger dropdown-item">AUXILIAR  </a>
                     <ul class="dropdown-content" id="aux">
                         <li><a th:href="@{/auxiliar/dados}">dados</a></li>
-                        <li><a  th:href="@{/frequencias/marcar-presenca}">Marcar Presença</a></li>
-                        <li><a  th:href="@{/frequencias/funcionariosFrequencias}"> Presença</a></li>
                         <li><a  th:href="@{/frequencias}">[[#{frequencia.list.headline}]]</a></li>
                         <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
                     </ul>

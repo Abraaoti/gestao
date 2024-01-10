@@ -3,6 +3,7 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.base.Entidade;
 import br.ind.cmil.gestao.convert.TipoAusenciaConvert;
 import br.ind.cmil.gestao.enums.TipoFrequencia;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -32,9 +33,10 @@ public class Frequencia extends Entidade {
     @Column(name = "status", nullable = false)
     @Convert(converter = TipoAusenciaConvert.class)
     protected TipoFrequencia status;
-     @JsonManagedReference
+    // @JsonManagedReference
     //@JsonIgnoreProperties("frequencias")
-    @ManyToMany( fetch = FetchType.LAZY)
+     @JsonIgnoreProperties(value = "frequencias", allowSetters = true)
+    @ManyToMany(fetch = FetchType.LAZY)  
     @JoinTable(name = "tbl_frequencias_funcionarios",
             joinColumns = {
                 @JoinColumn(name = "frequencia_id")},

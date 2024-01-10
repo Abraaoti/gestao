@@ -6,8 +6,6 @@ import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.domain.Cargo;
-import br.ind.cmil.gestao.domain.Cartao;
-import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,19 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.ind.cmil.gestao.services.DepartamentoService;
 import br.ind.cmil.gestao.services.CargoService;
-import br.ind.cmil.gestao.services.CartaoService;
 import br.ind.cmil.gestao.services.CentroCustoService;
-import br.ind.cmil.gestao.services.FrequenciaService;
 import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.services.PerfilService;
 import br.ind.cmil.gestao.services.UsuarioService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 /**
  *
@@ -49,11 +41,7 @@ public class DBService {
     private PerfilService ps;
     @Autowired
     private UsuarioService us;
-    @Autowired
-    private CartaoService cartaoService;
-
-    @Autowired
-    private FrequenciaService frequenciaService;
+   
 
     public void instanciaBaseDePerfis() {
         List<String> perfis = new ArrayList<>();
@@ -152,18 +140,6 @@ public class DBService {
         }
     }
 
-    public void instanciaBaseCartoes() {
-        List<String> cartoes = new ArrayList<>();
-        cartoes.add(String.valueOf(new Random().nextInt(1000)));
-        cartoes.add(String.valueOf(new Random().nextInt(1000)));
-        cartoes.add(String.valueOf(new Random().nextInt(1000)));
-        cartoes.add(String.valueOf(new Random().nextInt(1000)));
-
-        for (int i = 0; i < cartoes.size(); i++) {
-            cartaoService.salvar(new Cartao(cartoes.get(i)));
-        }
-
-    }
 
     public void instanciaBaseFuncionarios() {
 
@@ -182,49 +158,6 @@ public class DBService {
 
     }
 
-    public void instanciaBasePresenca() {
-
-        Set<FrequenciaDTO> frequencias = new HashSet<>();
-        Set<Long> funcionarios_presenca = new HashSet<>();
-        
-        funcionarios_presenca.add(2L);
-        Set<Long> funcionarios_treinamento = new HashSet<>();
-        funcionarios_treinamento.add(1L);
-
-        Set<Long> funcionarios_falta = new HashSet<>();
-        funcionarios_falta.add(3L);
-        funcionarios_falta.add(4L);
-
-        Set<Long> funcionarios3 = new HashSet<>();
-        funcionarios3.add(1L);
-        funcionarios3.add(2L);
-        funcionarios3.add(3L);
-        funcionarios3.add(4L);
-
-     
-
-       
-
-        FrequenciaDTO falta = new FrequenciaDTO(null, LocalDate.now(), "falta", funcionarios_falta);
-        FrequenciaDTO frequencia_2 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 14), "presente", funcionarios3);
-        FrequenciaDTO frequencia_3 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 15), "presente", funcionarios3);
-        FrequenciaDTO frequencia_4 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 16), "presente", funcionarios3);
-        FrequenciaDTO frequencia_5 = new FrequenciaDTO(null, LocalDate.of(2023, Month.DECEMBER, 17), "presente", funcionarios3);
-        FrequenciaDTO presenca = new FrequenciaDTO(null, LocalDate.now(), "presente", funcionarios_presenca);
-        FrequenciaDTO treinamento = new FrequenciaDTO(null, LocalDate.now(), "treinamento", funcionarios_treinamento);
-
-        frequencias.add(falta);
-        frequencias.add(treinamento);
-        frequencias.add(frequencia_2);
-        frequencias.add(frequencia_3);
-        frequencias.add(frequencia_4);
-        frequencias.add(frequencia_5);
-        frequencias.add(presenca);
-
-        for (FrequenciaDTO frequencia1 : frequencias) {
-            frequenciaService.salvar(frequencia1);
-        }
-
-    }
+   
 
 }

@@ -15,39 +15,17 @@
         <header class="bg-light">
             <div th:replace="~{fragments/header :: header}"/>
         </header>    
-     <ul id="slide-out" class="sidenav">
-    <li><div class="user-view">
-      <div class="background">
-        <img src="images/office.jpg"/>
-      </div>
-      <a href="#user"><img class="circle" src="images/yuna.jpg"/></a>
-      <a href="#name"><span class="white-text name">John Doe</span></a>
-      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
-    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-    <li><a href="#!">Second Link</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-  </ul>
-  
-        
-           
- <div id="menu_left" sec:authorize="isAuthenticated()" >
-            <div th:replace="~{fragments/menu :: menu}" />
-        </div>
-
-
-        <main class="my-5">
+ 
+         <main class="my-5">
             
        
             <div class="container" >
 		<p th:if="${MSG_SUCCESS}" class="alert alert-success mb-4" role="alert">[[${MSG_SUCCESS}]]</p>
                 <p th:if="${MSG_INFO}" class="alert alert-info mb-4" role="alert">[[${MSG_INFO}]]</p>
                 <p th:if="${MSG_ERROR}" class="alert alert-danger mb-4" role="alert">[[${MSG_ERROR}]]</p>
-                <div layout:fragment="content" style="background-color: #ffffff;"  />
-            </div>
+                <div layout:fragment="content"  />
             <span th:replace="~{fragments/modal-confirm :: modal-confirm}"></span>
+            </div>
         </main>
 
 
@@ -88,7 +66,16 @@
     });
   });
   
-  
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, options);
+  });
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
   
    document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');

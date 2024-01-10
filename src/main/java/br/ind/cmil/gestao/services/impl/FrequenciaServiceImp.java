@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 /**
@@ -85,8 +82,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
         funcionarios.forEach(funcionario -> {
             funcionario.addFrequencia(frequencia);
         });
-        //Funcionario funcionario = funcionarioRepository.findById(frequenciaDTO.funcionario()).get();
-        // frequencia.setFuncionario(funcionario);
+     
         frequencia.setId(frequenciaDTO.id());
         return frequenciaMapper.toDTO(frequenciaRepository.save(frequencia));
     }
@@ -96,39 +92,21 @@ public class FrequenciaServiceImp implements FrequenciaService {
         return frequenciaRepository.findById(id).map(frequencia -> frequenciaMapper.toDTO(frequencia)).get();
     }
 
-    @Override
-    public Map<String, Object> frequencias(HttpServletRequest request) {
-        datatables.setRequest(request);
-        datatables.setColunas(DatatablesColunas.FREQUENCIA);
-        Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
-                : frequenciaRepository.searchAll(TipoFrequencia.convertTipoTipoFrequencia(datatables.getSearch()), datatables.getPageable());
-        
-        return datatables.getResponse(page);
-    }
 
-    @Override
-    public List<Frequencia> f() {
-        Page<Frequencia> page = frequenciaRepository.findAll(PageRequest.of(0, 5));
-        List<Frequencia> frequencias = frequenciaRepository.findAllFrequencias(page.stream().collect(Collectors.toList()));
-        return frequencias;
-    }
+
+ 
 
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       frequenciaRepository.deleteById(id);
     }
 
-    @Override
-    public FrequenciaDTO criar(List<Long> funcionario_ids, FrequenciaDTO frequencia) {
-        //List<Funcionario> funcionarios = funcionarioRepository.findAllById(funcionario_ids);
-        Set<Long> funcionarioIds = funcionarioRepository.findAllById(funcionario_ids).stream().map(funcionarios_id -> funcionarios_id.getId()).collect(Collectors.toSet());
-        return new FrequenciaDTO(frequencia.id(), frequencia.data(), frequencia.status(), funcionarioIds);
-    }
+  
 
     @Override
     public Map<String, Object> funcionariosFrequencias(HttpServletRequest request) {
    datatables.setRequest(request);
-        datatables.setColunas(DatatablesColunas.FUNCIONARIO_FREQUENCIA);
+        datatables.setColunas(DatatablesColunas.FREQUENCIA);
         Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
                 : frequenciaRepository.searchAll(TipoFrequencia.convertTipoTipoFrequencia(datatables.getSearch()), datatables.getPageable());
         

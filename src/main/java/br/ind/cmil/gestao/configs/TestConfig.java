@@ -53,14 +53,6 @@ public class TestConfig {
         this.dbService.instanciaBaseFuncionarios();
 
     }
-    @Bean
-    public void instaciaBaseDeCartoess() {
-        this.dbService.instanciaBaseCartoes();
-
-    }
-    @Bean
-    public void instanciaBaseFrequenciais() {
-        this.dbService.instanciaBasePresenca();
-
-    }
+  
+   
 }

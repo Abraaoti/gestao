@@ -1,20 +1,18 @@
 package br.ind.cmil.gestao.controller;
 
+import br.ind.cmil.gestao.domain.Pessoa;
 import br.ind.cmil.gestao.model.dto.EnderecoDTO;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import br.ind.cmil.gestao.services.EnderecoService;
 import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author cmilseg
  */
 @Controller
-@RequestMapping("endereco")
+@RequestMapping("enderecos")
 public class EnderecoController {
 
     private final EnderecoService enderecoService;
@@ -37,24 +35,33 @@ public class EnderecoController {
         this.funcionarioService = funcionarioService;
     }
 
+    @GetMapping
+    public String enderecos() {
+        return "endereco/enderecos";
+    }
+
     @GetMapping("/enderecos")
     public List<EnderecoDTO> list(Pageable pageable) {
         return enderecoService.list(pageable);
     }
 
-    @GetMapping("/pessoa/{pessoa_id}")
-    public String formEndereco(@PathVariable("pessoa_id") Long pessoa_id, EnderecoDTO endereco, Model model) {
-        model.addAttribute("endereco", enderecoService.criar(pessoa_id, endereco));
+    @ModelAttribute
+    public void prepareContext(Model model) {       
+        model.addAttribute("pessoas", funcionarioService.list());
+    }
+
+    @GetMapping("/add")
+    public String formEndereco(@ModelAttribute("endereco") EnderecoDTO endereco) {
         return "endereco/endereco";
     }
 
-    @PostMapping("/salvar")
-    public String salvar(@ModelAttribute EnderecoDTO endereco, RedirectAttributes redir, Model model) {
+    @PostMapping("/add")
+    public String salvar(@ModelAttribute("endereco") EnderecoDTO enderecoDTO, RedirectAttributes redir, Model model) {
 
-        enderecoService.salvar(endereco);
+        enderecoService.salvar(enderecoDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("endereco.create.success"));
-        model.addAttribute("pessoa", funcionarioService.buscarFuncionarioPorId(endereco.pessoa()));
-        return "funcionarios/detalhepessoa";
+        model.addAttribute("pessoa", funcionarioService.buscarFuncionarioPorId(enderecoDTO.pessoa()));
+        return "redirect:/enderecos";
 
     }
 
@@ -62,7 +69,7 @@ public class EnderecoController {
     public String atualizar(@ModelAttribute EnderecoDTO endereco, RedirectAttributes redir, Model model) {
         enderecoService.salvar(endereco);
         model.addAttribute("pessoa", funcionarioService.buscarFuncionarioPorId(endereco.pessoa()));
-        return "funcionarios/detalhepessoa";
+        return "redirect:/enderecos";
 
     }
 
@@ -72,10 +79,12 @@ public class EnderecoController {
         return "endereco/endereco";
     }
 
-    @GetMapping("/excluir/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @NotNull @Positive Long id) {
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") final Long id,
+            final RedirectAttributes redirectAttributes) {
         enderecoService.delete(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("endereco.delete.success"));
+        return "redirect:/enderecos";
     }
 
     @GetMapping("/datatables/server")

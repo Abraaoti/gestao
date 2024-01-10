@@ -31,7 +31,7 @@ public class EnderecoServiceImp implements EnderecoService {
     private final EnderecoRepository enderecoRepository;
     private final EnderecoMapper enderecoMapper;
     private final FuncionarioRepository funcionarioService;
-     private final Datatables datatables;
+    private final Datatables datatables;
 
     public EnderecoServiceImp(EnderecoRepository enderecoRepository, EnderecoMapper enderecoMapper, FuncionarioRepository funcionarioService, Datatables datatables) {
         this.enderecoRepository = enderecoRepository;
@@ -49,20 +49,21 @@ public class EnderecoServiceImp implements EnderecoService {
     @Override
     @Transactional(readOnly = false)
     public Long salvar(EnderecoDTO enderecoDTO) {
-        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);      
-    
+        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
+
         validarAtributos(endereco);
 
         if (enderecoDTO.id() == null) {
-             Pessoa pessoa = funcionarioService.findById(enderecoDTO.pessoa()).get();
-        endereco.setPessoa(pessoa);
-           return enderecoRepository.save(endereco).getId();
+            Pessoa pessoa = funcionarioService.findById(enderecoDTO.pessoa()).get();
+            endereco.setPessoa(pessoa);
+            return enderecoRepository.save(endereco).getId();
 
         }
-       return update(enderecoDTO).id();
+        return update(enderecoDTO).id();
 
     }
- @Transactional(readOnly = false)
+
+    @Transactional(readOnly = false)
     public EnderecoDTO update(EnderecoDTO endereco) {
 
         return enderecoRepository.findById(endereco.id())
@@ -81,7 +82,7 @@ public class EnderecoServiceImp implements EnderecoService {
         Pessoa pessoa = funcionarioService.findById(pessoa_id).get();
         return new EnderecoDTO(endereco.id(), endereco.uf(), endereco.cidade(), endereco.bairro(), endereco.rua(), endereco.cep(), endereco.numero(), endereco.complemento(), pessoa.getId());
     }
-    
+
     private void validarAtributos(Endereco request) {
         Optional<Endereco> endereco = enderecoRepository.findByCep(request.getCep());
         if (endereco.isPresent() && !Objects.equals(endereco.get().getId(), request.getId()) && !Objects.equals(endereco.get().getPessoa().getId(), request.getPessoa().getId())) {
@@ -105,8 +106,7 @@ public class EnderecoServiceImp implements EnderecoService {
         enderecoRepository.deleteById(id);
     }
 
-   
-     @Override
+    @Override
     @Transactional(readOnly = true)
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
@@ -114,5 +114,10 @@ public class EnderecoServiceImp implements EnderecoService {
         Page<Endereco> page = datatables.getSearch().isEmpty() ? enderecoRepository.findAll(datatables.getPageable())
                 : enderecoRepository.findAllByEndereco(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
+    }
+
+    @Override
+    public boolean pessoaExists(Long id) {
+        return enderecoRepository.existsByPessoaId(id);
     }
 }

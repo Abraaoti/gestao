@@ -6,9 +6,6 @@ import br.ind.cmil.gestao.services.FrequenciaService;
 import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -25,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author abraao
  */
 @Controller
-@RequestMapping("frequencia")
+@RequestMapping("frequencias")
 public class FrequenciaControlle {
 
     private final FrequenciaService frequenciaService;
@@ -38,39 +34,28 @@ public class FrequenciaControlle {
 
     @ModelAttribute
     public void prepareContext(Model model) {
-        model.addAttribute("funcionarios", funcionarioService.list());
-        model.addAttribute("frequencias", frequenciaService.f());
-        model.addAttribute("tipos", TipoFrequencia.values());
+        model.addAttribute("funcionariosValues", funcionarioService.list());
+        model.addAttribute("allTypes", TipoFrequencia.tipoFrequencias());
     }
 
-    @GetMapping("/funcionario/{funcionario_id}")
-    public String add(@PathVariable("funcionario_id") Long funcionario_id, @ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, Model model) {
-        //model.addAttribute("frequencia", frequenciaService.criar(funcionarioIds, frequenciaDTO));
-        model.addAttribute("funcionario", funcionarioService.buscarFuncionarioPorId(funcionario_id));
+    @GetMapping("/add")
+    public String add(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO) {
 
         return "frequencia/frequencia";
     }
 
     @GetMapping
-    public String getFrequencia() {
+    public String getFrequencia(Model model) {
+       // model.addAttribute("frequencias", frequenciaService.getFrequencias());
         return "frequencia/frequencias";
-    }
-
-    @GetMapping("marcar-presenca")
-    public String marcarPresenca() {
-        return "funcionario/marcar-presenca";
-    }
-
-    @GetMapping("/funcionariosFrequencias")
-    public String getFuncionariosFrequencias() {
-        return "frequencia/funcionario_frequencias";
     }
 
     @PostMapping("/addFrequenciaFuncionario")
     public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
+
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
-        return "redirect:/frequencia/funcionario/" + frequenciaDTO.funcionarios();
+        return "redirect:/frequencias";
 
     }
 
@@ -78,7 +63,7 @@ public class FrequenciaControlle {
     public String editar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
-        return "redirect:/frequencia/funcionario/" + frequenciaDTO.funcionarios();
+        return "redirect:/frequencias";
     }
 
     @GetMapping("/editar/{id}")
@@ -87,19 +72,15 @@ public class FrequenciaControlle {
         return "frequencia/frequencia";
     }
 
-    @GetMapping("/excluir/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @NotNull @Positive Long id) {
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") final Long id, final RedirectAttributes redirectAttributes) {
         frequenciaService.delete(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("frequencia.delete.success"));
+        return "redirect:/frequencias";
     }
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> frequencia(HttpServletRequest request) {
-        return ResponseEntity.ok(frequenciaService.frequencias(request));
-    }
-
-    @GetMapping("/frequencias/datatables/server")
-    public ResponseEntity<?> funcionariofrequencia(HttpServletRequest request) {
         return ResponseEntity.ok(frequenciaService.funcionariosFrequencias(request));
     }
 

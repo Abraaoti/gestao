@@ -1,16 +1,17 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
- <head>
-  <title>[[#{funcionario.add.headline}]]</title>
- </head>
- <body>
-  <div layout:fragment="content">
-   <div class="d-flex flex-wrap mb-4">
-    <h1 class="flex-grow-1">[[#{funcionario.add.headline}]]</h1>
-    <div>
-     <a th:href="@{/funcionarios}" class="btn btn-primary ms-2">[[#{funcionario.add.back}]]</a>
-    </div>
-   </div>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{funcionario.add.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{funcionario.add.headline}]]</h1>
+                <div>
+                    <a th:href="@{/funcionarios}" class="btn btn-secondary">[[#{funcionario.add.back}]]</a>
+                </div>
+            </div>
    <div class="row">
     <form th:action="${funcionario.id== null} ? @{/funcionarios/salvar} : @{/funcionarios/editar}" th:object="${funcionario}" method="POST" class="was-validated col s12">
      <div class="row">
@@ -68,7 +69,8 @@
      </div>
      <div class="row">
       <div class="input-field col s6">
-       <p th:each="estado_civil : ${estadoCivil}"><label> <input type="radio" id="estado_civil" th:field="*{estado_civil}" th:value="${estado_civil}" th:text="${estado_civil}" checked> </label></p>
+       <p th:each="estado_civil : ${estadoCivil}">
+	       <label> <input type="radio" id="estado_civil" th:field="*{estado_civil}" th:value="${estado_civil}" th:text="${estado_civil}" checked> </label></p>
       </div>
       <div class="input-field col s6">
        <p th:each="genero : ${generos}"><label> <input type="radio" th:field="*{genero}" id="genero" th:value="${genero}" th:text="${genero}" checked> </label></p>

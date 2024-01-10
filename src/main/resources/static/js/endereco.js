@@ -9,8 +9,11 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         responsive: true,
+         language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+        },
         ajax: {
-            url: '/endereco/datatables/server',
+            url: '/enderecos/datatables/server',
             data: 'data'
         },
         columns: [
@@ -26,14 +29,14 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-success btn-sm btn-block" href="/endereco/editar/' +
+                    return '<a class="btn btn-success btn-sm btn-block" href="/enderecos/editar/' +
                             id + '" role="button"><i class="fas fa-edit"></i></a>';
                 }
             },
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-danger btn-sm btn-block" href="/endereco/excluir/' +
+                    return '<a class="btn btn-danger btn-sm btn-block" href="/enderecos/excluir/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             }

@@ -16,7 +16,6 @@ import br.ind.cmil.gestao.repositorys.CentroCustoRepository;
 import br.ind.cmil.gestao.repositorys.DepartamentoRepository;
 import br.ind.cmil.gestao.services.FuncionarioService;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -27,6 +26,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import br.ind.cmil.gestao.repositorys.FuncionarioRepository;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 
 /**
@@ -55,8 +55,8 @@ public class FuncionarioServiceImp implements FuncionarioService {
     @Override
     @Transactional(readOnly = true)
     public List<FuncionarioDTO> list() {
-
-        List<Funcionario> funcionarios = funcionarioRepository.findAll(Sort.by("id"));
+        
+        List<Funcionario> funcionarios =funcionarioRepository.findAll(Sort.by("id"));
         return funcionarios.stream().map(funcionarioMapper::toDTO).collect(Collectors.toList());
 
     }

@@ -1,39 +1,39 @@
-<!doctype html>
-<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
- <head>
-  <meta charset="UTF-8">
-  <title>[[#{frequencia.add.headline}]]</title>
- </head>
- <body>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{frequencia.add.headline}]]</title>
+    </head>
+    <body>
   <div layout:fragment="content">
    <div class="d-flex flex-wrap mb-4">
     <h1 class="flex-grow-1">[[#{frequencia.add.headline}]]</h1>
     <div>
-     <a th:href="@{/frequencia}" class="btn btn-primary ms-2">[[#{frequencia.add.back}]]</a>
+     <a th:href="@{/frequencias}" class="btn btn-primary ms-2">[[#{frequencias.add.back}]]</a>
     </div>
    </div>
-   <form th:action="${frequencia.id == null} ? @{/frequencia/addFrequenciaFuncionario} : @{/frequencia/editar}" th:object="${frequencia}" method="POST" class="was-validated">
-   
-	  <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Data Student Info</div>
-                        <div class="panel-body" style="padding-left: 5px;">
-                            Nome : <b th:utext="${funcionario.nome}"></b>
-                            <br/>
-                            Sobrenome : <b th:utext="${funcionario.sobrenome}"></b>
-                            <br/>
-                         
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <select class="form-control" name="courseId">
-                            <option th:each="freq : ${frequencias}"
-                            th:value="${freq.id}"
-                            th:text="${freq.status}"></option>
+   <form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated">
+	   <div class="row">
+	     <div class="col-md-6">
+		     <select  name="funcionarios" multiple>
+                            <option th:each="funcionario : ${funcionariosValues}"
+                            th:value="${funcionario.id}"
+                            th:text="${funcionario.nome}"></option>
                         </select>
                     </div>
-                </div>
+              
+	     <div class="col-md-6">
+                        <select  name="status">
+                            <option th:each="status : ${allTypes}"
+                            th:value="${status}"
+                            th:text="${status}"></option>
+                        </select>
+                    </div>
+              
                 <br/>
+		</div>
+	   <input type="date" th:field="*{data}">
+	   <input type="hidden" th:field="*{id}">
                 <button type="submit" class="btn btn-primary">
                     Add Frequência
                 </button>  

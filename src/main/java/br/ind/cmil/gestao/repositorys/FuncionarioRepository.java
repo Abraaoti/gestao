@@ -25,6 +25,8 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>,
     @Query(value = " FROM Funcionario f join  f.departamento as d join  f.centro as cc join  f.cargo as c join fetch f.frequencias as fr",
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj ")
     List<Funcionario> searchAll();
+    @Query( "SELECT fu.id,fu.nome, c.nome, fr.status FROM Funcionario fu join fu.cargo as c join  fu.frequencias as fr ")
+    List<Funcionario> allFuncionario();
 
     @Query(value = " FROM Funcionario f join  f.departamento as d join  f.centro as cc join  f.cargo as c join fetch f.frequencias as fr",
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj ")

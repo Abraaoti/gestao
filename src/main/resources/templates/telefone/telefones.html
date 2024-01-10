@@ -11,7 +11,7 @@
              <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{telefone.list.headline}]]</h1>
                 <div>
-                    <a th:href="@{/telefone/add}" class="btn btn-primary ms-2">[[#{telefone.list.createNew}]]</a>
+                    <a th:href="@{/telefones/add}" class="btn btn-primary ms-2">[[#{telefone.list.createNew}]]</a>
                 </div>
             </div>
 
@@ -25,7 +25,6 @@
                                 <th scope="col" th:text="#{telefone.tipo.label}"> </th>									
                                 <th scope="col" th:text="#{telefone.list.edit}"></th>
                                 <th scope="col" th:text="#{telefone.list.delete}"></th>
-                                <th scope="col" th:text="#{telefone.list.createNew}"></th>
                             </tr>
                         </thead>
                     </table>    

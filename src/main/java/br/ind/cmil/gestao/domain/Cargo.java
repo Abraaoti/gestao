@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -24,8 +25,9 @@ public class Cargo extends Entidade {
 
     @Column(length = 80, unique = true, nullable = false)
     private String nome;
-    //@OneToMany(mappedBy = "cargo")
-   // private List<Funcionario> funcionarios;
+    @JsonIgnore
+    @OneToMany(mappedBy = "cargo")
+    private List<Funcionario> funcionarios;
 
     public Cargo() {
 

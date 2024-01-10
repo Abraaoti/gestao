@@ -1,79 +1,25 @@
-<!DOCTYPE html>
-<html xmlns:layout="http://www.w3.org/1999/xhtml" 
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{layout}">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
     <head>
-        <title th:text="#{telefone.add.headline}" />
+        <title>[[#{telefone.add.headline}]]</title>
     </head>
     <body>
-     
-        <div  layout:fragment="content">
-            
-            
-              <div class="d-flex flex-wrap mb-4">
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
                 <h1 class="flex-grow-1">[[#{telefone.add.headline}]]</h1>
                 <div>
-                    <a th:href="@{/telefone}" class="btn btn-primary ms-2">[[#{telefone.add.back}]]</a>
+                    <a th:href="@{/telefones}" class="btn btn-secondary">[[#{telefone.add.back}]]</a>
                 </div>
             </div>
-
-           
-                             <div class="row">
-                                    <form th:action="${telefone.id == null} ? @{/telefone/salvar} : @{/telefone/editar}"  th:object="${telefone}" method="POST" class="was-validated col s12">
-
-                                        <div class="row">                                  
-                                           <div class="input-field col s6">
-                                               <i class="material-icons prefix">phone</i>
-                                                <input type="text"  id="numero" th:field="*{numero}"  required />
-                                            <label for="numero">Número</label>  
-                                           </div>
-                                      
-
-                                          <div class="col s6">
-
-                                            <p th:each="tipo : ${tipos}" >
-                                              
-                                                    <label>
-                                                    <input type="radio" class="with-gap"  id="tipo"  th:field="*{tipo}" th:value="${tipo}" th:text="${tipo}" checked />
-  </label>                                                  
-                                                 
-
-                                            </p>
-                                         
-                                        </div>
-                                        </div>
-
-                                        <input type="hidden" th:field="*{id}"/>	
-                                        <input type="hidden" name="pessoa" th:field="*{pessoa}"/>
-
-                                        <input type="submit" class="btn btn-primary"   value="salvar"/>
-
-
-                                    </form>
-                                </div>
-                               
-
-
-                       
-                            <h2>Telefone Cadastrado</h2>
-
-                            <table id="table-telefone" class="table table-sm table-striped table-bordered nowrap"  style="width: 100%">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col" th:text="#{telefone.id.label}"></th>
-                                        <th scope="col" >Nome</th>
-                                        <th scope="col" th:text="#{telefone.numero.label}"></th>								
-                                        <th scope="col" th:text="#{telefone.tipo.label}"> </th>									
-                                        <th scope="col" th:text="#{telefone.list.edit}"></th>
-                                        <th scope="col" th:text="#{telefone.list.delete}"></th>
-                                        <th scope="col" th:text="#{telefone.list.createNew}"></th>
-                                    </tr>
-                                </thead>
-                            </table>
-
-                </div>
-                </div>
-                </div>
+            <div th:replace="~{fragments/forms::globalErrors('telefone')}" />
+            <form th:action="${requestUri}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='telefone', field='numero')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='telefone', field='tipo', type='radio')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='telefone', field='pessoa', type='select')}" />
+                <input type="submit" th:value="#{telefone.add.headline}" class="btn btn-primary mt-4" />
+            </form>
+        </div>
        
         <script	th:src="@{/js/telefone.js(v=${version})}"  th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript"></script>

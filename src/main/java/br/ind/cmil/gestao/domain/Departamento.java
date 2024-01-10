@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -23,9 +24,10 @@ import lombok.ToString;
 public class Departamento extends Entidade {
 
     @Column(length = 80, unique = true, nullable = false)
-    private String nome;   
-   // @OneToMany(mappedBy = "departamento")
-   // private Set<Funcionario> funcionarios;
+    private String nome;
+    @JsonIgnore
+    @OneToMany(mappedBy = "departamento")
+    private Set<Funcionario> funcionarios;
 
     public Departamento() {
     }
@@ -37,7 +39,5 @@ public class Departamento extends Entidade {
     public Departamento(String nome) {
         this.nome = nome;
     }
-    
-    
 
 }

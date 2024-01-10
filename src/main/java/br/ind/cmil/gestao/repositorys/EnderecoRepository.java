@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.repositorys;
 
 import br.ind.cmil.gestao.domain.Endereco;
-import br.ind.cmil.gestao.domain.Pessoa;
+import br.ind.cmil.gestao.domain.Funcionario;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -32,4 +32,8 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
     @Query(value = "SELECT obj FROM Endereco obj  JOIN  obj.pessoa p where  obj.cep like :cep%")
     Page<Endereco> findAllByEndereco(String cep, Pageable pageable);
+    
+    Endereco findFirstByPessoa(Funcionario funcionario);
+
+    boolean existsByPessoaId(Long id);
 }

@@ -5,7 +5,6 @@ import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,8 @@ public class FrequenciaMapper {
 
     public FrequenciaDTO toDTO(Frequencia frequencia) {
         Set<Long> funcionarios = frequencia.getFuncionarios().stream().map(funcionario -> funcionario.getId()).collect(Collectors.toSet());
-        return new FrequenciaDTO(frequencia.getId(), frequencia.getData(), frequencia.getStatus().getValue(), funcionarios);
+        LocalDate data =  frequencia.getData()==null? LocalDate.now(): frequencia.getData();
+        return new FrequenciaDTO(frequencia.getId(), data, frequencia.getStatus().getValue().toLowerCase(), funcionarios);
     }
 
     public Frequencia toEntity(FrequenciaDTO dto) {

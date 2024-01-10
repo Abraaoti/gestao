@@ -42,30 +42,9 @@ $(document).ready(function () {
             {data: 'departamento.nome'},
             {data: 'centro.nome'},
 
-            {orderable: false,
-                data: 'id',
-                "render": function (id) { 
-                    return '<a class="btn btn btn-outline-info btn-sm btn-block" href="/frequencia/funcionario/' +
-                            id + '" role="button"><i class="fa-solid fa-check"></i></a>';
-                }
-            },
-            {orderable: false,
-                data: 'id',
-                "render": function (id) { 
-                    return '<a class="btn btn btn-outline-info btn-sm btn-block" href="/endereco/pessoa/' +
-                            id + '" role="button"><i class="fas fa-solid fa-location-arrow"></i></a>';
-                }
-            },
+          
             
-            {orderable: false,
-                data: 'id',
-                "render": function (id) {                 
-                    
-                    
-                    return '<a class="btn btn-info btn-sm btn-block" href="/telefone/pessoa/' +
-                            id + '" role="button"><i class="fas fa-solid fa-phone"></i></a>';
-                }
-            },
+          
             {orderable: false,
                 data: 'id',
                 "render": function (id) {

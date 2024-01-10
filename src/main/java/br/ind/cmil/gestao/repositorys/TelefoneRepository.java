@@ -1,5 +1,6 @@
 package br.ind.cmil.gestao.repositorys;
 
+import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.domain.Telefone;
 import br.ind.cmil.gestao.enums.TipoTelefone;
 import java.util.List;
@@ -45,11 +46,13 @@ public interface TelefoneRepository extends JpaRepository<Telefone, Long> {
     @Query(value = "SELECT obj FROM Telefone obj JOIN  obj.pessoa p ")
     List<Telefone> searchAll();
 
-    @Query(value = "SELECT obj FROM Telefone obj JOIN FETCH  obj.pessoa",
+    @Query(value = "SELECT obj FROM Telefone obj JOIN   obj.pessoa",
             countQuery = "SELECT COUNT(obj) FROM Telefone obj  JOIN obj.pessoa")
     Page<Telefone> searchAll(Pageable pageable);
 
     @Query(value = "SELECT obj FROM Telefone obj JOIN FETCH  obj.pessoa p where  obj.tipo like :tipo%")
     Page<Telefone> findAllByTelefone(TipoTelefone tipo, Pageable pageable);
+
+    Telefone findFirstByPessoa(Funcionario funcionario);
 
 }

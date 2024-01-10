@@ -26,4 +26,6 @@ public interface EnderecoService {
     Map<String, Object> buscarTodos(HttpServletRequest request);
 
     EnderecoDTO buscarPorCep(String cep);
+
+    boolean pessoaExists(final Long id);
 }

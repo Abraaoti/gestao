@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author abraao
  */
 @Controller
-@RequestMapping("frequencia")
+@RequestMapping("frequencias")
 public class FrequenciaControlle {
 
     private final FrequenciaService frequenciaService;
@@ -38,15 +38,12 @@ public class FrequenciaControlle {
 
     @ModelAttribute
     public void prepareContext(Model model) {
-        model.addAttribute("funcionarios", funcionarioService.list());
-        model.addAttribute("frequencias", frequenciaService.f());
-        model.addAttribute("tipos", TipoFrequencia.values());
+        model.addAttribute("allFuncionarios", funcionarioService.list());
+        model.addAttribute("allTipos", TipoFrequencia.tipoFrequencias());
     }
 
-    @GetMapping("/funcionario/{funcionario_id}")
-    public String add(@PathVariable("funcionario_id") Long funcionario_id, @ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, Model model) {
-        //model.addAttribute("frequencia", frequenciaService.criar(funcionarioIds, frequenciaDTO));
-        model.addAttribute("funcionario", funcionarioService.buscarFuncionarioPorId(funcionario_id));
+    @GetMapping("/add")
+    public String add(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO) {
 
         return "frequencia/frequencia";
     }
@@ -56,21 +53,11 @@ public class FrequenciaControlle {
         return "frequencia/frequencias";
     }
 
-    @GetMapping("marcar-presenca")
-    public String marcarPresenca() {
-        return "funcionario/marcar-presenca";
-    }
-
-    @GetMapping("/funcionariosFrequencias")
-    public String getFuncionariosFrequencias() {
-        return "frequencia/funcionario_frequencias";
-    }
-
     @PostMapping("/addFrequenciaFuncionario")
     public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
-        return "redirect:/frequencia/funcionario/" + frequenciaDTO.funcionarios();
+        return "redirect:/frequencias";
 
     }
 
@@ -78,7 +65,7 @@ public class FrequenciaControlle {
     public String editar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
-        return "redirect:/frequencia/funcionario/" + frequenciaDTO.funcionarios();
+        return "redirect:/frequencias";
     }
 
     @GetMapping("/editar/{id}")

@@ -15,6 +15,8 @@ public interface FuncionarioService {
 
     FuncionarioDTO buscarFuncionarioPorId(Long id);
 
+    FuncionarioDTO buscarFuncionarioPorNome(String nome);
+
     Long salvar(FuncionarioDTO funcionario);
 
     void update(final Long id, FuncionarioDTO funcionarioDTO);

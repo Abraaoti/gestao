@@ -12,13 +12,52 @@
                     <a th:href="@{/telefones}" class="btn btn-secondary">[[#{telefone.add.back}]]</a>
                 </div>
             </div>
-            <div th:replace="~{fragments/forms::globalErrors('telefone')}" />
-            <form th:action="${requestUri}" method="post">
-                <div th:replace="~{fragments/forms::inputRow(object='telefone', field='numero')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='telefone', field='tipo', type='radio')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='telefone', field='pessoa', type='select')}" />
-                <input type="submit" th:value="#{telefone.add.headline}" class="btn btn-primary mt-4" />
-            </form>
+		
+		<div class="row">
+		  
+	
+   <form th:action="${telefone.id == null} ? @{/telefones/add} : @{/telefone/editar}" th:object="${telefone}" method="POST" class="was-validated col s12">
+	   
+	    <div class="row">
+     
+	    
+		      
+	      <div class="input-field col s6">
+       <input type="text" th:field="*{pessoa}" id="pessoa"  readonly  th:text="${pessoa}"  required />
+       <span th:if="${#fields.hasErrors('pessoa')}" th:errors="*{pessoa}" class="text-danger" />
+       <label for="cep">NOME </label>
+      </div>
+   
+      <div class="input-field col s3">
+       <input type="text" placeholder="(27)9999-9999" th:field="*{numero}" id="numero" required> <span th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}" class="text-danger"></span> <label for="numero">Número </label>
+      </div>
+   
+	    <div class="input-field  col s3">
+       <select th:field="*{tipo}">
+	       <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}" id="tipo"></option>
+       </select> <label for="tipo">Tipo</label>
+      </div>
+     </div>
+	
+	   <input type="hidden" th:field="*{id}">
+           <input type="submit" th:value="#{telefone.add.headline}" class="btn btn-primary mt-4" />
+   </form>
+		
+		
+		
+			 <table id="table-telefone" class="table table-sm table-striped table-bordered nowrap"  style="width: 100%">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" th:text="#{telefone.id.label}"></th>
+                                <th scope="col" >Nome</th>
+                                <th scope="col" th:text="#{telefone.numero.label}"></th>								
+                                <th scope="col" th:text="#{telefone.tipo.label}"> </th>									
+                                <th scope="col" th:text="#{telefone.list.edit}"></th>
+                                <th scope="col" th:text="#{telefone.list.delete}"></th>
+                            </tr>
+                        </thead>
+                    </table>    
+        </div>
         </div>
        
         <script	th:src="@{/js/telefone.js(v=${version})}"  th:fragment="js"></script>

@@ -18,6 +18,6 @@ public record TelefoneDTO(
         String tipo,
         @NotBlank
         @NotNull
-        Long pessoa) {
+        String pessoa) {
 
 }

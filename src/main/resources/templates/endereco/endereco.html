@@ -13,76 +13,78 @@
                     <a th:href="@{/enderecos}" class="btn btn-secondary">[[#{endereco.add.back}]]</a>
                 </div>
             </div>
-          
-                        <form th:action="${endereco.id == null} ? @{/enderecos/salvar} : @{/enderecos/editar}" 
-                              th:object="${endereco}" method="POST" class="was-validated" id="registrar">
-                            <div class="form-row">
-                                <label for="cep" class="col-sm-2 col-form-label">cep </label>
-                                <div class=" col-md-2">
-                                    <input type="text" class="form-control" th:field="*{cep}" id="cep" placeholder="digite o seu cep"  />
-                                </div>
-                            </div>
+          <div class="row">
+                        <form th:action="${endereco.id == null} ? @{/enderecos/add} : @{/enderecos/editar}" 
+                              th:object="${endereco}" method="POST" class="was-validated col s12" id="registrar">
+				
+<div class="row">
+      <div class="input-field col s6">
+       <input type="text" th:field="*{pessoa}" id="pessoa"  readonly  th:text="${pessoa}"  required />
+       <span th:if="${#fields.hasErrors('pessoa')}" th:errors="*{pessoa}" class="text-danger" />
+       <label for="cep">NOME </label>
+      </div>
+   
+      <div class="input-field col s3">
+       <input type="text" th:field="*{cep}" id="cep" placeholder="digite o seu cep" required />
+       <span th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}" class="text-danger" />
+       <label for="cep">CEP </label>
+      </div>
+   </div>		
+                        
 
-                            <div class="form-row">
-                                <label for="uf" class="col-sm-2 col-form-label">Estado</label> 
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" id="uf" th:field="*{uf}" required />
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <label for="cidade" class="col-sm-2 col-form-label">Cidade</label> 
-                                <div class=" col-md-3">
-                                    <input type="text" class="form-control" id="cidade"  th:field="*{cidade}" required />
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <label for="bairro" class="col-sm-2 col-form-label">Bairro</label> 
-                                <div class="col-md-3">
-                                    <input type="text" class="form-control" id="bairro"  th:field="*{bairro}" required />
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <label for="rua" class="col-sm-2 col-form-label">Rua</label> 
-                                <div class=" col-md-3">
-                                    <input type="text" class="form-control" id="rua" th:field="*{rua}" required />
-                                </div>
-                            </div>
+    <div class="row">
+	    
+      <div class="input-field col s3">
+         <input type="text" placeholder="es" th:field="*{uf}" id="uf" required/>
+         <span th:if="${#fields.hasErrors('uf')}" th:errors="*{uf}" class="text-danger"/>
+          <label for="uf">ESTADO</label>
+      </div>
 
-                            
-                            <div class="form-row">
-                                <label for="numero" class="col-sm-2 col-form-label">Número</label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" th:field="*{numero}" id="numero" />
-                                </div>
-                            </div>
+	<div class="input-field col s3">
+            <input type="text" placeholder="serra" th:field="*{cidade}" id="cidade" required />
+            <span th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}" class="text-danger"/>
+	    <label for="cidade">CIDADE </label>
+        </div>
+	    
+	<div class="input-field col s3">
+            <input type="text" placeholder="civit ii" th:field="*{bairro}" id="bairro" required />
+            <span th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}" class="text-danger"/>
+	    <label for="bairro">Bairro </label>
+        </div>
+   </div>
+				
+    <div class="row">
+	    
+      <div class="input-field col s5">
+         <input type="text" placeholder="xxx" th:field="*{rua}" id="rua" required/>
+         <span th:if="${#fields.hasErrors('rua')}" th:errors="*{rua}" class="text-danger"/>
+          <label for="rua">Rua</label>
+      </div>
 
-                            <div class="form-row">
-                                <label for="complemento" class="col-sm-2 col-form-label">Complemento</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control"     th:field="*{complemento}" id="complemento" />
-                                </div>
-                            </div>
-                            <div class="form-row">
-		     <select   th:field="*{pessoa}" multiple>
-                            <option th:each="pessoa : ${pessoas}"
-                            th:value="${pessoa.id}"
-                            th:text="${pessoa.nome}"></option>
-                        </select>
-                 
-                            </div>
+	<div class="input-field col s2">
+            <input type="text" placeholder="8978" th:field="*{numero}" id="numero" required />
+            <span th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}" class="text-danger"/>
+	    <label for="numero">Número </label>
+        </div>
+	    
+	<div class="input-field col s5">
+            <input type="text" placeholder="apto 44 bl 09" th:field="*{complemento}" id="complemento" required />
+            <span th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}" class="text-danger"/>
+	    <label for="complemento">Complemento </label>
+        </div>
+   </div>
+				    
+                              
 
-                            <input type="hidden" th:field="*{id}"/>  
-
-                            <div class="form-group row">
-                                <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary" data-toggle="tooltip"  data-placement="right" title="Salvar"><i class="fas fa-save"></i></button>
-                                </div>
-                            </div>
+   <input type="hidden" th:field="*{id}"/>  
+<input type="submit" th:value="#{endereco.add.headline}" class="btn btn-primary mt-4" />
+                           
                         </form>
                      
 
                       
 
+                    </div>
                     </div>
               
             

@@ -55,6 +55,20 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
+                    return '<a class="btn btn-success btn-sm btn-block" href="/telefones/add/' +
+                            id + '" role="button"><i class="fas fa-info"></i></a>';
+                }
+            },
+            {orderable: false,
+                data: 'id',
+                "render": function (id) {
+                    return '<a class="btn btn-success btn-sm btn-block" href="/enderecos/add/' +
+                            id + '" role="button"><i class="fas fa-info"></i></a>';
+                }
+            },
+            {orderable: false,
+                data: 'id',
+                "render": function (id) {
                     return '<a class="btn btn-danger btn-sm btn-block" href="/funcionarios/delete/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }

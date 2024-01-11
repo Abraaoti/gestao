@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.domain.Pessoa;
 import br.ind.cmil.gestao.model.dto.EnderecoDTO;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +11,6 @@ import br.ind.cmil.gestao.services.EnderecoService;
 import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,8 +48,9 @@ public class EnderecoController {
         model.addAttribute("pessoas", funcionarioService.list());
     }
 
-    @GetMapping("/add")
-    public String formEndereco(@ModelAttribute("endereco") EnderecoDTO endereco) {
+    @GetMapping("/add/{pessoa_id}")
+    public String formEndereco(@ModelAttribute("endereco") EnderecoDTO endereco, Model model,@PathVariable("pessoa_id") Long pessoa_id) {
+        model.addAttribute("endereco", enderecoService.criar(pessoa_id, endereco));
         return "endereco/endereco";
     }
 
@@ -60,7 +59,6 @@ public class EnderecoController {
 
         enderecoService.salvar(enderecoDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("endereco.create.success"));
-        model.addAttribute("pessoa", funcionarioService.buscarFuncionarioPorId(enderecoDTO.pessoa()));
         return "redirect:/enderecos";
 
     }
@@ -68,7 +66,7 @@ public class EnderecoController {
     @PostMapping("/editar")
     public String atualizar(@ModelAttribute EnderecoDTO endereco, RedirectAttributes redir, Model model) {
         enderecoService.salvar(endereco);
-        model.addAttribute("pessoa", funcionarioService.buscarFuncionarioPorId(endereco.pessoa()));
+        model.addAttribute("pessoa", funcionarioService.buscarFuncionarioPorNome(endereco.pessoa()));
         return "redirect:/enderecos";
 
     }
@@ -89,8 +87,6 @@ public class EnderecoController {
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> telefones(HttpServletRequest request) {
-        //model.addAttribute("perfis", ps.lista(pageable));
-        // return "perfis/perfis";
         return ResponseEntity.ok(enderecoService.buscarTodos(request));
     }
 

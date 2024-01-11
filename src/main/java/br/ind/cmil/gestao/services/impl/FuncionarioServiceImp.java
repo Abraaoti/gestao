@@ -90,6 +90,12 @@ public class FuncionarioServiceImp implements FuncionarioService {
 
         return funcionarioRepository.findById(id).map(funcionario -> mapToDTO(funcionario)).get();
     }
+    @Override
+    @Transactional(readOnly = true)
+    public FuncionarioDTO buscarFuncionarioPorNome(String nome) {
+
+        return funcionarioRepository.findByNome(nome).map(funcionario -> mapToDTO(funcionario)).get();
+    }
 
     @Transactional(readOnly = false)
     public void demitirFuncionario(Long id) {

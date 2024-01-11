@@ -1,9 +1,9 @@
 package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -18,6 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "tbl_enderecos")
+@SuppressWarnings("serial")
 public class Endereco extends Entidade {
 
     @Column(length = 70)
@@ -36,8 +37,8 @@ public class Endereco extends Entidade {
     @Column(length = 70)
     protected String complemento;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
+   @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pessoa_id", nullable = false, unique = true)
     private Pessoa pessoa;
 
     public Endereco() {

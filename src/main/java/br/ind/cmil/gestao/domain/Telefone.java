@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.base.Entidade;
 import br.ind.cmil.gestao.enums.TipoTelefone;
 import br.ind.cmil.gestao.convert.TipoTelefoneConvert;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -22,6 +21,7 @@ import org.hibernate.annotations.OnDeleteAction;
  */
 @Entity
 @Table(name = "tbl_telefones")
+@SuppressWarnings("serial")
 public class Telefone extends Entidade {
 
     @Column(length = 20, unique = true)
@@ -31,10 +31,11 @@ public class Telefone extends Entidade {
     @Column(name = "tipo", nullable = false, length = 20)
     @Convert(converter = TipoTelefoneConvert.class)
     private TipoTelefone tipo;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
+   
+    @ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-   // @JsonIgnore
+ 
     private Pessoa pessoa;
 
     public String getNumero() {

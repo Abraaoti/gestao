@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -43,9 +42,7 @@ public class Pessoa implements Serializable {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate nascimento;
-    @OneToOne(mappedBy = "pessoa", fetch = FetchType.LAZY)
-    protected Endereco endereco;
-    @OneToMany(mappedBy = "pessoa")
+    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
     @JsonIgnore
     protected Set<Telefone> telefones;
 
@@ -109,13 +106,7 @@ public class Pessoa implements Serializable {
         this.nascimento = nascimento;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
+  
 
     public Set<Telefone> getTelefones() {
         return telefones;

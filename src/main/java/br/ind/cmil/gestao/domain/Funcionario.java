@@ -33,21 +33,21 @@ public class Funcionario extends PessoaFisica {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate admissao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "departamento_id", referencedColumnName = "id", nullable = false)
     private Departamento departamento;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "cargo_id", referencedColumnName = "id", nullable = false)
     private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate demissao;
     @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
     private BigDecimal salario;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
     private CentroCusto centro;
     @JsonBackReference
-    @ManyToMany(mappedBy = "funcionarios",fetch = FetchType.LAZY)   
+    @ManyToMany(mappedBy = "funcionarios")   
     private Set<Frequencia> frequencias = new HashSet<>() ;
 
     public Funcionario() {

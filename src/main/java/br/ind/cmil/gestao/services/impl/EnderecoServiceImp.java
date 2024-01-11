@@ -54,7 +54,7 @@ public class EnderecoServiceImp implements EnderecoService {
         validarAtributos(endereco);
 
         if (enderecoDTO.id() == null) {
-            Pessoa pessoa = funcionarioService.findById(enderecoDTO.pessoa()).get();
+            Pessoa pessoa = funcionarioService.findByNome(enderecoDTO.pessoa()).get();
             endereco.setPessoa(pessoa);
             return enderecoRepository.save(endereco).getId();
 
@@ -80,7 +80,7 @@ public class EnderecoServiceImp implements EnderecoService {
     @Override
     public EnderecoDTO criar(Long pessoa_id, EnderecoDTO endereco) {
         Pessoa pessoa = funcionarioService.findById(pessoa_id).get();
-        return new EnderecoDTO(endereco.id(), endereco.uf(), endereco.cidade(), endereco.bairro(), endereco.rua(), endereco.cep(), endereco.numero(), endereco.complemento(), pessoa.getId());
+        return new EnderecoDTO(endereco.id(), endereco.uf(), endereco.cidade(), endereco.bairro(), endereco.rua(), endereco.cep(), endereco.numero(), endereco.complemento(), pessoa.getNome());
     }
 
     private void validarAtributos(Endereco request) {

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class TelefoneMapper {
     
     public TelefoneDTO toDTO(Telefone telefone) {       
-       Long pessoa = (telefone.getPessoa().getId() ==null )? null:telefone.getPessoa().getId();
+       String pessoa = (telefone.getPessoa().getNome()==null )? null:telefone.getPessoa().getNome();
         return new TelefoneDTO(telefone.getId(), telefone.getNumero(), telefone.getTipo().getValue(), pessoa);
     }
     

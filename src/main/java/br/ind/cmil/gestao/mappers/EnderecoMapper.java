@@ -14,7 +14,7 @@ public class EnderecoMapper {
 
     public EnderecoDTO toDTO(Endereco e) {
 
-        Long pessoa = (e.getPessoa().getId() == null) ? null : e.getPessoa().getId();
+        String pessoa = (e.getPessoa().getId() == null) ? null : e.getPessoa().getNome();
 
         return new EnderecoDTO(e.getId(), e.getUf(), e.getCidade(), e.getBairro(), e.getRua(), e.getCep(), e.getNumero(), e.getComplemento(), pessoa);
     }

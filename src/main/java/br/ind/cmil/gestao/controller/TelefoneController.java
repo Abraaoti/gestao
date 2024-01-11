@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.controller;
 import br.ind.cmil.gestao.enums.TipoTelefone;
 import br.ind.cmil.gestao.model.dto.TelefoneDTO;
 import br.ind.cmil.gestao.services.FuncionarioService;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,36 +32,39 @@ public class TelefoneController {
         this.funcionarioService = funcionarioService;
     }
 
+    @GetMapping
+    public String list() {
+        return "telefone/telefones";
+    }
+
     @ModelAttribute
     public void prepareContext(Model model) {
         model.addAttribute("pessoas", funcionarioService.list());
         model.addAttribute("tipos", TipoTelefone.tipoTelefones());
     }
 
-    @GetMapping("/add")
-    public String formTelefone(@ModelAttribute("telefone") TelefoneDTO telefone) {
+    @GetMapping("/add/{pessoa_id}")
+    public String formTelefone(@ModelAttribute("telefone") TelefoneDTO telefone, Model model, @PathVariable("pessoa_id") Long pessoa_id) {
+        model.addAttribute("telefone", telService.criar(pessoa_id, telefone));
         return "telefone/telefone";
     }
 
-    @GetMapping
-    public String list(Pageable pageable) {
-        return "telefone/telefones";
-    }
-
-    @PostMapping("/salvar")
+    @PostMapping("/add")
     public String salvar(@ModelAttribute("telefone") TelefoneDTO telefoneDTO, RedirectAttributes redir) {
 
-        telService.salvar(telefoneDTO);
+        Long pessoa = telService.salvar(telefoneDTO);
+
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("telefone.create.success"));
-        return "redirect:/telefones";
+        return "redirect:/telefones/add/" + pessoa;
     }
 
     @PostMapping("/editar")
-    public String atualizar(@ModelAttribute("telefone") TelefoneDTO telefone, RedirectAttributes redir) {
+    public String atualizar(@ModelAttribute("telefone") TelefoneDTO telefoneDTO, RedirectAttributes redir) {
 
-        telService.salvar(telefone);
+        Long pessoa = telService.salvar(telefoneDTO);
+
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("telefone.create.success"));
-        return "redirect:/telefones";
+        return "redirect:/telefones/add/" + pessoa;
     }
 
     @PostMapping("/delete/{id}")
@@ -81,7 +83,7 @@ public class TelefoneController {
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> telefones(HttpServletRequest request) {
-      
+
         return ResponseEntity.ok(telService.buscarTodos(request));
     }
 

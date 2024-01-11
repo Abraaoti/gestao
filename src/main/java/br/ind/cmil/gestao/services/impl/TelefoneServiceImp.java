@@ -44,14 +44,15 @@ public class TelefoneServiceImp implements TelefoneService {
     @Override
     @Transactional(readOnly = false)
     public Long salvar(TelefoneDTO telefoneDTO) {
+        
         Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
         validarAtributos(telefone);
         if (telefoneDTO.id() == null) {
-            Pessoa pessoa = funcionarioService.findById(telefoneDTO.pessoa()).get();
+            Pessoa pessoa = funcionarioService.findByNome(telefoneDTO.pessoa()).get();
             telefone.setPessoa(pessoa);
-           return tr.save(telefone).getId();
+            return tr.save(telefone).getPessoa().getId();
         }
-        return update(telefoneDTO).pessoa();
+        return update(telefoneDTO).id();
     }
 
     @Override
@@ -77,7 +78,7 @@ public class TelefoneServiceImp implements TelefoneService {
         Telefone upTelefone = dbTelefone.get();
         upTelefone.setNumero(telefoneDTO.numero());
         upTelefone.setTipo(TipoTelefone.convertTelefoneValue(telefoneDTO.tipo()));
-         Pessoa pessoa = funcionarioService.findById(telefoneDTO.pessoa()).get();
+        Pessoa pessoa = funcionarioService.findByNome(telefoneDTO.pessoa()).get();
         upTelefone.setPessoa(pessoa);
         upTelefone.setId(telefoneDTO.id());
         return telefoneMapper.toDTO(tr.save(upTelefone));
@@ -106,7 +107,7 @@ public class TelefoneServiceImp implements TelefoneService {
     @Override
     public TelefoneDTO criar(Long pessoa_id, TelefoneDTO telefone) {
         Pessoa pessoa = funcionarioService.findById(pessoa_id).get();
-        return new TelefoneDTO(telefone.id(), telefone.numero(), telefone.tipo(), pessoa.getId());
+        return new TelefoneDTO(telefone.id(), telefone.numero(), telefone.tipo(), pessoa.getNome());
     }
 
     @Override

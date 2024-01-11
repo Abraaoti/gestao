@@ -12,6 +12,9 @@
      <a th:href="@{/frequencias}" class="btn btn-primary ms-2">[[#{frequencias.add.back}]]</a>
     </div>
    </div>
+	  <div class="row">
+		  
+	
    <form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated">
 	   <div class="row">
 	     <div class="col-md-6">
@@ -45,6 +48,7 @@
 	   
 	
    </form>
+  </div>
   </div>
   <script th:src="~{}" th:fragment="js"></script>
   <script th:inline="javascript" th:fragment="inlinescript">

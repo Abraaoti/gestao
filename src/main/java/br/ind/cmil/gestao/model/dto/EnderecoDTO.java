@@ -31,7 +31,7 @@ public record EnderecoDTO(
         String complemento,
         @NotBlank
         @NotNull
-        Long pessoa
+        String pessoa
        ) {
 
 }

@@ -44,7 +44,7 @@ public class TelefoneServiceImp implements TelefoneService {
     @Override
     @Transactional(readOnly = false)
     public Long salvar(TelefoneDTO telefoneDTO) {
-        
+
         Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
         validarAtributos(telefone);
         if (telefoneDTO.id() == null) {
@@ -52,7 +52,24 @@ public class TelefoneServiceImp implements TelefoneService {
             telefone.setPessoa(pessoa);
             return tr.save(telefone).getPessoa().getId();
         }
-        return update(telefoneDTO).id();
+        return update(telefoneDTO);
+    }
+
+    @Transactional(readOnly = false)
+    private Long update(TelefoneDTO telefoneDTO) {
+        Optional<Telefone> dbTelefone = tr.findById(telefoneDTO.id());
+
+        if (dbTelefone.isEmpty()) {
+            return null;
+        }
+        Telefone upTelefone = dbTelefone.get();
+        upTelefone.setNumero(telefoneDTO.numero());
+        upTelefone.setTipo(TipoTelefone.convertTelefoneValue(telefoneDTO.tipo()));
+        Pessoa pessoa = funcionarioService.findByNome(telefoneDTO.pessoa()).get();
+        upTelefone.setPessoa(pessoa);
+        upTelefone.setId(telefoneDTO.id());
+        Telefone telefone = tr.save(upTelefone);
+        return telefone.getPessoa().getId();
     }
 
     @Override
@@ -66,22 +83,6 @@ public class TelefoneServiceImp implements TelefoneService {
     @Transactional(readOnly = true)
     public void delete(Long id) {
         tr.deleteById(id);
-    }
-
-    @Transactional(readOnly = false)
-    private TelefoneDTO update(TelefoneDTO telefoneDTO) {
-        Optional<Telefone> dbTelefone = tr.findById(telefoneDTO.id());
-
-        if (dbTelefone.isEmpty()) {
-            return null;
-        }
-        Telefone upTelefone = dbTelefone.get();
-        upTelefone.setNumero(telefoneDTO.numero());
-        upTelefone.setTipo(TipoTelefone.convertTelefoneValue(telefoneDTO.tipo()));
-        Pessoa pessoa = funcionarioService.findByNome(telefoneDTO.pessoa()).get();
-        upTelefone.setPessoa(pessoa);
-        upTelefone.setId(telefoneDTO.id());
-        return telefoneMapper.toDTO(tr.save(upTelefone));
     }
 
     @Override

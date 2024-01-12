@@ -22,22 +22,22 @@ import lombok.Setter;
 public class Endereco extends Entidade {
 
     @Column(length = 70)
-    protected String uf;
+    private String uf;
     @Column(length = 70)
-    protected String cidade;
+    private String cidade;
     @Column(length = 70)
-    protected String bairro;
+    private String bairro;
     @Column(length = 70)
-    protected String rua;
+    private String rua;
     //@Pattern("\\d{5}-\\d{3})
     @Column(length = 15)
-    protected String cep;
+    private String cep;
     @Column(length = 15)
-    protected String numero;
+    private String numero;
     @Column(length = 70)
-    protected String complemento;
+    private String complemento;
 
-   @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pessoa_id", nullable = false, unique = true)
     private Pessoa pessoa;
 
@@ -52,6 +52,10 @@ public class Endereco extends Entidade {
         this.cep = cep;
         this.numero = numero;
         this.complemento = complemento;
+        this.pessoa = pessoa;
+    }
+
+    public Endereco(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
 

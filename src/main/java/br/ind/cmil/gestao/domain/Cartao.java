@@ -24,7 +24,7 @@ public class Cartao extends Entidade {
 
     @Column(name = "numero", unique = true)
     private String numero;  
-    @ManyToOne
+   /** @ManyToOne
     @JoinColumn(name = "periodo_id", referencedColumnName = "id", nullable = false)
     protected Periodo periodo;
     @ManyToOne
@@ -32,7 +32,7 @@ public class Cartao extends Entidade {
     private Frequencia frequencia;
     @ManyToOne
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id", nullable = false)
-    private Funcionario funcionario;
+    private Funcionario funcionario;*/
 
     public Cartao() {
     }

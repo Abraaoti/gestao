@@ -9,32 +9,32 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	 <meta name="description" content="gestão de pessoas" />
+        <meta name="description" content="gestão de pessoas" />
         <meta name="author" content="kalele" />
         <link rel="icon" th:href="@{/image/favicon.ico}" />
         <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" rel="stylesheet" />
         <link th:href="@{/webjars/flatpickr/4.6.13/dist/flatpickr.min.css}" rel="stylesheet" />
         <link th:href="@{/css/app.css}" rel="stylesheet" />
         <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.min.js}" defer></script>
-	 <script th:src="@{/js/app.js}" defer></script>
-          
-       
+        <script th:src="@{/js/app.js}" defer></script>
+
+
         <!--<meta name="_csrf" th:content="${_csrf.token}"/>
                <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
         <!-- materialize core CSS -->
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>       
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>       
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
         <!-- Bootstrap core CSS -->
-        
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-     
 
-        
-      
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+
+
+
         <!-- jQueryUI (autocomplete) -->
-      
+
         <!-- Icons fontawesome -->
         <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
         <!-- Custom styles for this template -->
@@ -59,119 +59,114 @@
 
         <link th:href="@{/css/footer.css(v=${version}) }"   th:rel="stylesheet" type="text/css" media="all"  />
         <link th:href="@{/css/app.css(v=${version}) }"   th:rel="stylesheet" type="text/css" media="all" />
-      
+
 
 
     </head>
     <body>
-	    <div  th:fragment="header">          
-           
-              <div class="container">
-                 <nav class="navbar navbar-light navbar-expand-md">
-			 
-			   <a th:href="@{/}" class="navbar-brand" style="width: 268px;">
-                        <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block align-top">
-                        <span class="ps-1">[[#{app.title}]]</span>
-                    </a>
-                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
-                            th:aria-label="#{navigation.toggle}" aria-controls="navbarToggle" aria-expanded="false">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                   <div class="collapse navbar-collapse" id="navbarToggle">
+        <div  th:fragment="header">          
+
+            <div class="navbar-fixed">
+
+                <nav class="navbar navbar-light navbar-expand-md">
+
+                    <div class="nav-wrapper container"> 
+
+                        <a th:href="@{/}" class="navbar-brand" style="width: 268px;">
+                            <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block "/>
+                            <span class="ps-1">[[#{app.title}]]</span>
+                        </a>
                         <ul class="navbar-nav ms-auto">
-                           
-                                    
-                 <li  sec:authorize="hasAuthority('ADMIN')">
-                    <a href="#admin" data-target="admin"   class="dropdown-trigger dropdown-item">ADMINISTRADOR</a>
-                    <ul class="dropdown-content" id="admin">                    							
-                        <li><a  th:href="@{/u/add}">Usuário</a> <li>
-                        <li><a  th:href="@{/u}">Usuários</a> <li>
-                        <li><a  th:href="@{/perfis}">perfis</a> <li>
-                        <li><a  th:href="@{/perfis/add}">add perfil</a> <li>
-                    </ul>
-                </li>
-  
-                <li  sec:authorize="hasAuthority('ADMINISTRADOR')">
-                    <a href="#administrador"  data-target="administrador"  class="dropdown-trigger dropdown-item">GESTOR</a>
-                    <ul class="dropdown-content" id="administrador">
-                        <li><a  th:href="@{/administrador/dados}">dados</a> <li>                      
-                        <li><a  th:href="@{/centroCusto}"> centros de custos</a></li>
-                        <li><a  th:href="@{/departamentos}">[[#{departamento.list.headline}]]</a></li>                       
-                        <li><a  th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
-                    </ul>
-                </li>
-                            
-                            
-                             <li  sec:authorize="hasAuthority('ASSISTENTE')">
-                    <a  href="#assistente"   data-target="assistente" aria-expanded="false" class="dropdown-trigger dropdown-item">ASSISTENTE </a>
-                    <ul class="dropdown-content" id="assistente">
-                        <li><a  th:href="@{/assistente/dados}">dados</a></li>                     
-                        <li> <a  th:href="@{/funcionarios}"> [[#{funcionario.list.headline}]]</a></li>
-                        <li> <a  th:href="@{/telefones}"> [[#{telefone.list.headline}]]</a></li>
-                        <li> <a  th:href="@{/enderecos}"> [[#{endereco.list.headline}]]</a></li>
-                    </ul>
-                </li>					
-                <li  sec:authorize="hasAuthority('AUXILIAR')">
-                    <a  href="#aux"  data-target="aux" aria-expanded="false" class="dropdown-trigger dropdown-item">AUXILIAR  </a>
-                    <ul class="dropdown-content" id="aux">
-                        <li><a th:href="@{/auxiliar/dados}">dados</a></li>
-                        <li><a  th:href="@{/frequencias/funcionariosFrequencias}"> Presença</a></li>
-                        <li><a  th:href="@{/frequencias}">[[#{frequencia.list.headline}]]</a></li>
-                        <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
-                    </ul>
-                </li>	
-                           
-                <li  sec:authorize="hasAuthority('DIRETOR')">
-                    <a  href="#diretor"  data-target="diretor" aria-expanded="false" class="dropdown-trigger dropdown-item">DIRETORIA  </a>
-                    <ul class="dropdown-content" id="diretor">
-                        <li><a th:href="@{/diretor/dados}">dados </a></li>
-                       
-                    </ul>
-                </li>		
-                            
 
-                           
-                                    
-                                   
-                                    <li  sec:authorize="!isAuthenticated()">
-                              
-                                    <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                       th:href="@{/login}">Login</a>
-                               
+                            <li  sec:authorize="hasAuthority('ADMIN')">
+                                <a href="#admin" data-target="admin"   class="dropdown-trigger dropdown-item">ADMINISTRADOR</a>
+                                <ul class="dropdown-content" id="admin">                    							
+                                    <li><a  th:href="@{/u/add}">Usuário</a> </li>
+                                    <li><a  th:href="@{/u}">Usuários</a> </li>
+                                    <li><a  th:href="@{/perfis}">perfis</a> </li>
+                                    <li><a  th:href="@{/perfis/add}">add perfil</a> </li>
 
-                               
-                                    <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                       th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
-                              
+                                </ul>
+                            </li>
+                            <li  sec:authorize="hasAuthority('ADMINISTRADOR')">
+                                <a href="#administrador"  data-target="administrador"  class="dropdown-trigger dropdown-item">GESTOR</a>
+                                <ul class="dropdown-content" id="administrador">
+                                    <li><a  th:href="@{/administrador/dados}">dados</a> </li>                      
+                                    <li><a  th:href="@{/centroCusto}"> centros de custos</a></li>
+                                    <li><a  th:href="@{/departamentos}">[[#{departamento.list.headline}]]</a></li>                       
+                                    <li><a  th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
+                                </ul>
+                            </li>
+
+
+                            <li  sec:authorize="hasAuthority('ASSISTENTE')">
+                                <a  href="#assistente"   data-target="assistente" aria-expanded="false" class="dropdown-trigger dropdown-item">ASSISTENTE </a>
+                                <ul class="dropdown-content" id="assistente">
+                                    <li><a  th:href="@{/assistente/dados}">dados</a></li>                     
+                                    <li> <a  th:href="@{/funcionarios}"> [[#{funcionario.list.headline}]]</a></li>
+                                    <li> <a  th:href="@{/telefones}"> [[#{telefone.list.headline}]]</a></li>
+                                    <li> <a  th:href="@{/enderecos}"> [[#{endereco.list.headline}]]</a></li>
+                                </ul>
+                            </li>					
+                            <li  sec:authorize="hasAuthority('AUXILIAR')">
+                                <a  href="#aux"  data-target="aux" aria-expanded="false" class="dropdown-trigger dropdown-item">AUXILIAR  </a>
+                                <ul class="dropdown-content" id="aux">
+                                    <li><a th:href="@{/auxiliar/dados}">dados</a></li>
+                                    <li><a  th:href="@{/frequencias/funcionariosFrequencias}"> Presença</a></li>
+                                    <li><a  th:href="@{/frequencias}">[[#{frequencia.list.headline}]]</a></li>
+                                    <li><a  th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
+                                </ul>
+                            </li>	
+
+                            <li  sec:authorize="hasAuthority('DIRETOR')">
+                                <a  href="#diretor"  data-target="diretor" aria-expanded="false" class="dropdown-trigger dropdown-item">DIRETORIA  </a>
+                                <ul class="dropdown-content" id="diretor">
+                                    <li><a th:href="@{/diretor/dados}">dados </a></li>
+
+                                </ul>
+                            </li>		
+
+
+
+
+
+                            <li  sec:authorize="!isAuthenticated()">
+
+                                <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                                   th:href="@{/login}">Login</a>
+
+
+
+                                <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                                   th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
+
                             </li>
 
                             <li  sec:authorize="isAuthenticated()">
 
                                 <a class="dropdown-trigger btn btn-primary my-2 my-sm-0 fas fa-user"  data-target="sair" aria-expanded="false" href="#sair">
-                                  
+
                                     <span  sec:authentication="name">Bob</span>
                                 </a>
-                               
-                                 <ul class="dropdown-content" id="sair">
+
+                                <ul class="dropdown-content" id="sair">
                                     <li><a  th:href="@{/logout}"><i class="small material-icons">logout</i></a></li>
                                 </ul>
 
 
                             </li>
-                                </ul>
-                           
-                  
-                   
-                        </div>
-                      
-                          
-                </nav>
-            
-       
-     
-        </div>
-        </div>
 
-       
+
+
+                        </ul>
+
+
+
+                    </div>
+
+                </nav>
+
+            </div>
+        </div>
     </body>
 </html>

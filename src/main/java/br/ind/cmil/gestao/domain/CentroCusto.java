@@ -25,9 +25,9 @@ public class CentroCusto extends Entidade {
 
     @Column(length = 80)
     private String nome;
-    @JsonIgnore
-    @OneToMany(mappedBy = "centro")
-    private List<Funcionario> funcionarios;
+   // @JsonIgnore
+    //@OneToMany(mappedBy = "centro")
+    //private List<Funcionario> funcionarios;
 
     public CentroCusto() {
 

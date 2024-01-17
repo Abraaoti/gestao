@@ -6,10 +6,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.NumberFormat;
 
 /**
  *
@@ -25,9 +27,8 @@ public class Cargo extends Entidade {
 
     @Column(length = 80, unique = true, nullable = false)
     private String nome;
-    @JsonIgnore
-    @OneToMany(mappedBy = "cargo")
-    private List<Funcionario> funcionarios;
+    @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
+    private BigDecimal salario;
 
     public Cargo() {
 

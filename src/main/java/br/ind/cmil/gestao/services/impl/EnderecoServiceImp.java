@@ -100,6 +100,7 @@ public class EnderecoServiceImp implements EnderecoService {
             return enderecoMapper.toDTO(endereco);
 
         }
+       endereco = enderecoRepository.findByPessoa(pessoa_id).get();
         // return new EnderecoDTO(endereco.id(), endereco.uf(), endereco.cidade(), endereco.bairro(), endereco.rua(), endereco.cep(), enderec//o.numero(), endereco.complemento(), pessoa.getNome());
         return enderecoMapper.toDTO(endereco);
     }

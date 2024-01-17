@@ -93,6 +93,10 @@ public class FuncionarioControlle {
     public ResponseEntity<?> funcionarios(HttpServletRequest request) {
         return ResponseEntity.ok(funcionarioService.buscarTodos(request));
     }
+    @GetMapping("/historico/server")
+    public ResponseEntity<?> hfuncionarios(HttpServletRequest request) {
+        return ResponseEntity.ok(funcionarioService.buscarHistoricoFuncionario(request));
+    }
     @GetMapping("/marcar")
     public ResponseEntity<?> buscarFuncionarioPorCargos(HttpServletRequest request) {
         return ResponseEntity.ok(funcionarioService.buscarFuncionarioPorCargo(request));

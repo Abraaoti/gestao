@@ -17,15 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @Repository
-public interface DepartamentoRepository extends JpaRepository<Departamento, Long>, JpaSpecificationExecutor<Departamento>{
+public interface DepartamentoRepository extends JpaRepository<Departamento, Long>{
 
-    @Query(value = "SELECT obj FROM Departamento obj ")
+    @Query("SELECT obj FROM Departamento obj ")
     List<Departamento> searchAll();
 
-    @Query(value = " FROM Departamento d  ")
+    @Query("SELECT d  FROM Departamento d  ")
     Page<Departamento> searchAll(Pageable pageable);
 
-    @Query(value = "FROM Departamento d where d.nome like :search%")
+    @Query("SELECT d FROM Departamento d where d.nome like :search%")
     Page<Departamento> searchAll(String search, Pageable pageable);
 
     Optional<Departamento> findByNome(String nome);

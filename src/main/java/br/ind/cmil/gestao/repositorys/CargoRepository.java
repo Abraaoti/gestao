@@ -15,15 +15,15 @@ import org.springframework.stereotype.Repository;
  * @author abraao
  */
 @Repository
-public interface CargoRepository extends JpaRepository<Cargo, Long>, JpaSpecificationExecutor<Cargo>{
+public interface CargoRepository extends JpaRepository<Cargo, Long> {
 
-    @Query(value = "SELECT c FROM Cargo c ")
+    @Query("SELECT c FROM Cargo c ")
     List<Cargo> searchAll();
 
-    @Query(value = "FROM Cargo c  ")
+    @Query("SELECT c FROM Cargo c  ")
     Page<Cargo> searchAll(Pageable pageable);
-    
-    @Query("FROM Cargo c  where c.nome like :search%")
+
+    @Query("SELECT c FROM Cargo c  where c.nome like :search%")
     Page<Cargo> searchAll(String search, Pageable pageable);
 
     Optional<Cargo> findByNome(String nome);

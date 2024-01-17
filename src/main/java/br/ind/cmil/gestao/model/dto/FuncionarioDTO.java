@@ -33,9 +33,7 @@ public record FuncionarioDTO(
         String naturalidade,
         LocalDate admissao,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        LocalDate demissao,
-        @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
-        BigDecimal salario,
+        LocalDate demissao,       
         @NotNull
         Long cargo,
         @NotNull

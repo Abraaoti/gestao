@@ -4,18 +4,15 @@ import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
 
 /**
  *
@@ -41,8 +38,7 @@ public class Funcionario extends PessoaFisica {
     private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate demissao;
-    @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
-    private BigDecimal salario;
+   
     @ManyToOne
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
     private CentroCusto centro;
@@ -61,26 +57,26 @@ public class Funcionario extends PessoaFisica {
         super.setNome(nome);
     }
 
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, BigDecimal salario, CentroCusto centroCusto) {
+    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, CentroCusto centro) {
         this.clt = clt;
         this.admissao = admissao;
         this.departamento = departamento;
         this.cargo = cargo;
         this.demissao = demissao;
-        this.salario = salario;
-        this.centro = centroCusto;
+        this.centro = centro;
     }
 
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, BigDecimal salario, CentroCusto centroCusto, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id, String nome, String sobrenome, LocalDate nascimento) {
+    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, CentroCusto centro, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id, String nome, String sobrenome, LocalDate nascimento) {
         super(cpf, rg, mae, pai, genero, estado_civil, naturalidade, id, nome, sobrenome, nascimento);
         this.clt = clt;
         this.admissao = admissao;
         this.departamento = departamento;
         this.cargo = cargo;
         this.demissao = demissao;
-        this.salario = salario;
-        this.centro = centroCusto;
+        this.centro = centro;
     }
+
+  
 
     public void addFrequencia(Frequencia frequencia) {
         this.frequencias.add(frequencia);
@@ -132,14 +128,7 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
     }
 
-    public BigDecimal getSalario() {
-        return salario;
-    }
-
-    public void setSalario(BigDecimal salario) {
-        this.salario = salario;
-    }
-
+  
     public CentroCusto getCentro() {
         return centro;
     }
@@ -165,10 +154,11 @@ public class Funcionario extends PessoaFisica {
         sb.append(", departamento=").append(departamento);
         sb.append(", cargo=").append(cargo);
         sb.append(", demissao=").append(demissao);
-        sb.append(", salario=").append(salario);
-        sb.append(", centro_custo=").append(centro);
+        sb.append(", centro=").append(centro);
+        sb.append(", frequencias=").append(frequencias);
         sb.append('}');
         return sb.toString();
     }
+
 
 }

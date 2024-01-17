@@ -42,7 +42,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
     @Transactional(readOnly = true)
     public List<Frequencia> getFrequencias() {
 
-        List<Frequencia> frequencias = frequenciaRepository.findAll(Sort.by("id"));       
+        List<Frequencia> frequencias = frequenciaRepository.findAll(Sort.by("id"));
         return frequencias;
 
     }
@@ -54,11 +54,9 @@ public class FrequenciaServiceImp implements FrequenciaService {
         Frequencia frequencia = frequenciaMapper.toEntity(frequenciaDTO);
 
         if (frequenciaDTO.id() == null) {
-            List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionarios());
+            // List<Funcionario> funcionarios = funcionarioRepository.findByNome(frequenciaDTO.funcionarios());
 
-            funcionarios.forEach(funcionario -> {
-                funcionario.addFrequencia(frequencia);
-            });
+            frequenciaDTO.funcionarios().forEach(Funcionario::new);
 
             return frequenciaRepository.save(frequencia).getId();
         }
@@ -77,40 +75,45 @@ public class FrequenciaServiceImp implements FrequenciaService {
         frequencia.setData(frequenciaDTO.data());
         frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia(frequenciaDTO.status()));
 
-        List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionarios());
+        //  List<Funcionario> funcionarios = funcionarioRepository.findAllById(frequenciaDTO.funcionarios());
+        frequenciaDTO.funcionarios().forEach(Funcionario::new);
 
-        funcionarios.forEach(funcionario -> {
-            funcionario.addFrequencia(frequencia);
-        });
-     
         frequencia.setId(frequenciaDTO.id());
         return frequenciaMapper.toDTO(frequenciaRepository.save(frequencia));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public FrequenciaDTO findById(Long id) {
         return frequenciaRepository.findById(id).map(frequencia -> frequenciaMapper.toDTO(frequencia)).get();
     }
 
-
-
- 
-
     @Override
     public void delete(Long id) {
-       frequenciaRepository.deleteById(id);
+        frequenciaRepository.deleteById(id);
     }
 
-  
-
+    @Transactional(readOnly = true)
     @Override
     public Map<String, Object> funcionariosFrequencias(HttpServletRequest request) {
-   datatables.setRequest(request);
+        datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.FREQUENCIA);
         Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
                 : frequenciaRepository.searchAll(TipoFrequencia.convertTipoTipoFrequencia(datatables.getSearch()), datatables.getPageable());
-        
+
         return datatables.getResponse(page);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public FrequenciaDTO form(Long funcionarioId, FrequenciaDTO frequenciaDTO) {
+        Frequencia frequencia = new Frequencia();
+        if (frequenciaDTO == null) {
+            Funcionario funcionario = funcionarioRepository.findById(funcionarioId).get();
+            frequencia.addFuncionario(funcionario);
+            return frequenciaMapper.toDTO(frequencia);
+        }
+        return frequenciaMapper.toDTO(frequencia);
     }
 
 }

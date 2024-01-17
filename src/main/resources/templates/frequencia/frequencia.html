@@ -1,58 +1,94 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
-    <head>
-        <title>[[#{frequencia.add.headline}]]</title>
-    </head>
-    <body>
-  <div layout:fragment="content">
-   <div class="d-flex flex-wrap mb-4">
-    <h1 class="flex-grow-1">[[#{frequencia.add.headline}]]</h1>
-    <div>
-     <a th:href="@{/frequencias}" class="btn btn-primary ms-2">[[#{frequencias.add.back}]]</a>
-    </div>
-   </div>
-	  <div class="row">
-		  
-	
-   <form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated">
-	   <div class="row">
-	     <div class="col-md-6">
-		     <select  name="funcionarios" multiple>
-                            <option th:each="funcionario : ${funcionariosValues}"
-                            th:value="${funcionario.id}"
-                            th:text="${funcionario.nome}"></option>
-                        </select>
-                    </div>
-              
-	     <div class="col-md-6">
-                        <select  name="status">
-                            <option th:each="status : ${allTypes}"
-                            th:value="${status}"
-                            th:text="${status}"></option>
-                        </select>
-                    </div>
-              
-                <br/>
-		</div>
-	   <input type="date" th:field="*{data}">
-	   <input type="hidden" th:field="*{id}">
-                <button type="submit" class="btn btn-primary">
-                    Add Frequência
-                </button>  
-	   
-	   
-	   
-	   
-	   
-	   
-	
-   </form>
-  </div>
-  </div>
-  <script th:src="~{}" th:fragment="js"></script>
-  <script th:inline="javascript" th:fragment="inlinescript">
+      layout:decorate="~{layout}">
+	<head>
+		<title>[[#{frequencia.add.headline}]]</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<div class="d-flex flex-wrap mb-4">
+				<h1 class="flex-grow-1">[[#{frequencia.add.headline}]]</h1>
+				<div>
+					<a th:href="@{/frequencias}" class="btn btn-primary ms-2">[[#{frequencia.add.back}]]</a>
+				</div>
+			</div>
 
-        </script>
- </body>
-</html>
+
+
+			<div th:switch="${funcionariosValues}">
+				<h2 th:case="null">No users yet!</h2>
+				<div th:case="*">
+					<h2>Funcionários</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Cpf</th>
+								<th>Cargo</th>
+								<th>Marcar Presença</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user : ${funcionariosValues}">
+								<td th:text="${user.nome}"></td>
+								<td th:text="${user.cpf}"></td>
+								<td th:text="${user.cargo.nome}"></td>
+								<td><a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#presenca" data-bs-whatever="@fat" th:href="@{/frequencias/add/funcionario/{id}(id=${user.id})}" >marcar presença</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+
+
+					<div class="modal fade" id="presenca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-content"> 
+
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Marcar Presença</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+
+										<form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated">
+											<div class="row">
+
+												<div class="input-field col s6">
+													<input type="text" th:field="*{funcionarios}" id="funcionarios"  readonly  th:text="${funcionarios}"  required />
+													<span th:if="${#fields.hasErrors('funcionarios')}" th:errors="*{funcionarios}" class="text-danger" />
+													<label for="cep">NOME </label>
+												</div>
+
+
+												<div class="col-md-6">
+													<select   th:field="*{status}">
+														<option th:each="status : ${allTypes}" th:value="${status}" th:text="${status}"/>
+													</select>
+												</div>
+
+
+											</div>
+											<input type="date" th:field="*{data}">
+											<input type="hidden" th:field="*{id}">
+											<button type="submit" class="btn btn-primary">
+												Add Frequência
+											</button>  
+
+
+
+										</form>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<script th:src="~{}" th:fragment="js"/>
+					<script th:inline="javascript" th:fragment="inlinescript">
+
+					</script>
+					</body>
+					</html>

@@ -1,5 +1,6 @@
 package br.ind.cmil.gestao.services;
 
+import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -13,6 +14,8 @@ public interface FuncionarioService {
 
     List<FuncionarioDTO> list();
 
+    List<Funcionario> funcionarios();
+
     FuncionarioDTO buscarFuncionarioPorId(Long id);
 
     FuncionarioDTO buscarFuncionarioPorNome(String nome);
@@ -24,6 +27,8 @@ public interface FuncionarioService {
     Map<String, Object> buscarTodos(HttpServletRequest request);
 
     Map<String, Object> buscarFuncionarioPorCargo(HttpServletRequest request);
+
+    Map<String, Object> buscarHistoricoFuncionario(HttpServletRequest request);
 
     void delete(Long id);
 

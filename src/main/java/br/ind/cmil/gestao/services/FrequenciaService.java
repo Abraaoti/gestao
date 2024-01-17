@@ -11,7 +11,10 @@ import java.util.Map;
  * @author abraao
  */
 public interface FrequenciaService {
+
     Long salvar(FrequenciaDTO frequenciaDTO);
+
+    FrequenciaDTO form(Long pessoa, FrequenciaDTO frequenciaDTO);
 
     FrequenciaDTO findById(Long id);
 

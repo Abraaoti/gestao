@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class FrequenciaMapper {
 
     public FrequenciaDTO toDTO(Frequencia frequencia) {
-        Set<Long> funcionarios = frequencia.getFuncionarios().stream().map(funcionario -> funcionario.getId()).collect(Collectors.toSet());
+        Set<String> funcionarios = frequencia.getFuncionarios().stream().map(Funcionario::getNome).collect(Collectors.toSet());
         LocalDate data =  frequencia.getData()==null? LocalDate.now(): frequencia.getData();
         return new FrequenciaDTO(frequencia.getId(), data, frequencia.getStatus().getValue().toLowerCase(), funcionarios);
     }
@@ -31,7 +31,7 @@ public class FrequenciaMapper {
         LocalDate data = (dto.data() == null) ? LocalDate.now() : dto.data();
         frequencia.setData(data);
         frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia(dto.status()));
-        Set<Funcionario> funcionarios = dto.funcionarios().stream().map(funcionaro -> new Funcionario(funcionaro)).collect(Collectors.toSet());
+        Set<Funcionario> funcionarios = dto.funcionarios().stream().map(Funcionario::new).collect(Collectors.toSet());
         frequencia.setFuncionarios(funcionarios);
         return frequencia;
     }

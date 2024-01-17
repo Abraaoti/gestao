@@ -39,7 +39,7 @@ public class TelefoneController {
 
     @ModelAttribute
     public void prepareContext(Model model) {
-        model.addAttribute("pessoas", funcionarioService.list());
+        model.addAttribute("pessoas", funcionarioService.funcionarios());
         model.addAttribute("tipos", TipoTelefone.tipoTelefones());
     }
 

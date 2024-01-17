@@ -37,7 +37,7 @@ $(document).ready(function () {
                             return moment(admissao).format('L');
                         }
             },
-            {data: 'salario' , render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')},
+           
             {data: 'cargo.nome'},
             {data: 'departamento.nome'},
             {data: 'centro.nome'},

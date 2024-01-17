@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.datatables;
 
 /**
@@ -15,15 +14,17 @@ public class DatatablesColunas {
     public static final String[] PESSOAJURIDICA = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im",};
     public static final String[] FORNECEDORES = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im"};
     public static final String[] PESSOAFISICA = {"id", "nome", "sobrenome", "nascimento", "salario", "cpf", "rg", "passaporte", "mae", "pai", "ec.desc", "genero.desc", "admissao", "naturalidade"};
-    public static final String[] FUNCIONARIO = {"id", "nome", "sobrenome", "nascimento", "cpf", "rg", "clt", "mae", "pai", "estado_civil", "genero", "admissao", "naturalidade","salario","cargo.nome", "departamento","centro.nome"};
+    public static final String[] FUNCIONARIO = {"id", "nome", "sobrenome", "nascimento", "cpf", "rg", "clt", "mae", "pai", "estado_civil", "genero", "admissao", "naturalidade", "cargo.nome", "departamento", "centro.nome"};
     public static final String[] MARCAR_PRESENCA = {"id", "nome", "sobrenome", "cargo.nome"};
+    public static final String[] HISTORICO_FUNCIONARIO = {"id", "nome", "cpf", "cargo.nome"};
+
     public static final String[] FUNCIONARIO_FREQUENCIA = {"funcionarios"};
     public static final String[] EFETIVO = {"id", "nome", "sobrenome", "cargo.nome"};
     public static final String[] FUNCIONARIO_CONTATOS = {"id", "nome"};
     public static final String[] FUNCIONARIO_ENDERECO = {"id", "nome"};
-    public static final String[] FUNCIONARIO_PRESENCA = {"id", "nome","cargo.nome"};
+    public static final String[] FUNCIONARIO_PRESENCA = {"id", "nome", "cargo.nome"};
 
-    public static final String[] PRESENCA = {"id","frequencias","data","status"};
+    public static final String[] PRESENCA = {"id", "frequencias", "data", "status"};
     public static final String[] PROJETO = {"id", "contrato", "numero", "inicio", "fim", "updatedAt", "responsavel", "seguranca", "gestor", "administrador.id", "administrador.nome"};
     public static final String[] HISTORICO_PRESENCA = {"id", "nome"};
     public static final String[] SOCIO = {"id", "nome"};
@@ -35,7 +36,7 @@ public class DatatablesColunas {
     public static final String[] CENTROCUSTO = {"id", "nome"};
     public static final String[] PROCESSOPAGARCONTA = {"id", "emissao", "vencimento", "fornecedor.nome", "documento", "centroCusto.centro", "valor", "qtdparcela", "forma_pagamento", "arquivo", "usuario.email"};
     public static final String[] CONTAPAGAR = {"id", "processoFinanceiro.id", "documento", "valorPagar", "banco", "vencimento", "forma_pagamento", "data_pagamento", "status", "observacao", "total"};
-    public static final String[] CARGO = {"id", "nome"};
+    public static final String[] CARGO = {"id", "nome", "salario"};
     public static final String[] CAMPANHA = {"id", "nome"};
     //public static String[] AVALIACAO = {"id","ruim", "regular", "bom", "data_avaliacao","campanha","centro","auditor"};
     public static final String[] AVALIACAO = {"id", "avaliador", "centro.nome", "campanha.nome", "nota", "data"};
@@ -49,12 +50,12 @@ public class DatatablesColunas {
     public static final String[] COMPRADOR = {"id", "funcionario.nome", "usuario.nome"};
     public static final String[] ADMINISTRADOR = {"id", "usuario.nome"};
     public static final String[] SECRETARIO = {"id", "funcionario.nome", "usuario.nome"};
-  
+
     public static String[] AUXILIARADMINISTRATIVO;
     public static String[] ASSISTENTEADMINISTRATIVO;
     public static String[] LOTACAO = {"id", "nome"};
-    public static String[] FREQUENCIA = {"id","funcionarios","data","status"};
-    public static String[] CARTAO = {"id","numero","frequencias"};
-    public static String[] FREQUENCIA_FUNCIONARIO = {"id","frequencia","funcionario","data"};
+    public static String[] FREQUENCIA = {"id", "funcionarios", "data", "status"};
+    public static String[] CARTAO = {"id", "numero", "frequencias"};
+    public static String[] FREQUENCIA_FUNCIONARIO = {"id", "frequencia", "funcionario", "data"};
 
 }

@@ -4,12 +4,12 @@ import br.ind.cmil.gestao.domain.Cargo;
 import br.ind.cmil.gestao.domain.CentroCusto;
 import br.ind.cmil.gestao.domain.Departamento;
 import br.ind.cmil.gestao.domain.Funcionario;
+import br.ind.cmil.gestao.repositorys.projections.HistoricoFuncionario;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,20 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @author abraao
  */
 @Repository
-public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>, JpaSpecificationExecutor<Funcionario> {
+public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
 
-    @Query(value = " FROM Funcionario f join  f.departamento as d join  f.centro as cc join  f.cargo as c join fetch f.frequencias as fr",
-            countQuery = "SELECT COUNT(obj) FROM Funcionario obj ")
-    List<Funcionario> searchAll();
-    @Query( "SELECT fu.id,fu.nome, c.nome, fr.status FROM Funcionario fu join fu.cargo as c join  fu.frequencias as fr ")
-    List<Funcionario> allFuncionario();
-
-    @Query(value = " FROM Funcionario f join  f.departamento as d join  f.centro as cc join  f.cargo as c join fetch f.frequencias as fr",
-            countQuery = "SELECT COUNT(obj) FROM Funcionario obj ")
-    Page<Funcionario> searchAll(Pageable pageable);
-
-    @Transactional(readOnly = true)
-    @Query(value = " FROM Funcionario f join  f.departamento as d join  f.centro as ce join  f.cargo as c join fetch f.frequencias as fr",
+    List<Funcionario> findFuncionariosByFrequenciasId(Long frequenciaId);
+    @Query(value = "SELECT distinct f FROM Funcionario f join  f.departamento as d join  f.centro as ce join  f.cargo as c",
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj  where obj.nome like :search%")
     Page<Funcionario> searchAll(String search, Pageable pageable);
 
@@ -58,5 +48,10 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>,
     boolean existsByCpfIgnoreCase(String cpf);
 
     boolean existsByCltIgnoreCase(String clt);
+    
+    @Query("select fum from Funcionario fum join fum.cargo c "
+		+ "where fum.cargo.nome like :nome%")	
+	Page<HistoricoFuncionario> findHistoricoByFuncionarioNome(String nome, Pageable pageable);
+
 
 }

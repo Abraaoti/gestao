@@ -45,7 +45,7 @@ public class EnderecoController {
 
     @ModelAttribute
     public void prepareContext(Model model) {
-        model.addAttribute("pessoas", funcionarioService.list());
+        model.addAttribute("pessoas", funcionarioService.funcionarios());
     }
 
     @GetMapping("/add/{pessoa_id}")

@@ -16,12 +16,12 @@ import org.springframework.stereotype.Repository;
  * @author abraao
  */
 @Repository
-public interface CentroCustoRepository extends JpaRepository<CentroCusto, Long>, JpaSpecificationExecutor<CentroCusto> {
+public interface CentroCustoRepository extends JpaRepository<CentroCusto, Long> {
 
-    @Query(value = "SELECT c FROM CentroCusto c ")
+    @Query("SELECT c FROM CentroCusto c ")
     List<CentroCusto> searchAll();
 
-    @Query(value = "from CentroCusto c  where c.nome like :search%")
+    @Query("SELECT c from CentroCusto c  where c.nome like :search%")
     Page<CentroCusto> searchAll(String search, Pageable pageable);
 
     Optional<CentroCusto> findByNome(String contrato);

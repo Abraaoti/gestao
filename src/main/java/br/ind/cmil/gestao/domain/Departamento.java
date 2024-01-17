@@ -24,10 +24,7 @@ import lombok.ToString;
 public class Departamento extends Entidade {
 
     @Column(length = 80, unique = true, nullable = false)
-    private String nome;
-    @JsonIgnore
-    @OneToMany(mappedBy = "departamento")
-    private Set<Funcionario> funcionarios;
+    private String nome;  
 
     public Departamento() {
     }

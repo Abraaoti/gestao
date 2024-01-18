@@ -3,6 +3,7 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -42,9 +43,10 @@ public class Funcionario extends PessoaFisica {
     @ManyToOne
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
     private CentroCusto centro;
-    @JsonBackReference
+   // @JsonBackReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "funcionarios")   
-    private Set<Frequencia> frequencias = new HashSet<>() ;
+    private Set<Frequencia> frequencias  ;
 
     public Funcionario() {
     }

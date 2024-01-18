@@ -12,10 +12,12 @@ import jakarta.persistence.Table;
  *
  * @author abraao
  */
-
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_perfis")
 public class Perfil extends Entidade {
+
+
 
     @Column(name = "perfil", nullable = false, unique = true)
     @Convert(converter = TipoPerfilConvert.class)

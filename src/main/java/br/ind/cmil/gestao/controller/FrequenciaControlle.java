@@ -47,7 +47,7 @@ public class FrequenciaControlle {
     @GetMapping("/add")
     public String add(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO) {
         
-        return "frequencia/frequencia";
+        return "frequencia/add";
     }
 
     @GetMapping("/add/funcionario/{pessoa_id}")

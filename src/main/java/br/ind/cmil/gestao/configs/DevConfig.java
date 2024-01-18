@@ -44,9 +44,9 @@ public class DevConfig {
         dataSource.setUsername("root");
         dataSource.setPassword("password");
         
-        //dataSource.setUrl("jdbc:mysql://us-cdbr-east-06.cleardb.net/heroku_c991871a871e2f2");
-        //dataSource.setUsername("b337869a1735f0");
-        //dataSource.setPassword("f326b0d7");
+        //dataSource.setUrl("jdbc:mysql://us-cluster-east-01.k8s.cleardb.net/heroku_303db21716a42ec");
+        //dataSource.setUsername("bfd2f188c5cfeb");
+        //dataSource.setPassword("1a43d318");
         return dataSource;
     }
 

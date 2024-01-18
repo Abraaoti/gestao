@@ -71,6 +71,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
+        System.out.println("\n"+user.toString());
        // user.setAtivo(true);
         ur.save(user);
       

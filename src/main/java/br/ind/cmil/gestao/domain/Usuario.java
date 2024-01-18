@@ -18,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author abraao
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_usuarios", uniqueConstraints = {
     @UniqueConstraint(columnNames = "nome"),

@@ -35,20 +35,20 @@ public class Frequencia extends Entidade {
     protected TipoFrequencia status;
     // @JsonManagedReference
     //@JsonIgnoreProperties("frequencias")
-     @JsonIgnoreProperties(value = "frequencias", allowSetters = true)
-    @ManyToMany(fetch = FetchType.LAZY)  
+    // @JsonIgnoreProperties(value = "frequencias", allowSetters = true)
+    @ManyToMany
     @JoinTable(name = "tbl_frequencias_funcionarios",
             joinColumns = {
                 @JoinColumn(name = "frequencia_id")},
             inverseJoinColumns = {
                 @JoinColumn(name = "funcionario_id")}
     )
-    private Set<Funcionario> funcionarios = new HashSet<>();
+    private Set<Funcionario> funcionarios;
 
     public Frequencia() {
     }
-    
-      public void addFuncionario(Funcionario funcionario) {
+
+    public void addFuncionario(Funcionario funcionario) {
         this.funcionarios.add(funcionario);
         funcionario.getFrequencias().add(this);
     }
@@ -57,7 +57,6 @@ public class Frequencia extends Entidade {
         this.funcionarios.remove(funcionario);
         funcionario.getFrequencias().remove(this);
     }
-
 
     public Frequencia(Long id) {
         super.setId(id);

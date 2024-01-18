@@ -43,7 +43,6 @@ public class DBService {
     private PerfilService ps;
     @Autowired
     private UsuarioService us;
-   
 
     public void instanciaBaseDePerfis() {
         List<String> perfis = new ArrayList<>();
@@ -84,12 +83,15 @@ public class DBService {
         administrador.addAll(diretor);
 
         List<UsuarioRequest> usuarios = new ArrayList<>();
+        UsuarioRequest cmil = new UsuarioRequest(null, "cmil".toLowerCase(), "cmil@cmil.com.br", "123", LocalDateTime.now(), null, true, null, administrador);
         UsuarioRequest abraao = new UsuarioRequest(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, administrador);
+        
         UsuarioRequest beatriz = new UsuarioRequest(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, assistente);
         UsuarioRequest angelino = new UsuarioRequest(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, auxiliar);
         usuarios.add(abraao);
         usuarios.add(angelino);
         usuarios.add(beatriz);
+        usuarios.add(cmil);
 
         for (UsuarioRequest usuario : usuarios) {
             us.register(usuario);
@@ -128,7 +130,7 @@ public class DBService {
 
     public void instanciaBaseCargos() {
         List<Cargo> cargos = new ArrayList<>();
-       
+
         Cargo cargo = new Cargo();
         cargo.setNome("administrador");
         cargo.setSalario(BigDecimal.valueOf(8000, 0));
@@ -165,19 +167,18 @@ public class DBService {
         cargos.add(cargo7);
         cargos.add(cargo8);
         cargos.add(cargo9);
-      
+
         for (Cargo c : cargos) {
             cs.salvar(c);
         }
     }
 
-
     public void instanciaBaseFuncionarios() {
 
         FuncionarioDTO abraao = new FuncionarioDTO(null, "Abraão Calelesso", "Cassinda", LocalDate.of(1920, Month.NOVEMBER, 27), "01250284902", "v565786876", "adriana chipondia", "agostinha cassinda", "09987878", "masculino", "solteiro(a)", "lubango", LocalDate.now(), null, 6L, 5L, 3L);
         FuncionarioDTO angelino = new FuncionarioDTO(null, "angelino", "manuel", LocalDate.of(1992, Month.JULY, 06), "01250284904", "998756547", "ana", "vicente", "76765765756", "masculino", "solteiro(a)", "vitória", LocalDate.now(), null, 4L, 5L, 3L);
-        FuncionarioDTO beatriz = new FuncionarioDTO(null, "beatriz", "da silva campos", LocalDate.of(1995, Month.JULY, 06), "01250284903", "998756546", "marli bentos", "silva", "7678700", "feminino", "solteiro(a)", "gv", LocalDate.now(), null,  3L, 4L, 3L);
-        FuncionarioDTO joao = new FuncionarioDTO(null, "joão", "victor", LocalDate.of(1997, Month.JULY, 06), "01250284905", "998756548", "victorina", "victor", "6567565675", "masculino", "solteiro(a)", "serra-es", LocalDate.now(), null,  7L, 6L, 3L);
+        FuncionarioDTO beatriz = new FuncionarioDTO(null, "beatriz", "da silva campos", LocalDate.of(1995, Month.JULY, 06), "01250284903", "998756546", "marli bentos", "silva", "7678700", "feminino", "solteiro(a)", "gv", LocalDate.now(), null, 3L, 4L, 3L);
+        FuncionarioDTO joao = new FuncionarioDTO(null, "joão", "victor", LocalDate.of(1997, Month.JULY, 06), "01250284905", "998756548", "victorina", "victor", "6567565675", "masculino", "solteiro(a)", "serra-es", LocalDate.now(), null, 7L, 6L, 3L);
         List<FuncionarioDTO> funcionarios = new ArrayList<>();
         funcionarios.add(abraao);
         funcionarios.add(beatriz);
@@ -188,7 +189,5 @@ public class DBService {
         }
 
     }
-
-   
 
 }

@@ -14,8 +14,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -107,13 +110,12 @@ public class FrequenciaServiceImp implements FrequenciaService {
     @Transactional(readOnly = true)
     @Override
     public FrequenciaDTO form(Long funcionarioId, FrequenciaDTO frequenciaDTO) {
-        Frequencia frequencia = new Frequencia();
-        if (frequenciaDTO == null) {
-            Funcionario funcionario = funcionarioRepository.findById(funcionarioId).get();
-            frequencia.addFuncionario(funcionario);
-            return frequenciaMapper.toDTO(frequencia);
-        }
-        return frequenciaMapper.toDTO(frequencia);
+
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).get();
+        Set<String> funcionarios = new HashSet<>();
+        funcionarios.add(funcionario.getNome());
+
+        return new FrequenciaDTO(frequenciaDTO.id(), frequenciaDTO.data(), frequenciaDTO.status(), funcionarios);
     }
 
 }

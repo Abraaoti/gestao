@@ -15,9 +15,7 @@ $(document).ready(function () {
             data: 'data'
         },
         columns: [
-            {data: 'id'},               
-            {data: 'funcionarios.nome'},               
-           
+            {data: 'id'},   
             {data: 'data', render:
                         function (data) {
                             return moment(data).format('L');

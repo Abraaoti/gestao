@@ -27,6 +27,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import br.ind.cmil.gestao.repositorys.FuncionarioRepository;
 import br.ind.cmil.gestao.repositorys.projections.HistoricoFuncionario;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 
@@ -147,11 +149,12 @@ public class FuncionarioServiceImp implements FuncionarioService {
                 : funcionarioRepository.findByCargo(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
+
     @Override
     public Map<String, Object> buscarHistoricoFuncionario(HttpServletRequest request) {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.HISTORICO_FUNCIONARIO);
-        Page<HistoricoFuncionario> page =  funcionarioRepository.findHistoricoByFuncionarioNome("sede", datatables.getPageable());
+        Page<HistoricoFuncionario> page = funcionarioRepository.findHistoricoByFuncionarioNome("sede", datatables.getPageable());
         return datatables.getResponse(page);
     }
 
@@ -163,8 +166,6 @@ public class FuncionarioServiceImp implements FuncionarioService {
     protected LocalDate data(LocalDate dto) {
         return (dto == null ? LocalDate.now() : dto);
     }
-
-
 
     private Funcionario mapToEntity(Funcionario funcionario, FuncionarioDTO funcionarioDTO) {
         funcionario.setNome(funcionarioDTO.nome());
@@ -195,6 +196,20 @@ public class FuncionarioServiceImp implements FuncionarioService {
     @Override
     public List<Funcionario> funcionarios() {
         return funcionarioRepository.findAll(Sort.by("id")).stream().collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Set<Funcionario> funcionarioString(Set<String> funcionarosString) {
+        Set<Funcionario> funcionarios = new HashSet<>();
+
+        for (String string : funcionarosString) {
+            Funcionario funcionario = funcionarioRepository.findByNome(string).get();
+            funcionarios.add(funcionario);
+
+        }
+        return funcionarios;
+
     }
 
 }

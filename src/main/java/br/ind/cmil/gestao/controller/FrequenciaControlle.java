@@ -57,8 +57,7 @@ public class FrequenciaControlle {
     }
     
     @PostMapping("/addFrequenciaFuncionario")
-    public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {
-        
+    public String salvar(@ModelAttribute("frequencia") FrequenciaDTO frequenciaDTO, RedirectAttributes redir) {        
         frequenciaService.salvar(frequenciaDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
         return "redirect:/frequencias";

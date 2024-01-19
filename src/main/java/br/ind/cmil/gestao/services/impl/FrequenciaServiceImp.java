@@ -7,9 +7,11 @@ import br.ind.cmil.gestao.domain.Funcionario;
 import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.mappers.FrequenciaMapper;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
+import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.repositorys.FrequenciaRepository;
 import br.ind.cmil.gestao.repositorys.FuncionarioRepository;
 import br.ind.cmil.gestao.services.FrequenciaService;
+import br.ind.cmil.gestao.services.FuncionarioService;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +32,18 @@ import org.springframework.data.domain.Sort;
 public class FrequenciaServiceImp implements FrequenciaService {
 
     private final FrequenciaRepository frequenciaRepository;
-    private final FuncionarioRepository funcionarioRepository;
+    private final FuncionarioService funcionarioService;
     private final FrequenciaMapper frequenciaMapper;
     private final Datatables datatables;
 
-    public FrequenciaServiceImp(FrequenciaRepository frequenciaRepository, FuncionarioRepository funcionarioRepository, FrequenciaMapper frequenciaMapper, Datatables datatables) {
+    public FrequenciaServiceImp(FrequenciaRepository frequenciaRepository, FuncionarioService funcionarioService, FrequenciaMapper frequenciaMapper, Datatables datatables) {
         this.frequenciaRepository = frequenciaRepository;
-        this.funcionarioRepository = funcionarioRepository;
+        this.funcionarioService = funcionarioService;
         this.frequenciaMapper = frequenciaMapper;
         this.datatables = datatables;
     }
+
+   
 
     @Override
     @Transactional(readOnly = true)
@@ -57,9 +61,9 @@ public class FrequenciaServiceImp implements FrequenciaService {
         Frequencia frequencia = frequenciaMapper.toEntity(frequenciaDTO);
 
         if (frequenciaDTO.id() == null) {
-            // List<Funcionario> funcionarios = funcionarioRepository.findByNome(frequenciaDTO.funcionarios());
+            Set<Funcionario> funcionarios = funcionarioService.funcionarioString(frequenciaDTO.funcionarios());
 
-            frequenciaDTO.funcionarios().forEach(Funcionario::new);
+           frequencia.setFuncionarios(funcionarios);
 
             return frequenciaRepository.save(frequencia).getId();
         }
@@ -111,9 +115,9 @@ public class FrequenciaServiceImp implements FrequenciaService {
     @Override
     public FrequenciaDTO form(Long funcionarioId, FrequenciaDTO frequenciaDTO) {
 
-        Funcionario funcionario = funcionarioRepository.findById(funcionarioId).get();
+        FuncionarioDTO funcionario = funcionarioService.buscarFuncionarioPorId(funcionarioId);
         Set<String> funcionarios = new HashSet<>();
-        funcionarios.add(funcionario.getNome());
+        funcionarios.add(funcionario.nome());
 
         return new FrequenciaDTO(frequenciaDTO.id(), frequenciaDTO.data(), frequenciaDTO.status(), funcionarios);
     }

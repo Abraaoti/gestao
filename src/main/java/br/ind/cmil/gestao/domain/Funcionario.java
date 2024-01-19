@@ -4,6 +4,7 @@ import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -44,7 +45,8 @@ public class Funcionario extends PessoaFisica {
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
     private CentroCusto centro;
    // @JsonBackReference
-    @JsonIgnore
+   // @JsonIgnore
+    @JsonManagedReference
     @ManyToMany(mappedBy = "funcionarios")   
     private Set<Frequencia> frequencias  ;
 

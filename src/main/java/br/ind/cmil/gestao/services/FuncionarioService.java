@@ -5,6 +5,7 @@ import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -15,6 +16,8 @@ public interface FuncionarioService {
     List<FuncionarioDTO> list();
 
     List<Funcionario> funcionarios();
+
+    Set<Funcionario> funcionarioString(Set<String> funcionarosString);
 
     FuncionarioDTO buscarFuncionarioPorId(Long id);
 

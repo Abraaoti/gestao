@@ -3,18 +3,16 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.base.Entidade;
 import br.ind.cmil.gestao.convert.TipoAusenciaConvert;
 import br.ind.cmil.gestao.enums.TipoFrequencia;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,6 +34,7 @@ public class Frequencia extends Entidade {
     // @JsonManagedReference
     //@JsonIgnoreProperties("frequencias")
     // @JsonIgnoreProperties(value = "frequencias", allowSetters = true)
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "tbl_frequencias_funcionarios",
             joinColumns = {

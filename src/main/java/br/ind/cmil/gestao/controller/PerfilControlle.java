@@ -56,10 +56,10 @@ public class PerfilControlle {
     }
 
     @PostMapping("/editar")
-    public ModelAndView editarPerfil(@ModelAttribute PerfilDTO perfilDTO, RedirectAttributes redir) {
+    public String editarPerfil(@ModelAttribute PerfilDTO perfilDTO, RedirectAttributes redir) {
         ps.create(perfilDTO);
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        return new ModelAndView("perfis/perfis");
+        return "redirect:/perfis";
     }
 
     @GetMapping("/editar/{id}")

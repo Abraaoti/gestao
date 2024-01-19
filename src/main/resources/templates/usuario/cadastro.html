@@ -66,11 +66,10 @@
 					<div class="row">
 						<div class="input-field  col s6">
 							<p th:each="perfis : ${perfis}">
-								
-									<input type="checkbox" th:value="${perfis.p}" id="perfis" th:field="*{perfis}" />
-									<label th:text="${perfis.p}"></label>
-
-								
+								<label>
+						<input type="checkbox" th:value="${perfis.p}" id="perfis" th:field="*{perfis}" /> 
+									<span  th:text="${perfis.p}">perfil</span>
+								</label>
 
 							</p>
 						</div>

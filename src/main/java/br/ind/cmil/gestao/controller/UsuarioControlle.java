@@ -45,7 +45,7 @@ public class UsuarioControlle {
 
     @ModelAttribute
     public void prepareContext(Model model) {
-        model.addAttribute("perfis", perfil.perfis());
+        model.addAttribute("perfis", perfis());
     }
 
     @GetMapping("/add")

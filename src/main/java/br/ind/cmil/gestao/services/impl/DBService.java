@@ -6,6 +6,7 @@ import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
 import br.ind.cmil.gestao.model.dto.PerfilDTO;
 import br.ind.cmil.gestao.model.dto.UsuarioRequest;
 import br.ind.cmil.gestao.domain.Cargo;
+import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,14 +16,13 @@ import org.springframework.stereotype.Service;
 import br.ind.cmil.gestao.services.DepartamentoService;
 import br.ind.cmil.gestao.services.CargoService;
 import br.ind.cmil.gestao.services.CentroCustoService;
+import br.ind.cmil.gestao.services.FrequenciaService;
 import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.services.PerfilService;
 import br.ind.cmil.gestao.services.UsuarioService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -43,6 +43,8 @@ public class DBService {
     private PerfilService ps;
     @Autowired
     private UsuarioService us;
+    @Autowired
+    private FrequenciaService frequenciaService;
 
     public void instanciaBaseDePerfis() {
         List<String> perfis = new ArrayList<>();
@@ -85,7 +87,7 @@ public class DBService {
         List<UsuarioRequest> usuarios = new ArrayList<>();
         UsuarioRequest cmil = new UsuarioRequest(null, "cmil".toLowerCase(), "cmil@cmil.com.br", "123", LocalDateTime.now(), null, true, null, administrador);
         UsuarioRequest abraao = new UsuarioRequest(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, administrador);
-        
+
         UsuarioRequest beatriz = new UsuarioRequest(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, assistente);
         UsuarioRequest angelino = new UsuarioRequest(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, auxiliar);
         usuarios.add(abraao);
@@ -186,6 +188,19 @@ public class DBService {
         funcionarios.add(joao);
         for (FuncionarioDTO funcionario : funcionarios) {
             funcionarioService.salvar(funcionario);
+        }
+
+    }
+
+    public void instanciaBaseDeFrequencia() {
+        List<String> frequencias = new ArrayList<>();
+        frequencias.add("atestado");
+        frequencias.add("falta");
+        frequencias.add("inss");
+        frequencias.add("presente");
+        frequencias.add("treinamento");
+        for (int i = 0; i < frequencias.size(); i++) {
+            frequenciaService.salvar(new FrequenciaDTO(null, frequencias.get(i)));
         }
 
     }

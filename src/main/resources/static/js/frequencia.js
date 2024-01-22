@@ -16,11 +16,7 @@ $(document).ready(function () {
         },
         columns: [
             {data: 'id'},   
-            {data: 'data', render:
-                        function (data) {
-                            return moment(data).format('L');
-                        }
-            },
+           
           
              {data: 'status', render: function (data, type) {
 

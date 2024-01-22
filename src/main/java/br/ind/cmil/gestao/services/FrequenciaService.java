@@ -14,13 +14,13 @@ public interface FrequenciaService {
 
     Long salvar(FrequenciaDTO frequenciaDTO);
 
-    FrequenciaDTO form(Long pessoa, FrequenciaDTO frequenciaDTO);
+    FrequenciaDTO buscarPorId(Long id);
 
-    FrequenciaDTO findById(Long id);
+    FrequenciaDTO buscarFrequenciaPorTipo(String tipo);
 
     List<Frequencia> getFrequencias();
 
-    Map<String, Object> funcionariosFrequencias(HttpServletRequest request);
+    Map<String, Object> buscarFrequencias(HttpServletRequest request);
 
     void delete(Long id);
 

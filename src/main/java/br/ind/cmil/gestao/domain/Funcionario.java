@@ -2,18 +2,12 @@ package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -46,9 +40,9 @@ public class Funcionario extends PessoaFisica {
     private CentroCusto centro;
    // @JsonBackReference
    // @JsonIgnore
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "funcionarios")   
-    private Set<Frequencia> frequencias  ;
+   // @JsonManagedReference
+   // @ManyToMany(mappedBy = "funcionarios")   
+    //private Set<Frequencia> frequencias  ;
 
     public Funcionario() {
     }
@@ -81,7 +75,7 @@ public class Funcionario extends PessoaFisica {
     }
 
   
-
+/**
     public void addFrequencia(Frequencia frequencia) {
         this.frequencias.add(frequencia);
         frequencia.getFuncionarios().add(this);
@@ -90,7 +84,7 @@ public class Funcionario extends PessoaFisica {
     public void removeFrequencia(Frequencia frequencia) {
         this.frequencias.remove(frequencia);
         frequencia.getFuncionarios().remove(this);
-    }
+    }**/
 
     public String getClt() {
         return clt;
@@ -141,13 +135,13 @@ public class Funcionario extends PessoaFisica {
         this.centro = centro;
     }
 
-    public Set<Frequencia> getFrequencias() {
+  /**  public Set<Frequencia> getFrequencias() {
         return frequencias;
     }
 
     public void setFrequencias(Set<Frequencia> frequencias) {
         this.frequencias = frequencias;
-    }
+    }**/
 
     @Override
     public String toString() {
@@ -159,7 +153,7 @@ public class Funcionario extends PessoaFisica {
         sb.append(", cargo=").append(cargo);
         sb.append(", demissao=").append(demissao);
         sb.append(", centro=").append(centro);
-        sb.append(", frequencias=").append(frequencias);
+     
         sb.append('}');
         return sb.toString();
     }

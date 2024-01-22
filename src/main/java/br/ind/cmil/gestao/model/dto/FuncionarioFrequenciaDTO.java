@@ -4,9 +4,10 @@ package br.ind.cmil.gestao.model.dto;
  *
  * @author abraao
  */
-public record FrequenciaDTO(
+public record FuncionarioFrequenciaDTO(
         Long id,
-        String status
+        String funcionario,
+        String frequencia
         ) {
 
 }

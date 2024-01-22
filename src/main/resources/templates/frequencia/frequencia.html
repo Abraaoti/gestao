@@ -1,52 +1,42 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
-	<head>
-		<title>[[#{frequencia.add.headline}]]</title>
-	</head>
-	<body>
-		<div layout:fragment="content">
+    <head>
+        <title>[[#{frequencia.add.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
 
 
 
-			<div class="row">
-				<form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated">
-					<div class="row">
+            <div class="row">
+                <form th:action="${frequencia.id == null} ? @{/frequencias/addFrequenciaFuncionario} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated">
+                    <div class="row">
 
-						<div class="input-field col s4">
-							<input type="text" th:field="*{funcionarios}" id="funcionarios"  readonly  th:text="${funcionarios}"  required />
-							<span th:if="${#fields.hasErrors('funcionarios')}" th:errors="*{funcionarios}" class="text-danger" />
-							<label for="funcionarios">NOME </label>
-						</div>
+                      
+
+                        <div class="input-field col s4">
+                            <select   th:field="*{status}">
+                                <option th:each="status : ${allTypes}" th:value="${status}" th:text="${status}"/>
+                            </select>
+                        </div>
+
+                        <input type="hidden" th:field="*{id}">
 
 
-						<div class="input-field col s3">
-							<select   th:field="*{status}">
-								<option th:each="status : ${allTypes}" th:value="${status}" th:text="${status}"/>
-							</select>
-						</div>
+                        <input class="waves-effect waves-light btn-small col s4" type="submit"  value="Salvar"/>
 
-						<div class="input-field col s3">
-							<input type="date" th:field="*{data}">
-						</div>
-					</div>
-
-					<input type="hidden" th:field="*{id}">
-					<div class="row">
-
-						<input class="waves-effect waves-light btn-small col s2 offset-s10" type="submit"  value="Salvar"/>
-
-					</div> 
+                    </div> 
 
 
 
-				</form>
-			</div>
-		</div>
+                </form>
+            </div>
+        </div>
 
-		<script th:src="~{}" th:fragment="js"/>
-		<script th:inline="javascript" th:fragment="inlinescript">
+        <script th:src="~{}" th:fragment="js"/>
+        <script th:inline="javascript" th:fragment="inlinescript">
 
-		</script>
-	</body>
+        </script>
+    </body>
 </html>

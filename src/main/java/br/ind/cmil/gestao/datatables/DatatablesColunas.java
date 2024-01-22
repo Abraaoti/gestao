@@ -54,7 +54,7 @@ public class DatatablesColunas {
     public static String[] AUXILIARADMINISTRATIVO;
     public static String[] ASSISTENTEADMINISTRATIVO;
     public static String[] LOTACAO = {"id", "nome"};
-    public static String[] FREQUENCIA = {"id", "funcionarios", "data", "status"};
+    public static String[] FREQUENCIA = {"id","status"};
     public static String[] CARTAO = {"id", "numero", "frequencias"};
     public static String[] FREQUENCIA_FUNCIONARIO = {"id", "frequencia", "funcionario", "data"};
 

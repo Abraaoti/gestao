@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
 
-    List<Funcionario> findFuncionariosByFrequenciasId(Long frequenciaId);
+ 
     @Query(value = "SELECT distinct f FROM Funcionario f join  f.departamento as d join  f.centro as ce join  f.cargo as c",
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj  where obj.nome like :search%")
     Page<Funcionario> searchAll(String search, Pageable pageable);

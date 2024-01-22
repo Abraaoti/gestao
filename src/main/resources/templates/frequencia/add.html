@@ -7,36 +7,35 @@
 	<body>
 		<div layout:fragment="content">
 
+ <div class="row">
+                <form th:action="${funcionarioFrequencia.id == null} ? @{/funcionarioFrequencias/add} : @{/funcionarioFrequencias/editar}" th:object="${funcionarioFrequencia}" method="POST" class="was-validated col s12">
+                    <div class="row">
 
-			<div th:switch="${funcionariosValues}">
-				<h2 th:case="null">No users yet!</h2>
-				<div th:case="*">
+                      
 
-					<table class="highlight">
-						<thead>
-							<tr>
-								<th>Nome</th>
-								<th>Cpf</th>
-								<th>Cargo</th>
-								<th>Marcar Presença</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="user : ${funcionariosValues}">
-								<td th:text="${user.nome}"></td>
-								<td th:text="${user.cpf}"></td>
-								<td th:text="${user.cargo.nome}"></td>
-								<td>
-									<a class="btn btn-primary" th:href="@{/frequencias/add/funcionario/{id}(id=${user.id})}" >marcar presença</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+                        <div class="input-field col s4">
+                            <select   th:field="*{funcionario}">
+                                <option th:each="funcionario : ${funcionarios}" th:value="${funcionario.nome}" th:text="${funcionario.nome}"/>
+                            </select>
+                        </div>
+                        <div class="input-field col s4">
+                            <select   th:field="*{frequencia}">
+                                <option th:each="frequencia : ${frequencias}" th:value="${frequencia.status}" th:text="${frequencia.status}"/>
+                            </select>
+                        </div>
+
+                        <input type="hidden" th:field="*{id}">
 
 
+                    
 
-				</div>
-			</div>
+                    </div> 
+
+    <input class="waves-effect waves-light btn-small col s4" type="submit"  value="Salvar"/>
+
+                </form>
+            </div>
+			
 
 		</div>
 		<script th:src="~{}" th:fragment="js"/>

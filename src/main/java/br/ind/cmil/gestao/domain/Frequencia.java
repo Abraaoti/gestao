@@ -3,18 +3,10 @@ package br.ind.cmil.gestao.domain;
 import br.ind.cmil.gestao.base.Entidade;
 import br.ind.cmil.gestao.convert.TipoAusenciaConvert;
 import br.ind.cmil.gestao.enums.TipoFrequencia;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.Set;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -25,16 +17,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "tbl_frequencias")
 public class Frequencia extends Entidade {
 
-    @Column(name = "data")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate data;
+    //@Column(name = "data")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd")
+   // private LocalDate data;
     @Column(name = "status", nullable = false)
     @Convert(converter = TipoAusenciaConvert.class)
-    protected TipoFrequencia status;
+    private TipoFrequencia status;
     // @JsonManagedReference
     //@JsonIgnoreProperties("frequencias")
     // @JsonIgnoreProperties(value = "frequencias", allowSetters = true)
-    @JsonBackReference
+   /**
+     * @param id *  @JsonBackReference
     @ManyToMany
     @JoinTable(name = "tbl_frequencias_funcionarios",
             joinColumns = {
@@ -45,6 +38,7 @@ public class Frequencia extends Entidade {
     private Set<Funcionario> funcionarios;
 
     public Frequencia() {
+        data =  LocalDate.now();
     }
 
     public void addFuncionario(Funcionario funcionario) {
@@ -56,18 +50,33 @@ public class Frequencia extends Entidade {
         this.funcionarios.remove(funcionario);
         funcionario.getFrequencias().remove(this);
     }
-
-    public Frequencia(Long id) {
-        super.setId(id);
+   public Set<Funcionario> getFuncionarios() {
+        return funcionarios;
     }
 
-    public LocalDate getData() {
+    public void setFuncionarios(Set<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
+    }
+      public LocalDate getData() {
         return data;
     }
 
     public void setData(LocalDate data) {
         this.data = data;
+    }**/
+    
+    public Frequencia() {
     }
+
+    public Frequencia(Long id) {
+        super.setId(id);
+    }
+
+    public Frequencia(TipoFrequencia tipo) {
+          this.status = TipoFrequencia.valueOf(tipo.getValue());
+    }
+
+  
 
     public TipoFrequencia getStatus() {
         return status;
@@ -77,12 +86,6 @@ public class Frequencia extends Entidade {
         this.status = status;
     }
 
-    public Set<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-    public void setFuncionarios(Set<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
-    }
+ 
 
 }

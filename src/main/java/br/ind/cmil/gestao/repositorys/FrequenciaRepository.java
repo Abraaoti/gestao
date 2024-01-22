@@ -18,18 +18,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 
-    @Query("SELECT DISTINCT obj FROM Frequencia obj join  obj.funcionarios as fu where obj.status like :status%")
+    @Query("SELECT DISTINCT obj FROM Frequencia obj  where obj.status like :status%")
     Page<Frequencia> searchAll(TipoFrequencia status, Pageable pageable);
-
-    @Query(value = "SELECT  obj FROM Frequencia obj  JOIN  FETCH obj.funcionarios where obj IN:frequencias",
-            countQuery = "SELECT COUNT(obj) FROM Frequencia obj ")
-    List<Frequencia> findAllFrequencias(List<Frequencia> frequencias);
 
     // @Query("SELECT  obj FROM Frequencia obj   where obj.status =:status")
     Optional<Frequencia> findByStatus(TipoFrequencia status);
     
-    Frequencia findFirstByFuncionarios(Funcionario funcionario);
-
-    List<Frequencia> findAllByFuncionarios(Funcionario funcionario);
 
 }

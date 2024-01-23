@@ -56,14 +56,14 @@ $(document).ready(function () {
                 data: 'id',
                 "render": function (id) {
                     return '<a class="btn btn-success btn-sm btn-block" href="/telefones/add/' +
-                            id + '" role="button"><i class="fas fa-info"></i></a>';
+                            id + '" role="button"><i class="material-icons">contact_phone</i></a>';
                 }
             },
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
                     return '<a class="btn btn-success btn-sm btn-block" href="/enderecos/add/' +
-                            id + '" role="button"><i class="fas fa-info"></i></a>';
+                            id + '" role="button"><i class="material-icons">location_city</i></a>';
                 }
             },
             {orderable: false,

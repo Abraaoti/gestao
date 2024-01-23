@@ -24,16 +24,16 @@ function drawMultipleLineChart(formatteddata) {
     Highcharts.chart('container', {
 
         title: {
-            text: 'Solar Employment Growth by Sector, 2010-2019'
+            text: 'RH, 2019-2023'
         },
 
         subtitle: {
-            text: 'Source: thesolarfoundation.com'
+            text: 'Source: cmil.ind.br'
         },
 
         yAxis: {
             title: {
-                text: 'Number of Employees'
+                text: 'Número de funcionários'
             }
         },
         legend: {

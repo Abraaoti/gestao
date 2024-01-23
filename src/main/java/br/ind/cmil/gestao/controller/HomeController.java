@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-   // @Autowired
-   // private FuncionarioService funcionarioService;
+  @Autowired
+  private FuncionarioService funcionarioService;
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
@@ -82,26 +82,26 @@ public class HomeController {
         model.addAttribute("subtexto", "Acesso permitido apenas para cadastros já ativados.");
         return "login";
     }
-
-  /**  @GetMapping("/graficos")
+/**
+    @GetMapping("/multiplelinechart")
     public ResponseEntity<?> funcionarios() {
-        Map<String, List<Funcionario>> mappedData = new HashMap<>();
+        Map<String, List<FuncionarioDTO>> mappedData = new HashMap<>();
         List<FuncionarioDTO> dataList = funcionarioService.list();
 
         for (FuncionarioDTO data : dataList) {
 
             if (mappedData.containsKey(data.nome())) {
-               // mappedData.get(data.nome()).add(data);
+              mappedData.get(data.nome()).add(data);
             } else {
-                List<Funcionario> tempList = new ArrayList<>();
-               // tempList.add(data);
+                List<FuncionarioDTO> tempList = new ArrayList<>();
+                tempList.add(data);
                 mappedData.put(data.nome(), tempList);
             }
 
         }
         return new ResponseEntity<>(mappedData, HttpStatus.OK);
-    }
-*/
+    }*/
+
     @GetMapping("/expired")
     public String sessaoExpirada(ModelMap model) {
         model.addAttribute("alerta", "erro");

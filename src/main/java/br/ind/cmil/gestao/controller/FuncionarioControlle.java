@@ -1,8 +1,13 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.FuncionarioDTO;
+
+import br.ind.cmil.gestao.cargo.service.CargoService;
+import br.ind.cmil.gestao.centro.service.CentroCustoService;
+import br.ind.cmil.gestao.departamento.service.DepartamentoService;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
+import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
+import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.ind.cmil.gestao.services.DepartamentoService;
-import br.ind.cmil.gestao.services.CargoService;
-import br.ind.cmil.gestao.services.CentroCustoService;
-import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -93,13 +94,6 @@ public class FuncionarioControlle {
     public ResponseEntity<?> funcionarios(HttpServletRequest request) {
         return ResponseEntity.ok(funcionarioService.buscarTodos(request));
     }
-    @GetMapping("/historico/server")
-    public ResponseEntity<?> hfuncionarios(HttpServletRequest request) {
-        return ResponseEntity.ok(funcionarioService.buscarHistoricoFuncionario(request));
-    }
-    @GetMapping("/marcar")
-    public ResponseEntity<?> buscarFuncionarioPorCargos(HttpServletRequest request) {
-        return ResponseEntity.ok(funcionarioService.buscarFuncionarioPorCargo(request));
-    }
+   
 
 }

@@ -1,5 +1,6 @@
 package br.ind.cmil.gestao.domain;
 
+import br.ind.cmil.gestao.usuario.domain.Usuario;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;

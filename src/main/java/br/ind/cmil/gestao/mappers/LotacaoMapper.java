@@ -7,7 +7,7 @@ package br.ind.cmil.gestao.mappers;
  */
 
 
-import br.ind.cmil.gestao.model.dto.CentroCustoDTO;
+import br.ind.cmil.gestao.centro.model.CentroCustoDTO;
 import br.ind.cmil.gestao.domain.Lotacao;
 import org.springframework.stereotype.Component;
 @Component

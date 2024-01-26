@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.DepartamentoDTO;
+import br.ind.cmil.gestao.departamento.model.DepartamentoDTO;
+import br.ind.cmil.gestao.departamento.service.DepartamentoService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.ind.cmil.gestao.services.DepartamentoService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;

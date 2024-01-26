@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.repositorys.projection;
 
-import br.ind.cmil.gestao.domain.Cargo;
-import br.ind.cmil.gestao.domain.Departamento;
+import br.ind.cmil.gestao.cargo.domain.Cargo;
+import br.ind.cmil.gestao.departamento.domain.Departamento;
 
 /**
  *

@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.PerfilDTO;
-import br.ind.cmil.gestao.model.dto.UsuarioRequest;
+import br.ind.cmil.gestao.perfil.model.PerfilDTO;
+import br.ind.cmil.gestao.perfil.service.PerfilService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Set;
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.ind.cmil.gestao.services.PerfilService;
-import br.ind.cmil.gestao.services.UsuarioService;
+import br.ind.cmil.gestao.usuario.model.UsuarioRequest;
+import br.ind.cmil.gestao.usuario.service.UsuarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import java.util.ArrayList;
 import java.util.List;

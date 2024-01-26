@@ -1,11 +1,9 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.enums.TipoFrequencia;
-import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
+import br.ind.cmil.gestao.frequencia.service.FrequenciaService;
+import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
+import br.ind.cmil.gestao.funcionarioFrequencia.service.FuncionarioFrequenciaService;
 import br.ind.cmil.gestao.model.dto.FuncionarioFrequenciaDTO;
-import br.ind.cmil.gestao.services.FrequenciaService;
-import br.ind.cmil.gestao.services.FuncionarioFrequenciaService;
-import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;

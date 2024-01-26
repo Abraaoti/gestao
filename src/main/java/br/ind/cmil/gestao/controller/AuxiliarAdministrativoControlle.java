@@ -1,8 +1,7 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.mappers.UsuarioMapper;
-import br.ind.cmil.gestao.domain.AuxiliarAdministrativo;
-import br.ind.cmil.gestao.domain.Usuario;
+import br.ind.cmil.gestao.auxiliar.domain.AuxiliarAdministrativo;
+import br.ind.cmil.gestao.auxiliar.service.AuxiliarAdministrativoService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +20,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.ind.cmil.gestao.services.AuxiliarAdministrativoService;
-import br.ind.cmil.gestao.services.UsuarioService;
+import br.ind.cmil.gestao.usuario.domain.Usuario;
+import br.ind.cmil.gestao.usuario.mapper.UsuarioMapper;
+import br.ind.cmil.gestao.usuario.service.UsuarioService;
 
 /**
  *

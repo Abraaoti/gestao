@@ -1,9 +1,9 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.DependenteDTO;
-import br.ind.cmil.gestao.domain.Funcionario;
-import br.ind.cmil.gestao.repositorys.FuncionarioRepository;
-import br.ind.cmil.gestao.services.DependenteService;
+import br.ind.cmil.gestao.dependente.model.DependenteDTO;
+import br.ind.cmil.gestao.dependente.services.DependenteService;
+import br.ind.cmil.gestao.funcionario.domain.Funcionario;
+import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import br.ind.cmil.gestao.util.CustomCollectors;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.validation.Valid;

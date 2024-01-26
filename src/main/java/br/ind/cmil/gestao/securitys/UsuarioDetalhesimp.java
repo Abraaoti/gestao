@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.securitys;
 
-import br.ind.cmil.gestao.domain.Perfil;
-import br.ind.cmil.gestao.domain.Usuario;
+import br.ind.cmil.gestao.perfil.domain.Perfil;
+import br.ind.cmil.gestao.usuario.domain.Usuario;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;

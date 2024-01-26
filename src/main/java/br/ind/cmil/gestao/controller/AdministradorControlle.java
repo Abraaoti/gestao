@@ -1,7 +1,9 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.AdministradorDTO;
-import br.ind.cmil.gestao.domain.Administrador;
+
+import br.ind.cmil.gestao.administrador.domain.Administrador;
+import br.ind.cmil.gestao.administrador.model.AdministradorDTO;
+import br.ind.cmil.gestao.administrador.services.AdministradorService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.ind.cmil.gestao.services.AdministradorService;
-import br.ind.cmil.gestao.services.UsuarioService;
+import br.ind.cmil.gestao.usuario.service.UsuarioService;
 
 /**
  *

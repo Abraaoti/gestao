@@ -1,15 +1,15 @@
 package br.ind.cmil.gestao.controller;
 
 import br.ind.cmil.gestao.enums.TipoTelefone;
-import br.ind.cmil.gestao.model.dto.TelefoneDTO;
-import br.ind.cmil.gestao.services.FuncionarioService;
+import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
+import br.ind.cmil.gestao.telefone.model.TelefoneDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.ind.cmil.gestao.services.TelefoneService;
+import br.ind.cmil.gestao.telefone.service.TelefoneService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;

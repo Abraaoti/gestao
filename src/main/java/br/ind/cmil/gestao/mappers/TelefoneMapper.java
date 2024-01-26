@@ -1,9 +1,9 @@
 package br.ind.cmil.gestao.mappers;
 
-import br.ind.cmil.gestao.domain.Pessoa;
 import br.ind.cmil.gestao.model.dto.TelefoneDTO;
-import br.ind.cmil.gestao.domain.Telefone;
 import br.ind.cmil.gestao.enums.TipoTelefone;
+import br.ind.cmil.gestao.pessoa.domain.Pessoa;
+import br.ind.cmil.gestao.telefone.domain.Telefone;
 import org.springframework.stereotype.Component;
 
 /**

@@ -1,7 +1,8 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.CargoDTO;
-import br.ind.cmil.gestao.domain.Cargo;
+import br.ind.cmil.gestao.cargo.domain.Cargo;
+import br.ind.cmil.gestao.cargo.model.CargoDTO;
+import br.ind.cmil.gestao.cargo.service.CargoService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -19,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import br.ind.cmil.gestao.services.CargoService;
 import br.ind.cmil.gestao.util.WebUtils;
 
 /**

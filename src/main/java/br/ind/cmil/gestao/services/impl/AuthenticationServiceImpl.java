@@ -3,6 +3,7 @@ package br.ind.cmil.gestao.services.impl;
 import br.ind.cmil.gestao.dto.Credentials;
 import br.ind.cmil.gestao.exceptions.DisabledUserException;
 import br.ind.cmil.gestao.exceptions.InvalidUserCredentialsException;
+import br.ind.cmil.gestao.jwt.service.imp.JwtServiceImpl;
 import br.ind.cmil.gestao.response.Response;
 import java.util.Set;
 import java.util.stream.Collectors;

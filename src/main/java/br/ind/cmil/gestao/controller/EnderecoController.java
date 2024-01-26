@@ -1,14 +1,14 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.EnderecoDTO;
+import br.ind.cmil.gestao.endereco.model.EnderecoDTO;
+import br.ind.cmil.gestao.endereco.service.EnderecoService;
+import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import br.ind.cmil.gestao.services.EnderecoService;
-import br.ind.cmil.gestao.services.FuncionarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.model.dto.CentroCustoDTO;
-import br.ind.cmil.gestao.services.CentroCustoService;
+import br.ind.cmil.gestao.centro.model.CentroCustoDTO;
+import br.ind.cmil.gestao.centro.service.CentroCustoService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.HashMap;

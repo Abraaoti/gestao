@@ -37,6 +37,8 @@ public class DatatablesColunas {
     public static final String[] PROCESSOPAGARCONTA = {"id", "emissao", "vencimento", "fornecedor.nome", "documento", "centroCusto.centro", "valor", "qtdparcela", "forma_pagamento", "arquivo", "usuario.email"};
     public static final String[] CONTAPAGAR = {"id", "processoFinanceiro.id", "documento", "valorPagar", "banco", "vencimento", "forma_pagamento", "data_pagamento", "status", "observacao", "total"};
     public static final String[] CARGO = {"id", "nome", "salario"};
+    public static final String[] PONTO = {"id", "data", "entradaManha", "saidaManha", "entradaTarde", "saidaTarde", "entradaExtra", "saidaExtra", "entradaNoite", "saidaNoite", "funcionario.nome"};
+    public static final String[] OCORRENCIA = {"id", "nome"};
     public static final String[] CAMPANHA = {"id", "nome"};
     //public static String[] AVALIACAO = {"id","ruim", "regular", "bom", "data_avaliacao","campanha","centro","auditor"};
     public static final String[] AVALIACAO = {"id", "avaliador", "centro.nome", "campanha.nome", "nota", "data"};

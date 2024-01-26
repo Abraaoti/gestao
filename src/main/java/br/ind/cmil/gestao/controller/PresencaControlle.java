@@ -1,8 +1,8 @@
 package br.ind.cmil.gestao.controller;
 
-import br.ind.cmil.gestao.domain.Presenca;
-import br.ind.cmil.gestao.services.FuncionarioService;
-import br.ind.cmil.gestao.services.PresencaService;
+import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
+import br.ind.cmil.gestao.presenca.domain.Presenca;
+import br.ind.cmil.gestao.presenca.service.PresencaService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;

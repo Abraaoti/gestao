@@ -2,6 +2,8 @@
 package br.ind.cmil.gestao.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
+import br.ind.cmil.gestao.categoria.domain.Categoria;
+import br.ind.cmil.gestao.fornecedor.domain.Fornecedor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

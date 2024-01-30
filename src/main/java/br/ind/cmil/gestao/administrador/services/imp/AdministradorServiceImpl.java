@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.administrador.services.imp;
 
 import br.ind.cmil.gestao.administrador.domain.Administrador;
@@ -25,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class AdministradorServiceImpl implements AdministradorService {
-    
+
     private final AdministradorRepository ar;
     private final AdministradorMapper am;
     private final Datatables datatables;
@@ -37,21 +36,19 @@ public class AdministradorServiceImpl implements AdministradorService {
         this.datatables = datatables;
         this.usuarioRepository = usuarioRepository;
     }
-    
-  
-    
+
     @Override
     @Transactional(readOnly = false)
     public void salvar(AdministradorDTO administradorDTO) {
-        
+
         if (administradorDTO.id() == null) {
             validar(administradorDTO);
             ar.save(am.toEntity(administradorDTO));
         }
-        
+
         update(administradorDTO);
     }
-    
+
     private Administrador update(AdministradorDTO administradorDTO) {
         Administrador administrador = ar.findById(administradorDTO.id()).get();
         administrador.setNome(administradorDTO.nome());
@@ -60,41 +57,43 @@ public class AdministradorServiceImpl implements AdministradorService {
         administrador.setId(administradorDTO.id());
         return ar.save(administrador);
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public Map<String, Object> administradores(HttpServletRequest request) {
-        
+
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.ADMINISTRADOR);
         Page<?> page = datatables.getSearch().isEmpty() ? ar.findAll(datatables.getPageable())
                 : ar.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
-    
+
     @Override
     @Transactional(readOnly = false)
     public void delete(Long id) {
         Optional<Administrador> administrador = ar.findById(id);
         ar.delete(administrador.get());
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public AdministradorDTO buscarPorUsuarioId(Long id) {
         return am.toDTO(ar.findById(id).get());
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public AdministradorDTO buscarPorEmail(String email) {
         return am.toDTO(ar.findByAdministradorEmail(email).get());
     }
-    
+
     @Override
-    public Administrador checarDados(String email) {
-        Administrador administrador = ar.findByAdministradorEmail(email).orElse(new Administrador());
-        return administrador;
+    public AdministradorDTO checarDados(AdministradorDTO administradorDTO, String email) {
+        if (administradorDTO.id() != null) {
+            return am.toDTO(ar.findByAdministradorEmail(email).get());
+        }
+        return administradorDTO;
     }
 
     private void validar(AdministradorDTO a) {
@@ -102,7 +101,7 @@ public class AdministradorServiceImpl implements AdministradorService {
         if (administrador.isPresent() && !Objects.equals(administrador.get().getId(), a.id())) {
             throw new DataIntegrityViolationException("Administrador já cadastro no sistema!");
         }
-        
+
     }
-    
+
 }

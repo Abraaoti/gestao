@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.configs;
 
-import br.ind.cmil.gestao.enums.TipoPerfil;
+
+import br.ind.cmil.gestao.perfil.enums.TipoPerfil;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;

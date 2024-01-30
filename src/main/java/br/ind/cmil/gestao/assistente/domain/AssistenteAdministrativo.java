@@ -30,9 +30,9 @@ public class AssistenteAdministrativo extends Entidade {
 
     @Column(length = 80, unique = true)
     private String nome;
-    @JsonIgnore
-    @OneToMany(mappedBy = "assistente")
-    private List<Agendamento> agendamentos;
+   // @JsonIgnore
+   // @OneToMany(mappedBy = "assistente")
+   // private List<Agendamento> agendamentos;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "usuario_id")

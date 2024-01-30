@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.perfil.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
-import br.ind.cmil.gestao.perfil.convert.PerfilConverter;
+import br.ind.cmil.gestao.perfil.convert.PerfilConvert;
 import br.ind.cmil.gestao.perfil.enums.TipoPerfil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -20,7 +20,7 @@ public class Perfil extends Entidade {
 
 
     @Column(name = "perfil", nullable = false, unique = true)
-    @Convert(converter = PerfilConverter.class)
+    @Convert(converter = PerfilConvert.class)
     private TipoPerfil tp;
 
    // @ManyToMany(mappedBy = "perfis")

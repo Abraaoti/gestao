@@ -1,16 +1,21 @@
-
 package br.ind.cmil.gestao.assistente.service.impl;
 
 import br.ind.cmil.gestao.assistente.domain.AssistenteAdministrativo;
 import br.ind.cmil.gestao.assistente.mapper.AssistenteAdministrativoMapper;
+import br.ind.cmil.gestao.assistente.model.AssistenteAdministrativoDTO;
 import br.ind.cmil.gestao.assistente.repository.AssistenteAdministrativoRepository;
 import br.ind.cmil.gestao.assistente.service.AssistenteAdministrativoService;
 import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
+import br.ind.cmil.gestao.usuario.domain.Usuario;
+import br.ind.cmil.gestao.usuario.repository.UsuarioRepository;
+import br.ind.cmil.gestao.usuario.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +29,13 @@ public class AssistenteAdministrativoServiceImp implements AssistenteAdministrat
     private final AssistenteAdministrativoRepository ar;
     private final AssistenteAdministrativoMapper am;
     private final Datatables datatables;
+    private final UsuarioRepository usuarioService;
 
-    public AssistenteAdministrativoServiceImp(AssistenteAdministrativoRepository ar, AssistenteAdministrativoMapper am, Datatables datatables) {
+    public AssistenteAdministrativoServiceImp(AssistenteAdministrativoRepository ar, AssistenteAdministrativoMapper am, Datatables datatables, UsuarioRepository usuarioService) {
         this.ar = ar;
         this.am = am;
         this.datatables = datatables;
+        this.usuarioService = usuarioService;
     }
 
     @Override
@@ -37,11 +44,14 @@ public class AssistenteAdministrativoServiceImp implements AssistenteAdministrat
     }
 
     @Override
-    public void create(AssistenteAdministrativo a) {
-        if (a.getId() == null) {
-            ar.save(a);
+    public void create(AssistenteAdministrativoDTO a) {
+        AssistenteAdministrativo assistente = am.toEntity(a);
+        if (assistente.getId() == null) {
+            Usuario usuario = usuarioService.findById(a.usuario()).get();
+            assistente.setUsuario(usuario);
+            ar.save(assistente);
         }
-        update(a);
+
     }
 
     private AssistenteAdministrativo update(AssistenteAdministrativo a) {
@@ -65,10 +75,12 @@ public class AssistenteAdministrativoServiceImp implements AssistenteAdministrat
         ar.delete(assisnte.get());
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public AssistenteAdministrativo buscarPorEmail(String email) {
-        return ar.findByUsuarioNomeOrEmail(email, email).orElse(new AssistenteAdministrativo());
+    public AssistenteAdministrativoDTO buscarPorEmail(AssistenteAdministrativoDTO assistenteAdministrativoDTO, @AuthenticationPrincipal User user) {
+
+        return (assistenteAdministrativoDTO.id() != null) ? am.toDTO(ar.findByUsuarioNomeOrEmail(user.getUsername(), user.getUsername()).get()) : assistenteAdministrativoDTO;
+
     }
 
 }
-

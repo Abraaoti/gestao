@@ -53,11 +53,11 @@ public class TestConfig {
         this.dbService.instanciaBaseFuncionarios();
 
     }
-    @Bean
+    /**@Bean
     public void instaciaBaseDeFrequenciass() {
         this.dbService.instanciaBaseDeFrequencia();
 
-    }
+    }**/
   
    
 }

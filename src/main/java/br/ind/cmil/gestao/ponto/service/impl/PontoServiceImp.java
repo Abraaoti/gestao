@@ -8,11 +8,13 @@ import br.ind.cmil.gestao.ponto.service.PontoService;
 import br.ind.cmil.gestao.util.NotFoundException;
 import java.util.List;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ti
  */
+@Service
 public class PontoServiceImp implements PontoService {
 
     private final PontoRepository pontoRepository;

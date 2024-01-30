@@ -1,7 +1,7 @@
 
 package br.ind.cmil.gestao.usuario.service;
 
-import br.ind.cmil.gestao.enums.TipoPerfil;
+import br.ind.cmil.gestao.perfil.enums.TipoPerfil;
 import br.ind.cmil.gestao.usuario.domain.Usuario;
 import br.ind.cmil.gestao.usuario.model.CadastroExternoDTO;
 import br.ind.cmil.gestao.usuario.model.UsuarioRequest;

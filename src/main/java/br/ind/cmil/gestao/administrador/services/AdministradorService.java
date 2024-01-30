@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.administrador.services;
 
-import br.ind.cmil.gestao.administrador.domain.Administrador;
 import br.ind.cmil.gestao.administrador.model.AdministradorDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.Map;
  */
 public interface AdministradorService {
 
-    Administrador checarDados(String nome);
+    AdministradorDTO checarDados(AdministradorDTO administradorDTO, String nome);
 
     void salvar(AdministradorDTO a);
 

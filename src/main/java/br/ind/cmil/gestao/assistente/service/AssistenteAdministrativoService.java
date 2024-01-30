@@ -1,8 +1,11 @@
 package br.ind.cmil.gestao.assistente.service;
 
 import br.ind.cmil.gestao.assistente.domain.AssistenteAdministrativo;
+import br.ind.cmil.gestao.assistente.model.AssistenteAdministrativoDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -11,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface AssistenteAdministrativoService {
 
-    @Transactional(readOnly = false)
-    void create(AssistenteAdministrativo a);
+  
+    void create(AssistenteAdministrativoDTO a);
 
     @Transactional(readOnly = true)
     Map<String, Object> assistentes(HttpServletRequest request);
@@ -23,6 +26,6 @@ public interface AssistenteAdministrativoService {
     @Transactional(readOnly = true)
     AssistenteAdministrativo buscarPorUsuarioId(Long id);
 
-    @Transactional(readOnly = true)
-    AssistenteAdministrativo buscarPorEmail(String email);
+    
+    AssistenteAdministrativoDTO buscarPorEmail(AssistenteAdministrativoDTO assistenteAdministrativoDTO,@AuthenticationPrincipal User email);
 }

@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.convert;
 
-import br.ind.cmil.gestao.enums.TipoPerfil;
+
 import br.ind.cmil.gestao.enums.TokenType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

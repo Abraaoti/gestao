@@ -6,10 +6,8 @@ import br.ind.cmil.gestao.centro.model.CentroCustoDTO;
 import br.ind.cmil.gestao.centro.service.CentroCustoService;
 import br.ind.cmil.gestao.departamento.model.DepartamentoDTO;
 import br.ind.cmil.gestao.departamento.service.DepartamentoService;
-import br.ind.cmil.gestao.frequencia.service.FrequenciaService;
 import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
 import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
-import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import br.ind.cmil.gestao.perfil.model.PerfilDTO;
 import br.ind.cmil.gestao.perfil.service.PerfilService;
 import jakarta.mail.MessagingException;
@@ -43,8 +41,7 @@ public class DBService {
     private PerfilService ps;
     @Autowired
     private UsuarioService us;
-    @Autowired
-    private FrequenciaService frequenciaService;
+  
 
     public void instanciaBaseDePerfis() {
         List<String> perfis = new ArrayList<>();
@@ -188,19 +185,6 @@ public class DBService {
         funcionarios.add(joao);
         for (FuncionarioDTO funcionario : funcionarios) {
             funcionarioService.salvar(funcionario);
-        }
-
-    }
-
-    public void instanciaBaseDeFrequencia() {
-        List<String> frequencias = new ArrayList<>();
-        frequencias.add("atestado");
-        frequencias.add("falta");
-        frequencias.add("inss");
-        frequencias.add("presente");
-        frequencias.add("treinamento");
-        for (int i = 0; i < frequencias.size(); i++) {
-            frequenciaService.salvar(new FrequenciaDTO(null, frequencias.get(i)));
         }
 
     }

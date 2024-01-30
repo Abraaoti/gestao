@@ -1,8 +1,8 @@
 package br.ind.cmil.gestao.usuario.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
-import br.ind.cmil.gestao.enums.TipoPerfil;
 import br.ind.cmil.gestao.perfil.domain.Perfil;
+import br.ind.cmil.gestao.perfil.enums.TipoPerfil;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

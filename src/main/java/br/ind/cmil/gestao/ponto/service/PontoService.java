@@ -13,6 +13,8 @@ public interface PontoService {
 
     PontoDTO buscarPorId(final Long id);
 
+    PontoDTO abrirForm(final Long funcionarioId, final PontoDTO pontoDTO);
+
     Long create(final PontoDTO pontoDTO);
 
     void update(final Long id, final PontoDTO pontoDTO);

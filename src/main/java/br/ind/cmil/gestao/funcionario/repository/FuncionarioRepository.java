@@ -1,18 +1,13 @@
 package br.ind.cmil.gestao.funcionario.repository;
 
-
-import br.ind.cmil.gestao.cargo.domain.Cargo;
-import br.ind.cmil.gestao.centro.domain.CentroCusto;
-import br.ind.cmil.gestao.departamento.domain.Departamento;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
-import br.ind.cmil.gestao.repositorys.projections.HistoricoFuncionario;
+import br.ind.cmil.gestao.funcionario.repository.projections.FuncionarioBaseProjection;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -22,14 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
 
- 
     @Query(value = "SELECT distinct f FROM Funcionario f join  f.departamento as d join  f.centro as ce join  f.cargo as c",
             countQuery = "SELECT COUNT(obj) FROM Funcionario obj  where obj.nome like :search%")
     Page<Funcionario> searchAll(String search, Pageable pageable);
 
-    @Transactional(readOnly = true)
-    @Query("SELECT obj FROM Funcionario obj  where obj.nome like :search%")
-    Page<Funcionario> findByCargo(String search, Pageable pageable);
+    @Query(value = "SELECT distinct f FROM Funcionario f join  f.departamento as d join  f.centro as ce join  f.cargo as c where f.nome like :search%")
+    Page<FuncionarioBaseProjection> funcionarios(String search, Pageable pageable);
+
+   
 
     Optional<Funcionario> findByNome(String nome);
 
@@ -38,7 +33,9 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
     Optional<Funcionario> findByCpf(String cpf);
 
     Optional<Funcionario> findByRg(String rg);
-
+/** @Transactional(readOnly = true)
+    @Query("SELECT obj FROM Funcionario obj  where obj.nome like :search%")
+    Page<Funcionario> findByCargo(String search, Pageable pageable);
     Funcionario findFirstByDepartamento(Departamento departamento);
 
     Funcionario findFirstByCargo(Cargo cargo);
@@ -48,10 +45,9 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
     boolean existsByCpfIgnoreCase(String cpf);
 
     boolean existsByCltIgnoreCase(String clt);
-    
+
     @Query("select fum from Funcionario fum join fum.cargo c "
-		+ "where fum.cargo.nome like :nome%")	
-	Page<HistoricoFuncionario> findHistoricoByFuncionarioNome(String nome, Pageable pageable);
-
-
+            + "where fum.cargo.nome like :nome%")
+    Page<HistoricoFuncionario> findHistoricoByFuncionarioNome(String nome, Pageable pageable);
+*/
 }

@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.departamento.controlle;
 
 import br.ind.cmil.gestao.departamento.model.DepartamentoDTO;
@@ -33,9 +32,8 @@ public class DepartamentoControlle {
 
     private final DepartamentoService departamentoService;
 
-
     @GetMapping("/add")
-    public String form(@ModelAttribute("departamento")DepartamentoDTO departamento) {
+    public String form(@ModelAttribute("departamento") DepartamentoDTO departamento) {
         return "departamentos/departamento";
     }
 
@@ -59,13 +57,13 @@ public class DepartamentoControlle {
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("departamento.create.success"));
         return "redirect:/departamentos";
     }
-      @GetMapping("/editar/{id}")
+
+    @GetMapping("/editar/{id}")
     public String preEditar(Model model, @PathVariable("id") Long id) {
-       
+
         model.addAttribute("departamento", departamentoService.findById(id));
         return "departamentos/departamento";
     }
-
 
     @PostMapping("/update")
     public String editar(@ModelAttribute("departamento") @Valid final DepartamentoDTO departamentoDTO,
@@ -81,18 +79,12 @@ public class DepartamentoControlle {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable(name = "id") final Long id,
             final RedirectAttributes redirectAttributes) {
-        final String referencedWarning = departamentoService.getReferencedWarning(id);
-        if (referencedWarning != null) {
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR, referencedWarning);
-        } else {
-            departamentoService.delete(id);
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("departamento.delete.success"));
-        }
+
+        departamentoService.delete(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("departamento.delete.success"));
+
         return "redirect:/departamentos";
     }
-    
-   
-   
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> departamentos(HttpServletRequest request) {

@@ -2,10 +2,16 @@ package br.ind.cmil.gestao.ponto.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -15,18 +21,29 @@ import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "tbl_pontos")
+public class Ponto extends Entidade {
 
-public class Ponto  extends Entidade {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime entradaManha;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime saidaManha;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime entradaTarde;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime saidaTarde;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime entradaExtra;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime saidaExtra;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime entradaNoite;
+    @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime saidaNoite;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "funcionario_id", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Funcionario funcionario;
 
     public Ponto() {
@@ -130,5 +147,4 @@ public class Ponto  extends Entidade {
         return sb.toString();
     }
 
-   
 }

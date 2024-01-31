@@ -57,18 +57,18 @@ public class EnderecoController {
     @PostMapping("/add")
     public String salvar(@ModelAttribute("endereco") EnderecoDTO enderecoDTO, RedirectAttributes redir, Model model) {
 
-        Long pessoa = enderecoService.salvar(enderecoDTO);
+        enderecoDTO = enderecoService.salvar(enderecoDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("endereco.create.success"));
-        return "redirect:/enderecos/add/" + pessoa;
+        return "redirect:/enderecos/add/" + enderecoDTO.id();
 
     }
 
     @PostMapping("/editar")
     public String atualizar(@ModelAttribute("endereco") EnderecoDTO enderecoDTO, RedirectAttributes redir, Model model) {
-        Long pessoa = enderecoService.salvar(enderecoDTO);
+        enderecoDTO = enderecoService.salvar(enderecoDTO);
 
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("endereco.create.success"));
-        return "redirect:/enderecos/add/" + pessoa;
+        return "redirect:/enderecos/add/" + enderecoDTO.id();
 
     }
 

@@ -8,7 +8,7 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
         },
         ajax: {
             url: '/telefones/datatables/server',

@@ -1,6 +1,4 @@
-
 package br.ind.cmil.gestao.funcionario.domain;
-
 
 import br.ind.cmil.gestao.cargo.domain.Cargo;
 import br.ind.cmil.gestao.centro.domain.CentroCusto;
@@ -9,6 +7,7 @@ import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
 import br.ind.cmil.gestao.pessoa.domain.PessoaFisica;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -28,27 +27,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Funcionario extends PessoaFisica {
 
     private String clt;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate admissao;
-
     @ManyToOne
-    @JoinColumn(name = "departamento_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "departamento_id", referencedColumnName = "id")
     private Departamento departamento;
     @ManyToOne
-    @JoinColumn(name = "cargo_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "cargo_id", referencedColumnName = "id")
     private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate demissao;
-   
     @ManyToOne
-    @JoinColumn(name = "centro_custo_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "centro_custo_id", referencedColumnName = "id")
     private CentroCusto centro;
-   // @JsonBackReference
-   // @JsonIgnore
-   // @JsonManagedReference
-   // @ManyToMany(mappedBy = "funcionarios")   
-    //private Set<Frequencia> frequencias  ;
 
     public Funcionario() {
     }
@@ -80,18 +71,15 @@ public class Funcionario extends PessoaFisica {
         this.centro = centro;
     }
 
-  
-/**
-    public void addFrequencia(Frequencia frequencia) {
-        this.frequencias.add(frequencia);
-        frequencia.getFuncionarios().add(this);
-    }
-
-    public void removeFrequencia(Frequencia frequencia) {
-        this.frequencias.remove(frequencia);
-        frequencia.getFuncionarios().remove(this);
-    }**/
-
+    /**
+     * public void addFrequencia(Frequencia frequencia) {
+     * this.frequencias.add(frequencia); frequencia.getFuncionarios().add(this);
+     * }
+     *
+     * public void removeFrequencia(Frequencia frequencia) {
+     * this.frequencias.remove(frequencia);
+     * frequencia.getFuncionarios().remove(this); }*
+     */
     public String getClt() {
         return clt;
     }
@@ -132,7 +120,6 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
     }
 
-  
     public CentroCusto getCentro() {
         return centro;
     }
@@ -140,7 +127,6 @@ public class Funcionario extends PessoaFisica {
     public void setCentro(CentroCusto centro) {
         this.centro = centro;
     }
-
 
     @Override
     public String toString() {
@@ -152,11 +138,9 @@ public class Funcionario extends PessoaFisica {
         sb.append(", cargo=").append(cargo);
         sb.append(", demissao=").append(demissao);
         sb.append(", centro=").append(centro);
-     
+
         sb.append('}');
         return sb.toString();
     }
 
-
 }
-

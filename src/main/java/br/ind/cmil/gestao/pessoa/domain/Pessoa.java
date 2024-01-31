@@ -43,10 +43,7 @@ public class Pessoa implements Serializable {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate nascimento;
-    @OneToMany(mappedBy = "pessoa", fetch = FetchType.LAZY)
-    @JsonIgnore
-    protected Set<Telefone> telefones;
-
+  
     public Pessoa() {
 
     }
@@ -113,13 +110,6 @@ public class Pessoa implements Serializable {
 
   
 
-    public Set<Telefone> getTelefones() {
-        return telefones;
-    }
-
-    public void setTelefones(Set<Telefone> telefones) {
-        this.telefones = telefones;
-    }
 
     /*
     public Endereco getEndereco() {

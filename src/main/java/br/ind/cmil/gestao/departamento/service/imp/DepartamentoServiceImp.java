@@ -34,16 +34,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class DepartamentoServiceImp implements DepartamentoService {
 
     private final DepartamentoRepository departamentoRepository;
-    private final FuncionarioRepository funcionarioRepository;
     private final DepartamentoMapper departamentoMapper;
     private final Datatables datatables;
 
-    public DepartamentoServiceImp(DepartamentoRepository departamentoRepository, FuncionarioRepository funcionarioRepository, DepartamentoMapper departamentoMapper, Datatables datatables) {
+    public DepartamentoServiceImp(DepartamentoRepository departamentoRepository, DepartamentoMapper departamentoMapper, Datatables datatables) {
         this.departamentoRepository = departamentoRepository;
-        this.funcionarioRepository = funcionarioRepository;
         this.departamentoMapper = departamentoMapper;
         this.datatables = datatables;
     }
+
+  
 
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
@@ -124,16 +124,7 @@ public class DepartamentoServiceImp implements DepartamentoService {
 
     }
 
-    @Override
-    public String getReferencedWarning(Long id) {
-        final Departamento departamento = departamentoRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
-        final Funcionario departamentoFuncionario = funcionarioRepository.findFirstByDepartamento(departamento);
-        if (departamentoFuncionario != null) {
-            return WebUtils.getMessage("departamento.funcionario.departamento.referenced", departamentoFuncionario.getId());
-        }
-        return null;
-    }
+   
 
 }
 

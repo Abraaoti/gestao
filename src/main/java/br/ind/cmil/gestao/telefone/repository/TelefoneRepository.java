@@ -1,9 +1,9 @@
-
 package br.ind.cmil.gestao.telefone.repository;
 
 import br.ind.cmil.gestao.enums.TipoTelefone;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.telefone.domain.Telefone;
+import br.ind.cmil.gestao.telefone.projections.TelefoneProjecyion;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -51,8 +51,11 @@ public interface TelefoneRepository extends JpaRepository<Telefone, Long> {
             countQuery = "SELECT COUNT(obj) FROM Telefone obj  JOIN obj.pessoa")
     Page<Telefone> searchAll(Pageable pageable);
 
-    @Query(value = "SELECT obj FROM Telefone obj JOIN FETCH  obj.pessoa p where  obj.tipo like :tipo%")
+    @Query(value = "SELECT obj FROM Telefone obj left join  obj.pessoa p where  obj.tipo like :tipo%")
     Page<Telefone> findAllByTelefone(TipoTelefone tipo, Pageable pageable);
+
+    @Query(value = "SELECT t.id as id, t.numero as numero, t.tipo as tipo, t.pessoa.nome as nome FROM Telefone t  where  t.tipo like :tipo%")
+    Page<TelefoneProjecyion> telefones(TipoTelefone tipo, Pageable pageable);
 
     Telefone findFirstByPessoa(Funcionario funcionario);
 

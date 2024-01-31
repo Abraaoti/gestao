@@ -17,12 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CargoRepository extends JpaRepository<Cargo, Long> {
 
-    @Query("SELECT c FROM Cargo c ")
-    List<Cargo> searchAll();
-
-    @Query("SELECT c FROM Cargo c  ")
-    Page<Cargo> searchAll(Pageable pageable);
-
     @Query("SELECT c FROM Cargo c  where c.nome like :search%")
     Page<Cargo> searchAll(String search, Pageable pageable);
 

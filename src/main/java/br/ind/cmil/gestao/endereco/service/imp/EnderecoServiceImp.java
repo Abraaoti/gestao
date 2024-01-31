@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.endereco.service.imp;
 
 import br.ind.cmil.gestao.datatables.Datatables;
@@ -22,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  *
  * @author ti
@@ -33,7 +31,7 @@ public class EnderecoServiceImp implements EnderecoService {
     private final EnderecoRepository enderecoRepository;
     private final EnderecoMapper enderecoMapper;
     private final FuncionarioRepository funcionarioService;
-     private final Datatables datatables;
+    private final Datatables datatables;
 
     public EnderecoServiceImp(EnderecoRepository enderecoRepository, EnderecoMapper enderecoMapper, FuncionarioRepository funcionarioService, Datatables datatables) {
         this.enderecoRepository = enderecoRepository;
@@ -50,21 +48,22 @@ public class EnderecoServiceImp implements EnderecoService {
 
     @Override
     @Transactional(readOnly = false)
-    public Long salvar(EnderecoDTO enderecoDTO) {
-        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);      
-    
+    public EnderecoDTO salvar(EnderecoDTO enderecoDTO) {
+        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
+
         validarAtributos(endereco);
 
         if (enderecoDTO.id() == null) {
-             Pessoa pessoa = funcionarioService.findByNome(enderecoDTO.pessoa()).get();
-        endereco.setPessoa(pessoa);
-           return enderecoRepository.save(endereco).getId();
+            Pessoa pessoa = funcionarioService.findByNome(enderecoDTO.pessoa()).get();
+            endereco.setPessoa(pessoa);
+            return enderecoMapper.toDTO(enderecoRepository.save(endereco));
 
         }
-       return update(enderecoDTO).id();
+        return update(enderecoDTO);
 
     }
- @Transactional(readOnly = false)
+
+    @Transactional(readOnly = false)
     public EnderecoDTO update(EnderecoDTO endereco) {
 
         return enderecoRepository.findById(endereco.id())
@@ -79,11 +78,15 @@ public class EnderecoServiceImp implements EnderecoService {
 
     @Transactional(readOnly = true)
     @Override
-    public EnderecoDTO criar(Long pessoa_id, EnderecoDTO endereco) {
-        Pessoa pessoa = funcionarioService.findById(pessoa_id).get();
-        return new EnderecoDTO(endereco.id(), endereco.uf(), endereco.cidade(), endereco.bairro(), endereco.rua(), endereco.cep(), endereco.numero(), endereco.complemento(), pessoa.getNome());
+    public EnderecoDTO criar(Long pessoa_id, EnderecoDTO enderecoDTO) {   
+
+        if (enderecoDTO.id() == null) {
+            Pessoa pessoa = funcionarioService.findById(pessoa_id).get();
+            return new EnderecoDTO(enderecoDTO.id(), enderecoDTO.uf(), enderecoDTO.cidade(), enderecoDTO.bairro(), enderecoDTO.rua(), enderecoDTO.cep(), enderecoDTO.numero(), enderecoDTO.complemento(), pessoa.getNome());
+        }
+        return enderecoMapper.toDTO(enderecoRepository.findByPessoa(pessoa_id).get());
     }
-    
+
     private void validarAtributos(Endereco request) {
         Optional<Endereco> endereco = enderecoRepository.findByCep(request.getCep());
         if (endereco.isPresent() && !Objects.equals(endereco.get().getId(), request.getId()) && !Objects.equals(endereco.get().getPessoa().getId(), request.getPessoa().getId())) {
@@ -107,8 +110,7 @@ public class EnderecoServiceImp implements EnderecoService {
         enderecoRepository.deleteById(id);
     }
 
-   
-     @Override
+    @Override
     @Transactional(readOnly = true)
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);

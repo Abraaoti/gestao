@@ -19,7 +19,7 @@ public interface EnderecoService {
 
     EnderecoDTO criar(Long pessoa_id, EnderecoDTO endereco);
 
-    Long salvar(EnderecoDTO enderecoDTO);
+    EnderecoDTO salvar(EnderecoDTO enderecoDTO);
 
     void delete(Long id);
 

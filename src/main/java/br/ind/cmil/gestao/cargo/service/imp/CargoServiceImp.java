@@ -50,8 +50,7 @@ public class CargoServiceImp implements CargoService {
     @Override
     @Transactional(readOnly = true)
     public List<Cargo> lista() {
-
-        return cr.searchAll().stream().collect(Collectors.toList());
+        return cr.findAll(Sort.by("id")).stream().collect(Collectors.toList());
     }
 
     @Override

@@ -13,96 +13,106 @@
                 </div>
             </div>     
 
-            <div class="row">
-                <form th:action="@{/u/salvar}" th:object="${usuario}"  method="POST" class="was-validated col s12">
-                    <div class="row">
-                        <div class="text-center mb-4">
+
+            <form th:action="@{/u/salvar}" th:object="${usuario}"  method="POST" class="was-validated">
+                <div class="row">
+                    <div class="text-center mb-4">
 
 
-                            <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
-                                 role="alert">
-                                <h4 th:text="${titulo}" class="alert-heading">Credenciais...</h4>
-                                <p th:text="${texto}">Login ou senha incorretos...</p>
-                                <hr>
-                                <p class="mb-0"><small th:text="${subtexto}">Acesso permitido...</small></p>
-                            </div>
+                        <div th:if="${alerta != null}" th:class="${alerta == 'erro'} ? 'alert alert-danger' : 'alert alert-success'"
+                             role="alert">
+                            <h4 th:text="${titulo}" class="alert-heading">Credenciais...</h4>
+                            <p th:text="${texto}">Login ou senha incorretos...</p>
+                            <hr>
+                            <p class="mb-0"><small th:text="${subtexto}">Acesso permitido...</small></p>
                         </div>
+                    </div>
 
-                        <div th:if="${#fields.hasAnyErrors()}">	
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <div th:each="error : ${#fields.detailedErrors()}">
-                                    <i class="oi oi-warning"></i>
-                                    <span th:text="${error.message}"></span>
-                                </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                    <div th:if="${#fields.hasAnyErrors()}">	
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div th:each="error : ${#fields.detailedErrors()}">
+                                <i class="oi oi-warning"></i>
+                                <span th:text="${error.message}"></span>
                             </div>
-                        </div>	
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     </div>	
-                    <div class="row">
-                        <div class="input-field col s4">
-                            <input type="text" id="nome"  placeholder="antony"  th:field="*{nome}" required autofocus />
+                </div>	
+                <div class="row g-3">
+                    <div class="col-sm-4">                        
+                        <div class="form-floating mb-3"> 
+                            <input type="text" id="nome"  class="form-control"  th:field="*{nome}" required autofocus />
                             <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-danger" />
                             <label for="nome">NOME </label>
                         </div>
-                        <div class="input-field col s5">
-                            <input type="email" id="email"  placeholder="e-mail" th:field="*{email}" required autofocus />
+                    </div>
+
+                    <div class="col-sm-4">                        
+                        <div class="form-floating mb-3"> 
+                            <input type="email" id="email"  class="form-control" th:field="*{email}" required autofocus />
                             <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"/>
                             <label for="email">E-mail </label>
                         </div>
+                    </div>
 
 
 
 
-                        <div class="input-field col s3">
+
+                    <div class="col-sm-4">                        
+                        <div class="form-floating mb-3"> 
 
                             <input type="password"  id="password" maxlength="6"
-                                   th:field="*{password}" placeholder="Insira sua senha de acesso" required />
+                                   th:field="*{password}" class="form-control" required />
                             <label for="password">Senha</label> 
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <p th:each="perfis : ${perfis}">
-                                <label>
-                                    <input type="checkbox" th:field="*{perfis}" id="perfis" th:value="${perfis}"  checked /> 
-                                   
-                                    <span  th:text="${perfis}">perfil</span>
-                                </label>
+                <div class="row g-2">
+                    <div class="col-sm">                        
 
-                            </p>
-                        </div>
+                        <label>Perfil</label>
+                        <p th:each="perfis : ${perfis}" class="form-check">
+                            <input type="checkbox" th:field="*{perfis}" id="perfis" th:value="${perfis}"  class="form-check-input" checked /> 
 
+                            <span  th:text="${perfis}">perfil</span>
 
-                        <div class="input-field custom-switch col s6">
-
-                            <input type="checkbox" class="custom-control-input" th:field="*{ativo}" id="ativo" th:if="${ativo == true ? 'checked=checked' : ''}" />
-                            <label class="custom-control-label" for="ativo">Cadastro Ativo</label>
-                        </div>
+                        </p>
                     </div>
 
-                    <input type="hidden" th:field="*{id}"/>
-                    <div class="row">
 
-                        <input class="waves-effect waves-light btn-small col s2 offset-s10" type="submit"  value="Salvar"/>
 
+                    <div class="col-sm">                     
+
+
+                        <input type="checkbox" class="custom-control-input" th:field="*{ativo}" id="ativo" th:if="${ativo == true ? 'checked=checked' : ''}" />
+                        <label class="custom-control-label" for="ativo">Cadastro Ativo</label>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <input type="hidden" th:field="*{id}"/>
+                <div class="row">
+
+                    <input class="waves-effect waves-light btn-small col s2 offset-s10" type="submit"  value="Salvar"/>
+
+                </div>
+            </form>
         </div>
+    </div>
 
-        <script	th:src="~{}" th:fragment="js"></script>
-        <script th:inline="javascript" th:fragment="inlinescript">
+    <script	th:src="~{}" th:fragment="js"></script>
+    <script th:inline="javascript" th:fragment="inlinescript">
 
-            $('#perfis').ready(function(){
-            var perfis = [[${usuario.perfis}]];
-            $.each(perfis, function(k, v) {
-            $('#perfis option[value="' + v.id + '"]').attr('selected', 'selected');
-            })
-            });
-        </script>
+        $('#perfis').ready(function(){
+        var perfis = [[${usuario.perfis}]];
+        $.each(perfis, function(k, v) {
+        $('#perfis option[value="' + v.id + '"]').attr('selected', 'selected');
+        })
+        });
+    </script>
 
-    </body>
+</body>
 </html>

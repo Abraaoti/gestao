@@ -11,25 +11,25 @@
                     <a th:href="@{/departamento}" class="btn btn-secondary">[[#{departamento.add.back}]]</a>
                 </div>
             </div>
-            <div class="row">
-                
-          
+
             <form th:action="${departamento.id == null} ? @{/departamentos/add} : @{/departamentos/editar}"
-                  th:object="${departamento}"	method="POST" class="was-validated col s12">
-                
-           <div class="row">
-        <div class="input-field col s6">
-            <input type="text"  th:field="*{nome}" id="nome"  required class="validate">
-            <label for="nome">Nome</label>
-            <span class="invalid-feedback" data-error="wrong" data-success="right"/>
-          </div>
-      
- <input type="submit" class="btn btn-primary mb-3" value="Salvar"/>
-             </div>      
-              
+                  th:object="${departamento}"	method="POST" class="was-validated ">
+
+                <div class="row g-1">
+                    <div class="col-sm">                        
+                        <div class="form-floating mb-3">  
+                            <input type="text"  th:field="*{nome}" id="nome"  required class="form-control">
+                            <label for="nome">Nome</label>
+                            <span class="invalid-feedback" data-error="wrong" data-success="right"/>
+                        </div>
+                    </div>
+
+                </div>      
+                    <input type="submit" class="btn btn-primary mb-3" value="Salvar"/>
+
             </form>
-  </div>
-       
+
+
 
             <h2>Lista de Departamentos</h2>
 
@@ -44,7 +44,7 @@
                 </thead>
             </table>
         </div>
- 
+
 
         <script th:src="@{/js/departamentos.js}" th:fragment="js"></script>
         <script th:inline="javascript" th:fragment="inlinescript"></script>

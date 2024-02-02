@@ -15,16 +15,17 @@
                 </div>
             </div>
             <form th:action="${centroCusto.id == null} ? @{/centroCusto/salvar} : @{/centroCusto/editar}"  th:object="${centroCusto}" method="POST" class="was-validated">
-                <div class="form-group row">
+                <div class="row g-2">
+                    <div class="col-sm">                        
+                        <div class="form-floating mb-3"> 
 
-                    <label for="nome" class="col-sm-2 col-form-label">nome </label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control"   th:field="*{nome}" id="nome"  required/>
-                        <div class="invalid-feedback">nome  é requerido.</div>
+                            <input type="text" class="form-control"   th:field="*{nome}" id="nome"  required/>
+                            <label for="nome">nome </label>
+                            <div class="invalid-feedback">nome  é requerido.</div>
+                        </div>
                     </div>
                     <input type="hidden" name="id" th:field="*{id}">
                     <div class="form-group">
-
                         <input type="submit" class="btn btn-primary mb-3" value="Salvar"/>
                     </div>
                 </div>

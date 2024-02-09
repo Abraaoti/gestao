@@ -18,9 +18,8 @@
                   th:object="${endereco}" method="POST" class="was-validated col s12" id="registrar">
 
                 <div class="row g-2">
-                    <div class="col-md">
+                    <div class="col-sm-3">
                         <div class="form-floating">
-
                             <input type="text" class="form-control" th:field="*{pessoa}" id="pessoa"  readonly  th:text="${pessoa}"  required />
                             <span th:if="${#fields.hasErrors('pessoa')}" th:errors="*{pessoa}" class="text-danger" />
                             <label for="cep">NOME </label>
@@ -28,17 +27,15 @@
                     </div>
 
 
-                    <div class="col-md">
+                    <div class="col-sm-3">
                         <div class="form-floating">
                             <input type="text" class="form-control" th:field="*{cep}" id="cep" placeholder="digite o seu cep" required />
                             <span th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}" class="text-danger" />
                             <label for="cep">CEP </label>
                         </div>
                     </div>		
-                </div>		
-
-                <div class="row g-2">
-                    <div class="col-md">
+               
+                    <div class="col-sm-3">
                         <div class="form-floating">
                             <input type="text" class="form-control" placeholder="es" th:field="*{uf}" id="uf" required/>
                             <span th:if="${#fields.hasErrors('uf')}" th:errors="*{uf}" class="text-danger"/>
@@ -47,7 +44,7 @@
                     </div>
 
 
-                    <div class="col-md">
+                    <div class="col-sm-3">
                         <div class="form-floating">
                             <input type="text" class="form-control" placeholder="serra" th:field="*{cidade}" id="cidade" required />
                             <span th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}" class="text-danger"/>

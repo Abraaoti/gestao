@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -31,7 +32,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author ti
  */
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -73,14 +75,11 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/u/cadastrar").permitAll()
-                .requestMatchers(HttpMethod.GET, "/u/novo/cadastro").permitAll()
-                .requestMatchers(HttpMethod.GET, "/u/cadastro/realizado").permitAll()
-                .requestMatchers(HttpMethod.GET, "/u/confirmacao/cadastro").permitAll()
-                //.requestMatchers(new AntPathRequestMatcher("/webjars/**", "/css/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                .requestMatchers(HttpMethod.POST, "/login", "/u/cadastrar").permitAll()
+                .requestMatchers(HttpMethod.GET, "/u/novo/cadastro", "/u/cadastro/realizado", "/u/confirmacao/cadastro").permitAll()
+                //.requestMatchers(new AntPathRequestMatcher("/webjars/**", "/css/**")).permitAll()
+                .requestMatchers(HttpMethod.GET,"/h2-console/**").permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/authenticate")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/u/editar/senha", "/u/confirmar/senha")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/empresa/avaliar/**")).permitAll()

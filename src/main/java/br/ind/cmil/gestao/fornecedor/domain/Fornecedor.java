@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.fornecedor.domain;
 
 import br.ind.cmil.gestao.domain.Produto;
-import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
+import br.ind.cmil.gestao.empresa.domain.PessoaJuridica;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -22,4 +22,5 @@ public class Ocorrencia extends Entidade {
 
     @Column(length = 80, unique = true, nullable = false)
     private String nome;
+    private String descricao;
 }

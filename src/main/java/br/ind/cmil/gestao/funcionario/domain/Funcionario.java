@@ -3,16 +3,19 @@ package br.ind.cmil.gestao.funcionario.domain;
 import br.ind.cmil.gestao.cargo.domain.Cargo;
 import br.ind.cmil.gestao.centro.domain.CentroCusto;
 import br.ind.cmil.gestao.departamento.domain.Departamento;
+import br.ind.cmil.gestao.empresa.domain.PessoaJuridica;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
+import br.ind.cmil.gestao.jornada.domain.JornadaTrabalho;
 import br.ind.cmil.gestao.pessoa.domain.PessoaFisica;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -40,6 +43,13 @@ public class Funcionario extends PessoaFisica {
     @ManyToOne
     @JoinColumn(name = "centro_custo_id", referencedColumnName = "id")
     private CentroCusto centro;
+    @ManyToOne
+    private PessoaJuridica empresa;
+    @ManyToOne
+    private JornadaTrabalho jornadaTrabalho;
+    private BigDecimal tolerancia;
+    private LocalDateTime inicioJornada;
+    private LocalDateTime finalJornada;
 
     public Funcionario() {
     }
@@ -52,16 +62,21 @@ public class Funcionario extends PessoaFisica {
         super.setNome(nome);
     }
 
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, CentroCusto centro) {
+    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, CentroCusto centro, PessoaJuridica empresa, JornadaTrabalho jornadaTrabalho, BigDecimal tolerancia, LocalDateTime inicioJornada, LocalDateTime finalJornada) {
         this.clt = clt;
         this.admissao = admissao;
         this.departamento = departamento;
         this.cargo = cargo;
         this.demissao = demissao;
         this.centro = centro;
+        this.empresa = empresa;
+        this.jornadaTrabalho = jornadaTrabalho;
+        this.tolerancia = tolerancia;
+        this.inicioJornada = inicioJornada;
+        this.finalJornada = finalJornada;
     }
 
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, CentroCusto centro, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id, String nome, String sobrenome, LocalDate nascimento) {
+    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, CentroCusto centro, PessoaJuridica empresa, JornadaTrabalho jornadaTrabalho, BigDecimal tolerancia, LocalDateTime inicioJornada, LocalDateTime finalJornada, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id, String nome, String sobrenome, LocalDate nascimento) {
         super(cpf, rg, mae, pai, genero, estado_civil, naturalidade, id, nome, sobrenome, nascimento);
         this.clt = clt;
         this.admissao = admissao;
@@ -69,17 +84,13 @@ public class Funcionario extends PessoaFisica {
         this.cargo = cargo;
         this.demissao = demissao;
         this.centro = centro;
+        this.empresa = empresa;
+        this.jornadaTrabalho = jornadaTrabalho;
+        this.tolerancia = tolerancia;
+        this.inicioJornada = inicioJornada;
+        this.finalJornada = finalJornada;
     }
 
-    /**
-     * public void addFrequencia(Frequencia frequencia) {
-     * this.frequencias.add(frequencia); frequencia.getFuncionarios().add(this);
-     * }
-     *
-     * public void removeFrequencia(Frequencia frequencia) {
-     * this.frequencias.remove(frequencia);
-     * frequencia.getFuncionarios().remove(this); }*
-     */
     public String getClt() {
         return clt;
     }
@@ -128,6 +139,46 @@ public class Funcionario extends PessoaFisica {
         this.centro = centro;
     }
 
+    public PessoaJuridica getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(PessoaJuridica empresa) {
+        this.empresa = empresa;
+    }
+
+    public JornadaTrabalho getJornadaTrabalho() {
+        return jornadaTrabalho;
+    }
+
+    public void setJornadaTrabalho(JornadaTrabalho jornadaTrabalho) {
+        this.jornadaTrabalho = jornadaTrabalho;
+    }
+
+    public BigDecimal getTolerancia() {
+        return tolerancia;
+    }
+
+    public void setTolerancia(BigDecimal tolerancia) {
+        this.tolerancia = tolerancia;
+    }
+
+    public LocalDateTime getInicioJornada() {
+        return inicioJornada;
+    }
+
+    public void setInicioJornada(LocalDateTime inicioJornada) {
+        this.inicioJornada = inicioJornada;
+    }
+
+    public LocalDateTime getFinalJornada() {
+        return finalJornada;
+    }
+
+    public void setFinalJornada(LocalDateTime finalJornada) {
+        this.finalJornada = finalJornada;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -138,9 +189,15 @@ public class Funcionario extends PessoaFisica {
         sb.append(", cargo=").append(cargo);
         sb.append(", demissao=").append(demissao);
         sb.append(", centro=").append(centro);
-
+        sb.append(", empresa=").append(empresa);
+        sb.append(", jornadaTrabalho=").append(jornadaTrabalho);
+        sb.append(", tolerancia=").append(tolerancia);
+        sb.append(", inicioJornada=").append(inicioJornada);
+        sb.append(", finalJornada=").append(finalJornada);
         sb.append('}');
         return sb.toString();
     }
+
+   
 
 }

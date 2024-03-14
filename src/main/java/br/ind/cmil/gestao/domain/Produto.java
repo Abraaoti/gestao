@@ -18,9 +18,9 @@ import org.springframework.format.annotation.NumberFormat;
  */
 @SuppressWarnings("serial")
 
-@Entity
-@Table(name = "tbl_produtos")
-public class Produto extends Entidade {
+//@Entity
+//@Table(name = "tbl_produtos")
+public class Produto {//extends Entidade {
 
     @Column(length = 50)
     private String nome;

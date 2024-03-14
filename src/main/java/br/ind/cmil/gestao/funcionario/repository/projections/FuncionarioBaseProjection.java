@@ -1,9 +1,9 @@
 package br.ind.cmil.gestao.funcionario.repository.projections;
 
 import br.ind.cmil.gestao.cargo.domain.Cargo;
-import br.ind.cmil.gestao.centro.domain.CentroCusto;
 import br.ind.cmil.gestao.departamento.domain.Departamento;
-import java.util.List;
+import br.ind.cmil.gestao.pessoa.domain.PessoaFisica;
+import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 
 /**
  *
@@ -37,12 +37,14 @@ public interface FuncionarioBaseProjection {
 
     String getAdmissao();
 
+    PessoaFisica getPessoaFisica();
+
     Departamento getDepartamento();
 
     Cargo getCargo();
 
     String getDemissao();
 
-    CentroCusto getCentro();
+    PessoaJuridica getEmpresa();
 
 }

@@ -12,7 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DependenteRepository  extends JpaRepository<Dependente, Long> {
 
     Dependente findFirstByFuncionario(Funcionario funcionario);
-
-    boolean existsByNomeIgnoreCase(String nome);
     
 }

@@ -9,6 +9,7 @@ import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
+import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +23,8 @@ public class FuncionarioMapper {
     public FuncionarioDTO toDTO(Funcionario funcionario) {
         Long cargo = (funcionario.getCargo().getId() == null) ? null : funcionario.getCargo().getId();
         Long departamento = (funcionario.getDepartamento().getId() == null) ? null : funcionario.getDepartamento().getId();
-        Long centroCusto = (funcionario.getCentro().getId() == null) ? null : funcionario.getCentro().getId();
-
-        return new FuncionarioDTO(funcionario.getId(), funcionario.getNome(), funcionario.getSobrenome(), funcionario.getNascimento(), funcionario.getCpf(), funcionario.getRg(), funcionario.getMae(), funcionario.getPai(), funcionario.getClt(), funcionario.getGenero().getValue(), funcionario.getEstado_civil().getValue(), funcionario.getNaturalidade(), funcionario.getAdmissao(), funcionario.getDemissao(), cargo, departamento, centroCusto);
+        Long empresa = (funcionario.getEmpresa().getId() == null) ? null : funcionario.getEmpresa().getId();
+ return new FuncionarioDTO(funcionario.getId(), funcionario.getNome(), funcionario.getSobrenome(), funcionario.getNascimento(), funcionario.getCpf(), funcionario.getRg(), funcionario.getMae(), funcionario.getPai(), funcionario.getClt(), funcionario.getGenero().getValue(), funcionario.getEstado_civil().getValue(), funcionario.getNaturalidade(), funcionario.getAdmissao(), funcionario.getDemissao(), cargo, departamento, empresa);
 
     }
 
@@ -47,7 +47,7 @@ public class FuncionarioMapper {
         funcionario.setDemissao(dto.demissao());
         funcionario.setCargo(new Cargo(dto.cargo()));
         funcionario.setDepartamento(new Departamento(dto.departamento()));
-        funcionario.setCentro(new CentroCusto(dto.centro()));
+        funcionario.setEmpresa(new PessoaJuridica(dto.empresa()));
 
         return funcionario;
     }

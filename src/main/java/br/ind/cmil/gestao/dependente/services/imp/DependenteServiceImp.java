@@ -59,10 +59,7 @@ public class DependenteServiceImp implements DependenteService {
         dependenteRepository.deleteById(id);
     }
 
-    @Override
-    public boolean nomeExists(final String nome) {
-        return dependenteRepository.existsByNomeIgnoreCase(nome);
-    }
+  
 
     private void validar(DependenteDTO dependenteDTO) {
     }

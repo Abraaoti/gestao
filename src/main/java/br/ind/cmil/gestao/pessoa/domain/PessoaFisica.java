@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.pessoa.domain;
 
 import br.ind.cmil.gestao.enums.EstadoCivil;
@@ -20,7 +19,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tbl_pessoa_fisicas")
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "pessoaId")
 public class PessoaFisica extends Pessoa {
 
     @Column(name = "cpf", length = 15, unique = true)
@@ -49,9 +48,41 @@ public class PessoaFisica extends Pessoa {
 
     public PessoaFisica() {
     }
+    public PessoaFisica(Long id) {
+        super.setId(id);
+    }
 
+    public PessoaFisica(String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade) {
+        this.cpf = cpf;
+        this.rg = rg;
+        this.mae = mae;
+        this.pai = pai;
+        this.genero = genero;
+        this.estado_civil = estado_civil;
+        this.naturalidade = naturalidade;
+    }
 
-   
+    public PessoaFisica(String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id) {
+        super(id);
+        this.cpf = cpf;
+        this.rg = rg;
+        this.mae = mae;
+        this.pai = pai;
+        this.genero = genero;
+        this.estado_civil = estado_civil;
+        this.naturalidade = naturalidade;
+    }
+
+    public PessoaFisica(String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome) {
+        super(nome);
+        this.cpf = cpf;
+        this.rg = rg;
+        this.mae = mae;
+        this.pai = pai;
+        this.genero = genero;
+        this.estado_civil = estado_civil;
+        this.naturalidade = naturalidade;
+    }
 
     public PessoaFisica(String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id, String nome, String sobrenome, LocalDate nascimento) {
         super(id, nome, sobrenome, nascimento);
@@ -63,10 +94,8 @@ public class PessoaFisica extends Pessoa {
         this.estado_civil = estado_civil;
         this.naturalidade = naturalidade;
     }
-
-   
-
-   
+    
+    
 
     public String getCpf() {
         return cpf;
@@ -100,8 +129,6 @@ public class PessoaFisica extends Pessoa {
         this.pai = pai;
     }
 
-  
-
     public Genero getGenero() {
         return genero;
     }
@@ -128,8 +155,19 @@ public class PessoaFisica extends Pessoa {
 
     @Override
     public String toString() {
-        return "PessoaFisica{" + "cpf=" + cpf + ", rg=" + rg + ", mae=" + mae + ", pai=" + pai  + ", genero=" + genero + ", estado_civil=" + estado_civil + ", naturalidade=" + naturalidade + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("PessoaFisica{");
+        sb.append("cpf=").append(cpf);
+        sb.append(", rg=").append(rg);
+        sb.append(", mae=").append(mae);
+        sb.append(", pai=").append(pai);
+        sb.append(", genero=").append(genero);
+        sb.append(", estado_civil=").append(estado_civil);
+        sb.append(", naturalidade=").append(naturalidade);
+        sb.append('}');
+        return sb.toString();
     }
 
-}
+   
 
+}

@@ -4,8 +4,8 @@ package br.ind.cmil.gestao.telefone.service.imp;
 import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.enums.TipoTelefone;
-import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import br.ind.cmil.gestao.pessoa.domain.Pessoa;
+import br.ind.cmil.gestao.pessoa.repository.PessoaRepository;
 import br.ind.cmil.gestao.telefone.domain.Telefone;
 import br.ind.cmil.gestao.telefone.mapper.TelefoneMapper;
 import br.ind.cmil.gestao.telefone.model.TelefoneDTO;
@@ -33,14 +33,16 @@ public class TelefoneServiceImp implements TelefoneService {
     private final TelefoneRepository tr;
     private final TelefoneMapper telefoneMapper;
     private final Datatables datatables;
-    private final FuncionarioRepository funcionarioService;
+    private final PessoaRepository pessoaService;
 
-    public TelefoneServiceImp(TelefoneRepository tr, TelefoneMapper telefoneMapper, Datatables datatables, FuncionarioRepository funcionarioService) {
+    public TelefoneServiceImp(TelefoneRepository tr, TelefoneMapper telefoneMapper, Datatables datatables, PessoaRepository pessoaService) {
         this.tr = tr;
         this.telefoneMapper = telefoneMapper;
         this.datatables = datatables;
-        this.funcionarioService = funcionarioService;
+        this.pessoaService = pessoaService;
     }
+
+   
 
     @Override
     @Transactional(readOnly = false)
@@ -49,7 +51,7 @@ public class TelefoneServiceImp implements TelefoneService {
         Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
         validarAtributos(telefone);
         if (telefoneDTO.id() == null) {
-            Pessoa pessoa = funcionarioService.findByNome(telefoneDTO.pessoa()).get();
+            Pessoa pessoa = pessoaService.findByNome(telefoneDTO.pessoa()).get();
             telefone.setPessoa(pessoa);
             return tr.save(telefone).getPessoa().getId();
         }
@@ -66,7 +68,7 @@ public class TelefoneServiceImp implements TelefoneService {
         Telefone upTelefone = dbTelefone.get();
         upTelefone.setNumero(telefoneDTO.numero());
         upTelefone.setTipo(TipoTelefone.convertTelefoneValue(telefoneDTO.tipo()));
-        Pessoa pessoa = funcionarioService.findByNome(telefoneDTO.pessoa()).get();
+        Pessoa pessoa = pessoaService.findByNome(telefoneDTO.pessoa()).get();
         upTelefone.setPessoa(pessoa);
         upTelefone.setId(telefoneDTO.id());
         Telefone telefone = tr.save(upTelefone);
@@ -108,7 +110,7 @@ public class TelefoneServiceImp implements TelefoneService {
 
     @Override
     public TelefoneDTO criar(Long pessoa_id, TelefoneDTO telefone) {
-        Pessoa pessoa = funcionarioService.findById(pessoa_id).get();
+        Pessoa pessoa = pessoaService.findById(pessoa_id).get();
         return new TelefoneDTO(telefone.id(), telefone.numero(), telefone.tipo(), pessoa.getNome());
     }
 

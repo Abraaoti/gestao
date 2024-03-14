@@ -89,10 +89,10 @@
 
                     <div class="col-sm-4">
                         <div class="form-floating">
-                            <select th:field="*{centro}" class="form-select" aria-label="Floating label select example">
-                                <option th:each="centro : ${centros}" th:value="${centro.id}" th:text="${centro.nome}" id="centro"/>
+                            <select th:field="*{empresa}" class="form-select" aria-label="Floating label select example">
+                                <option th:each="empresa : ${empresas}" th:value="${empresa.id}" th:text="${empresa.nome}" id="empresa"/>
                             </select> 
-                            <label for="centro">CENTRO de CUSTO</label>
+                            <label for="centro">EMPRESA</label>
                         </div>
                     </div>
 

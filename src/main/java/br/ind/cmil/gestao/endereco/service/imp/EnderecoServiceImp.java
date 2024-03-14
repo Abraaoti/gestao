@@ -9,6 +9,7 @@ import br.ind.cmil.gestao.endereco.repository.EnderecoRepository;
 import br.ind.cmil.gestao.endereco.service.EnderecoService;
 import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import br.ind.cmil.gestao.pessoa.domain.Pessoa;
+import br.ind.cmil.gestao.pessoa.repository.PessoaRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -30,15 +31,17 @@ public class EnderecoServiceImp implements EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
     private final EnderecoMapper enderecoMapper;
-    private final FuncionarioRepository funcionarioService;
+    private final PessoaRepository pessoaService;
     private final Datatables datatables;
 
-    public EnderecoServiceImp(EnderecoRepository enderecoRepository, EnderecoMapper enderecoMapper, FuncionarioRepository funcionarioService, Datatables datatables) {
+    public EnderecoServiceImp(EnderecoRepository enderecoRepository, EnderecoMapper enderecoMapper, PessoaRepository pessoaService, Datatables datatables) {
         this.enderecoRepository = enderecoRepository;
         this.enderecoMapper = enderecoMapper;
-        this.funcionarioService = funcionarioService;
+        this.pessoaService = pessoaService;
         this.datatables = datatables;
     }
+
+   
 
     @Override
     @Transactional(readOnly = true)
@@ -54,7 +57,7 @@ public class EnderecoServiceImp implements EnderecoService {
         validarAtributos(endereco);
 
         if (enderecoDTO.id() == null) {
-            Pessoa pessoa = funcionarioService.findByNome(enderecoDTO.pessoa()).get();
+            Pessoa pessoa = pessoaService.findByNome(enderecoDTO.pessoa()).get();
             endereco.setPessoa(pessoa);
             return enderecoMapper.toDTO(enderecoRepository.save(endereco));
 
@@ -81,7 +84,7 @@ public class EnderecoServiceImp implements EnderecoService {
     public EnderecoDTO criar(Long pessoa_id, EnderecoDTO enderecoDTO) {   
 
         if (enderecoDTO.id() == null) {
-            Pessoa pessoa = funcionarioService.findById(pessoa_id).get();
+            Pessoa pessoa = pessoaService.findById(pessoa_id).get();
             return new EnderecoDTO(enderecoDTO.id(), enderecoDTO.uf(), enderecoDTO.cidade(), enderecoDTO.bairro(), enderecoDTO.rua(), enderecoDTO.cep(), enderecoDTO.numero(), enderecoDTO.complemento(), pessoa.getNome());
         }
         return enderecoMapper.toDTO(enderecoRepository.findByPessoa(pessoa_id).get());
@@ -122,6 +125,6 @@ public class EnderecoServiceImp implements EnderecoService {
 
     @Override
     public boolean pessoaExists(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return  pessoaService.existsById(id);
     }
 }

@@ -27,7 +27,7 @@ public class TelefoneMapper {
         telefone.setId(dto.id());
         telefone.setNumero(dto.numero());
         telefone.setTipo(TipoTelefone.convertTelefoneValue(dto.tipo()));
-        telefone.setPessoa(new Pessoa(dto.id()));
+        telefone.setPessoa(new Pessoa(dto.pessoa()));
         return telefone;
     }
     

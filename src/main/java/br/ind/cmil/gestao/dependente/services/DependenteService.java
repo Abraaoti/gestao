@@ -17,6 +17,4 @@ public interface DependenteService {
     Long create(DependenteDTO dependenteDTO);
 
     void delete(Long id);
-
-    boolean nomeExists(String nome);
 }

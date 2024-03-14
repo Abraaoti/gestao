@@ -1,15 +1,9 @@
 package br.ind.cmil.gestao.fornecedor.domain;
 
-import br.ind.cmil.gestao.domain.Produto;
-import br.ind.cmil.gestao.empresa.domain.PessoaJuridica;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -21,21 +15,17 @@ import java.util.List;
 @Table(name = "tbl_fornecedores")
 public class Fornecedor extends PessoaJuridica {
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "fornecedor", fetch = FetchType.LAZY)
-    protected List<Produto> produtos;
+    //@JsonIgnore
+    //@OneToMany(mappedBy = "fornecedor", fetch = FetchType.LAZY)
+    //protected List<Produto> produtos;
 
     public Fornecedor() {
-        this.produtos = new ArrayList<>();
+       // this.produtos = new ArrayList<>();
     }
 
-    public Fornecedor(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
-
-   
-   
-   
+    /**public Fornecedor(List<Produto> produtos) {
+       this.produtos = produtos;
+ }
 
     public void addProduto(Produto produto) {
         if (this.produtos == null) {
@@ -60,6 +50,6 @@ public class Fornecedor extends PessoaJuridica {
     @Override
     public String toString() {
         return "Fornecedor{" + "produtos=" + produtos + '}';
-    }
+    }**/
 
 }

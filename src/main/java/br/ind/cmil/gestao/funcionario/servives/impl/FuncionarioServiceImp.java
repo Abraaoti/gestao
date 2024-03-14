@@ -2,16 +2,12 @@ package br.ind.cmil.gestao.funcionario.servives.impl;
 
 import br.ind.cmil.gestao.cargo.domain.Cargo;
 import br.ind.cmil.gestao.cargo.repository.CargoRepository;
-import br.ind.cmil.gestao.centro.domain.CentroCusto;
-import br.ind.cmil.gestao.centro.repository.CentroCustoRepository;
 import br.ind.cmil.gestao.exceptions.FuncionarioException;
 import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.departamento.domain.Departamento;
 import br.ind.cmil.gestao.departamento.respository.DepartamentoRepository;
 
-import br.ind.cmil.gestao.enums.EstadoCivil;
-import br.ind.cmil.gestao.enums.Genero;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.funcionario.mapper.FuncionarioMapper;
 import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
@@ -27,10 +23,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
+import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
+import br.ind.cmil.gestao.pessoa.repository.PessoaJuridicaRepository;
 
 /**
  *
@@ -43,17 +41,20 @@ public class FuncionarioServiceImp implements FuncionarioService {
     private final Datatables datatables;
     private final DepartamentoRepository departamentoRepository;
     private final CargoRepository cargoRepository;
-    private final CentroCustoRepository centroCustoRepository;
+    private final PessoaJuridicaRepository empresaRepository;
     private final FuncionarioMapper funcionarioMapper;
 
-    public FuncionarioServiceImp(FuncionarioRepository funcionarioRepository, Datatables datatables, DepartamentoRepository departamentoRepository, CargoRepository cargoRepository, CentroCustoRepository centroCustoRepository, FuncionarioMapper funcionarioMapper) {
+    public FuncionarioServiceImp(FuncionarioRepository funcionarioRepository, Datatables datatables, DepartamentoRepository departamentoRepository, CargoRepository cargoRepository, PessoaJuridicaRepository empresaRepository, FuncionarioMapper funcionarioMapper) {
         this.funcionarioRepository = funcionarioRepository;
         this.datatables = datatables;
         this.departamentoRepository = departamentoRepository;
         this.cargoRepository = cargoRepository;
-        this.centroCustoRepository = centroCustoRepository;
+        this.empresaRepository = empresaRepository;
         this.funcionarioMapper = funcionarioMapper;
     }
+
+   
+   
 
     @Override
     @Transactional(readOnly = true)
@@ -90,7 +91,6 @@ public class FuncionarioServiceImp implements FuncionarioService {
     @Override
     @Transactional(readOnly = true)
     public FuncionarioDTO buscarFuncionarioPorId(Long id) {
-
         return funcionarioRepository.findById(id).map(funcionario -> funcionarioMapper.toDTO(funcionario)).get();
     }
 
@@ -98,7 +98,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
     @Transactional(readOnly = true)
     public FuncionarioDTO buscarFuncionarioPorNome(String nome) {
 
-        return funcionarioRepository.findByNome(nome).map(funcionario -> funcionarioMapper.toDTO(funcionario)).get();
+        return funcionarioRepository.findByClt(nome).map(funcionario -> funcionarioMapper.toDTO(funcionario)).get();
     }
 
     @Transactional(readOnly = false)
@@ -113,22 +113,11 @@ public class FuncionarioServiceImp implements FuncionarioService {
     }
 
     private void validarAtributos(Funcionario f) {
-        Optional<Funcionario> funcionario = funcionarioRepository.findByNome(f.getNome());
+        Optional<Funcionario> funcionario = funcionarioRepository.findByClt(f.getClt());
         if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
-            throw new DataIntegrityViolationException("nome já cadastro no sistema!");
+            throw new DataIntegrityViolationException("clt já cadastro no sistema!");
         }
-        funcionario = funcionarioRepository.findBySobrenome(f.getSobrenome());
-        if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
-            throw new DataIntegrityViolationException("sobrenome já cadastro no sistema!");
-        }
-        funcionario = funcionarioRepository.findByCpf(f.getCpf());
-        if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
-            throw new DataIntegrityViolationException("cep já cadastro no sistema!");
-        }
-        funcionario = funcionarioRepository.findByRg(f.getRg());
-        if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
-            throw new DataIntegrityViolationException("rg já cadastro no sistema!");
-        }
+       
 
     }
 
@@ -137,7 +126,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.FUNCIONARIO);
         Page<?> page = datatables.getSearch().isEmpty() ? funcionarioRepository.findAll(datatables.getPageable())
-                : funcionarioRepository.funcionarios(datatables.getSearch(), datatables.getPageable());
+                : funcionarioRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
 
@@ -153,16 +142,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
     }
 
     private Funcionario mapToEntity(Funcionario funcionario, FuncionarioDTO funcionarioDTO) {
-        funcionario.setNome(funcionarioDTO.nome());
-        funcionario.setSobrenome(funcionarioDTO.sobrenome());
-        funcionario.setNascimento(funcionarioDTO.nascimento());
-        funcionario.setCpf(funcionarioDTO.cpf());
-        funcionario.setRg(funcionarioDTO.rg());
-        funcionario.setMae(funcionarioDTO.mae());
-        funcionario.setPai(funcionarioDTO.pai());
-        funcionario.setEstado_civil(EstadoCivil.findTipo(funcionarioDTO.estado_civil()));
-        funcionario.setGenero(Genero.convertGeneroValue(funcionarioDTO.genero()));
-        funcionario.setNaturalidade(funcionarioDTO.naturalidade());
+       
         LocalDate data = (funcionarioDTO.admissao()) == null ? LocalDate.now() : funcionarioDTO.admissao();
         funcionario.setAdmissao(data);
         funcionario.setDemissao(funcionarioDTO.demissao());
@@ -172,9 +152,9 @@ public class FuncionarioServiceImp implements FuncionarioService {
         funcionario.setDepartamento(departamento);
         Cargo cargo = funcionarioDTO.cargo() == null ? null : cargoRepository.findById(funcionarioDTO.cargo()).get();
         funcionario.setCargo(cargo);
-        CentroCusto centro = funcionarioDTO.centro() == null ? null : centroCustoRepository.findById(funcionarioDTO.centro())
+        PessoaJuridica empresa = funcionarioDTO.empresa()== null ? null : empresaRepository.findById(funcionarioDTO.empresa())
                 .get();
-        funcionario.setCentro(centro);
+        funcionario.setEmpresa(empresa);
         return funcionario;
     }
 
@@ -185,7 +165,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
         Set<Funcionario> funcionarios = new HashSet<>();
 
         for (String string : funcionarosString) {
-            Funcionario funcionario = funcionarioRepository.findByNome(string).get();
+            Funcionario funcionario = funcionarioRepository.findByClt(string).get();
             funcionarios.add(funcionario);
 
         }
@@ -193,29 +173,5 @@ public class FuncionarioServiceImp implements FuncionarioService {
 
     }
 
-    @Override
-    public List<FuncionarioDTO> getFuncionarios() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Map<Long, Long> funcionarios() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public FuncionarioDTO buscarPorId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Long create(FuncionarioDTO funcionarioDTO) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String getReferencedWarning(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
 }

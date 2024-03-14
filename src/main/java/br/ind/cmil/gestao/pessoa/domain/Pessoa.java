@@ -1,22 +1,17 @@
 package br.ind.cmil.gestao.pessoa.domain;
 
-import br.ind.cmil.gestao.telefone.domain.Telefone;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.ind.cmil.gestao.base.Entidade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.Set;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,11 +25,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @SuppressWarnings("serial")
 public class Pessoa implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     protected Long id;
-
     @Column(length = 80)
     protected String nome;
     @Column(length = 120)
@@ -51,6 +46,8 @@ public class Pessoa implements Serializable {
     public Pessoa(Long id) {
         this.id = id;
     }
+
+  
 
     public Pessoa(String nome) {
         this.nome = nome;
@@ -76,6 +73,7 @@ public class Pessoa implements Serializable {
         this.endereco = null;
     }
      */
+
     public Long getId() {
         return id;
     }
@@ -107,44 +105,6 @@ public class Pessoa implements Serializable {
     public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
     }
-
   
-
-
-    /*
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-     */
-    @Override
-    public String toString() {
-        return "Pessoa{" + "nome=" + nome + ", sobrenome=" + sobrenome + ", nascimento=" + nascimento + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Pessoa other = (Pessoa) obj;
-        return Objects.equals(this.id, other.id);
-    }
 
 }

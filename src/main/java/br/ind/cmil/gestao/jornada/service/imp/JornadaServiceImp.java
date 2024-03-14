@@ -6,11 +6,13 @@ import br.ind.cmil.gestao.jornada.repository.JornadaRepository;
 import br.ind.cmil.gestao.jornada.service.JornadaService;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author abraaocalelessocassi
  */
+@Service
 public class JornadaServiceImp implements JornadaService {
 
    private final JornadaRepository jornadaRepository;

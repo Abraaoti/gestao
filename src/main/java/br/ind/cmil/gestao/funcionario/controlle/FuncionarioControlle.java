@@ -2,7 +2,6 @@
 package br.ind.cmil.gestao.funcionario.controlle;
 
 import br.ind.cmil.gestao.cargo.service.CargoService;
-import br.ind.cmil.gestao.centro.service.CentroCustoService;
 import br.ind.cmil.gestao.departamento.service.DepartamentoService;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import br.ind.cmil.gestao.pessoa.service.PessoaJuridicaService;
 
 /**
  *
@@ -33,7 +33,7 @@ public class FuncionarioControlle {
     private final FuncionarioService funcionarioService;
     private final DepartamentoService departamentoService;
     private final CargoService cargoService;
-    private final CentroCustoService centroCustoService;
+    private final PessoaJuridicaService empresaService;
 
     @GetMapping
     public String lista() {
@@ -45,7 +45,7 @@ public class FuncionarioControlle {
     public void prepareContext(Model model) {
         model.addAttribute("departamentos", departamentoService.lista());
         model.addAttribute("cargos", cargoService.lista());
-        model.addAttribute("centros", centroCustoService.findAll());
+        model.addAttribute("empresas", empresaService.getEmpresas());
         model.addAttribute("estadoCivil", EstadoCivil.getEstadoCivil());
         model.addAttribute("generos", Genero.generos());
     }

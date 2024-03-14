@@ -8,9 +8,7 @@ import br.ind.cmil.gestao.centro.repository.CentroCustoRepository;
 import br.ind.cmil.gestao.centro.service.CentroCustoService;
 import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
-import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -29,16 +27,16 @@ import org.springframework.stereotype.Service;
 public class CentroCustoServiceImp implements CentroCustoService {
     
     private final CentroCustoRepository centroCustoRepository;
-    private final FuncionarioRepository funcionarioRepository;
     private final CentroCustoMapper centroCustoMapper;    
     private final Datatables datatables;
-    
-    public CentroCustoServiceImp(CentroCustoRepository centroCustoRepository, FuncionarioRepository funcionarioRepository, CentroCustoMapper centroCustoMapper, Datatables datatables) {
+
+    public CentroCustoServiceImp(CentroCustoRepository centroCustoRepository, CentroCustoMapper centroCustoMapper, Datatables datatables) {
         this.centroCustoRepository = centroCustoRepository;
-        this.funcionarioRepository = funcionarioRepository;
         this.centroCustoMapper = centroCustoMapper;
         this.datatables = datatables;
     }
+    
+   
     
     @Override
     public List<CentroCustoDTO> findAll() {

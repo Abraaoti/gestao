@@ -40,7 +40,7 @@ $(document).ready(function () {
            
             {data: 'cargo.nome'},
             {data: 'departamento.nome'},
-            {data: 'centro.nome'},
+            {data: 'empresa.nome'},
 
           
             

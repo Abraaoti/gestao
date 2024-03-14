@@ -12,22 +12,12 @@ import java.util.Set;
  */
 public interface FuncionarioService {
 
-    List<FuncionarioDTO> getFuncionarios();
-
-    Map<Long, Long> funcionarios();
 
     Map<String, Object> buscarTodos(HttpServletRequest request);
-    
-
-    FuncionarioDTO buscarPorId(final Long id);
-
-    Long create(final FuncionarioDTO funcionarioDTO);
 
     void update(final Long id, final FuncionarioDTO funcionarioDTO);
 
     void delete(final Long id);
-
-    String getReferencedWarning(final Long id);
     
     List<FuncionarioDTO> list();
 

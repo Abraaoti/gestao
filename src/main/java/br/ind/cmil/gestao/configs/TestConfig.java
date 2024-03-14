@@ -19,6 +19,12 @@ public class TestConfig {
     private DBService dbService;
 
     @Bean
+    public void instaciaBaseDeEmpresa() {
+        this.dbService.instanciaBaseDeEmpresa();
+
+    }
+
+    @Bean
     public void instaciaBaseDePerfis() {
         this.dbService.instanciaBaseDePerfis();
 
@@ -53,11 +59,11 @@ public class TestConfig {
         this.dbService.instanciaBaseFuncionarios();
 
     }
-    /**@Bean
-    public void instaciaBaseDeFrequenciass() {
-        this.dbService.instanciaBaseDeFrequencia();
+    /**
+     * @Bean public void instaciaBaseDeFrequenciass() {
+     * this.dbService.instanciaBaseDeFrequencia();
+     *
+     * }*
+     */
 
-    }**/
-  
-   
 }

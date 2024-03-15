@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Profile("dev")
 public class DevConfig {
 
-    @Autowired
+   /** @Autowired
     private DBService dbService;
 
     @Bean
@@ -35,7 +35,7 @@ public class DevConfig {
         this.dbService.instanciaBaseDeUsuarios();
 
     }
-
+*/
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();

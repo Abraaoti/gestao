@@ -25,7 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "tbl_funcionarios")
-@PrimaryKeyJoinColumn(name = "pessoaId")
+@PrimaryKeyJoinColumn(name = "id")
 public class Funcionario extends PessoaFisica {
 
     private String clt;

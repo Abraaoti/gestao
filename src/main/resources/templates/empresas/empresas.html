@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+        <title>[[#{pessoa.juridica.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{pessoa.juridica.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/pessoa_juridica/add}" class="btn btn-primary ms-2">[[#{pessoa.juridica.list.createNew}]]</a>
+                </div>
+            </div>
+            <table id="table-empresa" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">nome</th>
+                        <th scope="col">razão social</th>
+                        <th scope="col">abertura</th>
+                        <th scope="col">cnpj</th>
+                        <th scope="col">inscrição estadual</th>
+                        <th scope="col">inscrição municipal</th>
+                        <th scope="col">capital</th>
+                        <th scope="col">Editar</th>
+                        <th scope="col">Excluir</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+
+
+        <script th:src="@{/js/empresa.js}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript"></script>
+    </body>
+</html>

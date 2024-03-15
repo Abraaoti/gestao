@@ -10,8 +10,8 @@ public class DatatablesColunas {
     public static final String[] PERFIL = {"id", "tp"};
     public static final String[] PESSOA = {"id", "nome", "sobrenome", "nascimento", "endereco", "telefones"};
     public static final String[] HISTORICO_PESSOA = {"id", "nome", "sobrenome", "endereco.id", "endereco.uf", "endereco.cidade", "endereco.bairro", "endereco.rua", "endereco.numero", "endereco.cep", "endereco.complemento", "telefone.id", "telefone.numero", "telefone.tipo"};
-    public static final String[] EMPRESA = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im", "capital", "usuario.email"};
-    public static final String[] PESSOAJURIDICA = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im",};
+    public static final String[] EMPRESA = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im", "capital"};
+    public static final String[] PESSOAJURIDICA =  {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im", "capital"};
     public static final String[] FORNECEDORES = {"id", "nome", "sobrenome", "nascimento", "cnpj", "ie", "im"};
     public static final String[] PESSOAFISICA = {"id", "nome", "sobrenome", "nascimento", "salario", "cpf", "rg", "passaporte", "mae", "pai", "ec.desc", "genero.desc", "admissao", "naturalidade"};
     public static final String[] FUNCIONARIO = {"id", "nome", "sobrenome", "nascimento", "cpf", "rg", "clt", "mae", "pai", "estado_civil", "genero", "admissao", "naturalidade", "cargo.nome", "departamento", "centro.nome"};

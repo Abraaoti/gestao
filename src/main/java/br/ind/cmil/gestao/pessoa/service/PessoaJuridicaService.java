@@ -1,7 +1,9 @@
 package br.ind.cmil.gestao.pessoa.service;
 
 import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,5 +20,7 @@ public interface PessoaJuridicaService {
     void delete(final Long id);
 
     List<PessoaJuridica> getEmpresas();
+
+    Map<String, Object> buscarTodos(HttpServletRequest request);
 
 }

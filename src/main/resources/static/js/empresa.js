@@ -10,7 +10,7 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         ajax: {
-            url: '/empresas/datatables/server',
+            url: '/pessoa_juridica/datatables/server',
             data: 'data'
         },
         columns: [
@@ -26,40 +26,19 @@ $(document).ready(function () {
             {data: 'cnpj'},
             {data: 'ie'},
             {data: 'im'},
-            {data: 'socios'},
             {data: 'capital', render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')},
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-success btn-sm btn-block" href="/empresas/editar/' +
+                    return '<a class="btn btn-success btn-sm btn-block" href="/pessoa_juridica/editar/' +
                             id + '" role="button"><i class="fas fa-edit"></i></a>';
                 }
             },
+          
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-primary btn-sm btn-block" href="/enderecos/novo/' +
-                            id + '" role="button"><i class="fas fa-plus"></i></a>';
-                }
-            },
-            {orderable: false,
-                data: 'id',
-                "render": function (id) {
-                    return '<a class="btn btn-primary btn-sm btn-block" href="/email/novo/' +
-                            id + '" role="button"><i class="fas fa-plus"></i></a>';
-                }
-            },
-            {orderable: false,
-                data: 'id',
-                "render": function (id) {
-                    return '<a class="btn btn-primary btn-sm btn-block" href="/telefones/novo/' +
-                            id + '" role="button"><i class="fas fa-plus"></i></a>';
-                }
-            },
-            {orderable: false,
-                data: 'id',
-                "render": function (id) {
-                    return '<a class="btn btn-danger btn-sm btn-block" href="/empresas/excluir/' +
+                    return '<a class="btn btn-danger btn-sm btn-block" href="/pessoa_juridica/excluir/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             }

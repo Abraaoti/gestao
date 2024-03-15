@@ -87,11 +87,12 @@
                                     <li><a class="dropdown-item" th:href="@{/u}">Usuários</a> </li>
                                     <li><a class="dropdown-item" th:href="@{/perfis}">perfis</a> </li>
                                     <li><a class="dropdown-item" th:href="@{/perfis/add}">add perfil</a> </li>
+                                    <li><a class="dropdown-item" th:href="@{/pessoa_juridica}">empresa</a> </li>
 
                                 </ul>
                             </li>
                             <li  sec:authorize="hasAuthority('ADMINISTRADOR')" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRADOR</a>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRATIVO</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li><a class="dropdown-item" th:href="@{/administrador/dados}">dados</a> </li>                      
                                     <li><a class="dropdown-item" th:href="@{/centroCusto}"> centros de custos</a></li>

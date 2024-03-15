@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import org.springframework.format.annotation.NumberFormat;
 
 /**
  *
@@ -13,7 +15,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tbl_pessoas_juridicas", indexes = {
     @Index(name = "idx_pessoas_juridica_cnpj", columnList = "cnpj")})
-@PrimaryKeyJoinColumn(name = "pessoaId")
+@PrimaryKeyJoinColumn(name = "id")
 public class PessoaJuridica extends Pessoa {
 
     @Column(name = "cnpj", unique = true, length = 20, nullable = true)
@@ -25,6 +27,8 @@ public class PessoaJuridica extends Pessoa {
 
     @Column(unique = true, length = 20, nullable = false)
     private String im;
+    @NumberFormat(pattern = "#,##0.00", style = NumberFormat.Style.CURRENCY)
+    private BigDecimal capital;
 
     public PessoaJuridica() {
     }
@@ -57,15 +61,17 @@ public class PessoaJuridica extends Pessoa {
         this.im = im;
     }
 
+    public BigDecimal getCapital() {
+        return capital;
+    }
+
+    public void setCapital(BigDecimal capital) {
+        this.capital = capital;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("PessoaJuridica{");
-        sb.append("cnpj=").append(cnpj);
-        sb.append(", ie=").append(ie);
-        sb.append(", im=").append(im);
-        sb.append('}');
-        return sb.toString();
+        return "PessoaJuridica{" + "cnpj=" + cnpj + ", ie=" + ie + ", im=" + im + ", capital=" + capital + '}';
     }
 
 }

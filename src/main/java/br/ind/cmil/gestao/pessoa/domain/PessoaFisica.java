@@ -19,7 +19,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tbl_pessoa_fisicas")
-@PrimaryKeyJoinColumn(name = "pessoaId")
+@PrimaryKeyJoinColumn(name = "id")
 public class PessoaFisica extends Pessoa {
 
     @Column(name = "cpf", length = 15, unique = true)

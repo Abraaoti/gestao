@@ -54,6 +54,7 @@ public class DBService {
         empresa.setCnpj("39811898000113");
         empresa.setIe("896565656");
         empresa.setIm("665455465");
+        empresa.setCapital(BigDecimal.valueOf(300000, 0));
         pessoaJuridicaService.save(empresa);
         
     }

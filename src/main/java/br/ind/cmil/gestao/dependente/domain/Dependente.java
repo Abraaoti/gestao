@@ -1,10 +1,9 @@
-
-
 package br.ind.cmil.gestao.dependente.domain;
 
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.pessoa.domain.PessoaFisica;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -17,8 +16,10 @@ import lombok.Setter;
 @Getter
 @Entity
 @Table(name = "tbl_dependentes")
-public class Dependente extends PessoaFisica{
-	@ManyToOne
-	private Funcionario funcionario;
+public class Dependente extends PessoaFisica {
+
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id", nullable = true)
+    private Funcionario funcionario;
 
 }

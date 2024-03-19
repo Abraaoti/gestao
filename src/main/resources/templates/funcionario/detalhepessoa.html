@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
     <head>
         <title>Detalhe</title>
     </head>
     <body>
-        <div  layout:fragment="content">
+       <div layout:fragment="content">
 
             <div class="card">
                 <!--div th:replace="~{fragments/alert :: alerta-sucesso}"/-->
@@ -54,7 +53,7 @@
 
 
 
-        <script	th:src="@{/js/historic_pessoa.js(v=${version})}" th:fragment="js"></script> 
+        <script	th:src="@{/js/historic_pessa.js(v=${version})}" th:fragment="js"></script> 
         <script th:inline="javascript" th:fragment="inlinescript">
 
         </script>

@@ -3,7 +3,6 @@ package br.ind.cmil.gestao.funcionario.mapper;
 
 
 import br.ind.cmil.gestao.cargo.domain.Cargo;
-import br.ind.cmil.gestao.centro.domain.CentroCusto;
 import br.ind.cmil.gestao.departamento.domain.Departamento;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
@@ -24,7 +23,7 @@ public class FuncionarioMapper {
         Long cargo = (funcionario.getCargo().getId() == null) ? null : funcionario.getCargo().getId();
         Long departamento = (funcionario.getDepartamento().getId() == null) ? null : funcionario.getDepartamento().getId();
         Long empresa = (funcionario.getEmpresa().getId() == null) ? null : funcionario.getEmpresa().getId();
- return new FuncionarioDTO(funcionario.getId(), funcionario.getNome(), funcionario.getSobrenome(), funcionario.getNascimento(), funcionario.getCpf(), funcionario.getRg(), funcionario.getMae(), funcionario.getPai(), funcionario.getClt(), funcionario.getGenero().getValue(), funcionario.getEstado_civil().getValue(), funcionario.getNaturalidade(), funcionario.getAdmissao(), funcionario.getDemissao(), cargo, departamento, empresa);
+ return new FuncionarioDTO(funcionario.getId(), funcionario.getNome(), funcionario.getSobrenome(), funcionario.getNascimento(), funcionario.getCpf(), funcionario.getRg(), funcionario.getMae(), funcionario.getPai(),  funcionario.getGenero().getValue(), funcionario.getEstado_civil().getValue(), funcionario.getNaturalidade(),funcionario.getClt(), funcionario.getAdmissao(), funcionario.getDemissao(), cargo, departamento, empresa);
 
     }
 

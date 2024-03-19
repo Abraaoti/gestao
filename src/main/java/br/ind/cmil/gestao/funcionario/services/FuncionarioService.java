@@ -15,8 +15,6 @@ public interface FuncionarioService {
 
     Map<String, Object> buscarTodos(HttpServletRequest request);
 
-    void update(final Long id, final FuncionarioDTO funcionarioDTO);
-
     void delete(final Long id);
     
     List<FuncionarioDTO> list();
@@ -27,7 +25,7 @@ public interface FuncionarioService {
 
     FuncionarioDTO buscarFuncionarioPorNome(String nome);
 
-    Long salvar(FuncionarioDTO funcionario);
+    Long save(FuncionarioDTO funcionario);
   
 
     long countById();

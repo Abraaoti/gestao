@@ -200,7 +200,7 @@ public class DBService {
         funcionarios.add(angelino);
         funcionarios.add(joao);
         for (FuncionarioDTO funcionario : funcionarios) {
-            funcionarioService.salvar(funcionario);
+            funcionarioService.save(funcionario);
         }
         
     }

@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.funcionario.controlle;
 
 import br.ind.cmil.gestao.cargo.service.CargoService;
@@ -58,19 +57,19 @@ public class FuncionarioControlle {
 
     @PostMapping("/salvar")
     public String save(@ModelAttribute("funcionario") FuncionarioDTO funcionario, RedirectAttributes redirectAttributes) {
-        funcionarioService.salvar(funcionario);       
-         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("funcionario.create.success"));
+        funcionarioService.save(funcionario);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("funcionario.create.success"));
         return "redirect:/funcionarios";
     }
 
     @PostMapping("/editar")
     public String update(@ModelAttribute FuncionarioDTO funcionario, RedirectAttributes redirectAttributes) {
-        funcionarioService.update(funcionario.id(), funcionario);
-       redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("funcionario.update.success"));
+        funcionarioService.save(funcionario);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("funcionario.update.success"));
         return "redirect:/funcionarios";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/info/{id}")
     public String detalhes(@PathVariable("id") Long id, Model model) {
         model.addAttribute("pessoa", funcionarioService.buscarFuncionarioPorId(id));
         return "funcionarios/detalhepessoa";
@@ -78,8 +77,10 @@ public class FuncionarioControlle {
 
     @GetMapping("/editar/{id}")
     public String editar(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("funcionario", funcionarioService.buscarFuncionarioPorId(id));
-          return "funcionario/funcionario";
+        FuncionarioDTO funcionario = funcionarioService.buscarFuncionarioPorId(id);
+        model.addAttribute("funcionario", funcionario);
+
+        return "funcionario/funcionario";
     }
 
     @GetMapping("/delete/{id}")
@@ -87,14 +88,12 @@ public class FuncionarioControlle {
         funcionarioService.delete(id);
         model.addAttribute("sucesso", "Operação realizada com sucesso.");
 
-      return "funcionario/funcionarios";
+        return "funcionario/funcionarios";
     }
 
     @GetMapping("/datatables/server")
     public ResponseEntity<?> funcionarios(HttpServletRequest request) {
         return ResponseEntity.ok(funcionarioService.buscarTodos(request));
     }
-   
 
 }
-

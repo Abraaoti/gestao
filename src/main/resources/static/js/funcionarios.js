@@ -55,8 +55,8 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-success btn-sm btn-block" href="/telefones/add/' +
-                            id + '" role="button"><i class="material-icons">contact_phone</i></a>';
+                    return '<a class="btn btn-success btn-sm btn-block" href="/funcionarios/info/' +
+                            id + '" role="button"><i class="material-icons">info</i></a>';
                 }
             },
             {orderable: false,

@@ -7,6 +7,8 @@ import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
 import br.ind.cmil.gestao.departamento.domain.Departamento;
 import br.ind.cmil.gestao.departamento.respository.DepartamentoRepository;
+import br.ind.cmil.gestao.enums.EstadoCivil;
+import br.ind.cmil.gestao.enums.Genero;
 
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.funcionario.mapper.FuncionarioMapper;
@@ -36,14 +38,14 @@ import br.ind.cmil.gestao.pessoa.repository.PessoaJuridicaRepository;
  */
 @Service
 public class FuncionarioServiceImp implements FuncionarioService {
-
+    
     private final FuncionarioRepository funcionarioRepository;
     private final Datatables datatables;
     private final DepartamentoRepository departamentoRepository;
     private final CargoRepository cargoRepository;
     private final PessoaJuridicaRepository empresaRepository;
     private final FuncionarioMapper funcionarioMapper;
-
+    
     public FuncionarioServiceImp(FuncionarioRepository funcionarioRepository, Datatables datatables, DepartamentoRepository departamentoRepository, CargoRepository cargoRepository, PessoaJuridicaRepository empresaRepository, FuncionarioMapper funcionarioMapper) {
         this.funcionarioRepository = funcionarioRepository;
         this.datatables = datatables;
@@ -52,75 +54,88 @@ public class FuncionarioServiceImp implements FuncionarioService {
         this.empresaRepository = empresaRepository;
         this.funcionarioMapper = funcionarioMapper;
     }
-
-   
-   
-
+    
     @Override
     @Transactional(readOnly = true)
     public List<FuncionarioDTO> list() {
-
+        
         List<Funcionario> funcionarios = funcionarioRepository.findAll(Sort.by("id"));
         return funcionarios.stream().map(funcionarioMapper::toDTO).collect(Collectors.toList());
-
+        
     }
-
+    
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public Long salvar(FuncionarioDTO funcionarioDTO) {
+    public Long save(FuncionarioDTO funcionarioDTO) {
         Funcionario funcionario = funcionarioMapper.toEntity(funcionarioDTO);
         validarAtributos(funcionario);
         if (funcionarioDTO.id() == null) {
             return funcionarioRepository.save(funcionario).getId();
         }
-
-        return null;
-
+        
+        return update(funcionarioDTO).id();
+        
     }
-
-    @Override
+    
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void update(Long id, FuncionarioDTO funcionarioDTO) {
-
-        var funcionario = funcionarioRepository.findById(id).get();
-        mapToEntity(funcionario, funcionarioDTO);
-        funcionarioRepository.save(funcionario);
-
+    protected FuncionarioDTO update(FuncionarioDTO dto) {
+        
+        Funcionario funcionario = funcionarioRepository.findById(dto.id()).get();
+        funcionario.setNome(dto.nome());
+        funcionario.setId(dto.id());
+        funcionario.setNome(dto.nome());
+        funcionario.setSobrenome(dto.sobrenome());
+        funcionario.setNascimento(dto.nascimento());
+        funcionario.setCpf(dto.cpf());
+        funcionario.setRg(dto.rg());
+        funcionario.setMae(dto.mae());
+        funcionario.setPai(dto.pai());
+        funcionario.setClt(dto.clt());
+        funcionario.setGenero(Genero.convertGeneroValue(dto.genero()));
+        funcionario.setEstado_civil(EstadoCivil.findTipo(dto.estado_civil()));
+        funcionario.setNaturalidade(dto.naturalidade());
+        LocalDate data = (dto.admissao()) == null ? LocalDate.now() : dto.admissao();
+        funcionario.setAdmissao(data);
+        funcionario.setDemissao(dto.demissao());
+        funcionario.setCargo(new Cargo(dto.cargo()));
+        funcionario.setDepartamento(new Departamento(dto.departamento()));
+        funcionario.setEmpresa(new PessoaJuridica(dto.empresa()));
+        return funcionarioMapper.toDTO(funcionarioRepository.save(funcionario));
+        
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public FuncionarioDTO buscarFuncionarioPorId(Long id) {
         return funcionarioRepository.findById(id).map(funcionario -> funcionarioMapper.toDTO(funcionario)).get();
     }
-
+    
     @Override
     @Transactional(readOnly = true)
     public FuncionarioDTO buscarFuncionarioPorNome(String nome) {
-
+        
         return funcionarioRepository.findByClt(nome).map(funcionario -> funcionarioMapper.toDTO(funcionario)).get();
     }
-
+    
     @Transactional(readOnly = false)
     public void demitirFuncionario(Long id) {
         Funcionario fu = funcionarioRepository.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! "));
         fu.setDemissao(LocalDate.now());
     }
-
+    
     @Override
     public void delete(Long id) {
         funcionarioRepository.delete(funcionarioRepository.findById(id).orElseThrow(() -> new FuncionarioException(String.valueOf(id), "Este id não consta no bd! ")));
     }
-
+    
     private void validarAtributos(Funcionario f) {
         Optional<Funcionario> funcionario = funcionarioRepository.findByClt(f.getClt());
         if (funcionario.isPresent() && !Objects.equals(funcionario.get().getId(), f.getId())) {
             throw new DataIntegrityViolationException("clt já cadastro no sistema!");
         }
-       
-
+        
     }
-
+    
     @Override
     public Map<String, Object> buscarTodos(HttpServletRequest request) {
         datatables.setRequest(request);
@@ -129,20 +144,18 @@ public class FuncionarioServiceImp implements FuncionarioService {
                 : funcionarioRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
-
-  
-
+    
     @Override
     public long countById() {
         return funcionarioRepository.count();
     }
-
+    
     protected LocalDate data(LocalDate dto) {
         return (dto == null ? LocalDate.now() : dto);
     }
-
+    
     private Funcionario mapToEntity(Funcionario funcionario, FuncionarioDTO funcionarioDTO) {
-       
+        
         LocalDate data = (funcionarioDTO.admissao()) == null ? LocalDate.now() : funcionarioDTO.admissao();
         funcionario.setAdmissao(data);
         funcionario.setDemissao(funcionarioDTO.demissao());
@@ -152,26 +165,24 @@ public class FuncionarioServiceImp implements FuncionarioService {
         funcionario.setDepartamento(departamento);
         Cargo cargo = funcionarioDTO.cargo() == null ? null : cargoRepository.findById(funcionarioDTO.cargo()).get();
         funcionario.setCargo(cargo);
-        PessoaJuridica empresa = funcionarioDTO.empresa()== null ? null : empresaRepository.findById(funcionarioDTO.empresa())
+        PessoaJuridica empresa = funcionarioDTO.empresa() == null ? null : empresaRepository.findById(funcionarioDTO.empresa())
                 .get();
         funcionario.setEmpresa(empresa);
         return funcionario;
     }
-
-
+    
     @Override
     @Transactional(readOnly = true)
     public Set<Funcionario> funcionarioString(Set<String> funcionarosString) {
         Set<Funcionario> funcionarios = new HashSet<>();
-
+        
         for (String string : funcionarosString) {
             Funcionario funcionario = funcionarioRepository.findByClt(string).get();
             funcionarios.add(funcionario);
-
+            
         }
         return funcionarios;
-
+        
     }
-
-
+    
 }

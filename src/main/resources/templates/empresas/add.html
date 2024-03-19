@@ -7,83 +7,81 @@
 
     <body>
         <div  layout:fragment="content">
-            <div class="d-flex flex-wrap mb-4">
-                <h1 class="flex-grow-1">[[#{pessoa.juridica.add.headline}]]</h1>
-                <div>
-                    <a th:href="@{/pessoa_juridica}" class="btn btn-secondary">[[#{pessoa.juridica.add.back}]]</a>
-                </div>
-            </div>	
+
 
             <form th:action="${empresa.id == null} ? @{/pessoa_juridica/save} : @{/pessoa_juridica/update}" th:object="${empresa}" method="POST" class="was-validated">
-                <div class="row g-2">
-                    <div class="col-sm">                        
-                        <div class="form-floating">  
-                            <input type="text" class="form-control"  th:field="*{nome}" id="nome"  required/>                         
-                            <label for="nome" >Nome </label>
-                        </div>
-                    </div>
-                    <div class="col-sm">                        
-                        <div class="form-floating">  
-                            <input type="text" class="form-control"  th:field="*{sobrenome}" id="sobrenome"  required/>
-                         
-                            <label for="sobrenome" >Razão Social </label>
-                        </div>
-                    </div>
-                </div>
+                <fieldset>
+                    <legend class="d-flex flex-wrap mb-4">
 
-                <div class="row g-2">
-                    <div class="col-sm">                        
-                        <div class="form-floating">  
+                        <h1 class="flex-grow-1">[[#{pessoa.juridica.add.headline}]]</h1>
+                        <div>
+                            <a th:href="@{/pessoa_juridica}" class="btn btn-secondary">[[#{pessoa.juridica.add.back}]]</a>
+                        </div>
+
+
+                    </legend>
+                    <div class="row mb-3">
+                        <label for="nome" class="col-sm-2 col-form-label">NOME</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="nome" placeholder="Digite o nome da empresa"  th:field="*{nome}"  required/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="sobrenome" class="col-sm-2 col-form-label">RAZÃO SOCIAL</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"  th:field="*{sobrenome}" id="sobrenome" placeholder="Digite a Razão Social"  required/>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="nascimento" class="col-sm-2 col-form-label">ABERTURA</label>
+                        <div class="col-sm-3">
                             <input type="date" id="nascimento" th:field="*{nascimento}" class="form-control"/> 
-                            <label for="nascimento">Abertura</label>
                         </div>
                     </div>
-                    <div class="col-sm">                        
-                        <div class="form-floating">  
-                            <input type="text" id="cnpj" th:field="*{cnpj}" class="form-control"/> 
-                            <label for="cnpj">cnpj</label>
+
+                    <div class="row mb-3">
+                        <label for="cnpj" class="col-sm-2 col-form-label">CNPJ</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="cnpj" th:field="*{cnpj}" placeholder="Digite o cnpj da empresa" class="form-control"/> 
                         </div>
                     </div>
-                </div>
 
 
 
-                <div class="row g-3">
-                    <div class="col-sm">                      
-                        <div class="form-floating">  
-                            <input type="text" id="ie" th:field="*{ie}" class="form-control"/> 
-                            <label for="ie">ie</label>
+
+                    <div class="row mb-3">
+                        <label for="ie" class="col-sm-2 col-form-label">IE</label>
+                        <div class="col-sm-5">
+                            <input type="text" id="ie" th:field="*{ie}" placeholder="Digite o inscriçãi estadual da empresa" class="form-control" required/> 
                         </div>
                     </div>
-                    <div class="col-sm">                        
-                        <div class="form-floating">  
-                            <input type="text" id="im" th:field="*{im}" class="form-control"/> 
-                            <label for="ie">im</label>
+
+                    <div class="row mb-3">
+                        <label for="im" class="col-sm-2 col-form-label">IM</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="im" th:field="*{im}" placeholder="Digite o inscrição municipal da empresa" class="form-control"/> 
                         </div>
                     </div>
-                    <div class="col-sm">                        
-                        <div class="form-floating">  
-                            <input type="text" id="capital" th:field="*{capital}" class="form-control"/> 
-                            <label for="capital">capital</label>
+
+                    <div class="row mb-3">
+                        <label for="capital" class="col-sm-2 col-form-label">VALOR CAPITAL</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="capital" th:field="*{capital}" placeholder="Digite o valor capital da empresa" class="form-control"/> 
                         </div>
                     </div>
-                </div>
 
 
-                <input type="hidden" id="id" th:field="*{id}"/>	
 
+                    <input type="hidden" id="id" th:field="*{id}"/>	
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </fieldset>
 
-                <div class="col-sm-2">                        
-                    <div class="form-floating mb-3">  
-
-                        <input class="btn btn-primary" type="submit"  value="Salvar"/>
-
-                    </div>
-                </div>
 
             </form>
 
-
+            <hr />
 
             <table id="table-empresa" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
                 <thead class="thead-dark">

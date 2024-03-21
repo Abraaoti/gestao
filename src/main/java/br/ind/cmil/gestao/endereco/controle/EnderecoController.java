@@ -56,8 +56,7 @@ public class EnderecoController {
 
     @PostMapping("/add")
     public String salvar(@ModelAttribute("endereco") EnderecoDTO enderecoDTO, RedirectAttributes redir, Model model) {
-
-        enderecoDTO = enderecoService.salvar(enderecoDTO);
+        model.addAttribute("endereco", enderecoService.salvar(enderecoDTO));
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("endereco.create.success"));
         return "redirect:/enderecos/add/" + enderecoDTO.id();
 

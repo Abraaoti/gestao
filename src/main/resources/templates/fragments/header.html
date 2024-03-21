@@ -66,110 +66,110 @@
 
     </head>
     <body>
-        <div  th:fragment="header">          
+        <div  th:fragment="header">
+            <nav class="navbar  bg-primary navbar-expand-lg ">
+                <div class="container-fluid">
 
-            <div class="navbar-fixed">
+                    <a th:href="@{/}" class="navbar-brand" style="width: 268px;">
+                        <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block "/>
+                        <span class="ps-1">[[#{app.title}]]</span>
+                    </a>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
-                <nav class="navbar  bg-primary navbar-expand-md">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">MENU</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 
-                    <div class="nav-wrapper container"> 
+                                <li  sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
+                                    <a  class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRADOR</a>
+                                    <ul id="admin" class="dropdown-menu" aria-labelledby="navbarDropdown">                  							
+                                        <li><a class="dropdown-item"  th:href="@{/u/add}">Usuário</a> </li>
+                                        <li><a class="dropdown-item" th:href="@{/u}">Usuários</a> </li>
+                                        <li><a class="dropdown-item" th:href="@{/perfis}">perfis</a> </li>
+                                        <li><a class="dropdown-item" th:href="@{/perfis/add}">add perfil</a> </li>
+                                        <li><a class="dropdown-item" th:href="@{/pessoa_juridica}">empresa</a> </li>
 
-                        <a th:href="@{/}" class="navbar-brand" style="width: 268px;">
-                            <img th:src="@{/image/logo.png}" th:alt="#{app.title}" width="30" height="30" class="d-inline-block "/>
-                            <span class="ps-1">[[#{app.title}]]</span>
-                        </a>
-                        <ul class="navbar-nav ms-auto">
-
-                            <li  sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
-                                <a  class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRADOR</a>
-                                <ul id="admin" class="dropdown-menu" aria-labelledby="navbarDropdown">                  							
-                                    <li><a class="dropdown-item"  th:href="@{/u/add}">Usuário</a> </li>
-                                    <li><a class="dropdown-item" th:href="@{/u}">Usuários</a> </li>
-                                    <li><a class="dropdown-item" th:href="@{/perfis}">perfis</a> </li>
-                                    <li><a class="dropdown-item" th:href="@{/perfis/add}">add perfil</a> </li>
-                                    <li><a class="dropdown-item" th:href="@{/pessoa_juridica}">empresa</a> </li>
-
-                                </ul>
-                            </li>
-                            <li  sec:authorize="hasAuthority('ADMINISTRADOR')" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRATIVO</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" th:href="@{/administrador/dados}">dados</a> </li>                      
-                                    <li><a class="dropdown-item" th:href="@{/centroCusto}"> centros de custos</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/departamentos}">[[#{departamento.list.headline}]]</a></li>                       
-                                    <li><a class="dropdown-item" th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
-                                </ul>
-                            </li>
-
-
-                            <li  sec:authorize="hasAuthority('ASSISTENTE')" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ASSISTENTE</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" th:href="@{/assistente/dados}">dados</a></li>                     
-                                    <li><a class="dropdown-item" th:href="@{/funcionarios}"> [[#{funcionario.list.headline}]]</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/telefones}"> [[#{telefone.list.headline}]]</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/enderecos}"> [[#{endereco.list.headline}]]</a></li>
-                                </ul>
-                            </li>					
-                            <li  sec:authorize="hasAuthority('AUXILIAR')" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">AUXILIAR</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" th:href="@{/auxiliar/dados}">dados</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/frequencias/funcionariosFrequencias}"> Presença</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/frequencias}">[[#{frequencia.list.headline}]]</a></li>
-                                    <li><a class="dropdown-item" th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
-                                </ul>
-                            </li>	
-
-                            <li  sec:authorize="hasAuthority('DIRETOR')" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">DIRETORIA  </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" th:href="@{/diretor/dados}">dados </a></li>
-
-                                </ul>
-                            </li>		
+                                    </ul>
+                                </li>
+                                <li  sec:authorize="hasAuthority('ADMINISTRADOR')" class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRATIVO</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" th:href="@{/administrador/dados}">dados</a> </li>                      
+                                        <li><a class="dropdown-item" th:href="@{/centroCusto}"> centros de custos</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/departamentos}">[[#{departamento.list.headline}]]</a></li>                       
+                                        <li><a class="dropdown-item" th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
+                                    </ul>
+                                </li>
 
 
+                                <li  sec:authorize="hasAuthority('ASSISTENTE')" class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ASSISTENTE</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" th:href="@{/assistente/dados}">dados</a></li>                     
+                                        <li><a class="dropdown-item" th:href="@{/funcionarios}"> [[#{funcionario.list.headline}]]</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/telefones}"> [[#{telefone.list.headline}]]</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/enderecos}"> [[#{endereco.list.headline}]]</a></li>
+                                    </ul>
+                                </li>					
+                                <li  sec:authorize="hasAuthority('AUXILIAR')" class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">AUXILIAR</a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" th:href="@{/auxiliar/dados}">dados</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/frequencias/funcionariosFrequencias}"> Presença</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/frequencias}">[[#{frequencia.list.headline}]]</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
+                                    </ul>
+                                </li>	
 
+                                <li  sec:authorize="hasAuthority('DIRETOR')" class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">DIRETORIA  </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" th:href="@{/diretor/dados}">dados </a></li>
 
-
-                            <li  sec:authorize="!isAuthenticated()">
-
-                                <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                   th:href="@{/login}">Login</a>
+                                    </ul>
+                                </li>		
 
 
 
-                                <a class="btn btn-outline-success my-2 my-sm-0" role="button"
-                                   th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
-
-                            </li>
-
-                            <li  sec:authorize="isAuthenticated()"  class="nav-item dropdown">
-
-                                <a class="dropdown-trigger btn btn-primary my-2 my-sm-0 fas fa-user"  id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                    <span  sec:authentication="name">Bob</span>
-                                </a>
-
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item"  th:href="@{/logout}"><i class="small material-icons">logout</i></a></li>
-                                </ul>
 
 
-                            </li>
+                                <li  sec:authorize="!isAuthenticated()">
+
+                                    <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                                       th:href="@{/login}">Login</a>
 
 
 
-                        </ul>
+                                    <a class="btn btn-outline-success my-2 my-sm-0" role="button"
+                                       th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
+
+                                </li>
+
+                                <li  sec:authorize="isAuthenticated()"  class="nav-item dropdown">
+
+                                    <a class="dropdown-trigger btn btn-primary my-2 my-sm-0 fas fa-user"  id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                        <span  sec:authentication="name">Bob</span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item"  th:href="@{/logout}"><i class="small material-icons">logout</i></a></li>
+                                    </ul>
+
+
+                                </li>
 
 
 
+                            </ul>
+
+                        </div>
                     </div>
-
-                </nav>
-
-            </div>
+            </nav>
         </div>
     </body>
 </html>

@@ -13,7 +13,7 @@ public class Meses {
     static int[] diasmes = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31};
 
     /**
-     * @param args the command line arguments
+     * @param args the command line arguments @RequestParam(value = "name", defaultValue = "World")
      */
     public static void main(String[] args) {
         String[] seasons = {"Winter", "Spring", "Summer", "Autumn"};

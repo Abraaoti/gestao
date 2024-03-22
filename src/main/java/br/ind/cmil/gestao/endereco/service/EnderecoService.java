@@ -17,7 +17,7 @@ public interface EnderecoService {
 
     EnderecoDTO buscarEnderecoPorId(Long id);
 
-    EnderecoDTO criar(Long pessoa_id, EnderecoDTO endereco);
+    EnderecoDTO criar(Long pessoa_id);
 
     EnderecoDTO salvar(EnderecoDTO enderecoDTO);
 

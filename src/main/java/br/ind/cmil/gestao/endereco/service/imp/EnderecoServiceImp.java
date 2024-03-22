@@ -41,8 +41,6 @@ public class EnderecoServiceImp implements EnderecoService {
         this.datatables = datatables;
     }
 
-   
-
     @Override
     @Transactional(readOnly = true)
     public List<EnderecoDTO> list(Pageable pageable) {
@@ -67,10 +65,12 @@ public class EnderecoServiceImp implements EnderecoService {
     }
 
     @Transactional(readOnly = false)
-    public EnderecoDTO update(EnderecoDTO endereco) {
+    public EnderecoDTO update(EnderecoDTO dto) {
 
-        return enderecoRepository.findById(endereco.id())
-                .map(enderecoMapper::toDTO).get();
+        Endereco endereco = enderecoRepository.findById(dto.id()).get();
+        
+
+        return enderecoMapper.toDTO(enderecoRepository.save(endereco));
     }
 
     @Transactional(readOnly = true)
@@ -81,13 +81,15 @@ public class EnderecoServiceImp implements EnderecoService {
 
     @Transactional(readOnly = true)
     @Override
-    public EnderecoDTO criar(Long pessoa_id, EnderecoDTO enderecoDTO) {   
+    public EnderecoDTO criar(Long pessoa_id) {
 
-        if (enderecoDTO.id() == null) {
+        Optional<Endereco> endereco = enderecoRepository.findByPessoaId(pessoa_id);
+        if (endereco.isEmpty() || endereco.get().getId() == null) {
             Pessoa pessoa = pessoaService.findById(pessoa_id).get();
-            return new EnderecoDTO(enderecoDTO.id(), enderecoDTO.uf(), enderecoDTO.cidade(), enderecoDTO.bairro(), enderecoDTO.rua(), enderecoDTO.cep(), enderecoDTO.numero(), enderecoDTO.complemento(), pessoa.getNome());
+            Endereco address = new Endereco(pessoa);
+            return enderecoMapper.toDTO(address);
         }
-        return enderecoMapper.toDTO(enderecoRepository.findByPessoa(pessoa_id).get());
+        return enderecoMapper.toDTO(endereco.get());
     }
 
     private void validarAtributos(Endereco request) {
@@ -95,7 +97,7 @@ public class EnderecoServiceImp implements EnderecoService {
         if (endereco.isPresent() && !Objects.equals(endereco.get().getId(), request.getId()) && !Objects.equals(endereco.get().getPessoa().getId(), request.getPessoa().getId())) {
             throw new DataIntegrityViolationException("cep já cadastro no sistema!");
         }
-        endereco = enderecoRepository.findByPessoa(request.getPessoa().getId());
+        endereco = enderecoRepository.findByPessoaId(request.getPessoa().getId());
         if (endereco.isPresent() && !Objects.equals(endereco.get().getPessoa().getId(), request.getPessoa().getId())) {
             throw new DataIntegrityViolationException("pessoa já cadastro no sistema!");
         }
@@ -125,6 +127,6 @@ public class EnderecoServiceImp implements EnderecoService {
 
     @Override
     public boolean pessoaExists(Long id) {
-        return  pessoaService.existsById(id);
+        return pessoaService.existsById(id);
     }
 }

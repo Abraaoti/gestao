@@ -49,25 +49,25 @@ public class EnderecoController {
     }
 
     @GetMapping("/add/{pessoa_id}")
-    public String formEndereco(@ModelAttribute("endereco") EnderecoDTO endereco, Model model, @PathVariable("pessoa_id") Long pessoa_id) {
-        model.addAttribute("endereco", enderecoService.criar(pessoa_id, endereco));
+    public String formEndereco(Model model, @PathVariable("pessoa_id") Long pessoa_id) {
+        model.addAttribute("endereco", enderecoService.criar(pessoa_id));
         return "endereco/endereco";
     }
 
     @PostMapping("/add")
     public String salvar(@ModelAttribute("endereco") EnderecoDTO enderecoDTO, RedirectAttributes redir, Model model) {
-        model.addAttribute("endereco", enderecoService.salvar(enderecoDTO));
+        enderecoDTO = enderecoService.salvar(enderecoDTO);
+        model.addAttribute("endereco", enderecoDTO);
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("endereco.create.success"));
-        return "redirect:/enderecos/add/" + enderecoDTO.id();
+        return "redirect:/enderecos/editar/" + enderecoDTO.id();
 
     }
 
     @PostMapping("/editar")
     public String atualizar(@ModelAttribute("endereco") EnderecoDTO enderecoDTO, RedirectAttributes redir, Model model) {
         enderecoDTO = enderecoService.salvar(enderecoDTO);
-
         redir.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("endereco.create.success"));
-        return "redirect:/enderecos/add/" + enderecoDTO.id();
+        return "redirect:/enderecos/editar/" + enderecoDTO.id();
 
     }
 

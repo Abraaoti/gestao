@@ -48,8 +48,8 @@ public class PessoaJuridicaControle {
         return "redirect:/pessoa_juridica/add";
     }
 
-    @PostMapping("/editar")
-    public String atualizar(@ModelAttribute("pessoaJuridica") PessoaJuridica empresa, RedirectAttributes redir) {
+    @PostMapping("/update")
+    public String atualizar(@ModelAttribute("empresa") PessoaJuridica empresa, RedirectAttributes redir) {
 
         pessoaJuridicaService.save(empresa);
 
@@ -67,7 +67,7 @@ public class PessoaJuridicaControle {
 
     @GetMapping("/editar/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("add", pessoaJuridicaService.buscarEmpresaPorId(id));
+        model.addAttribute("empresa", pessoaJuridicaService.buscarEmpresaPorId(id));
         return "empresas/add";
     }
 

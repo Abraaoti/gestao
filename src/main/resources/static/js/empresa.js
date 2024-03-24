@@ -41,6 +41,20 @@ $(document).ready(function () {
                     return '<a class="btn btn-danger btn-sm btn-block" href="/pessoa_juridica/excluir/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
+            },
+            {orderable: false,
+                data: 'id',
+                "render": function (id) {
+                    return '<a class="btn btn-success btn-sm btn-block" href="/enderecos/add/' +
+                            id + '" role="button"><i class="material-icons">location_city</i></a>';
+                }
+            },
+            {orderable: false,
+                data: 'id',
+                "render": function (id) {
+                    return '<a class="btn btn-success btn-sm btn-block" href="/telefone/add/' +
+                            id + '" role="button"><i class="material-icons">phone</i></a>';
+                }
             }
         ]
     });

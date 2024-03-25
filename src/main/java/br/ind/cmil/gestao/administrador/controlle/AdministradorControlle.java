@@ -43,23 +43,22 @@ public class AdministradorControlle {
     }
 
     @GetMapping("/dados")
-    public String form(AdministradorDTO administradorDTO, Model model, @AuthenticationPrincipal User user) {
-        model.addAttribute("administrador", administradorService.checarDados(administradorDTO,user.getUsername()));
+    public String form(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("administrador", administradorService.checarDados(user.getUsername()));
         return "administrador/cadastro";
     }
 
     @PostMapping("/salvar")
     public ModelAndView save(@ModelAttribute AdministradorDTO administradorDTO, @AuthenticationPrincipal User user, RedirectAttributes redir) {
 
-        administradorService.salvar(administradorDTO);
+        administradorService.salvar(administradorDTO,user.getUsername());
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
-        redir.addFlashAttribute("administrador", administradorDTO);
         return new ModelAndView("redirect:/administrador/dados");
     }
 
-    @PutMapping("/editar")
-    public ModelAndView update(@ModelAttribute AdministradorDTO a, RedirectAttributes redir) {
-        administradorService.salvar(a);
+    @PostMapping("/editar")
+    public ModelAndView update(@ModelAttribute AdministradorDTO a,@AuthenticationPrincipal User user, RedirectAttributes redir) {
+        administradorService.salvar(a,user.getUsername());
         redir.addFlashAttribute("sucesso", "Operação realizada com sucesso");
         return new ModelAndView("redirect:/administrador/dados");
     }

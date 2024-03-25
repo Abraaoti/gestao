@@ -16,6 +16,6 @@ public record AdministradorDTO(
         String nome,
         @NotBlank
         @NotNull
-        Long usuario) {
+        String usuario) {
 
 }

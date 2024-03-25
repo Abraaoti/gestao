@@ -2,7 +2,6 @@
 package br.ind.cmil.gestao.frequencia.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
-import br.ind.cmil.gestao.domain.Frequencia;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

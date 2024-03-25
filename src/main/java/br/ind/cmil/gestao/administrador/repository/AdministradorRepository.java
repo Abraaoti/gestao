@@ -29,8 +29,8 @@ public interface AdministradorRepository extends JpaRepository<Administrador, Lo
 
     Optional<Administrador> findByNome(String nome);
 
-    @Query("select obj from Administrador obj where obj.usuario.email like :email")
-    Optional<Administrador> findByAdministradorEmail(String email);
+    @Query("select obj from Administrador obj inner join obj.usuario u  where  u.nome =:nome")
+    Optional<Administrador> findByUsuarioNome(String nome);
 
     @Query("select a from Administrador a where a.nome like :search%")
     Page<Administrador> findAllByTitulo(String search, Pageable pageable);

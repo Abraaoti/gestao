@@ -86,8 +86,10 @@ public class EnderecoController {
     }
 
     @GetMapping("/datatables/server")
-    public ResponseEntity<?> telefones(HttpServletRequest request) {
+    public ResponseEntity<?> getEnderecos(HttpServletRequest request) {
         return ResponseEntity.ok(enderecoService.buscarTodos(request));
     }
+
+   
 
 }

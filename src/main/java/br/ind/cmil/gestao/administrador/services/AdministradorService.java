@@ -10,9 +10,9 @@ import java.util.Map;
  */
 public interface AdministradorService {
 
-    AdministradorDTO checarDados(AdministradorDTO administradorDTO, String nome);
+    AdministradorDTO checarDados(String nome);
 
-    void salvar(AdministradorDTO a);
+    void salvar(AdministradorDTO a,String nome);
 
     AdministradorDTO buscarPorUsuarioId(Long id);
 

@@ -19,6 +19,7 @@ public enum TipoPerfil  {
     FUNCIONARIO("funcionário"),
     GERENTE("gerente"),
     LIDERFINANCEIRO("líder"),
+    PEDREIRO("pedreiro"),
     TECNICO("técnico"),
     USUARIO("usuário");
     private final String value;
@@ -56,6 +57,8 @@ public enum TipoPerfil  {
                 TipoPerfil.FUNCIONARIO;
             case "líder" ->
                 TipoPerfil.LIDERFINANCEIRO;
+            case "pedreiro" ->
+                TipoPerfil.PEDREIRO;
 
             case "técnico" ->
                 TipoPerfil.TECNICO;

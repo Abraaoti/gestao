@@ -39,20 +39,24 @@ public class AdministradorServiceImpl implements AdministradorService {
 
     @Override
     @Transactional(readOnly = false)
-    public void salvar(AdministradorDTO administradorDTO) {
+    public void salvar(AdministradorDTO administradorDTO, String nome) {
 
         if (administradorDTO.id() == null) {
             validar(administradorDTO);
-            ar.save(am.toEntity(administradorDTO));
+            Administrador administrador = am.toEntity(administradorDTO);
+            Usuario usuario = usuarioRepository.findByNome(nome).get();
+            administrador.setUsuario(usuario);
+            ar.save(administrador);
         }
 
         update(administradorDTO);
     }
 
+    @Transactional(readOnly = false)
     private Administrador update(AdministradorDTO administradorDTO) {
         Administrador administrador = ar.findById(administradorDTO.id()).get();
         administrador.setNome(administradorDTO.nome());
-        Usuario usuario = administrador.getUsuario() == null ? null : usuarioRepository.getReferenceById(administradorDTO.usuario());
+        Usuario usuario = administrador.getUsuario() == null ? null : usuarioRepository.findByNomeOrEmail(administradorDTO.usuario(), administradorDTO.usuario()).get();
         administrador.setUsuario(usuario);
         administrador.setId(administradorDTO.id());
         return ar.save(administrador);
@@ -85,15 +89,22 @@ public class AdministradorServiceImpl implements AdministradorService {
     @Override
     @Transactional(readOnly = true)
     public AdministradorDTO buscarPorEmail(String email) {
-        return am.toDTO(ar.findByAdministradorEmail(email).get());
+        return am.toDTO(ar.findByUsuarioNome(email).get());
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public AdministradorDTO checarDados(AdministradorDTO administradorDTO, String email) {
-        if (administradorDTO.id() != null) {
-            return am.toDTO(ar.findByAdministradorEmail(email).get());
+    public AdministradorDTO checarDados(String nome) {
+
+        Optional<Administrador> administrador = ar.findByUsuarioNome(nome);
+        if (administrador.isEmpty() || administrador.get().getId() == null) {
+            Usuario usuario = usuarioRepository.findByNome(nome).get();
+
+            Administrador administradorUp = new Administrador(usuario);
+            return am.toDTO(administradorUp);
         }
-        return administradorDTO;
+        return am.toDTO(administrador.get());
+
     }
 
     private void validar(AdministradorDTO a) {

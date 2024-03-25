@@ -87,6 +87,7 @@
                                 <li  sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
                                     <a  class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRADOR</a>
                                     <ul id="admin" class="dropdown-menu" aria-labelledby="navbarDropdown">                  							
+                                        <li><a class="dropdown-item"  th:href="@{/administrador/dados}">DADOS</a> </li>
                                         <li><a class="dropdown-item"  th:href="@{/u/add}">Usuário</a> </li>
                                         <li><a class="dropdown-item" th:href="@{/u}">Usuários</a> </li>
                                         <li><a class="dropdown-item" th:href="@{/perfis}">perfis</a> </li>

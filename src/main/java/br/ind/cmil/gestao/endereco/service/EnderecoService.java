@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.endereco.service;
 
 import br.ind.cmil.gestao.endereco.model.EnderecoDTO;
@@ -12,7 +11,7 @@ import org.springframework.data.domain.Pageable;
  * @author ti
  */
 public interface EnderecoService {
-    
+
     List<EnderecoDTO> list(Pageable pageable);
 
     EnderecoDTO buscarEnderecoPorId(Long id);
@@ -28,5 +27,5 @@ public interface EnderecoService {
     EnderecoDTO buscarPorCep(String cep);
 
     boolean pessoaExists(final Long id);
-    
+
 }

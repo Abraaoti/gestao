@@ -20,16 +20,16 @@ public class EnderecoMapper {
     }
 
     public Endereco toEntity(EnderecoDTO dto) {
-        Endereco e = new Endereco();
-        e.setUf(dto.uf());
-        e.setCidade(dto.cidade());
-        e.setBairro(dto.bairro());
-        e.setRua(dto.rua());
-        e.setCep(dto.cep());
-        e.setNumero(dto.numero());
-        e.setComplemento(dto.complemento());
-        e.setPessoa(new Pessoa(dto.id()));
-        return e;
+        Endereco endereco = new Endereco();
+        endereco.setUf(dto.uf());
+        endereco.setCidade(dto.cidade());
+        endereco.setBairro(dto.bairro());
+        endereco.setRua(dto.rua());
+        endereco.setCep(dto.cep());
+        endereco.setNumero(dto.numero());
+        endereco.setComplemento(dto.complemento());
+        endereco.setPessoa(new Pessoa(dto.pessoa()));
+        return endereco;
     }
 
 }

@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.domain;
+package br.ind.cmil.gestao.frequencia.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
 import br.ind.cmil.gestao.convert.TipoAusenciaConvert;
@@ -7,6 +7,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -17,54 +19,43 @@ import jakarta.persistence.Table;
 @Table(name = "tbl_frequencias")
 public class Frequencia extends Entidade {
 
-    //@Column(name = "data")
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
-   // private LocalDate data;
+    @Column(name = "data")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate data;
     @Column(name = "status", nullable = false)
     @Convert(converter = TipoAusenciaConvert.class)
-    private TipoFrequencia status;
+    private TipoFrequencia status = TipoFrequencia.FALTA;
+
     // @JsonManagedReference
     //@JsonIgnoreProperties("frequencias")
     // @JsonIgnoreProperties(value = "frequencias", allowSetters = true)
-   /**
-     * @param id *  @JsonBackReference
-    @ManyToMany
-    @JoinTable(name = "tbl_frequencias_funcionarios",
-            joinColumns = {
-                @JoinColumn(name = "frequencia_id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "funcionario_id")}
-    )
-    private Set<Funcionario> funcionarios;
+    /**
+     * @param id * @JsonBackReference
+     * @ManyToMany
+     * @JoinTable(name = "tbl_frequencias_funcionarios", joinColumns = {
+     * @JoinColumn(name = "frequencia_id")}, inverseJoinColumns = {
+     * @JoinColumn(name = "funcionario_id")} ) private Set<Funcionario>
+     * funcionarios;
+     *
+     * public Frequencia() { data = LocalDate.now(); }
+     *
+     * public void addFuncionario(Funcionario funcionario) {
+     * this.funcionarios.add(funcionario);
+     * funcionario.getFrequencias().add(this); }
+     *
+     * public void removeFuncionario(Funcionario funcionario) {
+     * this.funcionarios.remove(funcionario);
+     * funcionario.getFrequencias().remove(this); } public Set<Funcionario>
+     * getFuncionarios() { return funcionarios; }
+     *
+     * public void setFuncionarios(Set<Funcionario> funcionarios) {
+     * this.funcionarios = funcionarios; } public LocalDate getData() { return
+     * data; }
+     *
+     * public void setData(LocalDate data) { this.data = data;
+    }*
+     */
 
-    public Frequencia() {
-        data =  LocalDate.now();
-    }
-
-    public void addFuncionario(Funcionario funcionario) {
-        this.funcionarios.add(funcionario);
-        funcionario.getFrequencias().add(this);
-    }
-
-    public void removeFuncionario(Funcionario funcionario) {
-        this.funcionarios.remove(funcionario);
-        funcionario.getFrequencias().remove(this);
-    }
-   public Set<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-    public void setFuncionarios(Set<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
-    }
-      public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
-    }**/
-    
     public Frequencia() {
     }
 
@@ -73,10 +64,16 @@ public class Frequencia extends Entidade {
     }
 
     public Frequencia(TipoFrequencia tipo) {
-          this.status = TipoFrequencia.valueOf(tipo.getValue());
+        this.status = TipoFrequencia.valueOf(tipo.getValue());
     }
 
-  
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
 
     public TipoFrequencia getStatus() {
         return status;
@@ -86,6 +83,5 @@ public class Frequencia extends Entidade {
         this.status = status;
     }
 
- 
-
+    
 }

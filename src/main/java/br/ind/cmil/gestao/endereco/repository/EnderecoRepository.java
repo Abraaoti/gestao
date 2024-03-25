@@ -1,6 +1,7 @@
 package br.ind.cmil.gestao.endereco.repository;
 
 import br.ind.cmil.gestao.endereco.domain.Endereco;
+import br.ind.cmil.gestao.endereco.repository.projections.EnderecoProjection;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.pessoa.domain.Pessoa;
 import java.util.List;
@@ -37,6 +38,9 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
     @Query(value = "SELECT obj FROM Endereco obj  JOIN  obj.pessoa p where  obj.cep like :cep%")
     Page<Endereco> findAllByEndereco(String cep, Pageable pageable);
+
+   // @Query(value = "SELECT obj FROM Endereco obj  INNER JOIN  obj.pessoa p where  p.nome =:pessoa_nome")
+   // Page<EnderecoProjection> findByEnderecoPessoaNome(@Param("pessoa_nome") String pessoa_nome, Pageable pageable);
 
     Endereco findByPessoa(Pessoa pessoa);
 

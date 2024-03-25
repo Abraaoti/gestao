@@ -1,7 +1,7 @@
 
 package br.ind.cmil.gestao.frequencia.service;
 
-import br.ind.cmil.gestao.domain.Frequencia;
+import br.ind.cmil.gestao.frequencia.domain.Frequencia;
 import br.ind.cmil.gestao.model.dto.FrequenciaDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;

@@ -7,14 +7,19 @@ import br.ind.cmil.gestao.enums.Genero;
 import br.ind.cmil.gestao.jornada.domain.JornadaTrabalho;
 import br.ind.cmil.gestao.pessoa.domain.PessoaFisica;
 import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
+import br.ind.cmil.gestao.ponto.domain.Ponto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -41,7 +46,9 @@ public class Funcionario extends PessoaFisica {
     private LocalDate demissao;
     //@ManyToOne
     //@JoinColumn(name = "centro_custo_id", referencedColumnName = "id")
-   // private CentroCusto centro;
+    // private CentroCusto centro;
+
+  
     @ManyToOne
     private PessoaJuridica empresa;
     @ManyToOne
@@ -144,8 +151,6 @@ public class Funcionario extends PessoaFisica {
         this.finalJornada = finalJornada;
     }
 
-  
-
     public String getClt() {
         return clt;
     }
@@ -185,8 +190,6 @@ public class Funcionario extends PessoaFisica {
     public void setDemissao(LocalDate demissao) {
         this.demissao = demissao;
     }
-
-  
 
     public PessoaJuridica getEmpresa() {
         return empresa;
@@ -237,7 +240,7 @@ public class Funcionario extends PessoaFisica {
         sb.append(", departamento=").append(departamento);
         sb.append(", cargo=").append(cargo);
         sb.append(", demissao=").append(demissao);
-      
+
         sb.append(", empresa=").append(empresa);
         sb.append(", jornadaTrabalho=").append(jornadaTrabalho);
         sb.append(", tolerancia=").append(tolerancia);
@@ -246,7 +249,5 @@ public class Funcionario extends PessoaFisica {
         sb.append('}');
         return sb.toString();
     }
-
-   
 
 }

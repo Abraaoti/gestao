@@ -1,8 +1,7 @@
 $(document).ready(function () {
+ moment.locale('pt-BR');
 
-
-    moment.locale('pt-BR');
-    var table = $('#table-endereco').DataTable({
+    var table = $('#table-enderecos').DataTable({
         searching: true,
         order: [[1, "asc"]],
         lengthMenu: [5, 10],
@@ -42,4 +41,5 @@ $(document).ready(function () {
             }
         ]
     });
+    
 });

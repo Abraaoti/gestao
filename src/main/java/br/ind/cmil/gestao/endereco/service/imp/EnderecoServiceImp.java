@@ -7,7 +7,6 @@ import br.ind.cmil.gestao.endereco.mapper.EnderecoMapper;
 import br.ind.cmil.gestao.endereco.model.EnderecoDTO;
 import br.ind.cmil.gestao.endereco.repository.EnderecoRepository;
 import br.ind.cmil.gestao.endereco.service.EnderecoService;
-import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import br.ind.cmil.gestao.pessoa.domain.Pessoa;
 import br.ind.cmil.gestao.pessoa.repository.PessoaRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,11 +49,9 @@ public class EnderecoServiceImp implements EnderecoService {
     @Override
     @Transactional(readOnly = false)
     public EnderecoDTO salvar(EnderecoDTO enderecoDTO) {
-        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
-
-        validarAtributos(endereco);
-
         if (enderecoDTO.id() == null) {
+            Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
+            validarAtributos(endereco);
             Pessoa pessoa = pessoaService.findByNome(enderecoDTO.pessoa()).get();
             endereco.setPessoa(pessoa);
             return enderecoMapper.toDTO(enderecoRepository.save(endereco));
@@ -68,7 +65,16 @@ public class EnderecoServiceImp implements EnderecoService {
     public EnderecoDTO update(EnderecoDTO dto) {
 
         Endereco endereco = enderecoRepository.findById(dto.id()).get();
-        
+
+        endereco.setUf(dto.uf());
+        endereco.setCidade(dto.cidade());
+        endereco.setBairro(dto.bairro());
+        endereco.setRua(dto.rua());
+        endereco.setCep(dto.cep());
+        endereco.setNumero(dto.numero());
+        endereco.setComplemento(dto.complemento());
+        Pessoa pessoa = pessoaService.findByNome(dto.pessoa()).get();
+        endereco.setPessoa(pessoa);
 
         return enderecoMapper.toDTO(enderecoRepository.save(endereco));
     }
@@ -129,4 +135,6 @@ public class EnderecoServiceImp implements EnderecoService {
     public boolean pessoaExists(Long id) {
         return pessoaService.existsById(id);
     }
+
+  
 }

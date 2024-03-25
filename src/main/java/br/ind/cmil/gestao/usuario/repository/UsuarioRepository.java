@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.usuario.repository;
 
 import br.ind.cmil.gestao.usuario.domain.Usuario;
@@ -17,26 +16,24 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-  @Query("select distinct u from Usuario u "
-			+ "join u.perfis p "
-			+ "where u.email like :search% OR p.tp like :search%") 
-	Page<Usuario> findByEmailOrPerfil(String search, Pageable pageable);
 
-	
-
+    @Query("select distinct u from Usuario u "
+            + "join u.perfis p "
+            + "where u.email like :search% OR p.tp like :search%")
+    Page<Usuario> findByEmailOrPerfil(String search, Pageable pageable);
 
     // @Query("UPDATE Usuario u SET u.failedLoginAttempts = ?1 WHERE u.email = ?2")
     // @Modifying
     //void updateFailedAttempts(int failAttempts, String email);
     //@Query("select u from Usuario u where  u.nome =:nome")
     //List<Usuario> findUsuariosByPerfisId(Long perfilId);
-
+    @Query("SELECT obj.nome FROM Usuario obj  where  obj.nome= :nome")
     Optional<Usuario> findByNome(String nome);
 
     @Query("select u from Usuario u INNER JOIN FETCH u.perfis p where  u.email= :email")
     Optional<Usuario> findByEmail(@Param("email") String email);
 
-    @Query("SELECT obj FROM Usuario obj INNER JOIN FETCH obj.perfis p where obj.ativo = true AND obj.nome= :nome OR  obj.email = :email" )
+    @Query("SELECT obj FROM Usuario obj INNER JOIN FETCH obj.perfis p where obj.ativo = true AND obj.nome= :nome OR  obj.email = :email")
     Optional<Usuario> findByNomeOrEmail(@Param("nome") String nome, @Param("email") String email);
 
     @Query("select u from Usuario u INNER JOIN FETCH u.perfis p where  u.nome = :nome")
@@ -74,4 +71,3 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByVerificationCode(String code);
 
 }
-

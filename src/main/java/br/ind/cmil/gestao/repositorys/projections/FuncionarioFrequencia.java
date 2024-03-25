@@ -1,7 +1,7 @@
 
 package br.ind.cmil.gestao.repositorys.projections;
 
-import br.ind.cmil.gestao.domain.Frequencia;
+import br.ind.cmil.gestao.frequencia.domain.Frequencia;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 
 /**

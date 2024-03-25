@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
 public class AdministradorMapper {
     
     public AdministradorDTO toDTO(Administrador administrador) {
-        Long usuario = (administrador.getUsuario().getId() == null) ? null : administrador.getUsuario().getId();
-        return new AdministradorDTO(administrador.getId(), administrador.getNome(), usuario);
+       // Long usuario = (administrador.getUsuario().getId() == null) ? null : administrador.getUsuario().getId();
+        return new AdministradorDTO(administrador.getId(), administrador.getNome(), administrador.getUsuario().getNome());
     }
     
     public Administrador toEntity(AdministradorDTO dto) {
         Administrador administrador = new Administrador();
         administrador.setNome(dto.nome());
-        administrador.setUsuario(new Usuario(dto.id()));
+        administrador.setUsuario(new Usuario(dto.usuario()));
         return administrador;
     }
 }

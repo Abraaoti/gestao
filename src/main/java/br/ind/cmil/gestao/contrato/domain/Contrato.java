@@ -29,11 +29,15 @@ public class Contrato extends Entidade {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime fim;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime update;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime assinatura;
     @Column(name = "local", unique = true, nullable = false)
     private String local;
-    @Column(name = "funcoes", unique = true, nullable = false)
-    private String funcoes;
+    @Column(name = "descricao", unique = true, nullable = false)
+    private String descricao;
+    @Column(name = "status", unique = true, nullable = false)
+    private boolean status;
   
 
     public Contrato() {

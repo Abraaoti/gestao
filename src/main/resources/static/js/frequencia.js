@@ -15,8 +15,15 @@ $(document).ready(function () {
             data: 'data'
         },
         columns: [
-            {data: 'id'},   
-           
+            {data: 'id'},
+            {data: 'funcionario.nome'},
+            {data: 'data', render:function (data) { return moment(data).format('L');} },
+            {data: 'entradaManha', render:function (entradaManha) { return moment(entradaManha).format('L');} },
+            {data: 'saidaManha', render:function (saidaManha) { return moment(saidaManha).format('L');} },
+            {data: 'entradaTarde', render:function (entradaTarde) { return moment(entradaTarde).format('L');} },
+            {data: 'saidaTarde', render:function (saidaTarde) { return moment(saidaTarde).format('L');} },
+            {data: 'entradaExtra', render:function (entradaExtra) { return moment(entradaExtra).format('L');} },
+            {data: 'saidaExtra', render:function (saidaExtra) { return moment(saidaExtra).format('L');} },
           
              {data: 'status', render: function (data, type) {
 

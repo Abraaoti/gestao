@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+        <title>Controle Presença</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+
+     <p><button id="submit" type="submit">Submit form</button></p>
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                       <th>Funcionário</th>
+                        <th>Frequência</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Donna Snider</td>
+                        <td><select size="1" id="row-57-office" name="row-57-office">
+                                <option value="Edinburgh">
+                                    Edinburgh
+                                </option>
+                                <option value="London">
+                                    London
+                                </option>
+                                <option value="New York" selected="selected">
+                                    New York
+                                </option>
+                                <option value="San Francisco">
+                                    San Francisco
+                                </option>
+                                <option value="Tokyo">
+                                    Tokyo
+                                </option>
+                            </select></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Funcionário</th>
+                        <th>Frequência</th>
+                    </tr>
+                </tfoot>
+            </table>
+            
+            <form th:action="${cartao.id == null} ? @{/cartao/salvar} : @{/cartao/editar}"  th:object="${cartao}"  method="POST" class="was-validated">
+
+                <div class="form row">
+                    <label class="col-sm-2 col-form-label"  for="status" >Selecione o Funcionário</label> 
+                    <div class="col-sm-3">
+                        <select class="form-select" th:field="*{funcionario}" >
+                            <option th:each="funcionario : ${funcionarios}"   th:value="${funcionario.id}" th:text="${funcionario.nome}" id="funcionario"  />
+                        </select>  
+
+                    </div>
+                </div>
+
+               
+						
+                <input type="hidden" th:field="*{id}"/>							
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button id="btn-salvar" type="submit" class="btn btn-primary" 
+                                data-toggle="tooltip" data-placement="right" title="Salvar">
+                            <i class="fas fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <script	th:src="~{}" th:fragment="js"></script>
+        <script th:inline="javascript" th:fragment="inlinescript"></script>
+    </body>
+</html>

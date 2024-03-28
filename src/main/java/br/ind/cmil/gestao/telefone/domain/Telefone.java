@@ -39,6 +39,8 @@ public class Telefone extends Entidade {
     @OnDelete(action = OnDeleteAction.CASCADE) 
     private Pessoa pessoa;
 
+    
+    
     public String getNumero() {
         return numero;
     }
@@ -60,6 +62,11 @@ public class Telefone extends Entidade {
     }
 
     public void setPessoa(Pessoa pessoa) {
+        
+         this.pessoa = pessoa;
+        if (!pessoa.getTelefones().contains(this)) { // warning this may cause performance issues if you have a large data set since this operation is O(n)
+            pessoa.getTelefones().add(this);
+        }
         this.pessoa = pessoa;
     }
 

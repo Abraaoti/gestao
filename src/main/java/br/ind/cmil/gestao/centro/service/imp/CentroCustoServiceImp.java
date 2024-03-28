@@ -8,7 +8,6 @@ import br.ind.cmil.gestao.centro.repository.CentroCustoRepository;
 import br.ind.cmil.gestao.centro.service.CentroCustoService;
 import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;

@@ -1,17 +1,19 @@
 package br.ind.cmil.gestao.pessoa.domain;
 
-import br.ind.cmil.gestao.base.Entidade;
+import br.ind.cmil.gestao.telefone.domain.Telefone;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -38,6 +40,8 @@ public class Pessoa implements Serializable {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate nascimento;
+    @OneToMany(mappedBy = "pessoa")
+    protected List<Telefone> telefones;
   
     public Pessoa() {
 
@@ -58,6 +62,13 @@ public class Pessoa implements Serializable {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.nascimento = nascimento;
+    }
+    
+    public void addTelefone(Telefone telefone) {
+        this.telefones.add(telefone);
+        if (telefone.getPessoa()!= this) {
+            telefone.setPessoa(this);
+        }
     }
 
     /*
@@ -104,6 +115,14 @@ public class Pessoa implements Serializable {
 
     public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
     }
   
 

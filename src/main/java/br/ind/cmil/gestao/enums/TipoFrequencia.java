@@ -52,7 +52,7 @@ public enum TipoFrequencia {
     public static Set<String> tipoFrequencias() {
         Set<String> frequencias = new HashSet<>();
         for (TipoFrequencia ausencia : TipoFrequencia.values()) {
-            frequencias.add(ausencia.getValue());
+            frequencias.add(ausencia.getValue().toLowerCase());
         }
         return frequencias;
     }

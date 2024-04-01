@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -46,14 +48,15 @@ public class FrequenciaServiceImp implements FrequenciaService {
      @Transactional(readOnly = false, rollbackFor = Exception.class)
     public Long salvar(FrequenciaDTO frequenciaDTO) {
          final Frequencia frequencia = frequenciaMapper.toEntity(frequenciaDTO);
-         Funcionario funcionario = funcionarioRepository.findByNome(frequenciaDTO.funcionario()).get();
+         Set<Funcionario> funcionarios = frequenciaDTO.funcionarios().stream().map(funcionario -> funcionarioRepository.findById(funcionario).get()).collect(Collectors.toSet());
          frequencia.setData(LocalDate.now());
-         frequencia.setEntradaManha(null);
-         frequencia.setSaidaManha(null);
-         frequencia.setSaidaTarde(null);
-         frequencia.setEntradaExtra(null);
-         frequencia.setSaidaExtra(null);
-         frequencia.setFuncionario(funcionario);
+         frequencia.setEntradaManha(frequenciaDTO.entradaManha());
+         frequencia.setSaidaManha(frequenciaDTO.saidaManha());
+         frequencia.setSaidaTarde(frequenciaDTO.entradaTarde());
+         frequencia.setEntradaExtra(frequenciaDTO.saidaTarde());
+         frequencia.setEntradaExtra(frequenciaDTO.entradaExtra());
+         frequencia.setSaidaExtra(frequenciaDTO.saidaExtra());
+         frequencia.setFuncionarios(funcionarios);
        return frequenciaRepository.save(frequencia).getId();
     }
 

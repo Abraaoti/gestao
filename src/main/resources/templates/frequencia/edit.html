@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{frequencia.edit.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{frequencia.edit.headline}]]</h1>
+                <div>
+                    <a th:href="@{/frequencias}" class="btn btn-secondary">[[#{frequencia.edit.back}]]</a>
+                </div>
+            </div>
+            <div th:replace="~{fragments/forms::globalErrors('frequencia')}" />
+            <form th:action="${requestUri}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='id', disabled=true, type='number')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='status', type='select')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='data', inputClass='js-datepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='entradaManha', inputClass='js-datetimepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='saidaManha', inputClass='js-datetimepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='entradaTarde', inputClass='js-datetimepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='saidaTarde', inputClass='js-datetimepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='entradaExtra', inputClass='js-datetimepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='saidaExtra', inputClass='js-datetimepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='frequencia', field='funcionarios', type='multiselect')}" />
+                <input type="submit" th:value="#{frequencia.edit.headline}" class="btn btn-primary mt-4" />
+            </form>
+        </div>
+    </body>
+</html>

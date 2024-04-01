@@ -12,7 +12,7 @@
                     <div class="row">                      
 
                         <div class="input-field col s4">
-                            <select   th:field="*{funcionario}">
+                            <select   th:field="*{funcionarios}">
                                 <option th:each="funcionario : ${funcionarios}" th:value="${funcionario.nome}" th:text="${funcionario.nome}"/>
                             </select>
                         </div>

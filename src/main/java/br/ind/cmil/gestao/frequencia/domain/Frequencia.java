@@ -9,10 +9,13 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -42,9 +45,13 @@ public class Frequencia extends Entidade {
     private LocalDateTime entradaExtra;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime saidaExtra;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "funcionario_id")
-    private Funcionario funcionario;
+    @ManyToMany
+    @JoinTable(
+            name = "tnl_frequencia_funcionarios",
+            joinColumns = @JoinColumn(name = "frequencia_id"),
+            inverseJoinColumns = @JoinColumn(name = "funcionario_id")
+    )
+    private Set<Funcionario> funcionarios;
 
     public Frequencia() {
     }
@@ -121,17 +128,12 @@ public class Frequencia extends Entidade {
         this.saidaExtra = saidaExtra;
     }
 
-    public Funcionario getFuncionario() {
-        return funcionario;
+    public Set<Funcionario> getFuncionarios() {
+        return funcionarios;
     }
 
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
-       // if (!funcionario.getFrequencias().contains(this)) { // warning this may cause performance issues if you have a large data set since this operation is O(n)
-       //     funcionario.getFrequencias().add(this);
-       // }
+    public void setFuncionarios(Set<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
-    
-    
 
 }

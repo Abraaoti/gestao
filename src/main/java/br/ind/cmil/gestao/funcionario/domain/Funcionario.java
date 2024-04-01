@@ -10,6 +10,7 @@ import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -44,7 +45,7 @@ public class Funcionario extends PessoaFisica {
     @ManyToOne(fetch=FetchType.LAZY)
       @JoinColumn(name = "empresa_id")
     private PessoaJuridica empresa; 
-    @OneToMany(mappedBy = "funcionario")
+    @ManyToMany(mappedBy = "funcionarios")
     private List<Frequencia> frequencias; 
 
     public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa) {
@@ -106,12 +107,12 @@ public class Funcionario extends PessoaFisica {
         this.empresa = empresa;
     }
     
-    public void addFrequencia(Frequencia frequencia) {
+   /** public void addFrequencia(Frequencia frequencia) {
         this.frequencias.add(frequencia);
         if (frequencia.getFuncionario()!= this) {
             frequencia.setFuncionario(this);
         }
-    }
+    }*/
 
     public Funcionario() {
     }

@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Sort;
 import br.ind.cmil.gestao.pessoa.repository.PessoaJuridicaRepository;
+import br.ind.cmil.gestao.util.CustomCollectors;
 
 /**
  *
@@ -61,6 +62,15 @@ public class FuncionarioServiceImp implements FuncionarioService {
         
         List<Funcionario> funcionarios = funcionarioRepository.findAll(Sort.by("id"));
         return funcionarios.stream().map(funcionarioMapper::toDTO).collect(Collectors.toList());
+        
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public    Map<Long, String> funcionarios(){        
+      
+        return  funcionarioRepository.findAll(Sort.by("id"))
+                .stream()
+                .collect(CustomCollectors.toSortedMap(Funcionario::getId, Funcionario::getNome));
         
     }
     
@@ -184,5 +194,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
         return funcionarios;
         
     }
+
+   
     
 }

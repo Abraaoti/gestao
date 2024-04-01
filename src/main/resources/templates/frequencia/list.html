@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{frequencia.list.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 class="flex-grow-1">[[#{frequencia.list.headline}]]</h1>
+                <div>
+                    <a th:href="@{/frequencias/add}" class="btn btn-primary ms-2">[[#{frequencia.list.createNew}]]</a>
+                </div>
+            </div>
+            <div th:if="${frequencias.empty}">[[#{frequencia.list.empty}]]</div>
+            <div th:if="${!frequencias.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">[[#{frequencia.id.label}]]</th>
+                            <th scope="col">[[#{frequencia.status.label}]]</th>
+                            <th scope="col">[[#{frequencia.data.label}]]</th>
+                            <th scope="col">[[#{frequencia.entradaManha.label}]]</th>
+                            <th scope="col">[[#{frequencia.saidaManha.label}]]</th>
+                            <th scope="col">[[#{frequencia.entradaTarde.label}]]</th>
+                            <th scope="col">[[#{frequencia.saidaTarde.label}]]</th>
+                            <th scope="col">[[#{frequencia.entradaExtra.label}]]</th>
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="frequencia : ${frequencias}">
+                            <td>[[${frequencia.id}]]</td>
+                            <td>[[${frequencia.status}]]</td>
+                            <td>[[${frequencia.data}]]</td>
+                            <td>[[${frequencia.entradaManha}]]</td>
+                            <td>[[${frequencia.saidaManha}]]</td>
+                            <td>[[${frequencia.entradaTarde}]]</td>
+                            <td>[[${frequencia.saidaTarde}]]</td>
+                            <td>[[${frequencia.entradaExtra}]]</td>
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/frequencias/edit/{id}(id=${frequencia.id})}" class="btn btn-sm btn-secondary">[[#{frequencia.list.edit}]]</a>
+                                    <form th:action="@{/frequencias/delete/{id}(id=${frequencia.id})}"
+                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm d-inline">
+                                        <button type="submit" class="btn btn-sm btn-secondary">[[#{frequencia.list.delete}]]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

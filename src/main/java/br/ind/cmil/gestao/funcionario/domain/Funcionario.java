@@ -4,19 +4,15 @@ import br.ind.cmil.gestao.cargo.domain.Cargo;
 import br.ind.cmil.gestao.departamento.domain.Departamento;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
-import br.ind.cmil.gestao.frequencia.domain.Frequencia;
 import br.ind.cmil.gestao.pessoa.domain.PessoaFisica;
 import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -33,20 +29,18 @@ public class Funcionario extends PessoaFisica {
     private String clt;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate admissao;
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "departamento_id")
     private Departamento departamento;
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "cargo_id")
     private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate demissao;  
-  
-    @ManyToOne(fetch=FetchType.LAZY)
-      @JoinColumn(name = "empresa_id")
-    private PessoaJuridica empresa; 
-    @ManyToMany(mappedBy = "funcionarios")
-    private List<Frequencia> frequencias; 
+    private LocalDate demissao;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private PessoaJuridica empresa;
 
     public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa) {
         this.clt = clt;
@@ -106,14 +100,13 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
         this.empresa = empresa;
     }
-    
-   /** public void addFrequencia(Frequencia frequencia) {
-        this.frequencias.add(frequencia);
-        if (frequencia.getFuncionario()!= this) {
-            frequencia.setFuncionario(this);
-        }
-    }*/
 
+    /**
+     * public void addFrequencia(Frequencia frequencia) {
+     * this.frequencias.add(frequencia); if (frequencia.getFuncionario()!= this)
+     * { frequencia.setFuncionario(this); }
+    }
+     */
     public Funcionario() {
     }
 
@@ -125,7 +118,6 @@ public class Funcionario extends PessoaFisica {
         super.setNome(nome);
     }
 
-  
     public String getClt() {
         return clt;
     }
@@ -166,14 +158,6 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
     }
 
-    public List<Frequencia> getFrequencias() {
-        return frequencias;
-    }
-
-    public void setFrequencias(List<Frequencia> frequencias) {
-        this.frequencias = frequencias;
-    }
-
     public PessoaJuridica getEmpresa() {
         return empresa;
     }
@@ -187,5 +171,4 @@ public class Funcionario extends PessoaFisica {
         return "Funcionario{" + "clt=" + clt + ", admissao=" + admissao + ", departamento=" + departamento + ", cargo=" + cargo + ", demissao=" + demissao + ", empresa=" + empresa + '}';
     }
 
-   
 }

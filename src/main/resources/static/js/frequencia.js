@@ -17,15 +17,23 @@ $(document).ready(function () {
         columns: [
             {data: 'id'},
             {data: 'funcionario.nome'},
-            {data: 'data', render:function (data) { return moment(data).format('L');} },
-            {data: 'entradaManha', render:function (entradaManha) { return moment(entradaManha).format('L');} },
-            {data: 'saidaManha', render:function (saidaManha) { return moment(saidaManha).format('L');} },
-            {data: 'entradaTarde', render:function (entradaTarde) { return moment(entradaTarde).format('L');} },
-            {data: 'saidaTarde', render:function (saidaTarde) { return moment(saidaTarde).format('L');} },
-            {data: 'entradaExtra', render:function (entradaExtra) { return moment(entradaExtra).format('L');} },
-            {data: 'saidaExtra', render:function (saidaExtra) { return moment(saidaExtra).format('L');} },
-          
-             {data: 'status', render: function (data, type) {
+            {data: 'data', render: function (data) {
+                    return moment(data).format('L');
+                }},
+            {data: 'entradaManha', render: function (entradaManha) {
+                    return moment(entradaManha, "h:mm:ss").format('HH:mm:ss');
+                }},
+            {data: 'saidaManha', render: function (saidaManha) {
+                    return moment(saidaManha, "h:mm:ss").format('HH:mm:ss');
+                }},
+            {data: 'entradaTarde', render: function (entradaTarde) {
+                    return moment(entradaTarde, "h:mm:ss").format('HH:mm:ss');
+                }},
+            {data: 'saidaTarde', render: function (saidaTarde) {
+                    return moment(saidaTarde, "h:mm:ss").format('HH:mm:ss');
+                }},
+
+            {data: 'status', render: function (data, type) {
 
                     var st = $.fn.dataTable.render.text().display(data);
                     if (type === 'display') {
@@ -42,9 +50,9 @@ $(document).ready(function () {
                     return status;
                 }
 
-             
+
             },
-               {orderable: false,
+            {orderable: false,
                 data: 'id',
                 "render": function (id) {
                     return '<a class="btn btn-success btn-sm btn-block" href="/frequencias/editar/' +
@@ -60,7 +68,7 @@ $(document).ready(function () {
             }
 
         ]
-       
-    
+
+
     });
 });

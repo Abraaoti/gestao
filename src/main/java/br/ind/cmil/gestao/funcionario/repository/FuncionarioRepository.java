@@ -1,9 +1,7 @@
 package br.ind.cmil.gestao.funcionario.repository;
 
-import br.ind.cmil.gestao.frequencia.domain.Frequencia;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.funcionario.repository.projections.FuncionarioBaseProjection;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,8 +31,6 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
     Optional<Funcionario> findByRg(String rg);
 
     Optional<Funcionario> findByNome(String nome);
-
-    Funcionario findFirstByFrequencias(Frequencia frequencia);
 
     /**
      * @Transactional(readOnly = true)

@@ -24,18 +24,16 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
             + "f.saidaManha as saidaManha,"
             + "f.entradaTarde as entradaTarde,"
             + "f.saidaTarde as saidaTarde,"
-            + "f.entradaExtra as entradaExtra,"
-            + "f.saidaExtra as saidaExtra,"
-            + "f.funcionarios as funcionario "
+            + "f.funcionario.nome as funcionario "
             + "from Frequencia f  "
             + "where f.status like :search%")
-    Page<FrequenciaProjection> searchAll(TipoFrequencia search, Pageable pageable);
+    Page<Frequencia> searchAll(TipoFrequencia search, Pageable pageable);
 
-    @Query("SELECT  f FROM Frequencia f join  f.funcionarios as fu where f.status =:status")
+    @Query("SELECT  f FROM Frequencia f join  f.funcionario as fu where f.status =:status")
     Optional<Frequencia> findByStatus(TipoFrequencia status);
 
-    Frequencia findFirstByFuncionarios(Funcionario funcionario);
+    Frequencia findFirstByFuncionario(Funcionario funcionario);
 
-    List<Frequencia> findAllByFuncionarios(Funcionario funcionario);
+    List<Frequencia> findAllByFuncionario(Funcionario funcionario);
 
 }

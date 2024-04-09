@@ -7,15 +7,13 @@ import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.time.LocalTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -33,25 +31,17 @@ public class Frequencia extends Entidade {
     @Column(name = "status", nullable = false)
     @Convert(converter = TipoAusenciaConvert.class)
     private TipoFrequencia status = TipoFrequencia.FALTA;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime entradaManha;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime saidaManha;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime entradaTarde;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime saidaTarde;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime entradaExtra;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime saidaExtra;
-    @ManyToMany
-    @JoinTable(
-            name = "tnl_frequencia_funcionarios",
-            joinColumns = @JoinColumn(name = "frequencia_id"),
-            inverseJoinColumns = @JoinColumn(name = "funcionario_id")
-    )
-    private Set<Funcionario> funcionarios;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime entradaManha;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime saidaManha;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime entradaTarde;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime saidaTarde;   
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
+    private Funcionario funcionario;
 
     public Frequencia() {
     }
@@ -80,60 +70,60 @@ public class Frequencia extends Entidade {
         this.status = status;
     }
 
-    public LocalDateTime getEntradaManha() {
+    public LocalTime getEntradaManha() {
         return entradaManha;
     }
 
-    public void setEntradaManha(LocalDateTime entradaManha) {
+    public void setEntradaManha(LocalTime entradaManha) {
         this.entradaManha = entradaManha;
     }
 
-    public LocalDateTime getSaidaManha() {
+    public LocalTime getSaidaManha() {
         return saidaManha;
     }
 
-    public void setSaidaManha(LocalDateTime saidaManha) {
+    public void setSaidaManha(LocalTime saidaManha) {
         this.saidaManha = saidaManha;
     }
 
-    public LocalDateTime getEntradaTarde() {
+    public LocalTime getEntradaTarde() {
         return entradaTarde;
     }
 
-    public void setEntradaTarde(LocalDateTime entradaTarde) {
+    public void setEntradaTarde(LocalTime entradaTarde) {
         this.entradaTarde = entradaTarde;
     }
 
-    public LocalDateTime getSaidaTarde() {
+    public LocalTime getSaidaTarde() {
         return saidaTarde;
     }
 
-    public void setSaidaTarde(LocalDateTime saidaTarde) {
+    public void setSaidaTarde(LocalTime saidaTarde) {
         this.saidaTarde = saidaTarde;
     }
 
-    public LocalDateTime getEntradaExtra() {
-        return entradaExtra;
+    public Funcionario getFuncionario() {
+        return funcionario;
     }
 
-    public void setEntradaExtra(LocalDateTime entradaExtra) {
-        this.entradaExtra = entradaExtra;
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 
-    public LocalDateTime getSaidaExtra() {
-        return saidaExtra;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Frequencia{");
+        sb.append("data=").append(data);
+        sb.append(", status=").append(status);
+        sb.append(", entradaManha=").append(entradaManha);
+        sb.append(", saidaManha=").append(saidaManha);
+        sb.append(", entradaTarde=").append(entradaTarde);
+        sb.append(", saidaTarde=").append(saidaTarde);
+        sb.append(", funcionario=").append(funcionario);
+        sb.append('}');
+        return sb.toString();
     }
 
-    public void setSaidaExtra(LocalDateTime saidaExtra) {
-        this.saidaExtra = saidaExtra;
-    }
-
-    public Set<Funcionario> getFuncionarios() {
-        return funcionarios;
-    }
-
-    public void setFuncionarios(Set<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
-    }
-
+   
 }

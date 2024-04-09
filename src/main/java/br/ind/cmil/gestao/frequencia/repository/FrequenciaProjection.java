@@ -2,8 +2,6 @@ package br.ind.cmil.gestao.frequencia.repository;
 
 import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  *

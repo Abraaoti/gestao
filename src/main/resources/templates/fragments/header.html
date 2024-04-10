@@ -100,7 +100,7 @@
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRATIVO</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <li><a class="dropdown-item" th:href="@{/administrador/dados}">dados</a> </li>                      
-                                        <li><a class="dropdown-item" th:href="@{/centroCusto}"> centros de custos</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/centroCusto}">[[#{centroCusto.list.headline}]]</a></li>
                                         <li><a class="dropdown-item" th:href="@{/departamentos}">[[#{departamento.list.headline}]]</a></li>                       
                                         <li><a class="dropdown-item" th:href="@{/cargo}">[[#{cargo.list.headline}]]</a></li>
                                     </ul>
@@ -120,10 +120,8 @@
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">AUXILIAR</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <li><a class="dropdown-item" th:href="@{/auxiliar/dados}">dados</a></li>
-                                        <li><a class="dropdown-item" th:href="@{/frequencias/add}"> Cartão</a></li>
-                                        <li><a class="dropdown-item" th:href="@{/frequencias/funcionariosFrequencias}"> frequencia</a></li>
+                                        <li><a class="dropdown-item" th:href="@{/frequencias/add}">[[#{frequencia.add.headline}]]</a></li>
                                         <li><a class="dropdown-item" th:href="@{/frequencias}">[[#{frequencia.list.headline}]]</a></li>
-                                        <li><a class="dropdown-item" th:href="@{/presenca/historico/funcionarios}">Histórico</a></li>
                                     </ul>
                                 </li>	
 

@@ -1,17 +1,13 @@
 package br.ind.cmil.gestao.assistente.domain;
 
-import br.ind.cmil.gestao.agendamento.domain.Agendamento;
 import br.ind.cmil.gestao.base.Entidade;
 import br.ind.cmil.gestao.usuario.domain.Usuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

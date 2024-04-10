@@ -8,27 +8,28 @@
         <div layout:fragment="content">
 
 
-            <form th:action="${frequencia.id == null} ? @{/frequencias/add} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated col s12">
-                <div class="row">                      
+            <form th:action="${frequencia.id == null} ? @{/frequencias/add} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated row g-3">
 
-                    <div class="input-field col s4">
-                        <select   th:field="*{funcionario}">
-                            <option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}"/>
-                        </select>
-                    </div>
-                    <div class="input-field col s4">
-                        <input type="time" th:field="*{horaAtual}" id="horario"/>
-                    </div>
+                <div class="col-auto">
+                    <label for="funcionario" class="visually-hidden">Nome</label>
+                    <select id="funcionario"  th:field="*{funcionario}" class="form-control ">
+                        <option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}"/>
+                    </select>
 
-                    <input type="hidden" th:field="*{id}">
+                </div>
 
 
 
+                <div class="col-auto">
+                    <label for="horaAtual" class="visually-hidden">Hora</label>
+                    <input   required  type="time" th:field="*{horaAtual}" id="horario" class="form-control"/>
+                </div>
 
-                </div> 
+                <input type="hidden"   th:field="*{id}"/>
 
-                <input class="waves-effect waves-light btn-small col s4" type="submit"  value="Salvar"/>
-
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Bater Ponto</button>
+                </div>             
             </form>
         </div>
 

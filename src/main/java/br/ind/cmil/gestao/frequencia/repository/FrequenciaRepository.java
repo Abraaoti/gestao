@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 
-    @Query("select distinct f from Frequencia f join f.funcionario fu "
+    @Query("select  f from Frequencia f join f.funcionario fu "
             + "where f.status like :search%")
     Page<Frequencia> searchAll(TipoFrequencia search, Pageable pageable);
 

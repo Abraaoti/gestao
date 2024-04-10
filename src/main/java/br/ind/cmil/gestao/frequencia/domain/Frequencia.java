@@ -10,9 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.Duration;
+import jakarta.persistence.Transient;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,6 +24,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "tbl_frequencias")
 public class Frequencia extends Entidade {
 
+    @Transient
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime horaAtual;
     @Column(name = "data")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
@@ -32,13 +34,13 @@ public class Frequencia extends Entidade {
     @Convert(converter = TipoAusenciaConvert.class)
     private TipoFrequencia status = TipoFrequencia.FALTA;
     @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime entradaManha;
+    private LocalTime entrada;
     @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime saidaManha;
+    private LocalTime intervalo;
     @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime entradaTarde;
+    private LocalTime retorno;
     @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime saidaTarde;   
+    private LocalTime saida;
     @ManyToOne
     @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;
@@ -52,6 +54,14 @@ public class Frequencia extends Entidade {
 
     public Frequencia(TipoFrequencia tipo) {
         this.status = TipoFrequencia.valueOf(tipo.getValue());
+    }
+
+    public LocalTime getHoraAtual() {
+        return horaAtual;
+    }
+
+    public void setHoraAtual(LocalTime horaAtual) {
+        this.horaAtual = horaAtual;
     }
 
     public LocalDate getData() {
@@ -70,36 +80,36 @@ public class Frequencia extends Entidade {
         this.status = status;
     }
 
-    public LocalTime getEntradaManha() {
-        return entradaManha;
+    public LocalTime getEntrada() {
+        return entrada;
     }
 
-    public void setEntradaManha(LocalTime entradaManha) {
-        this.entradaManha = entradaManha;
+    public void setEntrada(LocalTime entrada) {
+        this.entrada = entrada;
     }
 
-    public LocalTime getSaidaManha() {
-        return saidaManha;
+    public LocalTime getIntervalo() {
+        return intervalo;
     }
 
-    public void setSaidaManha(LocalTime saidaManha) {
-        this.saidaManha = saidaManha;
+    public void setIntervalo(LocalTime intervalo) {
+        this.intervalo = intervalo;
     }
 
-    public LocalTime getEntradaTarde() {
-        return entradaTarde;
+    public LocalTime getRetorno() {
+        return retorno;
     }
 
-    public void setEntradaTarde(LocalTime entradaTarde) {
-        this.entradaTarde = entradaTarde;
+    public void setRetorno(LocalTime retorno) {
+        this.retorno = retorno;
     }
 
-    public LocalTime getSaidaTarde() {
-        return saidaTarde;
+    public LocalTime getSaida() {
+        return saida;
     }
 
-    public void setSaidaTarde(LocalTime saidaTarde) {
-        this.saidaTarde = saidaTarde;
+    public void setSaida(LocalTime saida) {
+        this.saida = saida;
     }
 
     public Funcionario getFuncionario() {
@@ -114,16 +124,18 @@ public class Frequencia extends Entidade {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Frequencia{");
-        sb.append("data=").append(data);
+        sb.append("horaAtual=").append(horaAtual);
+        sb.append(", data=").append(data);
         sb.append(", status=").append(status);
-        sb.append(", entradaManha=").append(entradaManha);
-        sb.append(", saidaManha=").append(saidaManha);
-        sb.append(", entradaTarde=").append(entradaTarde);
-        sb.append(", saidaTarde=").append(saidaTarde);
+        sb.append(", entrada=").append(entrada);
+        sb.append(", intervalo=").append(intervalo);
+        sb.append(", retorno=").append(retorno);
+        sb.append(", saida=").append(saida);
         sb.append(", funcionario=").append(funcionario);
         sb.append('}');
         return sb.toString();
     }
 
    
+
 }

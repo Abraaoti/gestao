@@ -1,44 +1,50 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
-	<head>
-		<title>[[#{frequencia.add.headline}]]</title>
-	</head>
-	<body>
-		<div layout:fragment="content">
-
- 
-                <form th:action="${frequencia.id == null} ? @{/frequencias/add} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated col s12">
-                    <div class="row">                      
-
-                        <div class="input-field col s4">
-                            <select   th:field="*{funcionario}">
-                                <option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}"/>
-                            </select>
-                        </div>
-                        <div class="input-field col s4">
-                            <select   th:field="*{status}">
-                                <option th:each="status : ${statusValues}" th:value="${status}" th:text="${status}"/>
-                            </select>
-                        </div>
-
-                        <input type="hidden" th:field="*{id}">
+    <head>
+        <title>[[#{frequencia.add.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
 
 
-                    
+            <form th:action="${frequencia.id == null} ? @{/frequencias/add} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated col s12">
+                <div class="row">                      
 
-                    </div> 
+                    <div class="input-field col s4">
+                        <select   th:field="*{funcionario}">
+                            <option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}"/>
+                        </select>
+                    </div>
+                    <div class="input-field col s4">
+                        <input type="time" th:field="*{horaAtual}" id="horario"/>
+                    </div>
 
-    <input class="waves-effect waves-light btn-small col s4" type="submit"  value="Salvar"/>
+                    <input type="hidden" th:field="*{id}">
 
-                </form>
-            </div>
-			
 
-		
-		<script th:src="~{}" th:fragment="js"/>
-		<script th:inline="javascript" th:fragment="inlinescript">
 
-		</script>
-	</body>
+
+                </div> 
+
+                <input class="waves-effect waves-light btn-small col s4" type="submit"  value="Salvar"/>
+
+            </form>
+        </div>
+
+
+        <script th:src="~{}" th:fragment="js"/>
+        <script th:inline="javascript" th:fragment="inlinescript">
+            function atualizarHorario() {
+                var data = new Date().toLocaleString("pt-br", {
+                    timeZone: "America/Sao_Paulo"
+                });
+                //var formatarData = data.replace(", ", " - ");
+                //apHorario.innerHTML = formatarData; 
+                document.getElementById("horario").innerHTML = data.replace(", ", " - ");
+            }
+
+            setInterval(atualizarHorario, 1000);
+        </script>
+    </body>
 </html>

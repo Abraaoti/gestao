@@ -37,7 +37,6 @@ public class FrequenciaController {
     @ModelAttribute
     public void prepareContext(final Model model) {
         model.addAttribute("funcionarios", funcionarioService.list());
-        model.addAttribute("statusValues", TipoFrequencia.tipoFrequencias());
     }
 
     @GetMapping

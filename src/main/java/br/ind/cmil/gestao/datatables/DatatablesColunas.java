@@ -19,7 +19,7 @@ public class DatatablesColunas {
     public static final String[] HISTORICO_FUNCIONARIO = {"id", "nome", "cpf", "cargo.nome"};
     public static final String[] CARTAO = {"id", "funcionario.nome"};
 
-    public static final String[] FREQUENCIA = {"id","funcionario.nome","data","status","entradaManha","saidaTarde","entradaTarde","saidaTarde","saidaExtra","saidaExtra"};
+    public static final String[] FREQUENCIA = {"id","funcionario.nome","data","status","entrada","intervalo","retorno","saida"};
     public static final String[] EFETIVO = {"id", "nome", "sobrenome", "cargo.nome"};
     public static final String[] FUNCIONARIO_CONTATOS = {"id", "nome"};
     public static final String[] FUNCIONARIO_ENDERECO = {"id", "nome"};

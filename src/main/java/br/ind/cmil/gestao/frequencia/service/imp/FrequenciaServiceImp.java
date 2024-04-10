@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -46,20 +47,33 @@ public class FrequenciaServiceImp implements FrequenciaService {
 
         final Frequencia frequencia = frequenciaMapper.toEntity(frequenciaDTO);
         Funcionario funcionario = funcionarioRepository.findById(frequenciaDTO.funcionario()).get();
-        frequencia.setData(LocalDate.now());
-        if (frequenciaDTO.status().equalsIgnoreCase("presente")) {
-            frequencia.setEntradaManha(LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), LocalTime.now().getNano()));
+        Optional<Frequencia> freq = frequenciaRepository.findFirstByFuncionario(frequencia.getFuncionario());
+        if (freq.isPresent()) {
+            frequencia.setFuncionario(funcionario);
+            frequencia.setData(LocalDate.now());
+            if (freq.get().getIntervalo() == null || freq.get().getIntervalo().equals("")) {
+                frequenciaRepository.updateIntervalo(frequenciaDTO.horaAtual(), freq.get().getId());
+                return frequencia.getId();
+            } else if (freq.get().getRetorno() == null || freq.get().getRetorno().equals("")) {
+                frequenciaRepository.updateRetorno(frequenciaDTO.horaAtual(), freq.get().getId());
+                return frequencia.getId();
+            } else if (freq.get().getSaida() == null || freq.get().getSaida().equals("")) {
+                frequenciaRepository.updateSaida(frequenciaDTO.horaAtual(), freq.get().getId());
+                return frequencia.getId();
+            }
 
-        } else {
-            frequencia.setEntradaManha(null);
-            frequencia.setSaidaManha(null);
-            frequencia.setEntradaTarde(null);
-            frequencia.setSaidaTarde(null);
             frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia("falta"));
+            frequencia.setEntrada(null);
+            frequencia.setIntervalo(null);
+            frequencia.setRetorno(null);
+            frequencia.setSaida(null);
+            return frequencia.getId();
         }
 
-        frequencia.setFuncionario(funcionario);
+        frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia("presente"));
+        frequencia.setEntrada(frequenciaDTO.horaAtual());
         return frequenciaRepository.save(frequencia).getId();
+
     }
 
     @Override
@@ -99,7 +113,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.FREQUENCIA);
 
-        Page<?> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
+        Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
                 : frequenciaRepository.searchAll(TipoFrequencia.convertTipoTipoFrequencia(datatables.getSearch()), datatables.getPageable());
         return datatables.getResponse(page);
     }
@@ -113,30 +127,20 @@ public class FrequenciaServiceImp implements FrequenciaService {
         frequenciaRepository.delete(frequencia);
     }
 
-    protected void saidaManha(Long id) {
+    protected void intervalo(Long id) {
         final Frequencia frequencia = frequenciaRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
-        if (frequencia.getData() != null && frequencia.getEntradaManha() != null && frequencia.getId().equals(id) && frequencia.getSaidaManha() == null) {
-            frequencia.setSaidaManha(LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), LocalTime.now().getNano()));
+        if (frequencia.getIntervalo() == null && frequencia.getEntrada().equals("")) {
+            frequencia.setIntervalo(LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), LocalTime.now().getNano()));
             frequenciaRepository.save(frequencia);
         }
     }
 
-    protected void entradaTarde(Long id) {
+    protected void retorno(Long id) {
         final Frequencia frequencia = frequenciaRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
-        if (frequencia.getData() != null && frequencia.getEntradaManha() != null && frequencia.getId().equals(id) && frequencia.getEntradaTarde() == null) {
-            frequencia.setEntradaTarde(LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), LocalTime.now().getNano()));
-            frequenciaRepository.save(frequencia);
-        }
-
-    }
-
-    protected void saidaTarde(Long id) {
-        final Frequencia frequencia = frequenciaRepository.findById(id)
-                .orElseThrow(NotFoundException::new);
-        if (frequencia.getData() != null && frequencia.getEntradaManha() != null && frequencia.getId().equals(id) && frequencia.getSaidaTarde() == null) {
-            frequencia.setSaidaTarde(LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), LocalTime.now().getNano()));
+        if (frequencia.getRetorno() == null && frequencia.getRetorno().equals("")) {
+            frequencia.setRetorno(LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond(), LocalTime.now().getNano()));
             frequenciaRepository.save(frequencia);
         }
 

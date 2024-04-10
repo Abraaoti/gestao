@@ -8,7 +8,7 @@ $(document).ready(function () {
         serverSide: true,
         responsive: true,
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json'
+            url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json',
         },
         ajax: {
             url: '/frequencias/datatables/server',
@@ -18,19 +18,43 @@ $(document).ready(function () {
             {data: 'id'},
             {data: 'funcionario.nome'},
             {data: 'data', render: function (data) {
-                    return moment(data).format('L');
+                    if (data === null) {
+                        return '';
+                    } else {
+
+                        return moment(data).format('L');
+                    }
                 }},
-            {data: 'entradaManha', render: function (entradaManha) {
-                    return moment(entradaManha, "h:mm:ss").format('HH:mm:ss');
+            {data: 'entrada', render: function (entrada) {
+                    if (entrada === null) {
+                        return '';
+                    } else {
+
+                        return moment(entrada, "h:mm:ss").format('HH:mm:ss');
+                    }
+
                 }},
-            {data: 'saidaManha', render: function (saidaManha) {
-                    return moment(saidaManha, "h:mm:ss").format('HH:mm:ss');
+            {data: 'intervalo', render: function (intervalo) {
+                    if (intervalo === null) {
+                        return '';
+                    } else {
+                        return moment(intervalo, "h:mm:ss").format('HH:mm:ss');
+                    }
                 }},
-            {data: 'entradaTarde', render: function (entradaTarde) {
-                    return moment(entradaTarde, "h:mm:ss").format('HH:mm:ss');
+            {data: 'retorno', render: function (retorno) {
+                    if (retorno === null) {
+                        return '';
+                    } else {
+                        return moment(retorno, "h:mm:ss").format('HH:mm:ss');
+                    }
                 }},
-            {data: 'saidaTarde', render: function (saidaTarde) {
-                    return moment(saidaTarde, "h:mm:ss").format('HH:mm:ss');
+            {data: 'saida', render: function (saida) {
+                    if (saida === null) {
+                        return '';
+                    } else {
+
+                        return moment(saida, "h:mm:ss").format('HH:mm:ss');
+                    }
                 }},
 
             {data: 'status', render: function (data, type) {

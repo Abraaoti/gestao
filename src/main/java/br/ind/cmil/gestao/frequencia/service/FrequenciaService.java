@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface FrequenciaService {
 
-    Long salvar(FrequenciaDTO frequenciaDTO);
+    void salvar(FrequenciaDTO frequenciaDTO);
 
     void update(final Long id, final FrequenciaDTO frequenciaDTO);
 

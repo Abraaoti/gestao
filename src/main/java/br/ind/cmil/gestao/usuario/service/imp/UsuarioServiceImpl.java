@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.usuario.service.imp;
 
 import br.ind.cmil.gestao.datatables.Datatables;
@@ -10,7 +9,7 @@ import br.ind.cmil.gestao.perfil.service.PerfilService;
 import br.ind.cmil.gestao.usuario.domain.Usuario;
 import br.ind.cmil.gestao.usuario.mapper.UsuarioMapper;
 import br.ind.cmil.gestao.usuario.model.CadastroExternoDTO;
-import br.ind.cmil.gestao.usuario.model.UsuarioRequest;
+import br.ind.cmil.gestao.usuario.model.CriarUsuarioDTO;
 import br.ind.cmil.gestao.usuario.repository.UsuarioRepository;
 import br.ind.cmil.gestao.usuario.service.UsuarioService;
 import jakarta.mail.MessagingException;
@@ -42,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
-    private final UsuarioRepository ur;
+    private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder encoder;
     private final EmailServiceImp email;
     private final UsuarioMapper rm;
@@ -58,41 +57,32 @@ public class UsuarioServiceImpl implements UsuarioService {
     //}
     @Transactional(readOnly = false)
     @Override
-    public void register(UsuarioRequest request) {
-
-        if (request.id() != null) {
-            update(request);
-        }
+    public void register(CriarUsuarioDTO request) {
         validarAtributos(request);
-        Usuario user = rm.toEntity(request);
-        List<Perfil> roles = ps.perfis(request.perfis());
-        // if (roles.size() > 2 || roles.containsAll(Arrays.asList(new Perfil("admin"), new Perfil(ps.tipoPerfil("usuario"))))
-        //       || roles.containsAll(Arrays.asList(new Perfil(ps.tipoPerfil("administrativo")), new Perfil(ps.tipoPerfil("usuario"))))) {
-        //    throw new RuntimeException("Usuário não pode ser Admin e/ou Administrativo.");
-        // }
 
-        user.setPassword(encoder.encode(request.password()));
-        user.setPerfis(roles);
-        System.out.println("\n"+user.toString());
-       // user.setAtivo(true);
-        ur.save(user);
-      
+        Usuario user = rm.toEntity(request);
+        if (user.getId() != null) {
+            update(user);
+        }
+
+        usuarioRepository.save(user);
 
     }
 
-    public void update(UsuarioRequest request) {
-        Usuario us = ur.findById(request.id()).get();
-        us.setNome(request.nome());
-        us.setDataCadastro(us.getDataCadastro());
-        us.setUpdatedAt(LocalDateTime.now());
-        us.setEmail(request.email());
-        us.setAtivo(request.ativo());
-        us.setPassword(new BCryptPasswordEncoder().encode(request.password()));
-        us.setVerificador(request.verificador());
-        List<Perfil> roles = ps.perfis(request.perfis());
-        us.setPerfis(roles);
-        us.setId(request.id());
-        ur.save(us);
+    public void update(Usuario request) {
+        Usuario usuario = usuarioRepository.findById(request.getId()).get();
+        usuario.setNome(request.getNome());
+        usuario.setDataCadastro(usuario.getDataCadastro());
+        usuario.setUpdatedAt(LocalDateTime.now());
+        usuario.setEmail(request.getEmail());
+        usuario.setAtivo(request.isAtivo());
+        usuario.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
+        usuario.setVerificador(request.getVerificador());
+       // List<Perfil> perfis = request.getPerfis().stream().map(perfil -> perfil).collect(Collectors.toList());
+        // List<Perfil> roles = ps.perfis(request.getPerfis());
+        usuario.setPerfis(request.getPerfis());
+        usuario.setId(request.getId());
+        usuarioRepository.save(usuario);
     }
 
     @Transactional(readOnly = false)
@@ -104,8 +94,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public UsuarioRequest buscarPorId(Long id) {
-        return ur.findByUsuarioId(id).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(String.valueOf(id), "Este id: não consta no nosso banco de dados "));
+    public CriarUsuarioDTO buscarPorId(Long id) {
+        return usuarioRepository.findByUsuarioId(id).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(String.valueOf(id), "Este id: não consta no nosso banco de dados "));
 
     }
 
@@ -113,13 +103,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional(readOnly = false)
     public void alterarSenha(Usuario usuario, String s1) {
         usuario.setPassword(new BCryptPasswordEncoder().encode(s1));
-        ur.save(usuario);
+        usuarioRepository.save(usuario);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UsuarioRequest buscarEmailAtivo(String email) {
-        return ur.findByEmailAndAtivo(email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
+    public CriarUsuarioDTO buscarEmailAtivo(String email) {
+        return usuarioRepository.findByEmailAndAtivo(email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
 
     }
 
@@ -139,18 +129,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void ativarCadastro(String codigo) {
         Base64.Decoder decode = Base64.getDecoder();
         String login = new String(decode.decode(codigo));
-        Usuario usuario = ur.findByLogin(login).orElseThrow(() -> new UsuarioNotFoundException(login, " Este usuário não consta no nosso banco de dados "));
+        Usuario usuario = usuarioRepository.findByLogin(login).orElseThrow(() -> new UsuarioNotFoundException(login, " Este usuário não consta no nosso banco de dados "));
         usuario.setAtivo(true);
     }
 
-    private void validarAtributos(UsuarioRequest request) {
+    private void validarAtributos(CriarUsuarioDTO request) {
 
-        Optional<Usuario> usuario = ur.findByNome(request.nome());
-        if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request.id())) {
+        Optional<Usuario> usuario = usuarioRepository.findByNome(request.nome());
+        if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request)) {
             throw new DataIntegrityViolationException("nome já cadastro no sistema!");
         }
-        usuario = ur.findByEmail(request.email());
-        if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request.id())) {
+        usuario = usuarioRepository.findByEmail(request.email());
+        if (usuario.isPresent() && !Objects.equals(usuario.get().getId(), request)) {
             throw new DataIntegrityViolationException("E-mail já cadastro no sistema!");
         }
 
@@ -158,48 +148,48 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public boolean verify(String verificationCode) {
-        Usuario user = ur.findByVerificationCode(verificationCode);
+        Usuario user = usuarioRepository.findByVerificationCode(verificationCode);
 
         if (user == null || user.isAtivo()) {
             return false;
         } else {
             user.setVerificador(null);
             user.setAtivo(true);
-            ur.save(user);
+            usuarioRepository.save(user);
             return true;
         }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UsuarioRequest buscarPorEmail(String login) {
-        return ur.findByLogin(login).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(login, " Este usuário não consta no nosso banco de dados "));
+    public CriarUsuarioDTO buscarPorEmail(String login) {
+        return usuarioRepository.findByLogin(login).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(login, " Este usuário não consta no nosso banco de dados "));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Set<UsuarioRequest> getUsuarios(Pageable pageable) {
+    public Set<CriarUsuarioDTO> getUsuarios(Pageable pageable) {
 
-        return ur.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toSet());
+        return usuarioRepository.searchAll(pageable).stream().map(rm::toDTO).collect(Collectors.toSet());
     }
 
     @Override
-    public UsuarioRequest preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
-        return ur.findByIdAndPerfis(usuarioId, perfisId).map(rm::toDTO).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
+    public CriarUsuarioDTO preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId) {
+        return usuarioRepository.findByIdAndPerfis(usuarioId, perfisId).map(rm::toDTO).orElseThrow(() -> new UsernameNotFoundException("Usuário inexistente!"));
     }
 
     @Transactional(readOnly = false)
     @Override
-    public void salvarUsuarioGeral(UsuarioRequest request, String siteURL) throws MessagingException {
-        if (request.id() != null) {
-            update(request);
+    public void salvarUsuarioGeral(CriarUsuarioDTO request, String siteURL) throws MessagingException {
+        if (request != null) {
+            //update(request);
         }
         validarAtributos(request);
         Usuario user = rm.toEntity(request);
         List<Perfil> roles = ps.perfis(request.perfis());
         user.setPassword(encoder.encode(request.password()));
         user.setPerfis(roles);
-        Usuario usuario = ur.save(user);
+        Usuario usuario = usuarioRepository.save(user);
         emailDeConfirmacaoDeCadastro(usuario.getEmail(), siteURL);
 
     }
@@ -216,12 +206,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.USUARIOS);
         Page<Usuario> page = datatables.getSearch().isEmpty()
-                ? ur.findAll(datatables.getPageable())
-                : ur.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
+                ? usuarioRepository.findAll(datatables.getPageable())
+                : usuarioRepository.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
-    
-  
 
     /**
      * Set<String> perfis = usuario.perfis(); if (perfis.size() > 2 ||
@@ -236,4 +224,3 @@ public class UsuarioServiceImpl implements UsuarioService {
      * existente."); } }*
      */
 }
-

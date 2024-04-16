@@ -1,7 +1,7 @@
 package br.ind.cmil.gestao.funcionario.services;
 
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
-import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
+import br.ind.cmil.gestao.funcionario.model.CriarFuncionarioDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +19,15 @@ public interface FuncionarioService {
 
     void delete(final Long id);
 
-    List<FuncionarioDTO> list();
+    List<CriarFuncionarioDTO> list();
 
     Set<Funcionario> funcionarioString(Set<String> funcionarosString);
 
-    FuncionarioDTO buscarFuncionarioPorId(Long id);
+    CriarFuncionarioDTO buscarFuncionarioPorId(Long id);
 
-    FuncionarioDTO buscarFuncionarioPorNome(String nome);
+    CriarFuncionarioDTO buscarFuncionarioPorNome(String nome);
 
-    Long save(FuncionarioDTO funcionario);
+    Long save(CriarFuncionarioDTO funcionario);
 
     long countById();
 }

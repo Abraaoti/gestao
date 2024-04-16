@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.services.impl;
+package br.ind.cmil.gestao.infra.securitys.service.impl;
 
 import br.ind.cmil.gestao.cargo.domain.Cargo;
 import br.ind.cmil.gestao.cargo.service.CargoService;
@@ -6,19 +6,18 @@ import br.ind.cmil.gestao.centro.model.CentroCustoDTO;
 import br.ind.cmil.gestao.centro.service.CentroCustoService;
 import br.ind.cmil.gestao.departamento.model.DepartamentoDTO;
 import br.ind.cmil.gestao.departamento.service.DepartamentoService;
-import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
+import br.ind.cmil.gestao.funcionario.model.CriarFuncionarioDTO;
 import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
 import br.ind.cmil.gestao.perfil.model.PerfilDTO;
 import br.ind.cmil.gestao.perfil.service.PerfilService;
 import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 import br.ind.cmil.gestao.pessoa.service.PessoaJuridicaService;
 import jakarta.mail.MessagingException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.ind.cmil.gestao.usuario.model.UsuarioRequest;
+import br.ind.cmil.gestao.usuario.model.CriarUsuarioDTO;
 import br.ind.cmil.gestao.usuario.service.UsuarioService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -96,18 +95,18 @@ public class DBService {
         administrador.addAll(assistente);
         administrador.addAll(diretor);
         
-        List<UsuarioRequest> usuarios = new ArrayList<>();
-        UsuarioRequest cmil = new UsuarioRequest(null, "cmil".toLowerCase(), "cmil@cmil.com.br", "123", LocalDateTime.now(), null, true, null, administrador);
-        UsuarioRequest abraao = new UsuarioRequest(null, "Abraão".toLowerCase(), "dtimuila@gmail.com", "123", LocalDateTime.now(), null, true, null, administrador);
+        List<CriarUsuarioDTO> usuarios = new ArrayList<>();
+        CriarUsuarioDTO cmil = new CriarUsuarioDTO( "cmil".toLowerCase(), "cmil@cmil.com.br", "123",Boolean.TRUE, administrador);
+        CriarUsuarioDTO abraao = new CriarUsuarioDTO( "Abraão".toLowerCase(), "dtimuila@gmail.com", "123",Boolean.TRUE,  administrador);
         
-        UsuarioRequest beatriz = new UsuarioRequest(null, "beatriz".toLowerCase(), "contatos@timuila.com", "123", LocalDateTime.now(), null, true, null, assistente);
-        UsuarioRequest angelino = new UsuarioRequest(null, "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123", LocalDateTime.now(), null, true, null, auxiliar);
+        CriarUsuarioDTO beatriz = new CriarUsuarioDTO( "beatriz".toLowerCase(), "contatos@timuila.com", "123",Boolean.TRUE,  assistente);
+        CriarUsuarioDTO angelino = new CriarUsuarioDTO( "angelino".toLowerCase(), "elavokokassinda@gmail.com", "123",Boolean.TRUE, auxiliar);
         usuarios.add(abraao);
         usuarios.add(angelino);
         usuarios.add(beatriz);
         usuarios.add(cmil);
         
-        for (UsuarioRequest usuario : usuarios) {
+        for (CriarUsuarioDTO usuario : usuarios) {
             us.register(usuario);
         }
         
@@ -189,16 +188,16 @@ public class DBService {
     
     public void instanciaBaseFuncionarios() {
         
-        FuncionarioDTO abraao = new FuncionarioDTO(null, "Abraão Calelesso", "Cassinda", LocalDate.of(1920, Month.NOVEMBER, 27), "01250284902", "v565786876", "adriana chipondia", "agostinha cassinda", "masculino", "solteiro(a)", "lubango", "09987878", LocalDate.now(), null, 6L, 5L, 1L);
-        FuncionarioDTO angelino = new FuncionarioDTO(null, "angelino lismo", "cassinda", LocalDate.of(1992, Month.JANUARY, 26), "01250284904", "998756547", "ana", "vicente", "masculino", "solteiro(a)", "vitória", "76765765756", LocalDate.now(), null, 4L, 5L, 1L);
-        FuncionarioDTO beatriz = new FuncionarioDTO(null, "beatriz", "da silva campos", LocalDate.of(1995, Month.JULY, 06), "01250284903", "998756546", "marli bentos", "silva", "feminino", "solteiro(a)", "gv", "7678700", LocalDate.now(), null, 3L, 4L, 1L);
-        FuncionarioDTO joao = new FuncionarioDTO(null, "joão baptista", "pongolola pinto", LocalDate.of(1997, Month.JUNE, 12), "01250284905", "998756548", "victorina", "victor", "masculino", "solteiro(a)", "serra-es", "6567565675", LocalDate.now(), null, 7L, 6L, 1L);
-        List<FuncionarioDTO> funcionarios = new ArrayList<>();
+        CriarFuncionarioDTO abraao = new CriarFuncionarioDTO(null, "Abraão Calelesso", "Cassinda", LocalDate.of(1920, Month.NOVEMBER, 27), "01250284902", "v565786876", "adriana chipondia", "agostinha cassinda", "masculino", "solteiro(a)", "lubango", "09987878", 6L, 5L, 1L);
+        CriarFuncionarioDTO angelino = new CriarFuncionarioDTO(null, "angelino lismo", "cassinda", LocalDate.of(1992, Month.JANUARY, 26), "01250284904", "998756547", "ana", "vicente", "masculino", "solteiro(a)", "vitória", "76765765756",  4L, 5L, 1L);
+        CriarFuncionarioDTO beatriz = new CriarFuncionarioDTO(null, "beatriz", "da silva campos", LocalDate.of(1995, Month.JULY, 06), "01250284903", "998756546", "marli bentos", "silva", "feminino", "solteiro(a)", "gv", "7678700",  3L, 4L, 1L);
+        CriarFuncionarioDTO joao = new CriarFuncionarioDTO(null, "joão baptista", "pongolola pinto", LocalDate.of(1997, Month.JUNE, 12), "01250284905", "998756548", "victorina", "victor", "masculino", "solteiro(a)", "serra-es", "6567565675",  7L, 6L, 1L);
+        List<CriarFuncionarioDTO> funcionarios = new ArrayList<>();
         funcionarios.add(abraao);
         funcionarios.add(beatriz);
         funcionarios.add(angelino);
         funcionarios.add(joao);
-        for (FuncionarioDTO funcionario : funcionarios) {
+        for (CriarFuncionarioDTO funcionario : funcionarios) {
             funcionarioService.save(funcionario);
         }
         

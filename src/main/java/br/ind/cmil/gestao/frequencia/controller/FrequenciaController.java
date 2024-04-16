@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.frequencia.controller;
 
-import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.frequencia.model.FrequenciaDTO;
 import br.ind.cmil.gestao.frequencia.service.FrequenciaService;
 import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
@@ -55,7 +54,7 @@ public class FrequenciaController {
 
         frequenciaService.salvar(frequenciaDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("frequencia.create.success"));
-        return "redirect:/frequencias";
+        return "redirect:/frequencias/add";
     }
 
     @GetMapping("/edit/{id}")

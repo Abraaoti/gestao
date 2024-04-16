@@ -2,12 +2,9 @@ package br.ind.cmil.gestao.funcionario.domain;
 
 import br.ind.cmil.gestao.cargo.domain.Cargo;
 import br.ind.cmil.gestao.departamento.domain.Departamento;
-import br.ind.cmil.gestao.enums.EstadoCivil;
-import br.ind.cmil.gestao.enums.Genero;
 import br.ind.cmil.gestao.pessoa.domain.PessoaFisica;
 import br.ind.cmil.gestao.pessoa.domain.PessoaJuridica;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -37,85 +34,13 @@ public class Funcionario extends PessoaFisica {
     private Cargo cargo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate demissao;
+    private Boolean status = false;
 
     @ManyToOne
     @JoinColumn(name = "empresa_id")
     private PessoaJuridica empresa;
 
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa) {
-        this.clt = clt;
-        this.admissao = admissao;
-        this.departamento = departamento;
-        this.cargo = cargo;
-        this.demissao = demissao;
-        this.empresa = empresa;
-    }
-
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa, Long id) {
-        super(id);
-        this.clt = clt;
-        this.admissao = admissao;
-        this.departamento = departamento;
-        this.cargo = cargo;
-        this.demissao = demissao;
-        this.empresa = empresa;
-    }
-
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade) {
-        super(cpf, rg, mae, pai, genero, estado_civil, naturalidade);
-        this.clt = clt;
-        this.admissao = admissao;
-        this.departamento = departamento;
-        this.cargo = cargo;
-        this.demissao = demissao;
-        this.empresa = empresa;
-    }
-
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id) {
-        super(cpf, rg, mae, pai, genero, estado_civil, naturalidade, id);
-        this.clt = clt;
-        this.admissao = admissao;
-        this.departamento = departamento;
-        this.cargo = cargo;
-        this.demissao = demissao;
-        this.empresa = empresa;
-    }
-
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, String nome) {
-        super(cpf, rg, mae, pai, genero, estado_civil, naturalidade, nome);
-        this.clt = clt;
-        this.admissao = admissao;
-        this.departamento = departamento;
-        this.cargo = cargo;
-        this.demissao = demissao;
-        this.empresa = empresa;
-    }
-
-    public Funcionario(String clt, LocalDate admissao, Departamento departamento, Cargo cargo, LocalDate demissao, PessoaJuridica empresa, String cpf, String rg, String mae, String pai, Genero genero, EstadoCivil estado_civil, String naturalidade, Long id, String nome, String sobrenome, LocalDate nascimento) {
-        super(cpf, rg, mae, pai, genero, estado_civil, naturalidade, id, nome, sobrenome, nascimento);
-        this.clt = clt;
-        this.admissao = admissao;
-        this.departamento = departamento;
-        this.cargo = cargo;
-        this.demissao = demissao;
-        this.empresa = empresa;
-    }
-
-    /**
-     * public void addFrequencia(Frequencia frequencia) {
-     * this.frequencias.add(frequencia); if (frequencia.getFuncionario()!= this)
-     * { frequencia.setFuncionario(this); }
-    }
-     */
     public Funcionario() {
-    }
-
-    public Funcionario(Long id) {
-        super.setId(id);
-    }
-
-    public Funcionario(String nome) {
-        super.setNome(nome);
     }
 
     public String getClt() {
@@ -158,6 +83,14 @@ public class Funcionario extends PessoaFisica {
         this.demissao = demissao;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     public PessoaJuridica getEmpresa() {
         return empresa;
     }
@@ -168,7 +101,19 @@ public class Funcionario extends PessoaFisica {
 
     @Override
     public String toString() {
-        return "Funcionario{" + "clt=" + clt + ", admissao=" + admissao + ", departamento=" + departamento + ", cargo=" + cargo + ", demissao=" + demissao + ", empresa=" + empresa + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Funcionario{");
+        sb.append("clt=").append(clt);
+        sb.append(", admissao=").append(admissao);
+        sb.append(", departamento=").append(departamento);
+        sb.append(", cargo=").append(cargo);
+        sb.append(", demissao=").append(demissao);
+        sb.append(", status=").append(status);
+        sb.append(", empresa=").append(empresa);
+        sb.append('}');
+        return sb.toString();
     }
+
+   
 
 }

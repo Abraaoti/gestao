@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.jwt.service;
+package br.ind.cmil.gestao.infra.securitys.token.service;
 
 import org.springframework.security.core.Authentication;
 
@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
  *
  * @author ti
  */
-public interface JwtService {
+public interface TokenService {
 
     String parseToken(String token);
 

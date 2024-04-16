@@ -32,7 +32,7 @@ public class DependenteMapper {
         dependente.setRg(dto.rg());
         dependente.setGenero(Genero.convertGeneroValue(dto.genero()));
         dependente.setEstado_civil(EstadoCivil.findTipo(dto.estado_civil()));
-        dependente.setFuncionario(new Funcionario(dto.funcionario()));
+        dependente.setFuncionario(null);
         return dependente;
     }
     

@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.dto;
+package br.ind.cmil.gestao.infra.securitys;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -6,11 +6,9 @@ import jakarta.validation.constraints.NotBlank;
  *
  * @author abraao
  */
-public record Credentials(
-      
-	//List<String> roles;
+public record LoginDTO(
         @NotBlank
-        String username,
+        String login,
         @NotBlank
         String password) {
 

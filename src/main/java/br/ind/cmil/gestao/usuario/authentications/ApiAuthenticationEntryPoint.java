@@ -1,4 +1,4 @@
-package br.ind.cmil.gestao.jwt;
+package br.ind.cmil.gestao.usuario.authentications;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  * @author ti
  */
-public record FuncionarioDTO(
+public record CriarFuncionarioDTO(
         Long id,
         String nome,
         @NotNull
@@ -27,11 +27,7 @@ public record FuncionarioDTO(
         String estado_civil,
         String naturalidade,
         @NotNull
-        String clt,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        LocalDate admissao,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        LocalDate demissao,
+        String clt,      
         @NotNull
         Long cargo,
         @NotNull

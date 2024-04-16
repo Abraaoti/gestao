@@ -12,7 +12,7 @@ import br.ind.cmil.gestao.enums.Genero;
 
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.funcionario.mapper.FuncionarioMapper;
-import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
+import br.ind.cmil.gestao.funcionario.model.CriarFuncionarioDTO;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,7 +58,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<FuncionarioDTO> list() {
+    public List<CriarFuncionarioDTO> list() {
         
         List<Funcionario> funcionarios = funcionarioRepository.findAll(Sort.by("id"));
         return funcionarios.stream().map(funcionarioMapper::toDTO).collect(Collectors.toList());
@@ -76,7 +76,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
     
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public Long save(FuncionarioDTO funcionarioDTO) {
+    public Long save(CriarFuncionarioDTO funcionarioDTO) {
         Funcionario funcionario = funcionarioMapper.toEntity(funcionarioDTO);
         validarAtributos(funcionario);
         if (funcionarioDTO.id() == null) {
@@ -88,8 +88,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
     }
     
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    protected FuncionarioDTO update(FuncionarioDTO dto) {
-        
+    protected CriarFuncionarioDTO update(CriarFuncionarioDTO dto) {        
         Funcionario funcionario = funcionarioRepository.findById(dto.id()).get();
         funcionario.setNome(dto.nome());
         funcionario.setId(dto.id());
@@ -104,9 +103,9 @@ public class FuncionarioServiceImp implements FuncionarioService {
         funcionario.setGenero(Genero.convertGeneroValue(dto.genero()));
         funcionario.setEstado_civil(EstadoCivil.findTipo(dto.estado_civil()));
         funcionario.setNaturalidade(dto.naturalidade());
-        LocalDate data = (dto.admissao()) == null ? LocalDate.now() : dto.admissao();
+        LocalDate data = (funcionario.getAdmissao()) == null ? LocalDate.now() : funcionario.getAdmissao();
         funcionario.setAdmissao(data);
-        funcionario.setDemissao(dto.demissao());
+        funcionario.setDemissao(null);
         funcionario.setCargo(new Cargo(dto.cargo()));
         funcionario.setDepartamento(new Departamento(dto.departamento()));
         funcionario.setEmpresa(new PessoaJuridica(dto.empresa()));
@@ -116,13 +115,13 @@ public class FuncionarioServiceImp implements FuncionarioService {
     
     @Override
     @Transactional(readOnly = true)
-    public FuncionarioDTO buscarFuncionarioPorId(Long id) {
+    public CriarFuncionarioDTO buscarFuncionarioPorId(Long id) {
         return funcionarioRepository.findById(id).map(funcionario -> funcionarioMapper.toDTO(funcionario)).get();
     }
     
     @Override
     @Transactional(readOnly = true)
-    public FuncionarioDTO buscarFuncionarioPorNome(String nome) {
+    public CriarFuncionarioDTO buscarFuncionarioPorNome(String nome) {
         
         return funcionarioRepository.findByClt(nome).map(funcionario -> funcionarioMapper.toDTO(funcionario)).get();
     }
@@ -164,22 +163,7 @@ public class FuncionarioServiceImp implements FuncionarioService {
         return (dto == null ? LocalDate.now() : dto);
     }
     
-    private Funcionario mapToEntity(Funcionario funcionario, FuncionarioDTO funcionarioDTO) {
-        
-        LocalDate data = (funcionarioDTO.admissao()) == null ? LocalDate.now() : funcionarioDTO.admissao();
-        funcionario.setAdmissao(data);
-        funcionario.setDemissao(funcionarioDTO.demissao());
-        funcionario.setClt(funcionarioDTO.clt());
-        Departamento departamento = funcionarioDTO.departamento() == null ? null : departamentoRepository.findById(funcionarioDTO.departamento())
-                .get();
-        funcionario.setDepartamento(departamento);
-        Cargo cargo = funcionarioDTO.cargo() == null ? null : cargoRepository.findById(funcionarioDTO.cargo()).get();
-        funcionario.setCargo(cargo);
-        PessoaJuridica empresa = funcionarioDTO.empresa() == null ? null : empresaRepository.findById(funcionarioDTO.empresa())
-                .get();
-        funcionario.setEmpresa(empresa);
-        return funcionario;
-    }
+   
     
     @Override
     @Transactional(readOnly = true)

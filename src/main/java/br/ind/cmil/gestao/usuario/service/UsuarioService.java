@@ -3,7 +3,7 @@ package br.ind.cmil.gestao.usuario.service;
 
 import br.ind.cmil.gestao.usuario.domain.Usuario;
 import br.ind.cmil.gestao.usuario.model.CadastroExternoDTO;
-import br.ind.cmil.gestao.usuario.model.UsuarioRequest;
+import br.ind.cmil.gestao.usuario.model.CriarUsuarioDTO;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -16,25 +16,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @author ti
  */
 public interface UsuarioService {
-      void register(UsuarioRequest request);
+      void register(CriarUsuarioDTO request);
 
-    void salvarUsuarioGeral(UsuarioRequest request, String siteURL) throws MessagingException;
+    void salvarUsuarioGeral(CriarUsuarioDTO request, String siteURL) throws MessagingException;
 
-    UsuarioRequest buscarPorId(Long id);
+    CriarUsuarioDTO buscarPorId(Long id);
 
-    Set<UsuarioRequest> getUsuarios(Pageable pageable);
+    Set<CriarUsuarioDTO> getUsuarios(Pageable pageable);
 
     public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
         return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
     }
 
-    UsuarioRequest preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
+    CriarUsuarioDTO preEditarCadastroDadosPessoais(Long usuarioId, Long[] perfisId);
 
     void alterarSenha(Usuario usuario, String s1);
 
-    UsuarioRequest buscarEmailAtivo(String email);
+    CriarUsuarioDTO buscarEmailAtivo(String email);
 
-    UsuarioRequest buscarPorEmail(String email);
+    CriarUsuarioDTO buscarPorEmail(String email);
 
     void redefinirSenha(String email) throws MessagingException;
 

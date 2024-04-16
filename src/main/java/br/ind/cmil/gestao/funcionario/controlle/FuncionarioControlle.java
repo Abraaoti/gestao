@@ -4,7 +4,7 @@ import br.ind.cmil.gestao.cargo.service.CargoService;
 import br.ind.cmil.gestao.departamento.service.DepartamentoService;
 import br.ind.cmil.gestao.enums.EstadoCivil;
 import br.ind.cmil.gestao.enums.Genero;
-import br.ind.cmil.gestao.funcionario.model.FuncionarioDTO;
+import br.ind.cmil.gestao.funcionario.model.CriarFuncionarioDTO;
 import br.ind.cmil.gestao.funcionario.services.FuncionarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,20 +50,20 @@ public class FuncionarioControlle {
     }
 
     @GetMapping("/add")
-    public String form(@ModelAttribute("funcionario") FuncionarioDTO funcionario) {
+    public String form(@ModelAttribute("funcionario") CriarFuncionarioDTO funcionario) {
 
         return "funcionario/funcionario";
     }
 
     @PostMapping("/salvar")
-    public String save(@ModelAttribute("funcionario") FuncionarioDTO funcionario, RedirectAttributes redirectAttributes) {
+    public String save(@ModelAttribute("funcionario") CriarFuncionarioDTO funcionario, RedirectAttributes redirectAttributes) {
         funcionarioService.save(funcionario);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("funcionario.create.success"));
         return "redirect:/funcionarios";
     }
 
     @PostMapping("/editar")
-    public String update(@ModelAttribute FuncionarioDTO funcionario, RedirectAttributes redirectAttributes) {
+    public String update(@ModelAttribute CriarFuncionarioDTO funcionario, RedirectAttributes redirectAttributes) {
         funcionarioService.save(funcionario);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("funcionario.update.success"));
         return "redirect:/funcionarios";
@@ -77,7 +77,7 @@ public class FuncionarioControlle {
 
     @GetMapping("/editar/{id}")
     public String editar(Model model, @PathVariable("id") Long id) {
-        FuncionarioDTO funcionario = funcionarioService.buscarFuncionarioPorId(id);
+        CriarFuncionarioDTO funcionario = funcionarioService.buscarFuncionarioPorId(id);
         model.addAttribute("funcionario", funcionario);
 
         return "funcionario/funcionario";

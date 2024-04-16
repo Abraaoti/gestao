@@ -1,11 +1,14 @@
-
 package br.ind.cmil.gestao.usuario.mapper;
 
+import br.ind.cmil.gestao.perfil.domain.Perfil;
+import br.ind.cmil.gestao.perfil.service.PerfilService;
 import br.ind.cmil.gestao.usuario.domain.Usuario;
-import br.ind.cmil.gestao.usuario.model.UsuarioRequest;
+import br.ind.cmil.gestao.usuario.model.CriarUsuarioDTO;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,22 +18,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsuarioMapper {
 
-    public UsuarioRequest toDTO(Usuario u) {
-        List<String> roles = u.getPerfis().stream().map(p -> p.getTp().getValue()).collect(Collectors.toList());         
-        return new UsuarioRequest(u.getId(), u.getNome(), u.getEmail(), u.getPassword(), u.getDataCadastro(), u.getUpdatedAt(), u.isAtivo(), u.getVerificador(), roles);
+    @Autowired
+    private PerfilService perfilService;
+    @Autowired
+    private PasswordEncoder encoder;
+
+    public CriarUsuarioDTO toDTO(Usuario u) {
+        List<String> roles = u.getPerfis().stream().map(p -> p.getTp().getValue()).collect(Collectors.toList());
+        return new CriarUsuarioDTO(u.getNome(), u.getEmail(), u.getPassword(),u.isAtivo(), roles);
     }
 
-    public Usuario toEntity(UsuarioRequest dto) {
+    public Usuario toEntity(CriarUsuarioDTO dto) {
 
         Usuario u = new Usuario();
-        u.setId(dto.id());        
         u.setNome(dto.nome());
         u.setEmail(dto.email());
-        u.setPassword(dto.password());
-        u.setVerificador(dto.verificador());
-        u.setDataCadastro(LocalDateTime.now());
-        u.setAtivo(dto.ativo());
-       // u.setPerfis();
+        u.setPassword(encoder.encode(dto.password()));
+        u.setDataCadastro(LocalDateTime.now());      
+        u.setAtivo(true);
+        List<Perfil> perfis = perfilService.perfis(dto.perfis());
+        u.setPerfis(perfis);
+        
         return u;
     }
 

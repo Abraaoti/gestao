@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.configs;
 
-import br.ind.cmil.gestao.services.impl.DBService;
+import br.ind.cmil.gestao.infra.securitys.service.impl.DBService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

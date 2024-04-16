@@ -3,7 +3,7 @@ package br.ind.cmil.gestao.usuario.controlle;
 
 import br.ind.cmil.gestao.perfil.model.PerfilDTO;
 import br.ind.cmil.gestao.perfil.service.PerfilService;
-import br.ind.cmil.gestao.usuario.model.UsuarioRequest;
+import br.ind.cmil.gestao.usuario.model.CriarUsuarioDTO;
 import br.ind.cmil.gestao.usuario.service.UsuarioService;
 import br.ind.cmil.gestao.util.WebUtils;
 import jakarta.mail.MessagingException;
@@ -50,12 +50,12 @@ public class UsuarioControlle {
     }
 
     @GetMapping("/add")
-    public String form(@ModelAttribute("usuario") UsuarioRequest usuario) {
+    public String form(@ModelAttribute("usuario") CriarUsuarioDTO usuario) {
         return "usuario/cadastro";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute UsuarioRequest resquest, RedirectAttributes attr) {
+    public String salvar(@ModelAttribute CriarUsuarioDTO resquest, RedirectAttributes attr) {
 
         try {
             service.register(resquest);
@@ -99,14 +99,14 @@ public class UsuarioControlle {
 
     @GetMapping("/usuarios")
     public String listaUsuarios(Model model, Pageable pageable) {
-        Set<UsuarioRequest> lis = service.getUsuarios(pageable);
+        Set<CriarUsuarioDTO> lis = service.getUsuarios(pageable);
         model.addAttribute("usuarios", lis);
         return "usuario/usuarios";
 
     }
 
     @GetMapping("/novo/cadastro")
-    public String addExterno(Model model, @ModelAttribute UsuarioRequest usuario) {
+    public String addExterno(Model model, @ModelAttribute CriarUsuarioDTO usuario) {
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("perfis", perfil.perfis());
@@ -115,7 +115,7 @@ public class UsuarioControlle {
     }
 
     @PostMapping("/cadastrar")
-    public String salvarUsuarioExterno(@ModelAttribute UsuarioRequest usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
+    public String salvarUsuarioExterno(@ModelAttribute CriarUsuarioDTO usuario, HttpServletRequest request, BindingResult result) throws MessagingException {
         try {
             service.salvarUsuarioGeral(usuario, getSiteURL(request));
         } catch (DataIntegrityViolationException ex) {
@@ -222,7 +222,7 @@ public class UsuarioControlle {
             return "redirect:/u/editar/senha";
         }
 
-        UsuarioRequest u = service.buscarPorEmail(user.getUsername());
+        CriarUsuarioDTO u = service.buscarPorEmail(user.getUsername());
         if (!UsuarioService.isSenhaCorreta(s3, u.password())) {
             attr.addFlashAttribute("falha", "Senha atual não confere, tente novamente");
             return "redirect:/u/editar/senha";
@@ -253,7 +253,7 @@ public class UsuarioControlle {
 
     // salvar a nova senha via recuperacao de senha
     @PostMapping("/p/nova/senha")
-    public String confirmacaoDeRedefinicaoDeSenha(UsuarioRequest usuario, ModelMap model) {
+    public String confirmacaoDeRedefinicaoDeSenha(CriarUsuarioDTO usuario, ModelMap model) {
         /**
          * Usuario u = service.buscarPorEmail(usuario.getEmail()); if
          * (!usuario.getCodigoVerificador().equals(u.getCodigoVerificador())) {

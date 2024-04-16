@@ -138,8 +138,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional(readOnly = false)
     public void ativarCadastro(String codigo) {
         Base64.Decoder decode = Base64.getDecoder();
-        String mail = new String(decode.decode(codigo));
-        Usuario usuario = ur.findByNomeOrEmail(mail, mail).orElseThrow(() -> new UsuarioNotFoundException(mail, " Este usuário não consta no nosso banco de dados "));
+        String login = new String(decode.decode(codigo));
+        Usuario usuario = ur.findByLogin(login).orElseThrow(() -> new UsuarioNotFoundException(login, " Este usuário não consta no nosso banco de dados "));
         usuario.setAtivo(true);
     }
 
@@ -172,8 +172,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public UsuarioRequest buscarPorEmail(String email) {
-        return ur.findByNomeOrEmail(email, email).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(email, " Este usuário não consta no nosso banco de dados "));
+    public UsuarioRequest buscarPorEmail(String login) {
+        return ur.findByLogin(login).map(rm::toDTO).orElseThrow(() -> new UsuarioNotFoundException(login, " Este usuário não consta no nosso banco de dados "));
     }
 
     @Override
@@ -221,18 +221,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return datatables.getResponse(page);
     }
     
-    private Usuario cadastrarUsuario(){
-        return null;
-    }
-    private Usuario cadastrarAdministrador(){
-        return null;
-    }
-    private Usuario cadastrarDiretor(){
-        return null;
-    }
-    private Usuario cadastrarAssistenteAdministrativo(){
-        return null;
-    }
+  
 
     /**
      * Set<String> perfis = usuario.perfis(); if (perfis.size() > 2 ||

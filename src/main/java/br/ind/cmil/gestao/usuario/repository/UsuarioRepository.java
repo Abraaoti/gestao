@@ -33,8 +33,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("select u from Usuario u INNER JOIN FETCH u.perfis p where  u.email= :email")
     Optional<Usuario> findByEmail(@Param("email") String email);
 
-    @Query("SELECT obj FROM Usuario obj INNER JOIN FETCH obj.perfis p where obj.ativo = true AND obj.nome= :nome OR  obj.email = :email")
-    Optional<Usuario> findByNomeOrEmail(@Param("nome") String nome, @Param("email") String email);
+    @Query("SELECT obj FROM Usuario obj INNER JOIN FETCH obj.perfis p where obj.ativo = true AND obj.nome= :login OR  obj.email = :login")
+    Optional<Usuario> findByLogin(@Param("login") String login);
 
     @Query("select u from Usuario u INNER JOIN FETCH u.perfis p where  u.nome = :nome")
     Boolean existsByNome(@Param("nome") String nome);

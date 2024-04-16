@@ -62,15 +62,14 @@ public class DBService {
     public void instanciaBaseDePerfis() {
         List<String> perfis = new ArrayList<>();
         perfis.add("admin");
-        perfis.add("administrador");
+        perfis.add("administrativo");
         perfis.add("assistente");
         perfis.add("auxiliar");
         perfis.add("comprador");
         perfis.add("diretor");
         perfis.add("engenheiro");
-        perfis.add("funcionário");
         perfis.add("gerente");
-        perfis.add("líder");
+        perfis.add("rh");
         perfis.add("técnico");
         perfis.add("usuário");
         for (int i = 0; i < perfis.size(); i++) {
@@ -91,7 +90,7 @@ public class DBService {
         List<String> auxiliar = new ArrayList<>();
         auxiliar.add("auxiliar");
         
-        administrador.add("administrador");
+        administrador.add("administrativo");
         administrador.add("admin");
         administrador.addAll(auxiliar);
         administrador.addAll(assistente);

@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @author abraao
  */
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class UsuarioJwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     public JwtService jwtService;
@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String userEmail = jwtService.parseToken(token);
 
-        UserDetails userDetails = (UserDetails) ur.findByNomeOrEmail(userEmail, userEmail).get();
+        UserDetails userDetails = (UserDetails) ur.findByLogin(userEmail).get();
 
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 

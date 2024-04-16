@@ -56,7 +56,7 @@ public class AdministradorServiceImpl implements AdministradorService {
     private Administrador update(AdministradorDTO administradorDTO) {
         Administrador administrador = ar.findById(administradorDTO.id()).get();
         administrador.setNome(administradorDTO.nome());
-        Usuario usuario = administrador.getUsuario() == null ? null : usuarioRepository.findByNomeOrEmail(administradorDTO.usuario(), administradorDTO.usuario()).get();
+        Usuario usuario = administrador.getUsuario() == null ? null : usuarioRepository.findByLogin(administradorDTO.usuario()).get();
         administrador.setUsuario(usuario);
         administrador.setId(administradorDTO.id());
         return ar.save(administrador);

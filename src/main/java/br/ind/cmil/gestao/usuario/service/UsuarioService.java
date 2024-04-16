@@ -1,13 +1,11 @@
 
 package br.ind.cmil.gestao.usuario.service;
 
-import br.ind.cmil.gestao.perfil.enums.TipoPerfil;
 import br.ind.cmil.gestao.usuario.domain.Usuario;
 import br.ind.cmil.gestao.usuario.model.CadastroExternoDTO;
 import br.ind.cmil.gestao.usuario.model.UsuarioRequest;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.data.domain.Pageable;
@@ -48,46 +46,7 @@ public interface UsuarioService {
 
     Map<String, Object> buscarTodos(HttpServletRequest request);
 
-    static boolean admin(UsuarioRequest usuario) {
-        return usuario.perfis().size() > 3 &&  usuario.perfis().containsAll(Arrays.asList(TipoPerfil.ADMIN));
-    }
-
-    static boolean administrador(UsuarioRequest usuario) {
-        return  usuario.perfis().containsAll(Arrays.asList(TipoPerfil.ADMINISTRADOR));
-    }
-
-    static boolean assistente(UsuarioRequest usuario) {
-        return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.ASSISTENTE));
-    }
-
-    static boolean auxiliar(UsuarioRequest usuario) {
-        return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.AUXILIAR));
-    }
-
-    static boolean comprador(UsuarioRequest usuario) {
-         return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.COMPRADOR));
-    }
-
-    static boolean diretor(UsuarioRequest usuario) {
-        return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.DIRETOR));
-    }
-
-    static boolean engenheiro(UsuarioRequest usuario) {
-        return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.ENGENHEIRO));
-    }
-
-    static boolean gerente(UsuarioRequest usuario) {
-        return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.GERENTE));
-    }
-
-    static boolean técnico(UsuarioRequest usuario) {
-       return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.TECNICO));
-    }
-
-    static boolean usuário(UsuarioRequest usuario) {
-        return usuario.perfis().containsAll(Arrays.asList(TipoPerfil.USUARIO));
-    }
-
+  
     /*
 
     boolean checkIfUserExist(final String email);

@@ -84,7 +84,7 @@
                         <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 
-                                <li  sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown">
+                                <li  sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
                                     <a  class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRADOR</a>
                                     <ul id="admin" class="dropdown-menu" aria-labelledby="navbarDropdown">                  							
                                         <li><a class="dropdown-item"  th:href="@{/administrador/dados}">DADOS</a> </li>
@@ -96,7 +96,7 @@
 
                                     </ul>
                                 </li>
-                                <li  sec:authorize="hasAuthority('ADMINISTRADOR')" class="nav-item dropdown">
+                                <li  sec:authorize="hasAuthority('ADMINISTRATIVO')" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">ADMINISTRATIVO</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <li><a class="dropdown-item" th:href="@{/administrador/dados}">dados</a> </li>                      

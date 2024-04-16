@@ -1,4 +1,3 @@
-
 package br.ind.cmil.gestao.perfil.enums;
 
 import java.util.HashSet;
@@ -8,20 +7,18 @@ import java.util.Set;
  *
  * @author ti
  */
-public enum TipoPerfil  {
-    ADMIN("admin"),
-    ADMINISTRADOR("administrador"),
-    ASSISTENTE("assistente"),
-    AUXILIAR("auxiliar"),
-    COMPRADOR("comprador"),
-    DIRETOR("diretor"),
-    ENGENHEIRO("engenheiro"),
-    FUNCIONARIO("funcionário"),
-    GERENTE("gerente"),
-    LIDERFINANCEIRO("líder"),
-    PEDREIRO("pedreiro"),
-    TECNICO("técnico"),
-    USUARIO("usuário");
+public enum TipoPerfil {
+    ROLE_ADMIN("admin"),
+    ROLE_ADMINISTRATIVO("administrativo"),
+    ROLE_ASSISTENTE("assistente"),
+    ROLE_AUXILIAR("auxiliar"),
+    ROLE_COMPRADOR("comprador"),
+    ROLE_DIRETOR("diretor"),
+    ROLE_ENGENHEIRO("engenheiro"),
+    ROLE_GERENTE("gerente"),
+    ROLE_RH("rh"),
+    ROLE_TECNICO("técnico"),
+    ROLE_USUARIO("usuário");
     private final String value;
 
     private TipoPerfil(String value) {
@@ -38,32 +35,27 @@ public enum TipoPerfil  {
         }
         return switch (value) {
             case "admin" ->
-                TipoPerfil.ADMIN;
-            case "administrador" ->
-                TipoPerfil.ADMINISTRADOR;
+                TipoPerfil.ROLE_ADMIN;
+            case "administrativo" ->
+                TipoPerfil.ROLE_ADMINISTRATIVO;
             case "assistente" ->
-                TipoPerfil.ASSISTENTE;
+                TipoPerfil.ROLE_ASSISTENTE;
             case "auxiliar" ->
-                TipoPerfil.AUXILIAR;
+                TipoPerfil.ROLE_AUXILIAR;
             case "comprador" ->
-                TipoPerfil.COMPRADOR;
+                TipoPerfil.ROLE_COMPRADOR;
             case "diretor" ->
-                TipoPerfil.DIRETOR;
+                TipoPerfil.ROLE_DIRETOR;
             case "engenheiro" ->
-                TipoPerfil.ENGENHEIRO;
+                TipoPerfil.ROLE_ENGENHEIRO;
             case "gerente" ->
-                TipoPerfil.GERENTE;
-            case "funcionário" ->
-                TipoPerfil.FUNCIONARIO;
-            case "líder" ->
-                TipoPerfil.LIDERFINANCEIRO;
-            case "pedreiro" ->
-                TipoPerfil.PEDREIRO;
-
+                TipoPerfil.ROLE_GERENTE;
+            case "rh" ->
+                TipoPerfil.ROLE_RH;
             case "técnico" ->
-                TipoPerfil.TECNICO;
+                TipoPerfil.ROLE_TECNICO;
             case "usuário" ->
-                TipoPerfil.USUARIO;
+                TipoPerfil.ROLE_USUARIO;
             default ->
                 throw new IllegalArgumentException(" Perfil invalido " + value);
         };
@@ -76,6 +68,5 @@ public enum TipoPerfil  {
         }
         return perfis;
     }
-   
 
 }

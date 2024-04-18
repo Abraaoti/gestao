@@ -3,9 +3,8 @@ package br.ind.cmil.gestao.frequencia.mappers;
 import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.frequencia.domain.Frequencia;
 import br.ind.cmil.gestao.frequencia.model.FrequenciaDTO;
-import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
+import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import java.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class FrequenciaMapper {
 
-    @Autowired
-    private FuncionarioRepository funcionarioRepository;
 
     public FrequenciaDTO toDTO(Frequencia frequencia) {
         Long funcionario = frequencia.getFuncionario().getId();
@@ -24,14 +21,19 @@ public class FrequenciaMapper {
     }
 
     public Frequencia toEntity(FrequenciaDTO dto) {
-        if (dto == null) {
-            return null;
-        }
-        Frequencia frequencia = new Frequencia();
+
+        Frequencia frequencia = new Frequencia();      
         frequencia.setId(dto.id());
+        frequencia.setEntrada(dto.horaAtual());
+        frequencia.setIntervalo(null);
+        frequencia.setRetorno(null);
+        frequencia.setSaida(null);
+        frequencia.setHoraAtual(dto.horaAtual());
         frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia("presente"));
         frequencia.setData(LocalDate.now());
-        frequencia.setFuncionario(funcionarioRepository.findById(dto.funcionario()).get());
+        Funcionario funcionario = new Funcionario();
+        funcionario.setId(dto.funcionario());
+        frequencia.setFuncionario(funcionario);
         return frequencia;
     }
 }

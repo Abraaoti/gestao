@@ -79,7 +79,7 @@ $(document).ready(function () {
             {orderable: false,
                 data: 'id',
                 "render": function (id) {
-                    return '<a class="btn btn-success btn-sm btn-block" href="/frequencias/edit/' +
+                    return '<a class="btn btn-success btn-sm btn-block" href="/frequencias/editar/' +
                             id + '" role="button"><i class="fas fa-edit"></i></a>';
                 }
             },

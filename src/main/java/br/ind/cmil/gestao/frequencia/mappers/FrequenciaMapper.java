@@ -1,6 +1,5 @@
 package br.ind.cmil.gestao.frequencia.mappers;
 
-import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.frequencia.domain.Frequencia;
 import br.ind.cmil.gestao.frequencia.model.FrequenciaDTO;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
@@ -29,7 +28,6 @@ public class FrequenciaMapper {
         frequencia.setRetorno(null);
         frequencia.setSaida(null);
         frequencia.setHoraAtual(dto.horaAtual());
-        frequencia.setStatus(TipoFrequencia.convertTipoTipoFrequencia("presente"));
         frequencia.setData(LocalDate.now());
         Funcionario funcionario = new Funcionario();
         funcionario.setId(dto.funcionario());

@@ -2,17 +2,14 @@ package br.ind.cmil.gestao.frequencia.service.imp;
 
 import br.ind.cmil.gestao.datatables.Datatables;
 import br.ind.cmil.gestao.datatables.DatatablesColunas;
-import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.frequencia.domain.Frequencia;
 import br.ind.cmil.gestao.frequencia.mappers.FrequenciaMapper;
 import br.ind.cmil.gestao.frequencia.model.FrequenciaDTO;
 import br.ind.cmil.gestao.frequencia.repository.FrequenciaRepository;
 import br.ind.cmil.gestao.frequencia.service.FrequenciaService;
-import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import br.ind.cmil.gestao.util.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -76,11 +73,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
         return frequenciaMapper.toDTO(frequencia);
     }
     
-    @Override
-    public FrequenciaDTO buscarFrequenciaPorTipo(String tipo) {
-        Frequencia frequencia = frequenciaRepository.findByStatus(TipoFrequencia.convertTipoTipoFrequencia(tipo)).get();
-        return frequenciaMapper.toDTO(frequencia);
-    }
+  
     
     @Override
     @Transactional(readOnly = true)
@@ -98,7 +91,7 @@ public class FrequenciaServiceImp implements FrequenciaService {
         datatables.setColunas(DatatablesColunas.FREQUENCIA);
         
         Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
-                : frequenciaRepository.searchAll(TipoFrequencia.convertTipoTipoFrequencia(datatables.getSearch()), datatables.getPageable());
+                : frequenciaRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
     

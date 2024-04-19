@@ -1,11 +1,8 @@
 package br.ind.cmil.gestao.frequencia.domain;
 
 import br.ind.cmil.gestao.base.Entidade;
-import br.ind.cmil.gestao.convert.TipoAusenciaConvert;
-import br.ind.cmil.gestao.enums.TipoFrequencia;
 import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -30,9 +27,6 @@ public class Frequencia extends Entidade {
     @Column(name = "data")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
-    @Column(name = "status", nullable = false)
-    @Convert(converter = TipoAusenciaConvert.class)
-    private TipoFrequencia status = TipoFrequencia.FALTA;
     @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime entrada;
     @DateTimeFormat(pattern = "HH:mm:ss")
@@ -52,10 +46,7 @@ public class Frequencia extends Entidade {
         super.setId(id);
     }
 
-    public Frequencia(TipoFrequencia tipo) {
-        this.status = TipoFrequencia.valueOf(tipo.getValue());
-    }
-
+  
     public LocalTime getHoraAtual() {
         return horaAtual;
     }
@@ -72,13 +63,7 @@ public class Frequencia extends Entidade {
         this.data = data;
     }
 
-    public TipoFrequencia getStatus() {
-        return status;
-    }
-
-    public void setStatus(TipoFrequencia status) {
-        this.status = status;
-    }
+  
 
     public LocalTime getEntrada() {
         return entrada;
@@ -125,8 +110,7 @@ public class Frequencia extends Entidade {
         StringBuilder sb = new StringBuilder();
         sb.append("Frequencia{");
         sb.append("horaAtual=").append(horaAtual);
-        sb.append(", data=").append(data);
-        sb.append(", status=").append(status);
+        sb.append(", data=").append(data);    
         sb.append(", entrada=").append(entrada);
         sb.append(", intervalo=").append(intervalo);
         sb.append(", retorno=").append(retorno);

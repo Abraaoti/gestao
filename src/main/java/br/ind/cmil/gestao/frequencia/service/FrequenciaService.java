@@ -17,8 +17,6 @@ public interface FrequenciaService {
 
     FrequenciaDTO buscarPorId(Long id);
 
-    FrequenciaDTO buscarFrequenciaPorTipo(String tipo);
-
     List<FrequenciaDTO> getFrequencias();
 
     Map<String, Object> buscarFrequencias(HttpServletRequest request);

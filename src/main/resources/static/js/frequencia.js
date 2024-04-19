@@ -57,21 +57,19 @@ $(document).ready(function () {
                     }
                 }},
 
-            {data: 'status', render: function (data, type) {
+            {data: 'entrada', render: function (status) {
+                   // var horas_minutos = DataTable.render.moment(status,"h:mm:ss").format('HH:mm:ss');
+                    if (status !== null) {
+                                        
+                        let p = 'PRESENTE';                    
 
-                    var st = $.fn.dataTable.render.text().display(data);
-                    if (type === 'display') {
-                        let color = 'gray';
-                        if (data === 'PRESENTE') {
-                            color = 'green';
-                        } else if (data === 'FALTA') {
-                            color = 'red';
-                        }
-
-                        return '<span style="color:' + color + '; font-weight: bold;">' + st + '</span>';
+                        return '<span style="color:gray; font-weight: bold;">' + p + '</span>';
                     }
+                      
+                         let f = 'FALTA';              
+                        return '<span style="color:red; font-weight: bold;">' + f + '</span>';
 
-                    return status;
+                   
                 }
 
 

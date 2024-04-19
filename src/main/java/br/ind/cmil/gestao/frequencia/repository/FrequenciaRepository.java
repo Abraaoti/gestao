@@ -22,9 +22,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 
-    @Query("select  f from Frequencia f join f.funcionario fu "
-            + "where f.status like :search%")
-    Page<Frequencia> searchAll(TipoFrequencia search, Pageable pageable);
+    @Query("select  f from Frequencia f join f.funcionario fu where fu.nome like :search%")
+    Page<Frequencia> searchAll(String search, Pageable pageable);
 
     @Query("select f from Frequencia f where f.entrada =:entrada")
     Optional<Frequencia> findByEntrada(LocalTime entrada);
@@ -41,20 +40,9 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
     @Query("select f from Frequencia f where f.funcionario.id =:funcionario_id")
     Optional<Frequencia> findByFuncionarioId(@Param("funcionario_id") Long funcionario_id);
 
-    /**
-     * @Query("select f.id as id," + "f.data as dia," + "f.status as status," +
-     * "f.intervalo as intervalo," + "f.retorno as retorno," + "f.saida as
-     * saida" + "from Frequencia f " + "where f.funcionario.id =:funcionario_id
-     * ORDER BY id DESC") Optional<Frequencia>
-     * findByFrequenciaForFuncionarioId(Long funcionario_id);
-     */
-    @Query("SELECT  f FROM Frequencia f join  f.funcionario as fu where f.status =:status")
-    Optional<Frequencia> findByStatus(TipoFrequencia status);
-
     Optional<Frequencia> findFirstByFuncionario(Funcionario funcionario);
 
-    List<Frequencia> findAllByFuncionario(Funcionario funcionario);
-
+    // List<Frequencia> findAllByFuncionario(Funcionario funcionario);
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("update Frequencia f set f.intervalo = ?1 where f.id= ?2 ")

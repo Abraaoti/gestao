@@ -2,6 +2,7 @@ package br.ind.cmil.gestao.frequencia.service;
 
 import br.ind.cmil.gestao.frequencia.model.FrequenciaDTO;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +12,9 @@ import java.util.Map;
  */
 public interface FrequenciaService {
 
-    Long salvar(FrequenciaDTO frequenciaDTO);
+    void salvar(FrequenciaDTO frequenciaDTO);
 
-    void update(final Long id, final FrequenciaDTO frequenciaDTO);
+    void baterPonto(Long funcionarioId, LocalTime horaAtual);
 
     FrequenciaDTO buscarPorId(Long id);
 

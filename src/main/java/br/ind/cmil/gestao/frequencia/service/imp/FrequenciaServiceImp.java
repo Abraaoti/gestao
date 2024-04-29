@@ -10,6 +10,7 @@ import br.ind.cmil.gestao.frequencia.service.FrequenciaService;
 import br.ind.cmil.gestao.funcionario.repository.FuncionarioRepository;
 import br.ind.cmil.gestao.util.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,55 +27,48 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class FrequenciaServiceImp implements FrequenciaService {
-    
+
     private final FrequenciaRepository frequenciaRepository;
     private final FrequenciaMapper frequenciaMapper;
     private final FuncionarioRepository funcionarioRepository;
     private final Datatables datatables;
-    
+
     public FrequenciaServiceImp(FrequenciaRepository frequenciaRepository, FrequenciaMapper frequenciaMapper, FuncionarioRepository funcionarioRepository, Datatables datatables) {
         this.frequenciaRepository = frequenciaRepository;
         this.frequenciaMapper = frequenciaMapper;
         this.funcionarioRepository = funcionarioRepository;
         this.datatables = datatables;
     }
-    
+
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public Long salvar(FrequenciaDTO frequenciaDTO) {
-        
+    public void salvar(FrequenciaDTO frequenciaDTO) {
+
         final Frequencia frequencia = frequenciaMapper.toEntity(frequenciaDTO);
-        // Funcionario funcionario = funcionarioRepository.findById(frequenciaDTO.funcionario()).get();
-        Optional<Frequencia> freq = frequenciaRepository.findFirstByFuncionario(frequencia.getFuncionario());
-        if (freq.isPresent()) {
-            this.ponto(freq.get(), frequenciaDTO);
-            
-            return frequencia.getId();
+        if (frequencia.getId() != null) {
+            update(frequenciaDTO);
         }
-        // frequencia.setFuncionario(funcionario);
         validarAtributos(frequencia);
-        return frequenciaRepository.save(frequencia).getId();
-        
+        frequenciaRepository.save(frequencia).getId();
+
     }
-    
-    @Override
+
+  
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public void update(final Long id, final FrequenciaDTO frequenciaDTO) {
-        final Frequencia frequencia = frequenciaRepository.findById(id)
+    private void update(final FrequenciaDTO frequenciaDTO) {
+        final Frequencia frequencia = frequenciaRepository.findById(frequenciaDTO.id())
                 .orElseThrow(NotFoundException::new);
         // mapToEntity(frequenciaDTO, frequencia);
         frequenciaRepository.save(frequencia);
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public FrequenciaDTO buscarPorId(Long id) {
         Frequencia frequencia = frequenciaRepository.findById(id).get();
         return frequenciaMapper.toDTO(frequencia);
     }
-    
-  
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<FrequenciaDTO> getFrequencias() {
@@ -83,24 +77,24 @@ public class FrequenciaServiceImp implements FrequenciaService {
                 .map(frequencia -> frequenciaMapper.toDTO(frequencia))
                 .toList();
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public Map<String, Object> buscarFrequencias(HttpServletRequest request) {
         datatables.setRequest(request);
         datatables.setColunas(DatatablesColunas.FREQUENCIA);
-        
+
         Page<Frequencia> page = datatables.getSearch().isEmpty() ? frequenciaRepository.findAll(datatables.getPageable())
                 : frequenciaRepository.searchAll(datatables.getSearch(), datatables.getPageable());
         return datatables.getResponse(page);
     }
-    
+
     @Override
     public void delete(Long id) {
         frequenciaRepository.delete(frequenciaRepository.findById(id).orElseThrow(() -> new NotFoundException("Este id não consta no bd! ")));
-        
+
     }
-    
+
     private void validarAtributos(Frequencia request) {
         Optional<Frequencia> frequencia = frequenciaRepository.findByEntrada(request.getEntrada());
         if (frequencia.isPresent() && !Objects.equals(frequencia.get().getId(), request.getId()) && !Objects.equals(frequencia.get().getFuncionario().getId(), request.getFuncionario().getId())) {
@@ -123,18 +117,45 @@ public class FrequenciaServiceImp implements FrequenciaService {
             throw new DataIntegrityViolationException("Frequência já cadastrado no sistema!");
         }
     }
-    
-    protected void ponto(Frequencia frequencia, FrequenciaDTO frequenciaDTO) {
+
+    protected void ponto(Frequencia frequencia, LocalTime horaAtual) {
         if (frequencia.getIntervalo() == null || frequencia.getIntervalo().equals("")) {
-            frequenciaRepository.updateIntervalo(frequenciaDTO.horaAtual(), frequencia.getId());
+            frequenciaRepository.updateIntervalo(horaAtual, frequencia.getId());
             // return frequencia.getId();
         } else if (frequencia.getRetorno() == null || frequencia.getRetorno().equals("")) {
-            frequenciaRepository.updateRetorno(frequenciaDTO.horaAtual(), frequencia.getId());
+            frequenciaRepository.updateRetorno(horaAtual, frequencia.getId());
             //return frequencia.getId();
         } else if (frequencia.getSaida() == null || frequencia.getSaida().equals("")) {
-            frequenciaRepository.updateSaida(frequenciaDTO.horaAtual(), frequencia.getId());
+            frequenciaRepository.updateSaida(horaAtual, frequencia.getId());
             //return frequencia.getId();
         }
     }
-    
+
+    protected Frequencia buscarFrequenciaPorFuncionarioId(Long funcionarioId) {
+        return frequenciaRepository.findByFuncionarioId(funcionarioId).orElse(new Frequencia());
+    }
+
+    @Transactional(readOnly = false)
+    @Override
+    public void baterPonto(Long funcionarioId, LocalTime horaAtual) {
+        verificarFrequencia(funcionarioId, horaAtual);
+    }
+
+    protected void verificarFrequencia(Long funcionarioId, LocalTime horaAtual) {
+        Frequencia frequencia = buscarFrequenciaPorFuncionarioId(funcionarioId);
+        if (frequencia.getEntrada() == null || frequencia.getEntrada().equals("")) {
+            frequenciaRepository.updateEntrada(horaAtual, frequencia.getId());
+            // return frequencia.getId();
+        } else if (frequencia.getIntervalo() == null || frequencia.getIntervalo().equals("")) {
+            frequenciaRepository.updateIntervalo(horaAtual, frequencia.getId());
+            // return frequencia.getId();
+        } else if (frequencia.getRetorno() == null || frequencia.getRetorno().equals("")) {
+            frequenciaRepository.updateRetorno(horaAtual, frequencia.getId());
+            //return frequencia.getId();
+        } else if (frequencia.getSaida() == null || frequencia.getSaida().equals("")) {
+            frequenciaRepository.updateSaida(horaAtual, frequencia.getId());
+            //return frequencia.getId();
+        }
+    }
+
 }

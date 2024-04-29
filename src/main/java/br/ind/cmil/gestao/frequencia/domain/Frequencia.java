@@ -5,11 +5,15 @@ import br.ind.cmil.gestao.funcionario.domain.Funcionario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -38,6 +42,13 @@ public class Frequencia extends Entidade {
     @ManyToOne
     @JoinColumn(name = "funcionario_id")
     private Funcionario funcionario;
+    
+     @ManyToMany
+    @JoinTable(name = "tbl_frequencias_funcionarios",
+            joinColumns = @JoinColumn(name = "frequencia_id", referencedColumnName = "id"),
+            inverseJoinColumns =@JoinColumn(name = "funcionario_id", referencedColumnName = "id")
+    )
+    private List<Funcionario> funcionarios = new ArrayList<>();
 
     public Frequencia() {
     }
@@ -103,6 +114,14 @@ public class Frequencia extends Entidade {
 
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
+    }
+
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
 
     @Override

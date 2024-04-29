@@ -1,5 +1,9 @@
 package br.ind.cmil.gestao;
 
+import br.ind.cmil.gestao.funcionario.domain.Funcionario;
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -21,6 +25,16 @@ public class Meses {
             System.out.println(seasons[i]);
         }
         System.out.println(new BCryptPasswordEncoder().encode("123"));
+        
+        String[] funcionarios = {"Abraão", "João", "Maria", "Pedro"};
+        
+        do {            
+            LocalDate dataAtual = LocalDate.now();
+            
+            for (String funcionario : funcionarios) {
+                System.out.println(funcionario + " " + dataAtual);
+            }
+        } while (0>funcionarios.length);
     }
 
 }

@@ -1,6 +1,6 @@
 package br.ind.cmil.gestao.frequencia.model;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -8,7 +8,7 @@ import java.time.LocalTime;
  */
 public record FrequenciaDTO(
         Long id,
-        LocalTime horaAtual,
+        LocalDate dataAtual,
         Long funcionario) {
 
 }

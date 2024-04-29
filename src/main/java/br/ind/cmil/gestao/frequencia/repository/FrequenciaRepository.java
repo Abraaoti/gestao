@@ -45,6 +45,10 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
     // List<Frequencia> findAllByFuncionario(Funcionario funcionario);
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
+    @Query("update Frequencia f set f.entrada = ?1 where f.id= ?2 ")
+    void updateEntrada(LocalTime entrada, Long id);
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Transactional
     @Query("update Frequencia f set f.intervalo = ?1 where f.id= ?2 ")
     void updateIntervalo(LocalTime intervalo, Long id);
 

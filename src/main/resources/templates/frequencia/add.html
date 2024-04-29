@@ -8,7 +8,7 @@
         <div layout:fragment="content">
 
 
-            <form th:action="${frequencia.id == null} ? @{/frequencias/add} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated row g-3">
+            <form th:action="${frequencia.id == null} ? @{/frequencias/add} : @{/frequencias/editar}" th:object="${frequencia}" method="POST" class="was-validated row g-3" id="frequenciaForm">
 
                 <div class="col-auto">
                     <label for="funcionario" class="visually-hidden">Nome</label>
@@ -21,8 +21,8 @@
 
 
                 <div class="col-auto">
-                    <label for="horaAtual" class="visually-hidden">Hora</label>
-                    <input   required  type="time" th:field="*{horaAtual}" id="horario" class="form-control"/>
+                    <label for="dataAtual" class="visually-hidden">Hora</label>
+                    <input   required  type="date" th:field="*{dataAtual}" id="dataAtual" class="form-control"/>
                 </div>
 
                 <input type="hidden"   th:field="*{id}"/>
@@ -36,13 +36,57 @@
 
         <script th:src="~{}" th:fragment="js"/>
         <script th:inline="javascript" th:fragment="inlinescript">
+            $("#frequenciaForm").submit(function(event) {
+            event.preventDefault();
+             var dat = atualizarHorario();
+             var $form = $( this ),
+             
+             
+            });
+            var funcionarios = [[${funcionariosData
+            }
+            ]];
+            var fequencia = {
+            "id": null,
+                    "funcionario": "no duh",
+                    "dataAtual": "no duh"
+            };
+            $.each(fequencia, function (propName, propVal) {
+            console.log(propName, propVal);
+            });
+            function testeAjax() {
+
+            var funcionarios = [[${funcionariosData
+            }
+            ]];
+            var n = 0;
+            for (var f = 0; f < funcionarios.length; f++) {
+
+            jQuery.ajax({
+            type: "POST",
+                    url: "/frequencias/",
+                    data: {acao: 'add', funcionario: funcionarios[c]},
+                    success: function (data) {
+
+                    if (data !== '') {
+                    n++;
+                    }
+
+                    }
+
+            });
+            }
+            alert(n);
+            }
+
+
             function atualizarHorario() {
-                var data = new Date().toLocaleString("pt-br", {
-                    timeZone: "America/Sao_Paulo"
-                });
-                //var formatarData = data.replace(", ", " - ");
-                //apHorario.innerHTML = formatarData; 
-                document.getElementById("horario").innerHTML = data.replace(", ", " - ");
+            var data = new Date().toLocaleString("pt-br", {
+            timeZone: "America/Sao_Paulo"
+            });
+            //var formatarData = data.replace(", ", " - ");
+            //apHorario.innerHTML = formatarData; 
+            document.getElementById("horario").innerHTML = data.replace(", ", " - ");
             }
 
             setInterval(atualizarHorario, 1000);

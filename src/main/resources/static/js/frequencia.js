@@ -87,6 +87,13 @@ $(document).ready(function () {
                     return '<a class="btn btn-danger btn-sm btn-block" href="/frequencias/delete/' +
                             id + '" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
+            },
+            {orderable: false,
+                data: 'funcionario.id',
+                "render": function (funcionario_id) {
+                    return '<a class="btn btn-info btn-sm btn-block" href="/frequencias/baterPonto/' +
+                          funcionario_id + '" role="button"><i class="fas fa-plus"></i></a>';
+                }
             }
 
         ]

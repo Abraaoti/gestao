@@ -13,22 +13,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class FrequenciaMapper {
 
-
     public FrequenciaDTO toDTO(Frequencia frequencia) {
         Long funcionario = frequencia.getFuncionario().getId();
-        return new FrequenciaDTO(frequencia.getId(), frequencia.getHoraAtual(), funcionario);
+        LocalDate dataAtual = (frequencia.getData() == null) ? LocalDate.now() : frequencia.getData();
+        return new FrequenciaDTO(frequencia.getId(), dataAtual, funcionario);
     }
 
     public Frequencia toEntity(FrequenciaDTO dto) {
 
-        Frequencia frequencia = new Frequencia();      
+        Frequencia frequencia = new Frequencia();
         frequencia.setId(dto.id());
-        frequencia.setEntrada(dto.horaAtual());
+        frequencia.setEntrada(null);
         frequencia.setIntervalo(null);
         frequencia.setRetorno(null);
         frequencia.setSaida(null);
-        frequencia.setHoraAtual(dto.horaAtual());
-        frequencia.setData(LocalDate.now());
+        frequencia.setHoraAtual(null);
+        frequencia.setData(dto.dataAtual());
         Funcionario funcionario = new Funcionario();
         funcionario.setId(dto.funcionario());
         frequencia.setFuncionario(funcionario);

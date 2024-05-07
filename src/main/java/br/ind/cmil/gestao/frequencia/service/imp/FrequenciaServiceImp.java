@@ -53,7 +53,6 @@ public class FrequenciaServiceImp implements FrequenciaService {
 
     }
 
-  
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     private void update(final FrequenciaDTO frequenciaDTO) {
         final Frequencia frequencia = frequenciaRepository.findById(frequenciaDTO.id())
@@ -138,11 +137,13 @@ public class FrequenciaServiceImp implements FrequenciaService {
     @Transactional(readOnly = false)
     @Override
     public void baterPonto(Long funcionarioId, LocalTime horaAtual) {
-        verificarFrequencia(funcionarioId, horaAtual);
+        verificarFrequencia(funcionarioId);
     }
 
-    protected void verificarFrequencia(Long funcionarioId, LocalTime horaAtual) {
-        Frequencia frequencia = buscarFrequenciaPorFuncionarioId(funcionarioId);
+    protected void verificarFrequencia(Long funcionarioId) {
+        LocalTime horaAtual = LocalTime.now();
+        Frequencia frequencia = buscarFrequenciaPorFuncionarioId(funcionarioId);       
+       
         if (frequencia.getEntrada() == null || frequencia.getEntrada().equals("")) {
             frequenciaRepository.updateEntrada(horaAtual, frequencia.getId());
             // return frequencia.getId();
